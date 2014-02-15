@@ -1,0 +1,109 @@
+<h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="alternativsprachen-page"><h2 id="alternativsprachen">Alternativsprachen</h2>
+<p>Nachdem du nun gelernt hast, wie man die präferierte Sprache einstellt und wie man mit
+mehreren Sprachen arbeiten kann, möchtest du sicherlich auch wissen, ob man mit
+Alternativsprachen bzw. einer Liste von alternativen Sprachen arbeiten kann? Ja - kann man.</p>
+<h3 id="alternativsprachen_alternativsprache-konfigurieren">Alternativsprache konfigurieren</h3>
+<p>Das Hinzufügen von Alternativsprachen ist lediglich der Aufruf einer Funktion mittels
+&#39;$translateProvider&#39;. Klingt einfach - ist es auch! Kommen wir zu einem kurzen Beispiel.
+Die Sprache Deutsch wird definiert:</p>
+<pre class="prettyprint linenums">
+$translateProvider
+  .translations('de', { /* ... */ });
+</pre>
+<p>Nun gibt es einige der Sprachschlüssel auf Englisch, die aber <strong>nicht</strong> auf Deutsch
+übersetzt worden sind bisher. angular-translate würde in diesem Fall normalerweise
+den Schlüssel zurückgeben, da keine Übersetzung gefunden werden kann in der
+Sprachtabelle für Deutsch. Wenn nun aber eine Alternativsprache als Rückfall-Lösung
+registriert wird, so kann angular-translate dort nachsehen und die entsprechende
+Übersetzung aus dieser Sprache zurückgeben.</p>
+<p>Auf gehts zum Beispiel. Wir registrieren Englisch als Rückfallveriante. Vorher müssen
+wir jedoch noch Englisch als gültige Sprache bekanntmachen:</p>
+<pre class="prettyprint linenums">
+$translateProvider
+  .translations('de', { /* ... */ })
+  .translations('en', { /* ... */ });
+</pre>
+<p>Und nun registrieren wir Englisch als alternative Sprache:
+<pre class="prettyprint linenums">
+$translateProvider
+  .translations('de', { /* ... */ })
+  .translations('en', { /* ... */ })
+  .fallbackLanguage('en');
+</pre>
+<p>Das wars. Falls nun keine deutsche Übersetzung existiert, wird angular-translate
+versuchen, die englischsprachige Übersetzung zu wählen und zurückzugeben.
+Einfach, oder?</p>
+<h3 id="alternativsprachen_mehrere-alternativsprachen-als-rückfallwerte-registrieren">Mehrere Alternativsprachen als Rückfallwerte registrieren</h3>
+<p>Aber was ist, wenn du mehr als eine Alternativsprache haben willst? Kein Problem -
+angular-translate kann auch mit einem Array von Rückfallsprachen umgehen:</p>
+<pre class="prettyprint linenums">
+$translateProvider
+  .translations('de', { /* ... */ })
+  .translations('en', { /* ... */ })
+  .translations('fr', { /* ... */ })
+  .fallbackLanguage(['en', 'fr']);
+</pre>
+<p>Falls nun vom angular-translate keine Übersetzung in der englischsprachigen
+Übersetzungstabelle gefunden wird (da dieses die erste Alternativsprache ist),
+wird solange über die Arraywerte iteriert, bis eine Übersetzung gefunden wird.
+Dabei wird das Array von vorne nach hinten durchlaufen. Die Größe des Arrays ist
+nicht beschränkt.</p>
+<h3 id="alternativsprachen_-einstiegssprache-zur-laufzeit-wechseln">(Alternative) Einstiegssprache zur Laufzeit wechseln</h3>
+<p>Sogar <strong>das</strong> ist mit angular-translate möglich. Es gibt Anwendungsfälle, in denen
+die Sprache zur Laufzeit geändert werden muss. Oder alles. Ein Beispiel: Angenommen,
+du hast Deutsch als bevorzugte Sprache definiert und Englisch wurde als Rückfall-Lösung
+gewählt. Kein Problem - das kennst du schon. Nun möchte der Anwender aber aus bestimmten
+Gründen, dass die aktuelle Sprache Englisch ist, die Alternative / Rückfall-Möglichkeit
+aber Französisch ist. Problem: Englisch ist bereits als Alternative definiert.</p>
+<p>Zur Laufzeit kann nun mit der Funktionalität von &#39;fallbackLanguage()&#39; einfach der Austausch
+stattfinden:</p>
+<pre class="prettyprint linenums">
+$scope.changeLanguage = function (langKey) {
+  if (langKey === 'en') {
+    $translate.fallbackLanguage('fr');
+  } else if (langKey == 'de') {
+    $translate.fallbackLanguage('en');
+  }
+  $translate.use(langKey);
+};
+</pre>
+<p>Bitte denke daran, dass der Sprachschlüssel als Parameter steuert, an welcher Stelle der
+Iterator in der Sprachliste aufsetzt. Ein Beispiel: Falls &#39;en, fr, de&#39; die Liste der
+Alternativsprachen darstellt und der Rückfall-Schlüssel wird auf &#39;fr&#39; gesetzt, passiert
+folgendes: Sollte ein Schlüssel nicht auf &#39;fr&#39; übersetzt sein, wird nur in der
+Sprachtabelle von &#39;de&#39; nach einer Übersetzug gesucht.</p>
+<h3 id="alternativsprachen_ändern-der-gesamten-alternativen-sprachliste">Ändern der gesamten alternativen Sprachliste</h3>
+<p>Ähnlich zum vorherigen Abschnitt kann folgendes gemacht werden:</p>
+<pre class="prettyprint linenums">
+  $scope.changeLanguage = function (langKey) {
+  $translate.fallbackLanguage(['de', 'en', 'fr']);
+  $translate.use(langKey);
+};
+</pre>
+<p>Wenn die gesamte Liste gewechselt wird, kann gleichzeitig auch die Reihenfolge geändert werden!
+Somit bleibt der Prozess identisch, aber die Reihenfolge wird neu gestaltet.</p>
+<h3 id="alternativsprachen_einschränken-des-einstiegspunkts-für-die-iteration-über-sprachalternativen">Einschränken des Einstiegspunkts für die Iteration über Sprachalternativen</h3>
+<p>Zusätzlich zu den oben genannten Möglichkeiten kann noch eine zusätzliche Einschränkung getroffen
+werden. Es gibt Anwendungsfälle, bei denen aus unterschiedlichen Gründen nur ein Teil der
+angebotenen Sprachpakete iteriert werden soll. Dies kann ebenfalls eingestellt werden.
+Wie oben erwähnt, wird die Sprachliste von vorne nach hinten durchlaufen bzw. iteriert.
+Möchten wir also im oben genannten Beispiel von &#39;de, en, fr&#39; die Sprache &#39;de&#39; nie übersetzen,
+ohne sie aus dem Stapel der Sprachen zu nehmen, so kann über &#39;useFallbackLanguage()&#39; der Startpunkt
+der Schlüsselsuche gesetzt werden.</p>
+<pre class="prettyprint linenums">
+  // langKey is 'en'
+  $scope.changeLanguage = function (langKey) {
+  $translate.fallbackLanguage(['de', 'en', 'fr']);
+  $translate.useFallbackLanguage(langKey);
+};
+</pre>
+<p>Nun wird die Übersetzungstabelle für &#39;de&#39; ignoriert.
+Ein wichtiger Hinweis: Ignorierte Sprachen werden trotzdem übersetzt, falls diese aktuell die
+genutzte oder präferierte Sprache sind!</p>
+<p><br></p>
+<p><hr></p>
+<center>Made with unicorn &hearts; love by <a href="http://github.com/PascalPrecht">PascalPrecht</a></center></div></div>

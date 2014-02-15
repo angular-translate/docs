@@ -1,0 +1,59 @@
+<h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="installation-page"><h2 id="installation">Installation</h2>
+<h3 id="installation_dependencies-installieren">Dependencies installieren</h3>
+<p>Diese Tools werden während der Entwicklung von <code>angular-translate</code> benutzt, du solltest
+also sicherstellen, dass sie auf deiner Maschine installiert sind, damit alles
+richtig funktioniert.
+Bitte installiere folgende Tools:</p>
+<ul>
+<li><a href="http://gruntjs.com">Grunt</a></li>
+<li><a href="http://karma-runner.github.com/0.8/index.html">Karma Testrunner</a></li>
+<li><a href="https://github.com/twitter/bower">Bower</a></li>
+</ul>
+<h3 id="installation_installation-via-bower">Installation via Bower</h3>
+<p>Du kannst <code>angular-translate</code> ganz einfach mit Bower installieren. Nachdem du
+Bower installiert hast, führe einfach folgenden Befehl im Terminal aus:</p>
+<pre><code>$ bower install angular-translate</code></pre>
+<p>Anschließend wird sich ein <code>angular-translate</code>- Package in einem Komponentenverzeichnis
+befinden. Wo das Verzeichnis liegt, ist davon abhängig, wie Bower auf deiner
+Maschine konfiguriert ist. Das Bower-Package für angular-translate kann <a href="https://github.com/PascalPrecht/bower-angular-translate">hier</a>
+angesehen werden. Wie man sehen kann, ist das Package auf das Wichtigste reduziert.
+Der Quelltext für Entwicklungszwecke und für Prodkuktionsumgebungen.</p>
+<h3 id="installation_installation-mit-git">Installation mit Git</h3>
+<p>Ein weiterer Weg an angular-translate zu kommen, ist das komplette Repository zu
+klonen:</p>
+<pre><code>$ git clone git://github.com/PascalPrecht/angular-translate.git</code></pre>
+<p>Damit hast du jetzt einen vollständigen Klon von angular-translate, inklusive
+der kompletten History und alles Weitere was jemals in der Entwicklung von
+angular-translate passiert ist.</p>
+<p>Um alle nötigen Dependencies zu installieren müssen nur folgende Befehle auf der
+Kommandozeile ausgeführt werden:</p>
+<pre><code>$ npm install
+$ bower install</code></pre>
+<h3 id="installation_mitgelieferte-tests-ausführen">Mitgelieferte Tests ausführen</h3>
+<p>Selbstverständlich kommt <code>angular-translate</code> mit einer Testsuite die nur darauf wartet
+von dir ausgeführt zu werden. Jetzt kommt der <strong>Karma Testrunnter</strong> ins Spiel.
+Navigiere in das geklonte Projekt und führe folgenden Befehl aus:</p>
+<pre><code>$ karma start karma.unit.conf</code></pre>
+<p>Das startet einen Testrunner der das <strong>Jasmine Testing Framework</strong> verwendet um
+alle gelieferten Tests auszuführen. Wenn alles grün ist, kann&#39;s weitergehen.
+Andernfalls, fix&#39; es und sende einen Pull Request. Danke.</p>
+<p>Es gibt außerdem <strong>Midway Tests</strong> die du ausführen kannst. Um das zu tun, starte
+Karma mit der entsprechenden (mitgelieferten) Konfigurationsdatei:</p>
+<pre><code>$ karma start karma.midway.conf</code></pre>
+<h3 id="installation_building-from-source">Building from source</h3>
+<p>Wenn alle Tests erfolgreich ausgeführt wurden, kannst du sowohl eine Entwicklungs-
+als auch eine Productionsversion von <code>angular-translate</code> generieren. <code>angular-translate</code>
+bietet eine <code>Gruntfile.js</code>- Datei, die kofigurierte Tasks enthält.</p>
+<p>Um <code>angular-translate</code> zu builden führe folgenden Befehl aus:</p>
+<pre><code>$ grunt build</code></pre>
+<p>Das generiert Dateien für die Entwicklung und für die Produktion in einem erstellten
+<code>dist</code>- Verzeichnis. Die Dateien sollten ungefähr so aussehen: <code>dist/angular-translate.js</code>
+und <code>dist/angular-translate.min.js</code>.</p>
+<p>Du kannst diese Dateien direkt in dein HTML-Dokument einbinden und loslegen!</p>
+<p><br></p>
+<p><hr></p>
+<center>Made with unicorn &hearts; love by <a href="http://github.com/PascalPrecht">PascalPrecht</a></center></div></div>
