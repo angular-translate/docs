@@ -7,7 +7,9 @@
 <div class="description"><div class="pascalprecht-translate-translate-page"><p>The <code>$translate</code> service is the actual core of angular-translate. It expects a translation id
 and optional interpolate parameters to translate contents.</p>
 <pre class="prettyprint linenums">
- $scope.translatedText = $translate('HEADLINE_TEXT');
+ $translate('HEADLINE_TEXT').then(function (translation) {
+   $scope.translatedText = translation;
+ });
 </pre>
 </div></div>
 <h2 id="dependencies">Dependencies</h2>
@@ -22,9 +24,13 @@ and optional interpolate parameters to translate contents.</p>
 </ul>
 <h2 id="usage">Usage</h2>
 <div class="usage"><pre class="prettyprint linenums">$translate(translationId[, interpolateParams]);</pre>
-<h4 id="usage_parameters">Parameters</h4><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>translationId</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-translate-page"><p>A token which represents a translation id</p>
+<h4 id="usage_parameters">Parameters</h4><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>translationId</td><td><a href="" class="label type-hint type-hint-string">string</a><a href="" class="label type-hint type-hint-array">array</a></td><td><div class="pascalprecht-translate-translate-page"><p>A token which represents a translation id
+This can be optionally an array of translation ids which
+results that the function returns an object where each key
+is the translation id and the value the translation.</p>
 </div></td></tr><tr><td>interpolateParams <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="pascalprecht-translate-translate-page"><p>An object hash for dynamic values</p>
-</div></td></tr></tbody></table></div>
+</div></td></tr></tbody></table><h4 id="usage_returns">Returns</h4><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="pascalprecht-translate-translate-page"><p>promise</p>
+</div></td></tr></table></div>
 <div class="member method"><h2 id="methods">Methods</h2>
 <ul class="methods"><li><h3 id="methods_cloakclassname">cloakClassName()</h3>
 <div class="cloakclassname"><div class="pascalprecht-translate-translate-cloakclassname-page"><p>Returns the configured class name for <code>translate-cloak</code> directive.</p>
@@ -37,13 +43,15 @@ and optional interpolate parameters to translate contents.</p>
 </div></td></tr></tbody></table><h5 id="methods_fallbacklanguage_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-string">string||array</a></td><td><div class="pascalprecht-translate-translate-fallbacklanguage-page"><p>fallback language key</p>
 </div></td></tr></table></div>
 </li>
-<li><h3 id="methods_instant">instant(langKey, translationId, interpolateParams)</h3>
+<li><h3 id="methods_instant">instant(translationId, interpolateParams)</h3>
 <div class="instant"><div class="pascalprecht-translate-translate-instant-page"><p>Returns a translation instantly from the internal state of loaded translation. All rules
 regarding the current language, the preferred language of even fallback languages will be
 used except any promise handling. If a language was not found, an asynchronous loading
 will be invoked in the background.</p>
-</div><h5 id="methods_instant_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>langKey</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-translate-instant-page"><p>The language to translate to.</p>
-</div></td></tr><tr><td>translationId</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-translate-instant-page"><p>Translation ID</p>
+</div><h5 id="methods_instant_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>translationId</td><td><a href="" class="label type-hint type-hint-string">string</a><a href="" class="label type-hint type-hint-array">array</a></td><td><div class="pascalprecht-translate-translate-instant-page"><p>A token which represents a translation id
+This can be optionally an array of translation ids which
+results that the function&#39;s promise returns an object where
+each key is the translation id and the value the translation.</p>
 </div></td></tr><tr><td>interpolateParams</td><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="pascalprecht-translate-translate-instant-page"><p>Params</p>
 </div></td></tr></tbody></table><h5 id="methods_instant_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-translate-instant-page"><p>translation</p>
 </div></td></tr></table></div>

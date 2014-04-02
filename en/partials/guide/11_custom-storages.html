@@ -31,14 +31,14 @@ app.factory('customStorage', function () {
 <p>Easy, right? As you can see, <code>set()</code> expects two arguments. A name and a value. So
 you work with simple key-value pairs. On the other side, <code>get()</code> just needs a name
 to request a value. Providing a custom storage as a separate service gives you high
-flexibility when it comes to use this service in a different place. In addition
+flexibility when it comes to using this service in a different place. In addition
 to that, testing this service is pretty easy, since it&#39;s isolated.</p>
 <h3 id="custom-storages_using-the-custom-storage-service">Using the custom storage service</h3>
 <p>Once you&#39;ve build your custom storage service, you have to tell angular-translate
 to make use of it. <code>$translateProvider</code> methods <code>useCookieStorage()</code> and
 <code>useLocalStorage()</code> are actually shortcut methods. They both use a method
 <code>useStorage()</code> internally. You can also use this method to let angular-translate
-know of you custom storage service by simply doing:</p>
+know of your custom storage service by simply doing:</p>
 <pre class="prettyprint linenums">
 $translateProvider.useStorage('customStorage');
 </pre>

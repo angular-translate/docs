@@ -45,11 +45,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"></i></a></h2>
-      <p class="stat">76.72</p>
+      <p class="stat">75.96</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC"></i></h2>
-      <p class="stat">183</p>
+      <p class="stat">195</p>
     </div>
   </div>
   <div class="row historical">
@@ -63,11 +63,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty"></i></a></h2>
-      <p class="stat">26.70</p>
+      <p class="stat">29.42</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs"></i></a></h2>
-      <p class="stat">0.88</p>
+      <p class="stat">1.01</p>
     </div>
   </div>
 </div>
@@ -198,6 +198,10 @@
           }
         });
 
+        iAttr.$observe(&#039;translateDefault&#039;, function (value) {
+          scope.defaultText = value;
+        });
+
         if (translateValuesExist) {
           iAttr.$observe(&#039;translateValues&#039;, function (interpolateParams) {
             if (interpolateParams) {
@@ -211,7 +215,7 @@
         if (translateValueExist) {
           var fn = function (attrName) {
             iAttr.$observe(attrName, function (value) {
-              scope.interpolateParams[angular.lowercase(attrName.substr(14))] = value;
+              scope.interpolateParams[angular.lowercase(attrName.substr(14, 1)) + attrName.substr(15)] = value;
             });
           };
           for (var attr in iAttr) {
@@ -221,7 +225,10 @@
           }
         }
 
-        var applyElementContent = function (value, scope) {
+        var applyElementContent = function (value, scope, successful) {
+          if (!successful &amp;&amp; typeof scope.defaultText !== &#039;undefined&#039;) {
+            value = scope.defaultText;
+          }
           iElement.html(value);
           var globallyEnabled = $translate.isPostCompilingEnabled();
           var locallyDefined = typeof tAttr.translateCompile !== &#039;undefined&#039;;
@@ -238,10 +245,10 @@
                 if (scope.translationId &amp;&amp; value) {
                   $translate(value, {}, translateInterpolation)
                     .then(function (translation) {
-                      applyElementContent(translation, scope);
+                      applyElementContent(translation, scope, true);
                       unwatch();
                     }, function (translationId) {
-                      applyElementContent(translationId, scope);
+                      applyElementContent(translationId, scope, false);
                       unwatch();
                     });
                 }
@@ -249,16 +256,21 @@
             };
           } else {
             return function () {
-              scope.$watch(&#039;interpolateParams&#039;, function (value) {
-                if (scope.translationId &amp;&amp; value) {
-                  $translate(scope.translationId, value, translateInterpolation)
+
+              var updateTranslations = function () {
+                if (scope.translationId &amp;&amp; scope.interpolateParams) {
+                  $translate(scope.translationId, scope.interpolateParams, translateInterpolation)
                     .then(function (translation) {
-                      applyElementContent(translation, scope);
+                      applyElementContent(translation, scope, true);
                     }, function (translationId) {
-                      applyElementContent(translationId, scope);
+                      applyElementContent(translationId, scope, false);
                     });
-                }
-              }, true);
+                  }
+              };
+
+              // watch both interpolateParams and translationId, because watchers are triggered non-deterministic
+              scope.$watch(&#039;interpolateParams&#039;, updateTranslations, true);
+              scope.$watch(&#039;translationId&#039;, updateTranslations);
             };
           }
         }());

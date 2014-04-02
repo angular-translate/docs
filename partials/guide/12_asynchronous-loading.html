@@ -11,7 +11,7 @@ lazy loading of translation data. And it works like a charm.</p>
 <p>angular-translate provides a pretty clever way to tell $translate service to
 load data asynchronously. To load your data from a server you have to use an
 asynchronous loader, which gets invoked later at runtime when it&#39;s needed.
-angular-translate comes with support for three different asynchronous loaders. Both
+angular-translate comes with support for three different asynchronous loaders. All
 of them are installable via Bower. Let&#39;s take a look at them!</p>
 <h3 id="asynchronous-loading_using-urlloader">Using urlLoader</h3>
 <p>This is possibly the simplest way of loading translation data asynchronously.
@@ -39,7 +39,7 @@ parameter to the given loader string.</p>
 also notices that there isn&#39;t any translation data available at startup and will
 invoke the loader automatically as soon as possible.</p>
 <h3 id="asynchronous-loading_using-staticfilesloader">Using staticFilesLoader</h3>
-<p>In case you haven&#39;t just a URL which expects a <code>lang</code> parameter to return a JSON
+<p>In case you haven&#39;t got just a URL which expects a <code>lang</code> parameter to return a JSON
 that contains your translations, but several localization files which match a
 specific pattern, you probably want to use the
 <code>angular-translate-loader-static-files</code> extension which describes the pattern of
@@ -82,7 +82,7 @@ all the translation data for the whole app, just in a different language.</p>
 <p>What we need, is a way to just load the translation data of a language for a specific
 module we&#39;re currently on. Which means, when accessing the <code>home</code> submodule,
 we just want to load the translation data for the <code>home</code> module. If we change the
-language, we also just want to load the translation for the choosed language for
+language, we also just want to load the translation for the chosen language for
 the <code>home</code> module.</p>
 <p>In addition, when we&#39;ve already loaded translation data for let&#39;s say three
 different modules, and change the language and then change the language again

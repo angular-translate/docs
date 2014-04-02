@@ -13,7 +13,7 @@ different place to store your translation data and don&#39;t even want to load t
 from a remote server. This is where custom loaders come in. You can build your
 own loaders very easily. This chapter shows you how to do it!</p>
 <h3 id="customer-loaders_building-a-custom-loader-service">Building a custom loader service</h3>
-<p>If non of the provided loaders fits to your needs, you can register a custom
+<p>If none of the provided loaders fits your needs, you can register a custom
 asynchronous loader as a factory. The factory has to return a function, which
 expects an object where at least the language key property exists. With this
 architecture you&#39;re as free as possible and have full control of how your
@@ -38,7 +38,7 @@ app.factory('customLoader', function ($http, $q) {
 });
 </pre>
 <p>You have to make sure that your loader function returns a promise. It should either
-gets resolved with your translation data, or rejected with the language key. As
+get resolved with your translation data, or rejected with the language key. As
 you can see, there&#39;s a <code>key</code> property on the <code>options</code> object. It has the value
 of the language key with which the asynchronous loader is invoked.</p>
 <h3 id="customer-loaders_make-use-of-a-custom-loader">Make use of a custom loader</h3>

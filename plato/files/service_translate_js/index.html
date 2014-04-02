@@ -45,11 +45,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"></i></a></h2>
-      <p class="stat">67.29</p>
+      <p class="stat">66.87</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC"></i></h2>
-      <p class="stat">1491</p>
+      <p class="stat">1559</p>
     </div>
   </div>
   <div class="row historical">
@@ -63,11 +63,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty"></i></a></h2>
-      <p class="stat">90.53</p>
+      <p class="stat">99.95</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs"></i></a></h2>
-      <p class="stat">6.72</p>
+      <p class="stat">7.35</p>
     </div>
   </div>
 </div>
@@ -152,19 +152,21 @@ angular.module(&#039;pascalprecht.translate&#039;).provider(&#039;$translate&#03
     }
 
     if ($languageKeyAliases) {
-
-      if ($languageKeyAliases[preferred]) {
-        var alias = $languageKeyAliases[preferred];
-
-        if (avail.indexOf(angular.lowercase(alias)) &gt; -1) {
-          return alias;
+      var alias;
+      for (var langKeyAlias in $languageKeyAliases) {
+        if ($languageKeyAliases.hasOwnProperty(langKeyAlias) &amp;&amp;
+          angular.lowercase(langKeyAlias) === angular.lowercase(preferred)) {
+          alias = $languageKeyAliases[langKeyAlias];
+          if (avail.indexOf(angular.lowercase(alias)) &gt; -1) {
+            return alias;
+          }
         }
       }
     }
 
     var parts = preferred.split(&#039;_&#039;);
 
-    if (parts.length &gt; 1 &amp;&amp; avail.indexOf(angular.lowercase(parts[0])) &gt; 1) {
+    if (parts.length &gt; 1 &amp;&amp; avail.indexOf(angular.lowercase(parts[0])) &gt; -1) {
       return parts[0];
     }
   };
@@ -759,11 +761,17 @@ angular.module(&#039;pascalprecht.translate&#039;).provider(&#039;$translate&#03
    * and optional interpolate parameters to translate contents.
    *
    * &lt;pre&gt;
-   *  $scope.translatedText = $translate(&#039;HEADLINE_TEXT&#039;);
+   *  $translate(&#039;HEADLINE_TEXT&#039;).then(function (translation) {
+   *    $scope.translatedText = translation;
+   *  });
    * &lt;/pre&gt;
    *
-   * @param {string} translationId A token which represents a translation id
+   * @param {string|array} translationId A token which represents a translation id
+   *                                     This can be optionally an array of translation ids which
+   *                                     results that the function returns an object where each key
+   *                                     is the translation id and the value the translation.
    * @param {object=} interpolateParams An object hash for dynamic values
+   * @returns {object} promise
    */
   this.$get = [
     &#039;$log&#039;,
@@ -781,7 +789,41 @@ angular.module(&#039;pascalprecht.translate&#039;).provider(&#039;$translate&#03
           startFallbackIteration;
 
       var $translate = function (translationId, interpolateParams, interpolationId) {
+
+        // Duck detection: If the first argument is an array, a bunch of translations was requested.
+        // The result is an object.
+        if (angular.isArray(translationId)) {
+          // Inspired by Q.allSettled by Kris Kowal
+          // https://github.com/kriskowal/q/blob/b0fa72980717dc202ffc3cbf03b936e10ebbb9d7/q.js#L1553-1563
+          // This transforms all promises regardless resolved or rejected
+          var translateAll = function (translationIds) {
+            var results = {}; // storing the actual results
+            var promises = []; // promises to wait for
+            // Wraps the promise a) being always resolved and b) storing the link id-&gt;value
+            var translate = function (translationId) {
+              var deferred = $q.defer();
+              var regardless = function (value) {
+                results[translationId] = value;
+                deferred.resolve([translationId, value]);
+              };
+              // we don&#039;t care whether the promise was resolved or rejected; just store the values
+              $translate(translationId, interpolateParams, interpolationId).then(regardless, regardless);
+              return deferred.promise;
+            };
+            for (var i = 0, c = translationIds.length; i &lt; c; i++) {
+              promises.push(translate(translationIds[i]));
+            }
+            // wait for all (including storing to results)
+            return $q.all(promises).then(function () {
+              // return the results
+              return results;
+            });
+          };
+          return translateAll(translationId);
+        }
+
         var deferred = $q.defer();
+
         // trim off any whitespace
         translationId = translationId.trim();
 
@@ -1383,10 +1425,13 @@ angular.module(&#039;pascalprecht.translate&#039;).provider(&#039;$translate&#03
         if (!$translationTable[key] &amp;&amp; $loaderFactory) {
           $nextLang = key;
           langPromises[key] = loadAsync(key).then(function (translation) {
-            $nextLang = undefined;
             translations(translation.key, translation.table);
             deferred.resolve(translation.key);
-            useLanguage(translation.key);
+
+            if ($nextLang === key) {
+              useLanguage(translation.key);
+              $nextLang = undefined;
+            }
           }, function (key) {
             $nextLang = undefined;
             $rootScope.$emit(&#039;$translateChangeError&#039;);
@@ -1500,6 +1545,9 @@ angular.module(&#039;pascalprecht.translate&#039;).provider(&#039;$translate&#03
               }
               translations(data.key, data.table);
             });
+            if ($uses) {
+              useLanguage($uses);
+            }
             resolve();
           });
 
@@ -1530,13 +1578,30 @@ angular.module(&#039;pascalprecht.translate&#039;).provider(&#039;$translate&#03
        * used except any promise handling. If a language was not found, an asynchronous loading
        * will be invoked in the background.
        *
-       * @param {string} langKey The language to translate to.
-       * @param {string} translationId Translation ID
+       * @param {string|array} translationId A token which represents a translation id
+       *                                     This can be optionally an array of translation ids which
+       *                                     results that the function&#039;s promise returns an object where
+       *                                     each key is the translation id and the value the translation.
        * @param {object} interpolateParams Params
        *
        * @return {string} translation
        */
       $translate.instant = function (translationId, interpolateParams, interpolationId) {
+
+        // Duck detection: If the first argument is an array, a bunch of translations was requested.
+        // The result is an object.
+        if (angular.isArray(translationId)) {
+          var results = {};
+          for (var i = 0, c = translationId.length; i &lt; c; i++) {
+            results[translationId[i]] = $translate.instant(translationId[i], interpolateParams, interpolationId);
+          }
+          return results;
+        }
+
+        if (typeof translationId === &#039;undefined&#039; || translationId === &#039;&#039;) {
+          return translationId;
+        }
+
         translationId = translationId.trim();
 
         var result, possibleLangKeys = [];
@@ -1549,21 +1614,24 @@ angular.module(&#039;pascalprecht.translate&#039;).provider(&#039;$translate&#03
         if ($fallbackLanguage &amp;&amp; $fallbackLanguage.length) {
           possibleLangKeys = possibleLangKeys.concat($fallbackLanguage);
         }
-        for (var i = 0, c = possibleLangKeys.length; i &lt; c; i++) {
-          var possibleLangKey = possibleLangKeys[i];
+        for (var j = 0, d = possibleLangKeys.length; j &lt; d; j++) {
+          var possibleLangKey = possibleLangKeys[j];
           if ($translationTable[possibleLangKey]) {
-            if ($translationTable[possibleLangKey][translationId]) {
+            if (typeof $translationTable[possibleLangKey][translationId] !== &#039;undefined&#039;) {
               result = determineTranslationInstant(translationId, interpolateParams, interpolationId);
             }
-          } else {
-            // load in background
-            loadAsync(possibleLangKey);
+          }
+          if (typeof result !== &#039;undefined&#039;) {
+            break;
           }
         }
 
-        if (!result) {
+        if (!result &amp;&amp; result !== &#039;&#039;) {
           // Return translation if not found anything.
           result = translationId;
+          if ($missingTranslationHandlerFactory &amp;&amp; !pendingLoader) {
+            $injector.get($missingTranslationHandlerFactory)(translationId, $uses);
+          }
         }
 
         return result;

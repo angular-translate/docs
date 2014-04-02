@@ -48,6 +48,20 @@ app.controller('Ctrl', ['$scope', '$translate', function ($scope, $translate) {
 <p><strong>Note:</strong> Namespaced translations are accessed as JSON properties, see &#39;NAMESPACE.PARAGRAPH&#39;`.</p>
 <p>That&#39;s all. Now when you think about translating the contents of a <code>&lt;title&gt;</code> you
 can do so within your controller.</p>
+<h3 id="using-$translate-service_multiple-translation-ids">Multiple translation IDs</h3>
+<p>The translation service is also aware of requesting multiple translation at once.</p>
+<pre class="prettyprint linenums">
+app.controller('Ctrl', ['$scope', '$translate', function ($scope, $translate) {
+  $translate(['HEADLINE', 'PARAGRAPH', 'NAMESPACE.PARAGRAPH']).then(function (translations) {
+    $scope.headline = translations.HEADLINE;
+    $scope.paragraph = translations.PARAGRAPH;
+    $scope.namespaced_paragraph = translations['NAMESPACE.PARAGRAPH'];
+  });
+}]);
+</pre>
+<p>However, the service will always return an object containing translations -- regardless whether
+a translation (or even all of them) has failed. When requesting multiple translations
+in one request, it is up to you to deal with the result.</p>
 <h3 id="using-$translate-service_things-to-keep-in-mind">Things to keep in mind</h3>
 <p>Please keep in mind that the usage of the <code>$translate</code> service doesn&#39;t provide a two-way
 data binding default! <code>$translate</code> service works asynchronously, which means
@@ -58,7 +72,7 @@ of that, translations translated through a directive <code>$translate</code> cal
 updated when changing the language at runtime.</p>
 <p>You can fix that by simply wrapping your <code>$translate</code> call into a <code>$translateChangeSucces</code>
 callback on <code>$rootScope</code>, which gets fired every time a translation change was successful.
-Once its changed, you can simply re-execute the code, that gives you your needed translations.</p>
+Once it&#39;s changed, you can simply re-execute the code, that gives you your needed translations.</p>
 <p>Here&#39;s how it could look like:</p>
 <pre class="prettyprint linenums">
 app.controller('Ctrl', ['$scope', '$translate', function ($scope, $translate, $rootScope) {
