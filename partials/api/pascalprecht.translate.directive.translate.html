@@ -51,11 +51,12 @@ pass an optional <code>translate-values</code> object literal as string into tra
 
   .config(function ($translateProvider) {
 
-    $translateProvider.translations({
+    $translateProvider.translations('en', {
       'TRANSLATION_ID': 'Hello there!',
       'WITH_VALUES': 'The following value is dynamic: {{value}}'
     });
 
+    $translateProvider.use('en');
   });
 
   angular.module('ngView').controller('TranslateCtrl', function ($scope) {
