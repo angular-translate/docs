@@ -1,0 +1,197 @@
+<h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="custom-loaders-page"><h2 id="customer-loaders">Customer Loaders</h2>
+<p>angular-translate wouldn&#39;t be angular-translate if it wouldn&#39;t provide you a way
+to build your custom asynchronous loaders.
+In <a href="#/guide/10_asynchronous-loading">Asynchronous loading</a> you&#39;ve learned how to
+use the provided loaders to load your translation data asynchronously from a
+service, using certain patterns.</p>
+<p>However in some cases this isn&#39;t enough. Maybe you want to have a totally
+different place to store your translation data and don&#39;t even want to load them
+from a remote server. This is where custom loaders come in. You can build your
+own loaders very easily. This chapter shows you how to do it!</p>
+<h3 id="customer-loaders_building-a-custom-loader-service">Building a custom loader service</h3>
+<p>If none of the provided loaders fits your needs, you can register a custom
+asynchronous loader as a factory. The factory has to return a function, which
+expects an object where at least the language key property exists. With this
+architecture you&#39;re as free as possible and have full control of how your
+asynchronous loader should behave.</p>
+<p>A custom loader factory could look like this:</p>
+<pre class="prettyprint linenums">
+app.factory('customLoader', function ($http, $q) {
+    // return loaderFn
+    return function (options) {
+        var deferred = $q.defer();
+        // do something with $http, $q and key to load localization files
+
+        var data = {
+            'TEXT': 'Fooooo'
+        };
+
+        // resolve with translation data
+        return deferred.resolve(data);
+        // or reject with language key
+        return deferred.reject(options.key);
+    };
+});
+</pre>
+<p>You have to make sure that your loader function returns a promise. It should either
+get resolved with your translation data, or rejected with the language key. As
+you can see, there&#39;s a <code>key</code> property on the <code>options</code> object. It has the value
+of the language key with which the asynchronous loader is invoked.</p>
+<h3 id="customer-loaders_make-use-of-a-custom-loader">Make use of a custom loader</h3>
+<p>You know <code>$translateProvider</code> provides methods like <code>useStaticFilesLoader()</code> or
+<code>useUrlLoader()</code>. Both of them use <code>useLoader()</code> internally to register a loader
+factory which gets later invoked by <code>$injector</code>. You can use the same method for
+you custom service. So, to register the custom service simply do:</p>
+<pre class="prettyprint linenums">
+$translateProvider.useLoader('customLoader');
+</pre>
+<p>angular-translate access your custom loader factory with <code>$injector</code> service and
+does the rest for you.</p>
+<h3 id="customer-loaders_adding-additional-options">Adding additional options</h3>
+<p>The <code>options.key</code> property indicates that <code>options</code> is just an object. You can
+extend it with additional properties to fit your own needs. For example you could
+expect a property <code>foo</code> on the <code>options</code> object, all you have to do is to provide
+the property when registering your custom loader factory.</p>
+<p>So, if we need a property <code>foo</code> with a value <code>bar</code> we can pass it like this:</p>
+<pre class="prettyprint linenums">
+$translateProvider.useLoader('customLoader', { foo: 'bar'});
+</pre>
+<p>Then, in your loader factory, you can access the property via <code>options.foo</code>. You
+don&#39;t have to worry about <code>options.key</code> since it gets added by angular-translate
+internally before invoking the loader.</p>
+<p>Let&#39;s make use of a custom loader in our sample app to show how things work! First,
+we build the loader like this:</p>
+<pre class="prettyprint linenums">
+app.factory('asyncLoader', function ($q, $timeout) {
+
+  return function (options) {
+    var deferred = $q.defer(),
+        translations;
+
+    if (options.key === 'en') {
+      translations = {
+        HEADLINE: 'What an awesome module!',
+        PARAGRAPH: 'Srsly!',
+        PASSED_AS_TEXT: 'Hey there! I\'m passed as text value!',
+        PASSED_AS_ATTRIBUTE: 'I\'m passed as attribute value, cool ha?',
+        PASSED_AS_INTERPOLATION: 'Beginners! I\'m interpolated!',
+        VARIABLE_REPLACEMENT: 'Hi {{name}}',
+        BUTTON_LANG_DE: 'german',
+        BUTTON_LANG_EN: 'english'
+      };
+    } else {
+      translations = {
+        HEADLINE: 'Was für ein großartiges Modul!',
+        PARAGRAPH: 'Ernsthaft!',
+        PASSED_AS_TEXT: 'Hey! Ich wurde als text übergeben!',
+        PASSED_AS_ATTRIBUTE: 'Ich wurde als Attribut übergeben, cool oder?',
+        PASSED_AS_INTERPOLATION: 'Anfänger! Ich bin interpoliert!',
+        VARIABLE_REPLACEMENT: 'Hi {{name}}',
+        BUTTON_LANG_DE: 'deutsch',
+        BUTTON_LANG_EN: 'englisch'
+      };
+    }
+
+    $timeout(function () {
+      deferred.resolve(translations);
+    }, 2000);
+
+    return deferred.promise;
+  };
+});
+</pre>
+<p>So what does it do? It uses <code>$timeout</code> service to wait two seconds and resolves
+our promise with either the english or the german translation table, depending
+on the language key. Now use <code>$translateProvider.useLoader()</code> to make use of it:</p>
+<pre class="prettyprint linenums">
+$translateProvider.useLoader('asyncLoader');
+</pre>
+<p>Easy! Here&#39;s our working app with a custom loader!</p>
+<h3 id="customer-loaders_source">Source</h3>
+<div source-edit="myApp" source-edit-deps="angular.js script.js" source-edit-html="index.html-21" source-edit-css="" source-edit-js="script.js-20" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div class="tabbable"><div class="tab-pane" title="index.html">
+<pre class="prettyprint linenums" ng-set-text="index.html-21" ng-html-wrap-loaded="myApp angular.js script.js"></pre>
+<script type="text/ng-template" id="index.html-21">
+    
+    <div ng-controller="Ctrl">
+      <p>{{ 'HEADLINE' | translate }}</p>
+      <p>{{ 'PARAGRAPH' | translate }}</p>
+
+      <p translate>PASSED_AS_TEXT</p>
+      <p translate="PASSED_AS_ATTRIBUTE"></p>
+      <p translate>{{ 'PASSED_AS_INTERPOLATION' }}</p>
+      <p translate="{{ 'PASSED_AS_INTERPOLATION' }}"></p>
+      <p translate="VARIABLE_REPLACEMENT" translate-values="{ name: 'PascalPrecht' }"></p>
+
+      <button ng-click="changeLanguage('de')" translate="BUTTON_LANG_DE"></button>
+      <button ng-click="changeLanguage('en')" translate="BUTTON_LANG_EN"></button>
+    </div>
+  </script>
+</div>
+<div class="tab-pane" title="script.js">
+<pre class="prettyprint linenums" ng-set-text="script.js-20"></pre>
+<script type="text/ng-template" id="script.js-20">
+      var app = angular.module('myApp', ['ngCookies', 'pascalprecht.translate']);
+
+      app.config(['$translateProvider', function ($translateProvider) {
+        $translateProvider.preferredLanguage('en');
+        $translateProvider.useLoader('asyncLoader');
+      }]);
+
+      app.factory('asyncLoader', function ($q, $timeout) {
+
+        return function (options) {
+          var deferred = $q.defer(),
+              translations;
+
+          if (options.key === 'en') {
+            translations = {
+              HEADLINE: 'What an awesome module!',
+              PARAGRAPH: 'Srsly!',
+              PASSED_AS_TEXT: 'Hey there! I\'m passed as text value!',
+              PASSED_AS_ATTRIBUTE: 'I\'m passed as attribute value, cool ha?',
+              PASSED_AS_INTERPOLATION: 'Beginners! I\'m interpolated!',
+              VARIABLE_REPLACEMENT: 'Hi {{name}}',
+              BUTTON_LANG_DE: 'german',
+              BUTTON_LANG_EN: 'english'
+            };
+          } else {
+            translations = {
+              HEADLINE: 'Was für ein großartiges Modul!',
+              PARAGRAPH: 'Ernsthaft!',
+              PASSED_AS_TEXT: 'Hey! Ich wurde als text übergeben!',
+              PASSED_AS_ATTRIBUTE: 'Ich wurde als Attribut übergeben, cool oder?',
+              PASSED_AS_INTERPOLATION: 'Anfänger! Ich bin interpoliert!',
+              VARIABLE_REPLACEMENT: 'Hi {{name}}',
+              BUTTON_LANG_DE: 'deutsch',
+              BUTTON_LANG_EN: 'englisch'
+            };
+          }
+
+          $timeout(function () {
+            deferred.resolve(translations);
+          }, 2000);
+
+          return deferred.promise;
+        };
+      });
+
+      app.controller('Ctrl', ['$translate', '$scope', function ($translate, $scope) {
+
+        $scope.changeLanguage = function (langKey) {
+          $translate.use(langKey);
+        };
+      }]);
+    </script>
+</div>
+</div><h3 id="customer-loaders_demo">Demo</h3>
+<div class="well doc-example-live animate-container" ng-embed-app="myApp" ng-set-html="index.html-21" ng-eval-javascript="script.js-20"></div>
+<p>When changing the language by clicking the <code>german</code> button, you see the app waits
+2 seconds until it resolves with the new translation data. Isn&#39;t that cool?</p>
+<p><br></p>
+<p><hr></p>
+<center>Made with unicorn &hearts; love by <a href="http://github.com/PascalPrecht">PascalPrecht</a></center></div></div>

@@ -45,11 +45,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"></i></a></h2>
-      <p class="stat">70.19</p>
+      <p class="stat">68.33</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC"></i></h2>
-      <p class="stat">86</p>
+      <p class="stat">119</p>
     </div>
   </div>
   <div class="row historical">
@@ -63,11 +63,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty"></i></a></h2>
-      <p class="stat">16.93</p>
+      <p class="stat">21.50</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs"></i></a></h2>
-      <p class="stat">0.25</p>
+      <p class="stat">0.47</p>
     </div>
   </div>
 </div>
@@ -106,11 +106,34 @@
  */
 .factory(&#039;$translateMessageFormatInterpolation&#039;, function ($cacheFactory, TRANSLATE_MF_INTERPOLATION_CACHE) {
 
-  var $translateInterpolator = {};
+  var $translateInterpolator = {},
       $cache = $cacheFactory.get(TRANSLATE_MF_INTERPOLATION_CACHE),
       // instantiate with default locale (which is &#039;en&#039;)
       $mf = new MessageFormat(),
-      $identifier = &#039;messageformat&#039;;
+      $identifier = &#039;messageformat&#039;,
+      $sanitizeValueStrategy = null,
+      // map of all sanitize strategies
+      sanitizeValueStrategies = {
+        escaped: function (params) {
+          var result = {};
+          for (var key in params) {
+            if (params.hasOwnProperty(key)) {
+              result[key] = angular.element(&#039;&lt;div&gt;&lt;/div&gt;&#039;).text(params[key]).html();
+            }
+          }
+          return result;
+        }
+      };
+
+  var sanitizeParams = function (params) {
+    var result;
+    if (angular.isFunction(sanitizeValueStrategies[$sanitizeValueStrategy])) {
+      result = sanitizeValueStrategies[$sanitizeValueStrategy](params);
+    } else {
+      result = params;
+    }
+    return result;
+  };
 
   if (!$cache) {
     // create cache if it doesn&#039;t exist already
@@ -151,6 +174,11 @@
     return $identifier;
   };
 
+  $translateInterpolator.useSanitizeValueStrategy = function (value) {
+    $sanitizeValueStrategy = value;
+    return this;
+  };
+
   /**
    * @ngdoc function
    * @name pascalprecht.translate.$translateMessageFormatInterpolation#interpolate
@@ -164,6 +192,11 @@
   $translateInterpolator.interpolate = function (string, interpolateParams) {
 
     interpolateParams = interpolateParams || {};
+
+    if ($sanitizeValueStrategy) {
+      interpolateParams = sanitizeParams(interpolateParams);
+    }
+
     var interpolatedText = $cache.get(string + angular.toJson(interpolateParams));
 
     // if given string wasn&#039;t interpolated yet, we do so now and never have to do it again

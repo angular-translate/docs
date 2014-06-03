@@ -45,11 +45,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"></i></a></h2>
-      <p class="stat">66.87</p>
+      <p class="stat">66.34</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC"></i></h2>
-      <p class="stat">1559</p>
+      <p class="stat">1598</p>
     </div>
   </div>
   <div class="row historical">
@@ -63,11 +63,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty"></i></a></h2>
-      <p class="stat">99.95</p>
+      <p class="stat">103.63</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs"></i></a></h2>
-      <p class="stat">7.35</p>
+      <p class="stat">7.66</p>
     </div>
   </div>
 </div>
@@ -148,14 +148,20 @@ angular.module(&#039;pascalprecht.translate&#039;).provider(&#039;$translate&#03
     }
 
     if (avail.indexOf(locale) &gt; -1) {
-      return locale;
+      return preferred;
     }
 
     if ($languageKeyAliases) {
       var alias;
       for (var langKeyAlias in $languageKeyAliases) {
-        if ($languageKeyAliases.hasOwnProperty(langKeyAlias) &amp;&amp;
-          angular.lowercase(langKeyAlias) === angular.lowercase(preferred)) {
+        var hasWildcardKey = false;
+        var hasExactKey = $languageKeyAliases.hasOwnProperty(langKeyAlias) &amp;&amp;
+          angular.lowercase(langKeyAlias) === angular.lowercase(preferred);
+
+        if (langKeyAlias.slice(-1) === &#039;*&#039;) {
+          hasWildcardKey = langKeyAlias.slice(0, -1) === preferred.slice(0, langKeyAlias.length-1);
+        }
+        if (hasExactKey || hasWildcardKey) {
           alias = $languageKeyAliases[langKeyAlias];
           if (avail.indexOf(angular.lowercase(alias)) &gt; -1) {
             return alias;
@@ -169,6 +175,9 @@ angular.module(&#039;pascalprecht.translate&#039;).provider(&#039;$translate&#03
     if (parts.length &gt; 1 &amp;&amp; avail.indexOf(angular.lowercase(parts[0])) &gt; -1) {
       return parts[0];
     }
+
+    // If everything fails, just return the preferred, unchanged.
+    return preferred;
   };
 
   /**
@@ -715,10 +724,11 @@ angular.module(&#039;pascalprecht.translate&#039;).provider(&#039;$translate&#03
 
     if (!$availableLanguageKeys.length) {
       $preferredLanguage = locale;
-      return this;
     } else {
       $preferredLanguage = negotiateLocale(locale);
     }
+
+    return this;
   };
 
   /**
@@ -825,7 +835,9 @@ angular.module(&#039;pascalprecht.translate&#039;).provider(&#039;$translate&#03
         var deferred = $q.defer();
 
         // trim off any whitespace
-        translationId = translationId.trim();
+        if (translationId) {
+          translationId = translationId.trim();
+        }
 
         var promiseToWaitFor = (function () {
           var promise = $preferredLanguage ?
@@ -1130,7 +1142,19 @@ angular.module(&#039;pascalprecht.translate&#039;).provider(&#039;$translate&#03
           );
         } else {
           // No translation found in any fallback language
-          deferred.resolve(translationId);
+
+          // If we have a handler factory - we might also call it here to determine if it provides
+          // a default text for a translationid that can&#039;t be found anywhere in our tables
+          if ($missingTranslationHandlerFactory) {
+            var resultString = $injector.get($missingTranslationHandlerFactory)(translationId, $uses);
+            if (resultString !== undefined) {
+              deferred.resolve(resultString);
+            } else {
+              deferred.resolve(translationId);
+            }
+          } else {
+            deferred.resolve(translationId);
+          }
         }
         return deferred.promise;
       };
@@ -1420,6 +1444,12 @@ angular.module(&#039;pascalprecht.translate&#039;).provider(&#039;$translate&#03
 
         $rootScope.$emit(&#039;$translateChangeStart&#039;);
 
+        // Try to get the aliased language key
+        var aliasedKey = negotiateLocale(key);
+        if (aliasedKey) {
+          key = aliasedKey;
+        }
+
         // if there isn&#039;t a translation table for the language we&#039;ve requested,
         // we load it asynchronously
         if (!$translationTable[key] &amp;&amp; $loaderFactory) {
@@ -1588,6 +1618,11 @@ angular.module(&#039;pascalprecht.translate&#039;).provider(&#039;$translate&#03
        */
       $translate.instant = function (translationId, interpolateParams, interpolationId) {
 
+        // Detect undefined and null values to shorten the execution and prevent exceptions
+        if (translationId === null || angular.isUndefined(translationId)) {
+          return translationId;
+        }
+
         // Duck detection: If the first argument is an array, a bunch of translations was requested.
         // The result is an object.
         if (angular.isArray(translationId)) {
@@ -1598,11 +1633,15 @@ angular.module(&#039;pascalprecht.translate&#039;).provider(&#039;$translate&#03
           return results;
         }
 
-        if (typeof translationId === &#039;undefined&#039; || translationId === &#039;&#039;) {
+        // We discarded unacceptable values. So we just need to verify if translationId is empty String
+        if (angular.isString(translationId) &amp;&amp; translationId.length &lt; 1) {
           return translationId;
         }
 
-        translationId = translationId.trim();
+        // trim off any whitespace
+        if (translationId) {
+          translationId = translationId.trim();
+        }
 
         var result, possibleLangKeys = [];
         if ($preferredLanguage) {

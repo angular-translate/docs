@@ -1,0 +1,124 @@
+<h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="storages-page"><h2 id="storages">Storages</h2>
+<p>Wir haben viel über angular-translate in den letzten Kapiteln gelern. Wir wissen,
+wie wir unsere <a href="#/guide/06_variable-replacement">Übersetzungen dynamisieren</a> können.
+Wir haben auch gelernt, wie man <a href="#/guide/07_multi-language">einer App mehrere Sprachen beibringt</a>.
+Aber da ist immer noch etwas, was sich komisch anfühlt, wenn wir unsere App
+aufrufen. Jedes Mal, wenn wir unsere App starten, müssen wir den &#39;deutsch&#39;- Button
+klicken.</p>
+<p>Unsere App kann sich also einfach nicht merken, welche Sprache wir gewählt hatten,
+als wir das letzte mal die App gestartet hatten. Dieses Kapitel zeigt dir, wie du
+deiner App beibringen kannst, dass sie sich die Sprache eines Benutzers merkt.</p>
+<h3 id="storages_sich-an-eine-sprache-erinnern">Sich an eine Sprache erinnern</h3>
+<p>Um deiner App beizubringen sich an die gewählte Sprache des Nutzers zu erinnern,
+bietet <code>angular-translate</code> Unterstützung für sogenannte <strong>Storages</strong>. Welchen
+Storage auch immer du benutzt, angular-translate wird den Sprachschlüssel unter
+einem bestimmten Identifier in diesem Speichern, so dass das Modul das nächste
+Mal wenn der Benutzer die App startet,danach suchen kann.</p>
+<p>angular-translate hat bringt standardmäßig Unterstützung für zwei Storages.
+<strong>localStorage</strong> und <strong>cookieStorage</strong>. Während localStorage den cookieStorage
+als Fallback verwendet, falls der Browser kein localStorage unterstützt. Um
+einen dieser Storages zu verwenden, müssen die entsprechenden Extensions
+installiert werden.</p>
+<h3 id="storages_cookiestorage-benutzen">cookieStorage benutzen</h3>
+<p>Wenn du den cookieStorage benutzen möchtest, kannst du die dazu passende Extension
+wie folgt mit Bower installieren:</p>
+<pre><code>$ bower install angular-translate-storage-cookie</code></pre>
+<p>Nach dem du die Extension in dein HTML-Dokument eingebunden hast, kannst du die
+<code>useCookieStorage()</code>- Methode des <code>$translateProvider</code> verwenden. angular-translate
+kümmert sich dann um den Rest.</p>
+<pre class="prettyprint linenums">
+$translateProvider.useCookieStorage();
+</pre>
+<p>Ist das einfach? angular-translate speichert ab jetzt den Sprachschlüssel im cookieStorage
+und schaut jedes mal, wenn die App aufgerufen wird, ob bereits einer vorhanden ist
+und setzt die dazu passende Sprache.</p>
+<h3 id="storages_using-localstorage">Using localStorage</h3>
+<p>Für den Fall dass du lieber den localStorage als den cookieStorage verwenden möchtest,
+kannst du auch hierfür ganz einfach die entsprechende Extension installieren. Danach
+benutzt du die <code>useLocalStorage()</code>- Methode des <code>$translateProvider</code> um das gleiche
+Ergebnis wie mit dem cookieStorage zu erreichen. Nur eben mit dem localStorage.</p>
+<p>Denk daran, dass localStorage cookieStorage als Fallback verwenden und deswegen
+<strong>beide</strong> extensions vorhanden sein müssen.</p>
+<p>Die Extension kannst du wie folgt installieren:</p>
+<pre><code>$ bower install angular-translate-storage-local</code></pre>
+<p>Als nächstes muss nur noch der <code>$translateProvider</code> informiert werden.</p>
+<pre class="prettyprint linenums">
+$translateProvider.useLocalStorage();
+</pre>
+<p>Das war&#39;s! Updaten wir unsere Beispiel App!</p>
+<h3 id="storages_source">Source</h3>
+<div source-edit="myApp" source-edit-deps="angular.js script.js" source-edit-html="index.html-15" source-edit-css="" source-edit-js="script.js-14" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div class="tabbable"><div class="tab-pane" title="index.html">
+<pre class="prettyprint linenums" ng-set-text="index.html-15" ng-html-wrap-loaded="myApp angular.js script.js"></pre>
+<script type="text/ng-template" id="index.html-15">
+    
+    <div ng-controller="Ctrl">
+      <p>{{ 'HEADLINE' | translate }}</p>
+      <p>{{ 'PARAGRAPH' | translate }}</p>
+
+      <p translate>PASSED_AS_TEXT</p>
+      <p translate="PASSED_AS_ATTRIBUTE"></p>
+      <p translate>{{ 'PASSED_AS_INTERPOLATION' }}</p>
+      <p translate="{{ 'PASSED_AS_INTERPOLATION' }}"></p>
+      <p translate="VARIABLE_REPLACEMENT" translate-values="{ name: 'PascalPrecht' }"></p>
+
+      <button ng-click="changeLanguage('de')" translate="BUTTON_LANG_DE"></button>
+      <button ng-click="changeLanguage('en')" translate="BUTTON_LANG_EN"></button>
+    </div>
+  </script>
+</div>
+<div class="tab-pane" title="script.js">
+<pre class="prettyprint linenums" ng-set-text="script.js-14"></pre>
+<script type="text/ng-template" id="script.js-14">
+      var translationsEN = {
+        HEADLINE: 'What an awesome module!',
+        PARAGRAPH: 'Srsly!',
+        PASSED_AS_TEXT: 'Hey there! I\'m passed as text value!',
+        PASSED_AS_ATTRIBUTE: 'I\'m passed as attribute value, cool ha?',
+        PASSED_AS_INTERPOLATION: 'Beginners! I\'m interpolated!',
+        VARIABLE_REPLACEMENT: 'Hi {{name}}',
+        BUTTON_LANG_DE: 'german',
+        BUTTON_LANG_EN: 'english'
+      };
+
+      var translationsDE= {
+        HEADLINE: 'Was für ein großartiges Modul!',
+        PARAGRAPH: 'Ernsthaft!',
+        PASSED_AS_TEXT: 'Hey! Ich wurde als text übergeben!',
+        PASSED_AS_ATTRIBUTE: 'Ich wurde als Attribut übergeben, cool oder?',
+        PASSED_AS_INTERPOLATION: 'Anfänger! Ich bin interpoliert!',
+        VARIABLE_REPLACEMENT: 'Hi {{name}}',
+        BUTTON_LANG_DE: 'deutsch',
+        BUTTON_LANG_EN: 'englisch'
+      };
+
+      var app = angular.module('myApp', ['ngCookies', 'pascalprecht.translate']);
+
+      app.config(['$translateProvider', function ($translateProvider) {
+        // add translation tables
+        $translateProvider.translations('en', translationsEN);
+        $translateProvider.translations('de', translationsDE);
+        $translateProvider.preferredLanguage('en');
+        // remember language
+        $translateProvider.useLocalStorage();
+      }]);
+
+      app.controller('Ctrl', ['$translate', '$scope', function ($translate, $scope) {
+
+        $scope.changeLanguage = function (langKey) {
+          $translate.use(langKey);
+        };
+      }]);
+    </script>
+</div>
+</div><h3 id="storages_demo">Demo</h3>
+<div class="well doc-example-live animate-container" ng-embed-app="myApp" ng-set-html="index.html-15" ng-eval-javascript="script.js-14"></div>
+<p>Wechsel die Sprache und refreshe den Browser! Die App sollte sich daran erinnern
+welche Sprache vorher gewählt wurde!</p>
+<p><br></p>
+<p><hr></p>
+<center>Made with unicorn &hearts; love by <a href="http://github.com/PascalPrecht">PascalPrecht</a></center></div></div>

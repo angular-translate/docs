@@ -1,0 +1,77 @@
+<h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="utilisation-du-filtre-translate-page"><h2 id="utilisation-du-filtre-translate">Utilisation du filtre translate</h2>
+<p>Dans <a href="#/guide/03_using-translate-service">Utilisation du service $translate</a>, nous avons appris
+comment utiliser le service <code>$translate</code> pour traduire vos contenus avec des IDs de traduction
+enregistrés. Bien sûr, son fonctionnement est assez cool, mais en réalité vous ne souhaitez
+pas lier votre traduction aux contrôleurs ou aux services. Vous voulez
+surtout traduire votre contenu dans la vue, car c&#39;est là que tout se
+passe.</p>
+<p>angular-translate fournit un composant de filtre avec lequel vous êtes en mesure
+de traduire vos IDs de traduction au sein de la vue, sans qu&#39;aucun contrôleur ou
+service le sache. Cela signifie que vous pouvez dissocier la logique de traduction
+de n&#39;importe quel contrôleur ou service et rendre votre vue modifiable sans toucher
+le code de la logique métier.</p>
+<h3 id="utilisation-du-filtre-translate_utilisation-générale">Utilisation générale</h3>
+<p>L&#39;utilisation d&#39;un filtre Angular est assez simple. Vous pouvez lire plusieurs choses
+sur ​​les filtres d&#39;Angular
+<a href="http://docs.angularjs.org/guide/filter">ici</a>.</p>
+<p>C&#39;est la même chose pour le filtre <code>translate</code> de angular-translate. Nous pouvons
+mettre à jour notre exemple de
+<a href="#/guide/03_using-translate-service#generalusage">Utilisation du service $translate</a>
+juste en transférant la logique du contrôleur vers notre vue. Fondamentalement, le
+filtre <code>translate</code> fonctionne ainsi :</p>
+<pre><code>&lt;ANY&gt;{{ TRANSLATION_ID | translate }}&lt;/ANY&gt;</code></pre>
+<p>Donc, pour mettre à jour notre exemple, nous enlevons l&#39;utilisation du service <code>$translate</code>
+dans notre contrôleur et nous ajoutons la logique dans notre vue en utilisant le filtre
+<code>translate</code> comme ceci :</p>
+<pre class="prettyprint linenums">
+&lt;h1&gt;{{'HEADLINE' | translate}}&lt;/h1&gt;
+&lt;p&gt;{{'PARAGRAPH' | translate}}&lt;/p&gt;
+</pre>
+<p>Assez facile, non ? Et bien sûr, vous pouvez voir un exemple qui fonctionne ici :</p>
+<h3 id="utilisation-du-filtre-translate_source">Source</h3>
+<div source-edit="monApp" source-edit-deps="angular.js script.js" source-edit-html="index.html-7" source-edit-css="" source-edit-js="script.js-6" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div class="tabbable"><div class="tab-pane" title="index.html">
+<pre class="prettyprint linenums" ng-set-text="index.html-7" ng-html-wrap-loaded="monApp angular.js script.js"></pre>
+<script type="text/ng-template" id="index.html-7">
+    
+    <div ng-controller="Ctrl">
+      <p>{{ 'HEADLINE' | translate }}</p>
+      <p>{{ 'PARAGRAPH' | translate }}</p>
+    </div>
+  </script>
+</div>
+<div class="tab-pane" title="script.js">
+<pre class="prettyprint linenums" ng-set-text="script.js-6"></pre>
+<script type="text/ng-template" id="script.js-6">
+      var translations = {
+        HEADLINE: 'C\'est un module génial !',
+        PARAGRAPH: 'Srsly !'
+      };
+
+      var app = angular.module('monApp', ['pascalprecht.translate']);
+
+      app.config(['$translateProvider', function ($translateProvider) {
+        // ajoute la table de traduction
+        $translateProvider.translations('en', translations);
+        $translateProvider.preferredLanguage('en');
+      }]);
+
+      app.controller('Ctrl', ['$scope', function ($scope) {
+
+      }]);
+    </script>
+</div>
+</div><h3 id="utilisation-du-filtre-translate_demo">Demo</h3>
+<div class="well doc-example-live animate-container" ng-embed-app="monApp" ng-set-html="index.html-7" ng-eval-javascript="script.js-6"></div>
+<p>Super ! Vous êtes maintenant en mesure de traduire vos contenus dans la vue sans
+polluer votre logique des contrôleurs avec la logique de traduction. L&#39;ensemble
+de la traduction est dissocié de votre logique métier et rend votre application beaucoup
+plus souple quand il s&#39;agit de modifier la vue ! Le chapitre suivant vous montre comment
+faire la même chose avec la directive <code>translate</code> fournie.</p>
+<p><br></p>
+<p><hr></p>
+<center>Made with unicorn &hearts; love by <a href="http://github.com/PascalPrecht">PascalPrecht</a></center></div></div>

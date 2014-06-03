@@ -45,11 +45,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"></i></a></h2>
-      <p class="stat">79.64</p>
+      <p class="stat">70.68</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC"></i></h2>
-      <p class="stat">51</p>
+      <p class="stat">67</p>
     </div>
   </div>
   <div class="row historical">
@@ -63,11 +63,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty"></i></a></h2>
-      <p class="stat">11.76</p>
+      <p class="stat">17.10</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs"></i></a></h2>
-      <p class="stat">0.11</p>
+      <p class="stat">0.20</p>
     </div>
   </div>
 </div>
@@ -105,40 +105,56 @@
 .factory(&#039;$translateLocalStorage&#039;, [&#039;$window&#039;, &#039;$translateCookieStorage&#039;, function ($window, $translateCookieStorage) {
 
   // Setup adapter
-  var localStorageAdapter = {
-    /**
-     * @ngdoc function
-     * @name pascalprecht.translate.$translateLocalStorage#get
-     * @methodOf pascalprecht.translate.$translateLocalStorage
-     *
-     * @description
-     * Returns an item from localStorage by given name.
-     *
-     * @param {string} name Item name
-     * @return {string} Value of item name
-     */
-    get: function (name) {
-      return $window.localStorage.getItem(name);
-    },
-    /**
-     * @ngdoc function
-     * @name pascalprecht.translate.$translateLocalStorage#set
-     * @methodOf pascalprecht.translate.$translateLocalStorage
-     *
-     * @description
-     * Sets an item in localStorage by given name.
-     *
-     * @param {string} name Item name
-     * @param {string} value Item value
-     */
-    set: function (name, value) {
-      $window.localStorage.setItem(name, value);
+  var localStorageAdapter = (function(){
+    var langKey;
+    return {
+      /**
+       * @ngdoc function
+       * @name pascalprecht.translate.$translateLocalStorage#get
+       * @methodOf pascalprecht.translate.$translateLocalStorage
+       *
+       * @description
+       * Returns an item from localStorage by given name.
+       *
+       * @param {string} name Item name
+       * @return {string} Value of item name
+       */
+      get: function (name) {
+        if(!langKey) {
+          langKey = $window.localStorage.getItem(name);
+        }
+
+        return langKey;
+      },
+      /**
+       * @ngdoc function
+       * @name pascalprecht.translate.$translateLocalStorage#set
+       * @methodOf pascalprecht.translate.$translateLocalStorage
+       *
+       * @description
+       * Sets an item in localStorage by given name.
+       *
+       * @param {string} name Item name
+       * @param {string} value Item value
+       */
+      set: function (name, value) {
+        langKey=value;
+        $window.localStorage.setItem(name, value);
+      }
+    };
+  }());
+
+  var hasLocalStorageSupport = &#039;localStorage&#039; in $window &amp;&amp; $window.localStorage !== null;
+  if (hasLocalStorageSupport) {
+    var testKey = &#039;pascalprecht.translate.storageTest&#039;;
+    try {
+      $window.localStorage.setItem(testKey, &#039;foo&#039;);
+      $window.localStorage.removeItem(testKey);
+    } catch (e){
+      hasLocalStorageSupport = false;
     }
-  };
-
-  var $translateLocalStorage = (&#039;localStorage&#039; in $window &amp;&amp; $window.localStorage !== null) ?
-  localStorageAdapter : $translateCookieStorage;
-
+  }
+  var $translateLocalStorage = hasLocalStorageSupport ? localStorageAdapter : $translateCookieStorage;
   return $translateLocalStorage;
 }]);</textarea>
   </div>

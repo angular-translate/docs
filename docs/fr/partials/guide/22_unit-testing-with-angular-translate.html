@@ -1,0 +1,173 @@
+<h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="tests-unitaires-page"><h2 id="tests-unitaires-avec-angular-translate">Tests unitaires avec angular-translate</h2>
+<p>AngularJS est construit en ayant à l&#39;esprit la testabilité. Et nous aimons cela. C&#39;est pourquoi
+nous faisons des tests unitaires sur angular-translate depuis le début. Cependant, lors de la construction
+d&#39;application AngularJS qui supporte i18n en utilisant angular-translate, les tests de votre application
+peuvent être un peu difficile. Ce guide vous montre comment les gérer autour de problèmes communs lorsque
+vous écrivez des tests unitaires pour votre application qui utilise angular-translate.</p>
+<h3 id="tests-unitaires-avec-angular-translate_quel-est-le-problème">Quel est le problème ?</h3>
+<p>D&#39;après notre expérience au cours de la période de développement d&#39;angular-translate, il y eut seulement
+un problème lors des tests. Imaginez le scénario suivant : vous créez une application qui utilise
+non seulement angular-translate, mais aussi fait usage d&#39;un chargeur asynchrone (ce qui est très
+fréquent). Donc, disons que la configuration de notre application ressemble à ceci :</p>
+<pre class="prettyprint linenums">
+app.config(function ($translateProvider) {
+  $translateProvider
+    .useStaticFilesLoader({
+      prefix: 'locale-',
+      suffix: '.json'
+    })
+    .preferredLanguage('fr');
+});
+</pre>
+<p>Dans cette configuration, nous utilisons le chargeur de fichiers statiques pour charger nos
+données i18n à partir d&#39;un point distant. Nous disons aussi à angular-translate que notre
+langue préférée est <code>fr</code>. C&#39;est assez simple.</p>
+<p>Disons que nous avons un contrôleur, qui utilise le service <code>$translate</code> pour changer
+la langue lors de l&#39;exécution (qui est aussi <em>très</em> commun) :</p>
+<pre class="prettyprint linenums">
+app.controller('LanguageController', function ($scope, $translate) {
+  $scope.switchLanguage = function (locale) {
+    $translate.use(locale);
+  });
+});
+</pre>
+<p>Ok super. C&#39;est fait. Passons en revue le code et réfléchissons à ce qui se passe
+lorsque nous lançons cette application. Voici le processus étape par étape :</p>
+<ul>
+<li>nous enregistrons un chargeur asynchrone</li>
+<li>nous définissons notre langue préférée</li>
+<li>le service <code>$translate</code> est instancié la première fois qu&#39;il est injecté</li>
+<li>angular-translate notifie qu&#39;il n&#39;y a pas de langue disponible localement</li>
+<li>il regarde si il y a un chargeur asynchrone enregistré</li>
+<li>le chargeur asynchrone est appelé avec les paramètres régionaux de langue préférée</li>
+<li>les données de traduction sont chargés et prêtes à être utilisées</li>
+</ul>
+<p>Il est important de comprendre comment angular-translate gère le flux pour obtenir une
+idée de ce que les problèmes peuvent causer. Donc, en passant par ces étapes, il y a une
+chose qui a un impact siginificatif. Quand un chargeur asynchrone est enregistré et qu&#39;il
+n&#39;y a pas de table de traduction encore en cache, angular-translate appelle le chargeur
+enregistré <strong>implicitement</strong>. Pourquoi cela peut causer des problèmes lors des tests
+unitaire de votre application ?</p>
+<p>Eh bien, pour comprendre cela, nous devons jeter un oeil à la façon dont nous ferions les
+tests unitaires avec par exemple Jasmine. Nous commençons avec un bloc <code>describe()</code> et
+chargeons notre application angular pour chaque spec :</p>
+<pre class="prettyprint linenums">
+describe('monApp', function () {
+
+  beforeEach(module('monApp'));
+
+});
+</pre>
+<p>Bon, qu&#39;est ce que ça fait ? Cela permet de s&#39;assurer que, sur chaque spec suivante, notre module
+de l&#39;application est instancié. Ensuite, nous avons créé notre <code>LanguageController</code> avec un scope
+simulé comme ceci :</p>
+<pre class="prettyprint linenums">
+describe('monApp', function () {
+
+  beforeEach(module('monApp'));
+
+  var LanguageCtrl, scope;
+
+  beforeEach(inject(function ($controller, $rootScope) {
+    scope = $rootScope.$new();
+
+    LanguageCtrl = $controller('LanguageCtrl', {
+      $scope: scope
+    });
+  }));
+
+  it('devrait faire quelque chose', function () {
+
+  });
+});
+</pre>
+<p>Quand nous lançons ce test, nous obtenons l&#39;erreur suivante :</p>
+<pre><code>Error: Unexpected request: GET locale-fr.json</code></pre>
+<p>Alors, pourquoi nous obtenons cette erreur ? Car le problème ici, c&#39;est que angular-translate appelle le
+chargeur asynchrone implicitement. C&#39;est à dire, lorsque le service <code>$translate</code> est instancié par la DI
+(l&#39;injection de dépendance), il y a un XHR qui se déroule sans que nous faisions quelque chose.</p>
+<p>Lors de l&#39;écriture des tests et lorsqu&#39;il y a des XHRs, on doit explicitement dire que l&#39;on attend
+un XHR dans certaine spec. Cela fait partie des tests appropriés. En d&#39;autres termes,
+quand nous disons explicitement qu&#39;il y a un XHR qui se déroule, cette erreur ne devrait
+pas se produire, d&#39;accord ?</p>
+<p>Essayons donc de contourner cette erreur en injectant le service <code>$httpBackend</code> pour
+attendre des XHRs et répondre de manière fictive :</p>
+<pre class="prettyprint linenums">
+describe('monApp', function () {
+
+  beforeEach(module('monApp'));
+
+  var LanguageCtrl, scope, $httpBackend;
+
+  beforeEach(inject(function ($controller, $rootScope, _$httpBackend_) {
+    scope = $rootScope.$new();
+    $httpBackend = _$httpBackend_;
+
+    LanguageCtrl = $controller('LanguageCtrl', {
+      $scope: scope
+    });
+  }));
+
+  it('devrait faire quelque chose', function () {
+    $httpBackend.expectGET('locale-fr.json');
+
+    // le code du test vient ici
+  });
+});
+</pre>
+<p>Il s&#39;avère que cela ne fonctionne pas non plus, car au moment où <code>expectGET()</code>
+est appelé, le chargeur asynchrone a déjà été exécuté. N&#39;y&#39;a-t-il pas un
+moyen de contourner ce problème ?</p>
+<h3 id="tests-unitaires-avec-angular-translate_la-solution">La solution</h3>
+<p>Malheureusement, ce problème est causé par la conception de angular-translate. Pour contourner
+ces erreurs, tout ce que nous pouvons faire, c&#39;est de remplacer la configuration de notre module
+dans notre suite de test, afin qu&#39;il <strong>n&#39;utilise pas</strong> le chargeur asynchrone. Quand il y a
+pas de chargeur asynchrone, il n&#39;y a pas de XHR et donc aucune erreur.</p>
+<p>Alors, comment pouvons-nous remplaçons notre configuration du module lors de l&#39;exécution de notre suite de test ?
+Lors de l&#39;instanciation d&#39;un module angular, nous pouvons toujours appliquer une fonction qui
+est exécutée comme une fonction de configuration. Cette fonction de configuration peut être utilisée
+pour remplacer la configuration des modules puisque nous avons accès à tous les providers.</p>
+<p>En utilisant le provider <code>$provide</code>, nous pouvons construire une factory de chargeur personnalisé, qui sera
+ensuite utilisé à la place du chargeur des fichiers statiques.</p>
+<pre class="prettyprint linenums">
+beforeEach(module('monApp', function ($provide, $translateProvider) {
+
+  $provide.factory('customLoader', function () {
+    // la logique du chargeur vient ici
+  });
+
+  $translateProvider.useLoader('customLoader');
+
+}));
+</pre>
+<p>Ce code est exécuté <strong>avant</strong> chaque spec, donc en d&#39;autres termes, nous remplaçons le chargeur
+utilisé seulement pour les specs de test. Maintenant, tout ce que nous avons à faire, c&#39;est de construire
+un chargeur qui ne fait pas un XHR :</p>
+<pre class="prettyprint linenums">
+beforeEach(module('monApp', function ($provide, $translateProvider) {
+
+  $provide.factory('customLoader', function ($q) {
+    return function () {
+      var deferred = $q.defer();
+      deferred.resolve({});
+      return deferred.promise;
+    };
+  });
+
+  $translateProvider.useLoader('customLoader');
+
+}));
+</pre>
+<p>C&#39;est tout ! Une autre option serait de fournir toujours la langue préférée de votre
+application en tant que JSON statique :</p>
+<pre class="prettyprint linenums">
+beforeEach(module('monApp', function ($translateProvider) {
+
+  $translateProvider.translations('fr', {});
+}));
+</pre>
+</div></div>

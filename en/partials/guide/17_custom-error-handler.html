@@ -21,6 +21,22 @@ app.factory('myCustomHandlerFactory', function (dep1, dep2) {
 });
 
 </pre>
+<h2 id="using-a-default-replacement-text-in-case-of-errors">Using a default replacement text in case of errors</h2>
+<p>Sometimes, you want to provide a default replacement text (not key) for the frontend so that translators
+or even end users (bad idea though) can see where they need to do work though.
+This is now possible with a slightly modified Custom Error Handler.
+Just return a value to the angular-translate framework from within the error handler.</p>
+<pre class="prettyprint linenums">
+app.factory('customTranslationHandler', function () {
+  return function (translationID, uses) {
+    // return the following text as a translation 'result' - this will be
+    // displayed instead of the language key.
+    return 'NO DEFAULT KEY';
+  };
+});
+</pre>
+<p>Sure, you can also add the translationID to the return value so that the person who is in charge of
+translations sees the originating key!</p>
 <p><br></p>
 <p><hr></p>
 <center>Made with unicorn &hearts; love by <a href="http://github.com/PascalPrecht">PascalPrecht</a></center></div></div>

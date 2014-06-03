@@ -1,0 +1,109 @@
+<h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="utilisation-de-la-directive-translate-page"><h2 id="utilisation-de-la-directive-translate">Utilisation de la directive translate</h2>
+<p>Une autre façon de traduire le contenu d&#39;une vue est d&#39;utiliser la directive
+<code>translate</code>. L&#39;utilisation du filtre <code>translate</code> est bien, mais utiliser la directive
+<code>translate</code> est mieux. Il s&#39;est avéré que d&#39;avoir trop de filtres dans une vue met en
+place trop d&#39;expressions <em>watch</em>, ce qui explique pourquoi <code>angular-translate</code> fournit
+également une directive pour traduire vos contenus de la vue.</p>
+<h3 id="utilisation-de-la-directive-translate_utilisation-générale">Utilisation générale</h3>
+<p>Vous pouvez utiliser la directive <code>translate</code> de différentes façons. L&#39;utilisation
+générale ressemble à :</p>
+<pre><code>&lt;ANY translate&gt;TRANSLATION_ID&lt;/ANY&gt;</code></pre>
+<p>Vous pouvez également passer un ID de traduction en tant que valeur de l&#39;attribut à
+la directive comme ceci :</p>
+<pre><code>&lt;ANY translate=&quot;TRANSLATION_ID&quot;&gt;&lt;/ANY&gt;</code></pre>
+<p>Même si c&#39;est déjà une façon très souple pour utiliser une directive, angular-translate
+offres une <strong>autre</strong> façon de l&#39;utiliser. Imaginons un ID de traduction qui n&#39;est pas disponible
+comme un identifiant concret, car par exemple l&#39;un boucle sur un ensemble de données qui contient
+un ID de traduction dans chaque itération. Dans ce cas, un ID de traduction n&#39;est disponible que
+dynamiquement. Vous devez en fait interpoler l&#39;ID sur lui-même. angular-translate
+fait cela pour vous. Donc, ceci est également possible :</p>
+<pre><code>&lt;ANY translate=&quot;{{toBeInterpolated}}&quot;&gt;&lt;/ANY&gt;</code></pre>
+<p>C&#39;est cool ? Et oui, angular-translate ne serait pas angular-translate s&#39;il ne pouvait
+pas gérer de la même façon notre premier exemple d&#39;utilisation. Cela fonctionne également :</p>
+<pre><code>&lt;ANY translate&gt;{{toBeInterpolated}}&lt;/ANY&gt;</code></pre>
+<p>Choisissez ce qui vous convient le mieux !</p>
+<h3 id="utilisation-de-la-directive-translate_post-compilation">Post compilation</h3>
+<p>En commençant avec la version 2, la traduction elle-même peut être post traitée dans le
+contexte du scope actuel (en utilisant <code>$compile</code>). Cela signifie qu&#39;une directive utilisée
+dans une valeur de traduction elle-même fonctionnera désormais comme prévu.</p>
+<p>Ce comportement peut être activé par la directive :</p>
+<pre><code>&lt;ANY translate=&quot;TRANSLATION_ID&quot; translate-compile&gt;&lt;/ANY&gt;</code></pre>
+<p>En plus de cela, vous pouvez également activer la fonction de façon globale avec ...</p>
+<pre><code>$translateProvider.usePostCompiling(true);</code></pre>
+<p>... Et même vous pouvez désactiver à nouveau la fonction par la directive :</p>
+<pre><code>&lt;ANY translate=&quot;TRANSLATION_ID&quot; translate-compile=&quot;false&quot;&gt;&lt;/ANY&gt;</code></pre>
+<h3 id="utilisation-de-la-directive-translate_exemple">Exemple</h3>
+<p>Mettons à jour l&#39;exemple de notre application et ajoutons quelques nouvelles traductions.
+Que diriez-vous d&#39;utiliser des textes qui représentent chaque manière possible d&#39;utiliser
+la directive <code>translate</code> ? Notre table de traduction pourrait ressembler à ceci :</p>
+<pre class="prettyprint linenums">
+var translations = {
+  HEADLINE: 'C\'est un module génial !',
+  PARAGRAPH: 'Srsly !',
+  PASSED_AS_TEXT: 'Et là ! Je suis passé comme valeur de texte !',
+  PASSED_AS_ATTRIBUTE: 'Je suis passé comme une valeur de l\'attribut, cool non ?',
+  PASSED_AS_INTERPOLATION: 'Débutants ! Je suis interpolé !'
+};
+</pre>
+<p>Ensuite, nous mettons à jour notre vue avec nos nouveaux ID de traduction :</p>
+<pre class="prettyprint linenums">
+&lt;p&gt;{{ 'HEADLINE' | translate }}&lt;/p&gt;
+&lt;p&gt;{{ 'PARAGRAPH' | translate }}&lt;/p&gt;
+
+&lt;p translate&gt;PASSED_AS_TEXT&lt;/p&gt;
+&lt;p translate="PASSED_AS_ATTRIBUTE"&gt;&lt;/p&gt;
+&lt;p translate&gt;{{ 'PASSED_AS_INTERPOLATION' }}&lt;/p&gt;
+&lt;p translate="{{ 'PASSED_AS_INTERPOLATION' }}"&gt;&lt;/p&gt;
+</pre>
+<p>Notre application mise à jour ressemble alors à ceci :</p>
+<h3 id="utilisation-de-la-directive-translate_source">Source</h3>
+<div source-edit="monApp" source-edit-deps="angular.js script.js" source-edit-html="index.html-9" source-edit-css="" source-edit-js="script.js-8" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div class="tabbable"><div class="tab-pane" title="index.html">
+<pre class="prettyprint linenums" ng-set-text="index.html-9" ng-html-wrap-loaded="monApp angular.js script.js"></pre>
+<script type="text/ng-template" id="index.html-9">
+    
+    <div ng-controller="Ctrl">
+      <p>{{ 'HEADLINE' | translate }}</p>
+      <p>{{ 'PARAGRAPH' | translate }}</p>
+
+      <p translate>PASSED_AS_TEXT</p>
+      <p translate="PASSED_AS_ATTRIBUTE"></p>
+      <p translate>{{ 'PASSED_AS_INTERPOLATION' }}</p>
+      <p translate="{{ 'PASSED_AS_INTERPOLATION' }}"></p>
+    </div>
+  </script>
+</div>
+<div class="tab-pane" title="script.js">
+<pre class="prettyprint linenums" ng-set-text="script.js-8"></pre>
+<script type="text/ng-template" id="script.js-8">
+      var translations = {
+        HEADLINE: 'C\'est un module génial !',
+        PARAGRAPH: 'Srsly !',
+        PASSED_AS_TEXT: 'Et là ! Je suis passé comme valeur de texte !',
+        PASSED_AS_ATTRIBUTE: 'Je suis passé comme une valeur de l\'attribut, cool non ?',
+        PASSED_AS_INTERPOLATION: 'Débutants ! Je suis interpolé !'
+      };
+
+      var app = angular.module('monApp', ['pascalprecht.translate']);
+
+      app.config(['$translateProvider', function ($translateProvider) {
+        // ajoute la table de traduction
+        $translateProvider
+          .translations('en', translations)
+          .preferredLanguage('en');
+      }]);
+
+      app.controller('Ctrl', ['$scope', function ($scope) {
+
+      }]);
+    </script>
+</div>
+</div><h3 id="utilisation-de-la-directive-translate_demo">Demo</h3>
+<div class="well doc-example-live animate-container" ng-embed-app="monApp" ng-set-html="index.html-9" ng-eval-javascript="script.js-8"></div>
+<p><br></p>
+<p><hr></p>
+<center>Made with unicorn &hearts; love by <a href="http://github.com/PascalPrecht">PascalPrecht</a></center></div></div>

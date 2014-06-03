@@ -10,14 +10,14 @@ specific interface angular-translate expects from an interpolation service. Let&
 see how things work!</p>
 <h3 id="custom-interpolators_building-a-custom-interpolation-service">Building a custom interpolation service</h3>
 <p>When building a custom interpolation service, things should be pretty familiar
-if you&#39;ve read <a href="#/guide/09_custom-storages">Custom Storages</a> and
-<a href="#/guide/11_custom-loaders">Custom Loaders</a>. You start with building a factory
+if you&#39;ve read <a href="#/guide/11_custom-storages">Custom Storages</a> and
+<a href="#/guide/13_custom-loaders">Custom Loaders</a>. You start with building a factory
 that returns an object that implements a certain interface. The following methods
 have to be provided by a custom interpolation service:</p>
 <ul>
 <li><code>setLocale(langKey)</code> - sets the currently used language</li>
 <li><code>getInterpolationIdentifier()</code> - returns an identifier for interpolation</li>
-<li><code>interpolate(string, interpolatgeParams)</code> - interpolates strings against interpolate params</li>
+<li><code>interpolate(string, interpolateParams)</code> - interpolates strings against interpolate params</li>
 </ul>
 <p>Let&#39;s see how it looks like when implementing a custom interpolation service. First,
 we implement the interface:</p>
@@ -67,7 +67,7 @@ app.factory('customInterpolation', function ($interpolate) {
 <p>Alright. So what did we do here. <code>setLocale()</code> simply store the value of the current
 used language. <code>getInterpolationIdentifier()</code> returns a string <code>custom</code>. So what is
 it actually for? Remember how to
-<a href="#/guide/12_pluralization#overridinginterpolationtemporarily">temporarily override the interpolation type</a>?
+<a href="#/guide/14_pluralization#overridinginterpolationtemporarily">temporarily override the interpolation type</a>?
 Exactly. This is the identifier that is mapped to your service, so angular-translate
 knows which interpolation services to use, when you explicitly override interpolation
 service at runtime. <code>interpolate()</code> simply uses Angular&#39;s <code>$interpolate</code> service.

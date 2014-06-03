@@ -1,0 +1,60 @@
+<h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="installation-page"><h2 id="installation">Installation</h2>
+<h3 id="installation_installation-des-dépendances">Installation des dépendances</h3>
+<p>Ces outils sont utilisés au cours du développement de <code>angular-translate</code>, donc vous devriez
+envisager de les installer sur votre machine pour s&#39;assurer que tout fonctionne correctement.
+Veuillez installer les outils suivants :</p>
+<ul>
+<li><a href="http://gruntjs.com">Grunt</a></li>
+<li><a href="http://karma-runner.github.com/0.8/index.html">Karma Testrunner</a></li>
+<li><a href="https://github.com/twitter/bower">Bower</a></li>
+</ul>
+<h3 id="installation_installation-via-bower">Installation via Bower</h3>
+<p>Vous pouvez installer très facilement le package <code>angular-translate</code> à l&#39;aide de Bower. Après
+l&#39;installation de Bower sur votre machine, lancez simplement :</p>
+<pre><code>$ bower install angular-translate</code></pre>
+<p>Ceci installera un package dans votre répertoire de composant. Vous pouvez regarder le
+dépôt du package de bower <a href="https://github.com/PascalPrecht/bower-angular-translate">ici</a>.
+Comme vous pouvez le voir, le contenu est réduit au plus important : le code source
+à des fins de développement et bien sur une version pour la production.</p>
+<h3 id="installation_installation-avec-git">Installation avec Git</h3>
+<p>Une autre façon d&#39;obtenir la source de angular-translate, c&#39;est de cloner l&#39;ensemble
+du dépôt depuis GitHub.</p>
+<pre><code>$ git clone git://github.com/PascalPrecht/angular-translate.git</code></pre>
+<p>Ainsi vous avez maintenant un clone complet du dépôt, ainsi que l&#39;historique
+de toute l&#39;évolution du développement de angular-translate. Avec le code, faites ce
+que vous voulez.</p>
+<p>Étant donné que angular-translate a des dépendances pour le développement, vous pouvez
+simplement installer tout cela en une fois. Pour installer toutes les dépendances nécessaires,
+il suffit de lancer les commandes suivantes dans le dépôt cloné de angular-translate.</p>
+<pre><code>$ npm install
+$ bower install</code></pre>
+<h3 id="installation_exécution-des-tests-unitaires-fournis">Exécution des tests unitaires fournis</h3>
+<p>Bien sûr, <code>angular-translate</code> est livré avec une suite de tests très complets qui attendent
+juste que vous les exécutiez. C&#39;est là que le <strong>lanceur de Karma</strong> entre en jeu. Accédez au
+dossier où vous avez cloné le projet et exécutez :</p>
+<pre><code>$ karma start karma.unit.conf</code></pre>
+<p>Cela va démarrer un lanceur qui utilise le <strong>framework de test Jasmine</strong> pour exécuter tous
+les tests unitaires fournis. Si tout est vert, continuez. Sinon, réparez et envoyez un pull
+request. Merci.</p>
+<p>Il y a aussi des <strong>midway tests</strong> que vous pouvez exécuter. Pour cela, démarrez Karma avec le fichier
+de configuration fourni pour les midway tests :</p>
+<pre><code>$ karma start karma.midway.conf</code></pre>
+<h3 id="installation_compilation-des-sources">Compilation des sources</h3>
+<p>Lorsque tous les tests passent avec succès, vous pouvez alors construire le code de développement,
+ainsi que la version de production, de la même manière que celle du package de Bower.
+angular-translate fournit un fichier <code>Gruntfile.js</code> qui contient les tâches configurées
+que vous pouvez exécuter avec la commande <code>grunt</code>.</p>
+<p>Pour faire la compilation de <code>angular-translate</code>, exécutez simplement :</p>
+<pre><code>$ grunt build</code></pre>
+<p>Cela générera des fichiers prêts pour le développement et l&#39;utilisation en production dans
+le dossier <code>dist</code>. Les fichiers doivent ressembler à <code>dist/angular-translate.js</code> et
+<code>dist/angular-translate.min.js</code>.</p>
+<p>Ces deux fichiers sont prêts à être utilisés, intégrez les dans votre document HTML et vous
+êtes prêt pour commencer !</p>
+<p><br></p>
+<p><hr></p>
+<center>Made with unicorn &hearts; love by <a href="http://github.com/PascalPrecht">PascalPrecht</a></center></div></div>

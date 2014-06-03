@@ -1,0 +1,112 @@
+<h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="--page"><h2 id="存儲">存儲</h2>
+<p>上一個章節我們學到了很多關於angular-translate的內容。我們知道我們如何能
+<a href="#/guide/06_variable-replacement">動態化我們的翻譯</a>. 我們還學到了
+<a href="#/guide/07_multi-language">怎麼加一個語言</a>. 但是當打開我們的Web應用程序時還是有點感覺傻。
+每次我們推出我們應用程序時，我們都需要一遍又一遍點擊（當然，&#39;德語&#39;的按鈕只有當你是一個德語用戶時- 那就是我）！ .</p>
+<p>所以問題是，我們的應用程序只是不記得最後一次是選擇哪個語言打開了它的。本章將告訴您如何教你的應用程序
+記住用戶選擇的語言。</p>
+<h3 id="存儲_讓你的應用程序記住選擇的語言">讓你的應用程序記住選擇的語言</h3>
+<p>為了讓您的應用程序記住用戶選擇的語言，angular-translate帶有一個
+對<strong>存儲</strong>的支持。不管你用什麼存儲，angular-translate都會存儲
+一門語言的鍵，它有一個特定標識符，所以在下一次用戶啟動應用程序時請求他。</p>
+<p>angular-translate 內置了兩個存儲支持. <strong>localStorage</strong> 和
+<strong>cookieStorage</strong>. 如果它不是由用戶當前使用的瀏覽器的支持的話，localStorage會回退到cookieStorage。
+使用這些存儲中的一個，你都必須安裝相應的擴展包。</p>
+<h3 id="存儲_使用cookiestorage">使用cookieStorage</h3>
+<p>如果您想使用cookieStorage在跨http請求時存儲語言，只需通過bower 安裝cookie存儲擴展：</p>
+<pre><code>$ bower install angular-translate-storage-cookie</code></pre>
+<p>之後，請確保您已在HTML文檔中內嵌了他。一旦嵌入，你可以使用<code>$translateProvider</code>中的<code>useCookieStorage</code>方法，
+angular-translate會替你做其餘的工作。</p>
+<pre class="prettyprint linenums">
+$translateProvider.useCookieStorage();
+</pre>
+<p>就是那麼容易。 angular-translate 現在將初始語言存儲了，同時一旦用戶切換語言將相應地更新它。</p>
+<h3 id="存儲_使用localstorage">使用localStorage</h3>
+<p>如果你有幾個原因不想使用cookieStorage，你可以使用localStorage 做出同樣的可能。流程是基本相同的。
+安裝相應的擴展包，並告訴<code>$translateProvider</code> 通過<code>useLocalStorage()</code> 使用localStorage。
+同樣，angular-translate把其餘的工作替你完成了。</p>
+<p>請記住，如果瀏覽器不支持localStorage, localStorage 會回退到cookieStorage 中。
+因此，你必須提供 ​​cookieStorage 擴展。</p>
+<p>您可以這樣安裝擴展包：</p>
+<pre><code>$ bower install angular-translate-storage-local</code></pre>
+<p>現在告訴<code>$translateProvider</code> 你希望用以下的:</p>
+<pre class="prettyprint linenums">
+$translateProvider.useLocalStorage();
+</pre>
+<p>這就是全部。您的應用程序現在使用localStorage中記住用戶的語言。讓我們
+更新我們的應用程序全部使用localStorage！</p>
+<h3 id="存儲_source">Source</h3>
+<div source-edit="myApp" source-edit-deps="angular.js script.js" source-edit-html="index.html-15" source-edit-css="" source-edit-js="script.js-14" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div class="tabbable"><div class="tab-pane" title="index.html">
+<pre class="prettyprint linenums" ng-set-text="index.html-15" ng-html-wrap-loaded="myApp angular.js script.js"></pre>
+<script type="text/ng-template" id="index.html-15">
+    
+    <div ng-controller="Ctrl">
+      <p>{{ 'HEADLINE' | translate }}</p>
+      <p>{{ 'PARAGRAPH' | translate }}</p>
+
+      <p translate>PASSED_AS_TEXT</p>
+      <p translate="PASSED_AS_ATTRIBUTE"></p>
+      <p translate>{{ 'PASSED_AS_INTERPOLATION' }}</p>
+      <p translate="{{ 'PASSED_AS_INTERPOLATION' }}"></p>
+      <p translate="VARIABLE_REPLACEMENT" translate-values​​="{ name: 'PascalPrecht' }"></p>
+
+      <button ng-click="changeLanguage('de')" translate="BUTTON_LANG_DE"></button>
+      <button ng-click="changeLanguage('en')" translate="BUTTON_LANG_EN"></button>
+    </div>
+  </script>
+</div>
+<div class="tab-pane" title="script.js">
+<pre class="prettyprint linenums" ng-set-text="script.js-14"></pre>
+<script type="text/ng-template" id="script.js-14">
+      var translationsEN = {
+        HEADLINE: 'What an awesome module!',
+        PARAGRAPH: 'Srsly!',
+        PASSED_AS_TEXT: 'Hey there! I\'m passed as text value!',
+        PASSED_AS_ATTRIBUTE: 'I\'m passed as attribute value, cool ha?',
+        PASSED_AS_INTERPOLATION: 'Beginners! I\'m interpolated!',
+        VARIABLE_REPLACEMENT: 'Hi {{name}}',
+        BUTTON_LANG_DE: 'german',
+        BUTTON_LANG_EN: 'english'
+      };
+
+      var translationsDE= {
+        HEADLINE: 'Was für ein großartiges Modul!',
+        PARAGRAPH: 'Ernsthaft!',
+        PASSED_AS_TEXT: 'Hey! Ich wurde als text übergeben!',
+        PASSED_AS_ATTRIBUTE: 'Ich wurde als Attribut übergeben, cool oder?',
+        PASSED_AS_INTERPOLATION: 'Anfänger! Ich bin interpoliert!',
+        VARIABLE_REPLACEMENT: 'Hi {{name}}',
+        BUTTON_LANG_DE: 'deutsch',
+        BUTTON_LANG_EN: 'englisch'
+      };
+
+      var app = angular.module('myApp', ['ngCookies', 'pascalprecht.translate']);
+
+      app.config(['$translateProvider', function ($translateProvider) {
+        // add translation tables
+        $translateProvider.translations('en', translationsEN);
+        $translateProvider.translations('de', translationsDE);
+        $translateProvider.preferredLanguage('en');
+        // remember language
+        $translateProvider.useLocalStorage();
+      }]);
+
+      app.controller('Ctrl', ['$translate', '$scope', function ($translate, $scope) {
+
+        $scope.changeLanguage = function (langKey) {
+          $translate.use(langKey);
+        };
+      }]);
+    </script>
+</div>
+</div><h3 id="存儲_demo">Demo</h3>
+<div class="well doc-example-live animate-container" ng-embed-app="myApp" ng-set-html="index.html-15" ng-eval-javascript="script.js-14"></div>
+<p>變更語言並刷新瀏覽器！我們的應用程序現在應該還記得上次使用的語言！</p>
+<p><br></p>
+<p><hr></p>
+<center>Made with unicorn &hearts; love by <a href="http://github.com/PascalPrecht">PascalPrecht</a></center></div></div>

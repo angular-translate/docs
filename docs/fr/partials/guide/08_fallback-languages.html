@@ -1,0 +1,107 @@
+<h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="langues-de-secours-page"><h2 id="langues-de-secours">Langues de secours</h2>
+<p>Maintenant vous vous demandez peut-être, après avoir lu comment configurer une langue préférée et
+enregistrer plusieurs langues pour avoir un support multilingue, si il y a un moyen d&#39;apprendre à
+votre application une langue de secours. La réponse est <strong>oui</strong>.</p>
+<h3 id="langues-de-secours_enregistrement-dune-langue-de-secours">Enregistrement d&#39;une langue de secours</h3>
+<p>Enseigner à votre application une langue de secours est aussi facile que d&#39;appeler simplement une méthode
+sur <code>$translateProvider</code>. Ouais bon, cela semble trop facile, mais c&#39;est la façon de faire. Imaginons que
+nous avons une application et nous enregistrons une table de traduction pour la langue allemande.</p>
+<pre class="prettyprint linenums">
+$translateProvider
+  .translations('de', { /* ... */ });
+</pre>
+<p>Maintenant, disons qu&#39;il y a des ids de traduction, qui <strong>sont</strong> disponibles dans une table
+de traduction en anglais, mais pas dans la table de traduction en allemand. angular-translate
+retournera généralement l&#39;id de traduction donné, s&#39;il ne peut pas lui trouver une traduction
+dans la table de traduction. Si vous enregistrez une langue de secours qui a l&#39;id de traduction
+de défini, angular-translate retournera cette traduction à la place.</p>
+<p>Donc, nous allons enregistrer l&#39;anglais comme langue de secours pour notre application, nous
+devons d&#39;abord enregistrer la langue elle-même par sécurité.</p>
+<pre class="prettyprint linenums">
+$translateProvider
+  .translations('de', { /* ... */ })
+  .translations('en', { /* ... */ });
+</pre>
+<p>Maintenant nous disons à angular-translate d&#39;utiliser l&#39;anglais comme langue de secours :</p>
+<pre class="prettyprint linenums">
+$translateProvider
+  .translations('de', { /* ... */ })
+  .translations('en', { /* ... */ })
+  .fallbackLanguage('en');
+</pre>
+<p>C&#39;est tout. S&#39;il n&#39;y a pas un id de traduction dans la table de traduction allemande,
+angular-translate cherchera dans la table de traduction anglaise. Facile non ?</p>
+<h3 id="langues-de-secours_enregistrement-dune-pile-de-secours">Enregistrement d&#39;une pile de secours</h3>
+<p>Maintenant, si vous avez un ensemble de langues de secours ? angular-translate peut tous les gérer !
+Tout ce que vous avez à faire est d&#39;enregistrer vos clés de langue de secours sous forme de tableau :</p>
+<pre class="prettyprint linenums">
+$translateProvider
+  .translations('de', { /* ... */ })
+  .translations('en', { /* ... */ })
+  .translations('fr', { /* ... */ })
+  .fallbackLanguage(['en', 'fr']);
+</pre>
+<p>Maintenant, si angular-translate ne peut pas trouver votre id de traduction dans la table de
+traduction anglaise, qui est la première langue de secours, il recommence ces recherches sur
+le reste des langues de secours enregistrées. Il s&#39;agit d&#39;un aller simple, ce qui signifie que
+l&#39;itération commence dans ce cas à <code>en</code> et se poursuit jusqu&#39;à <code>fr</code>. Vous pouvez enregistrer
+autant de langue de secours que vous le souhaitez.</p>
+<h3 id="langues-de-secours_changez-la-langue-de-secours-à-lexécution">Changez la langue de secours à l&#39;exécution</h3>
+<p>Oh oui, même <strong>que</strong> c&#39;est possible ! Il y a certains cas où vous voudriez peut-être changer aussi
+la langue de secours à l&#39;exécution. Ou même l&#39;ensemble de la pile de secours ! Par exemple imaginez
+le cas où vous définissez l&#39;allemand comme langue préférée et vous voulez vous assurer que l&#39;anglais
+est la langue de secours. Pas de problème. Nous pouvons déjà le faire. Maintenant, imaginez, la
+langue actuelle soit changée en anglais et que vous voulez avoir le français comme secours, mais
+l&#39;anglais est déjà enregistré comme langue de secours.</p>
+<p>Vous pouvez changer à l&#39;exécution la langue de secours avec la méthode <code>fallbackLanguage()</code>
+sur le service <code>$translate</code>. Voilà à quoi cela pourrait ressembler :</p>
+<pre class="prettyprint linenums">
+$scope.changeLanguage = function (langKey) {
+  if (langKey === 'en') {
+    $translate.fallbackLanguage('fr');
+  } else if (langKey == 'de') {
+    $translate.fallbackLanguage('en');
+  }
+  $translate.use(langKey);
+};
+</pre>
+<p>N&#39;oubliez pas que la clé de la langue de secours est utilisée comme point de départ pour l&#39;itération
+des langues de secours. Si vous avez <code>en, fr, de</code> comme langues de secours enregistrées et
+que vous changez la langue de secours en <code>fr</code>, dans ce cas, s&#39;il y a un id de traduction
+manquant, angular-translate recherche seulement dans <code>de</code> dans la traduction de secours.</p>
+<h3 id="langues-de-secours_modification-de-lensemble-de-la-pile-de-secours-à-lexécution">Modification de l&#39;ensemble de la pile de secours à l&#39;exécution</h3>
+<p>De la même manière qu&#39;au-dessus, vous pouvez faire :</p>
+<pre class="prettyprint linenums">
+$scope.changeLanguage = function (langKey) {
+  $translate.fallbackLanguage(['de', 'en', 'fr']);
+  $translate.use(langKey);
+};
+</pre>
+<p>Lors du changement de la pile de la langue de secours, vous changez aussi l&#39;ordre d&#39;itération
+que angular-translate fait sur eux. Donc en fait, le processus d&#39;itération reste le même
+mais vous pouvez modifier l&#39;ordre des langues de secours à parcourir.</p>
+<h3 id="langues-de-secours_limitez-les-langues-de-secours-pour-itérer">Limitez les langues de secours pour itérer</h3>
+<p>Une autre possibilité pour parcourir la pile de secours est de limiter les langues à traiter
+par les clés de la traduction. Il y a quelques cas d&#39;utilisation où l&#39;utilisateur / développeur veut
+traiter une partie seulement des langues de secours disponibles sans enlever certaines langues déjà
+définies ou chargées. Ceci est également possible !
+Comme mentionné ci-dessus, la pile de secours est itéré de &#39;la gauche vers la droite&#39;. Donc, si nous
+voulons commencer l&#39;itération après &#39;de&#39; dans la pile de &#39;de, en, fr&#39;, nous devons définir le
+début avec &#39;useFallbackLanguage()&#39;.</p>
+<pre class="prettyprint linenums">
+  // langKey est 'en'
+  $scope.changeLanguage = function (langKey) {
+  $translate.fallbackLanguage(['de', 'en', 'fr']);
+  $translate.useFallbackLanguage(langKey);
+};
+</pre>
+<p>A partir de maintenant - tous les textes de traduction dans &#39;de&#39; seront ignorés et sautés.
+Remarque importante : Si la langue ignorée est la traduction préférée ou actuelle, il sera traduit
+dans cette langue - même si elle doit être ignorée ! 
+<br></p>
+<p><hr></p>
+<center>Made with unicorn &hearts; love by <a href="http://github.com/PascalPrecht">PascalPrecht</a></center></div></div>
