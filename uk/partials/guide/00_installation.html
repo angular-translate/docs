@@ -1,0 +1,55 @@
+<h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="--page"><h2 id="встановлення">Встановлення</h2>
+<h3 id="встановлення_встановлення-залежностей">Встановлення залежностей</h3>
+<p>Щоб упевнитися, що все йде за планом, встановіть, будь ласка, інструменти, які використовуються при
+розробці <code>angular-translate</code>:</p>
+<ul>
+<li><a href="http://gruntjs.com">Grunt</a></li>
+<li><a href="http://karma-runner.github.com/0.8/index.html">Karma Testrunner</a></li>
+<li><a href="https://github.com/twitter/bower">Bower</a></li>
+</ul>
+<h3 id="встановлення_встановлення-за-допомогою-bower">Встановлення за допомогою Bower</h3>
+<p>Пакет <code>angular-translate</code> дуже легко встановити за допомогою Bower. Після встановлення Bower на 
+вашій машині, просто запустіть:</p>
+<pre><code>$ bower install angular-translate</code></pre>
+<p>Ця команда встановить пакет у вашу директорію для компонентів.
+<a href="https://github.com/PascalPrecht/bower-angular-translate">Тут</a> ви можете спостерігати за 
+репозиторієм пакету bower. Як бачите, він розбитий на значимі частини: сирі початкові коди, для 
+розробки та кінцевого використання.</p>
+<h3 id="встановлення_встановлення-за-допомогою-git">Встановлення за допомогою Git</h3>
+<p>Початковий код angular-translate також можна отримати шляхом клонування з GitHub цілого репозиторію.</p>
+<pre><code>$ git clone git://github.com/PascalPrecht/angular-translate.git</code></pre>
+<p>Тепер у нас є повноцінний клон репозиторія, який включає історію і все, що коли-небудь відбувалося
+при розробці angular-translate. Робіть із кодом все, що вам заманеться.</p>
+<p>Оскільки angular-translate при розробці вимагає деяких залежностей, ви можете легко встановити всі
+разом. Для встановлення всіх необхідних залежностей просто запустіть наступні команди в клоні
+репозиторія angular-translate.</p>
+<pre><code>$ npm install
+$ bower install</code></pre>
+<h3 id="встановлення_запуск-модульних-тестів">Запуск модульних тестів</h3>
+<p><code>angular-translate</code> поставляється з повним набором тестів, які тільки того і чекають, щоб ви їх 
+запустили. Тут у справу вступає <strong>Karma testrunner</strong>. Зайдіть у директорію з клоном проекту і 
+запустіть:</p>
+<pre><code>$ karma start karma.unit.conf</code></pre>
+<p>Ця команда запустить прогонщик, що використовує <strong>Jasmine testing framework</strong>  для виконання всіх
+наданих модульних тестів. Якщо всі результати зелені, продовжуйте роботу. Інакше, виправте помилки
+і надішліть pull request. Спасибі.</p>
+<p>Також ви можете запустити <strong>midway тести</strong>. Для цього запустіть Karma з файлом конфігурації для 
+midway тестів:</p>
+<pre><code>$ karma start karma.midway.conf</code></pre>
+<h3 id="встановлення_збірка-з-початкових-кодів">Збірка з початкових кодів</h3>
+<p>Коли тести успішно завершені, можна зібрати як версію для розробки так і кінцеву версію коду, 
+накшталт тієї, яку ви отримуєте з пакету Bower. angular-translate надає файл <code>Gruntfile.js</code>, що
+містить налаштовані задачі, які можна запустити з командою <code>grunt</code>.</p>
+<p>Для отримання збірки <code>angular-translate</code> просто запустіть:</p>
+<pre><code>$ grunt build</code></pre>
+<p>Це створить у директорії <code>dist</code> файли, що готові для використання при подальшій розробці або в
+готовому застосунку.  В результаті ви отримаєте файли накшталт <code>dist/angular-translate.js</code> і
+<code>dist/angular-translate.min.js</code>. Вони готові для використання, просто вставте їх у свій HTML
+документ і можна починати роботу!</p>
+<p><br></p>
+<p><hr></p>
+<center>Made with unicorn &hearts; love by <a href="http://github.com/PascalPrecht">PascalPrecht</a></center></div></div>

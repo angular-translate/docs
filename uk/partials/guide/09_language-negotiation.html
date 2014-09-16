@@ -1,0 +1,53 @@
+<h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="--page"><h2 id="узгодження-мови">Узгодження мови</h2>
+<p>angular-translate підтримує функцію під назвою &quot;Узгодження мови&quot;. Ця функція дозволяє вказувати
+зв&#39;язки між схожими ключами мови.</p>
+<p>Що це означає? Скажімо, у вас є таблиці перекладів для мов з ключами <code>en</code> і <code>de</code>.</p>
+<pre class="prettyprint linenums">
+$translateProvider
+  .translations('en', { /* ... */ })
+  .translations('de', { /* ... */ });
+</pre>
+<p>Також, за допомогою метода <code>.determinePreferredLanguage()</code> ви кажете angular-translate, що він
+повинен спробувати самостійно визначити бажану мову для вашого застосунку.</p>
+<pre class="prettyprint linenums">
+$translateProvider
+  .translations('en', { /* ... */ })
+  .translations('de', { /* ... */ })
+  .determinePreferredLanguage();
+</pre>
+<p>У розділі <a href="#/guide/07_multi-language">Автоматичне визначення бажаної мови</a> ми дізналися, що при
+використанні цього методу без параметрів angular-translate спробує визначити ключ мови на основі
+властивостей браузера.</p>
+<p>А що як ваш браузер поверне <code>en_US</code> замість <code>en</code>? Як правило, це призведе до помилки, тому що, на
+перший погляд, <code>en_US</code> є ключем іншої мови. Тому, angular-translate буде поводитися з нею як з іншою
+мовою. Але ви хочете, щоб angular-translate був достатньо розумним, щоб розпізнати зв&#39;язок між
+<code>en_US</code> і <code>en</code>, і використовувати <code>en</code> в цьому випадку.</p>
+<p>angular-translate врахував ваші побажання. За допомогою метода <code>registerAvailableLanguageKeys()</code> ви
+можете використовувати систему узгодження мови. Цей метод очікує масив ключів мов, які ви
+підтримуєте в своєму застосунку. Другим параметром є об&#39;єкт, який відображає фактичні ключі мови у
+відповідні їм ключі мови, що підтримуються застосунком. Як тільки це буде налаштовано,
+angular-translate зможе відобразити отриману від браузера мову <code>en_US</code> у ключ мови <code>en</code>, який
+безпосередньо підтримується вашим застосунком.</p>
+<p>Для описаного вище випадку це буде виглядати так:</p>
+<pre class="prettyprint linenums">
+$translateProvider
+  .translations('en', { /* ... */ })
+  .translations('de', { /* ... */ })
+  .determinePreferredLanguage()
+  .registerAvailableLanguageKeys(['en', 'de'], {
+    'en_US': 'en',
+    'en_UK': 'en',
+    'de_DE': 'de',
+    'de_CH': 'de'
+  });
+</pre>
+<p>Тепер, якщо браузер поверне <code>en_US</code> або <code>en_UK</code>, angular-translate використає <code>en</code> у якості бажаної
+мови. Також слід зауважити, що цей метод має сенс використовувати лишу у парі з методом
+<code>determinePreferredLanguage()</code>.
+<br></p>
+<p><hr></p>
+<center>Made with unicorn &hearts; love by <a href="http://github.com/PascalPrecht">PascalPrecht</a></center></div></div>

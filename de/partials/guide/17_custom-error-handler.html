@@ -1,0 +1,44 @@
+<h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="eigene-error-handler-page"><h2 id="eigene-error-handler">Eigene Error Handler</h2>
+<p>Natürlich möchtest du deine eigenen Error Handler verwenden. Neben <code>useMissingTranslationHandlerLog()</code>
+gibt es eine Methode <code>useMissingTranslationHandler()</code> die ebenfalls einen Factory
+Namen erwartet. Die Factory muss dann nur noch implementiert werden und ein Handler
+Service zurück geben. Also, wie kann so etwas aussehen?</p>
+<pre class="prettyprint linenums">
+var app = angular.module('myApp', ['pascalprecht.translate'], function ($translateProvider) {
+  // tell angular-translate to use your custom handler
+  $translateProvider.useMissingTranslationHandler('myCustomHandlerFactory');
+});
+
+// define custom handler
+app.factory('myCustomHandlerFactory', function (dep1, dep2) {
+  // has to return a function which gets a translation id
+  return function (translationID) {
+    // do something with dep1 and dep2
+  };
+});
+
+</pre>
+<h2 id="eigener-error-handler-mit-rückgabewert-als-ersatztext">Eigener Error Handler mit Rückgabewert als Ersatztext</h2>
+<p>Es gibt auch Situationen, in denen du keinen Schlüssel an deine Anwendung zurückgeben möchtest,
+sondern lediglich einen Standardtext, der dann von Übersetzern für Ihre Arbeit oder sogar
+Endusern (keine gute Idee) gesehen wird.
+Dieses ist nun auch möglich über eine kleine Modifizierung am o.g. Error Handler.
+Gib einfach einen Rückgabewert aus der Fehler-Behandlungs-Funktion mit zurück.</p>
+<pre class="prettyprint linenums">
+app.factory('customTranslationHandler', function () {
+  return function (translationID, uses) {
+    // return the following text as a translation 'result' - this will be
+    // displayed instead of the language key.
+    return 'NO DEFAULT KEY';
+  };
+});
+</pre>
+<p>Natürlich kannst Du auch die translationID noch an den Rückgabewert mit anhängen.
+So kann der Übersetzer bzw. User sehen, um welchen Schlüssel es sich handelt.</p>
+<p><br></p>
+<p><hr></p>
+<center>Made with unicorn &hearts; love by <a href="http://github.com/PascalPrecht">PascalPrecht</a></center></div></div>

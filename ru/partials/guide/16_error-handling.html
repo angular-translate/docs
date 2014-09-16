@@ -1,0 +1,73 @@
+<h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="--page"><h2 id="обработка-ошибок">Обработка ошибок</h2>
+<p>Иногда встречаются сложные приложения, где вы на самом деле не знаете сколько переводов у вас есть.
+Также вы не уверены, упущен ли перевод для определенного идентификатора. Это как раз тот случай,
+когда в игру вступают обработчики потерянных переводов.</p>
+<h3 id="обработка-ошибок_использование-расширения-для-логирования-потерянных-переводов">Использование расширения для логирования потерянных переводов</h3>
+<p>Для angular-translate существует расширение, которое логирует предупреждения в консоль если вы
+пытаетесь перевести идентификатор перевода, которого не существует. Как и все расширения, вы можете
+установить его при помощи Bower:</p>
+<pre><code>$ bower install angular-translate-handler-log</code></pre>
+<p>Все, что нужно сделать для использования этого обработчика - вызвать у <code>$translateProvider</code>&#39;а
+метод <code>useMissingTranslationHandlerLog()</code>. angular-translate сделает для вас все остальное.</p>
+<pre class="prettyprint linenums">
+$translateProvider.useMissingTranslationHandlerLog();
+</pre>
+<p>Вот работающий пример:</p>
+<h3 id="обработка-ошибок_source">Source</h3>
+<div source-edit="myApp" source-edit-deps="angular.js script.js" source-edit-html="index.html-27" source-edit-css="" source-edit-js="script.js-26" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div class="tabbable"><div class="tab-pane" title="index.html">
+<pre class="prettyprint linenums" ng-set-text="index.html-27" ng-html-wrap-loaded="myApp angular.js script.js"></pre>
+<script type="text/ng-template" id="index.html-27">
+    
+    <div ng-controller="Ctrl">
+      <p translate="NOT_EXISTING"></p>
+      <p translate="ALSO_NOT_EXISTING"></p>
+
+      <button ng-click="changeLanguage('de')" translate="BUTTON_LANG_DE"></button>
+      <button ng-click="changeLanguage('en')" translate="BUTTON_LANG_EN"></button>
+    </div>
+  </script>
+</div>
+<div class="tab-pane" title="script.js">
+<pre class="prettyprint linenums" ng-set-text="script.js-26"></pre>
+<script type="text/ng-template" id="script.js-26">
+      var app = angular.module('myApp', ['pascalprecht.translate']);
+
+      app.config(['$translateProvider', function ($translateProvider) {
+        $translateProvider.preferredLanguage('en');
+        $translateProvider.useMissingTranslationHandlerLog();
+        $translateProvider.translations('en', {
+          HEADLINE: 'I\'m a headline',
+          TEXT: 'I\'m using default interpolation {{ val + val }}',
+          PLURAL: '{GENDER, select, male{He} female{She} other{They}} liked this.',
+          BUTTON_LANG_EN: 'english',
+          BUTTON_LANG_DE: 'german'
+        });
+
+        $translateProvider.translations('de', {
+          HEADLINE: 'Ich bin eine Überschrift',
+          TEXT: 'Ich benutze default interpolation {{ val + val }}',
+          PLURAL: '{GENDER, select, male{Er fand} female{Sie fand} other{Sie fanden}} es gut.',
+          BUTTON_LANG_EN: 'englisch',
+          BUTTON_LANG_DE: 'deutsch'
+        });
+      }]);
+
+      app.controller('Ctrl', ['$translate', '$scope', function ($translate, $scope) {
+
+        $scope.changeLanguage = function (langKey) {
+          $translate.use(langKey);
+        };
+      }]);
+    </script>
+</div>
+</div><h3 id="обработка-ошибок_demo">Demo</h3>
+<div class="well doc-example-live animate-container" ng-embed-app="myApp" ng-set-html="index.html-27" ng-eval-javascript="script.js-26"></div>
+<p>А теперь откройте консоль браузера и посмотрите что было залогировано!</p>
+<p><br></p>
+<p><hr></p>
+<center>Made with unicorn &hearts; love by <a href="http://github.com/PascalPrecht">PascalPrecht</a></center></div></div>

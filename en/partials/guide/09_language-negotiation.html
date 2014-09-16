@@ -1,0 +1,56 @@
+<h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="language-negotiation-page"><h2 id="language-negotiation">Language Negotiation</h2>
+<p>angular-translate supports a feature called &quot;Language Negotiation&quot;. With this
+feature, you&#39;re able to declare relations between similar language keys.</p>
+<p>So what does that mean? Let&#39;s say you have translation tables for the languages
+with the language keys <code>en</code> and <code>de</code>.</p>
+<pre class="prettyprint linenums">
+$translateProvider
+  .translations('en', { /* ... */ })
+  .translations('de', { /* ... */ });
+</pre>
+<p>You also tell angular-translate, that it should try to determine the preferred
+language of your app by itself, by using the <code>.determinePreferredLanguage()</code>
+method.</p>
+<pre class="prettyprint linenums">
+$translateProvider
+  .translations('en', { /* ... */ })
+  .translations('de', { /* ... */ })
+  .determinePreferredLanguage();
+</pre>
+<p>We learned in <a href="#/guide/07_multi-language#multi-language_determining-preferred-language-automatically">Determining preferred Language automatically</a>
+that using this method without any arguments, will try to determine a language key
+by accessing browser properties.</p>
+<p>Now what if your browser returns <code>en_US</code> instead of <code>en</code>? Normally, this would lead to
+an error, because <code>en_US</code> is, at a first glance, just another language key.
+So angular-translate would treat it as different language. This is not what you
+want. What you want, is that angular-translate is smart enough to recognise the
+relation between <code>en_US</code> and <code>en</code>, and it should then use <code>en</code> in that case.</p>
+<p>angular-translate got you covered. You can use the language negotiation system by
+using the <code>registerAvailableLanguageKeys()</code> method. This method expects an array
+of language keys, that you support in your app. The second parameter is an object
+that maps related language keys with actual language keys. Once this is set up,
+angular-translate is able to map a language <code>en_US</code> that is returned by a browser,
+to the language key <code>en</code> that is actually used by your app.</p>
+<p>Regarding our use case we discussed above, it&#39;d look like this:</p>
+<pre class="prettyprint linenums">
+$translateProvider
+  .translations('en', { /* ... */ })
+  .translations('de', { /* ... */ })
+  .registerAvailableLanguageKeys(['en', 'de'], {
+    'en_US': 'en',
+    'en_UK': 'en',
+    'de_DE': 'de',
+    'de_CH': 'de'
+  })
+  .determinePreferredLanguage();
+</pre>
+<p>If the browser now returns <code>en_US</code> or <code>en_UK</code>, angular-translate would set <code>en</code> as
+preferred language. We should also mention that this method only makes sense to use
+when <code>determinePreferredLanguage()</code> is also used.
+<br></p>
+<p><hr></p>
+<center>Made with unicorn &hearts; love by <a href="http://github.com/PascalPrecht">PascalPrecht</a></center></div></div>

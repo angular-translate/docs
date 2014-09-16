@@ -1,0 +1,55 @@
+<h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="sprachauswahl-page"><h2 id="language-negotiation">Language Negotiation</h2>
+<p>angular-translate bietet über die &quot;Sprachauswahl&quot; eine Möglichkeit, Beziehungen
+zwischen Sprachschlüsseln auszudrücken.</p>
+<p>Anhand des nachfolgenden Beispiels mit den Sprachschlüsseln <code>en</code> und <code>de</code> wollen
+wir diese Funktionalität kurz näher erläutern:</p>
+<pre class="prettyprint linenums">
+$translateProvider
+  .translations('en', { /* ... */ })
+  .translations('de', { /* ... */ });
+</pre>
+<p>Die bevorzugte Sprache kann mittels <code>.determinePreferredLanguage()</code> in angular-translate
+bzw. für die Applikation ermittelt werden.</p>
+<pre class="prettyprint linenums">
+$translateProvider
+  .translations('en', { /* ... */ })
+  .translations('de', { /* ... */ })
+  .determinePreferredLanguage();
+</pre>
+<p>Im Kapitel <a href="#/guide/07_multi-language#multi-language_automatische-wahl-der-praeferierten-sprache">Automatische Wahl der präferierten Sprache</a>
+haben wir die Funktion ohne Argumente aufgerufen. Dies führt dazu, dass ein Sprachschlüssel
+über Browserparameter/-einstellungen ermittelt wird.</p>
+<p>Problematisch wird dies nur, wenn der Browser &#39;en_US&#39; statt &#39;en&#39; zurückgibt. Normalerweise
+führt dieses zu einem Fehler, da &#39;en_US&#39; auf den ersten Blick ein weiterer Sprachschlüssel ist.
+Daher würde angular-translate diesen Schlüssel auch separat suchen. An dieser Stelle gibt es
+im angular-translate eine weitere, intelligente Funktionalität. Dadurch ist das Modul in der Lage,
+diese Zusammenhänge zu erkennen.</p>
+<p>Durch die Nutzung der Funktion &#39;registerAvailableLanguageKeys()&#39; kann die Sprachauswahl
+aufgerufen werden. Als Parameter erwartet diese Funktion ein Array mit Sprachschlüsseln,
+die von deiner Anwendung unterstützt werden. Der zweite Parameter muss ein Objekt sein,
+aus dem hervorgeht, wie die Sprachschlüssel zueinander in Beziehung stehen.
+Sobald die Mappings definiert wurden, kann angular-translate &#39;en_US&#39; vom Browser in das
+eigentlich benötigte &#39;en&#39; übersetzt werden.</p>
+<p>Hier nun das Beispiel zum eben erläuterten Sachverhalt:</p>
+<pre class="prettyprint linenums">
+$translateProvider
+  .translations('en', { /* ... */ })
+  .translations('de', { /* ... */ })
+  .registerAvailableLanguageKeys(['en', 'de'], {
+    'en_US': 'en',
+    'en_UK': 'en',
+    'de_DE': 'de',
+    'de_CH': 'de'
+  })
+  .determinePreferredLanguage();
+</pre>
+<p>Falls der Browser nun &#39;en_US&#39; oder &#39;en_UK&#39; zurückgibt, wird angular-translate &#39;en&#39; als
+präferierte Sprache setzen. Diese Funktionalität ergibt nur Sinn in Kombination mit
+&#39;determinePreferredLanguage()&#39;!</p>
+<p><br></p>
+<p><hr></p>
+<center>Made with unicorn &hearts; love by <a href="http://github.com/PascalPrecht">PascalPrecht</a></center></div></div>
