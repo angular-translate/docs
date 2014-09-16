@@ -45,11 +45,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"></i></a></h2>
-      <p class="stat">75.96</p>
+      <p class="stat">74.06</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC"></i></h2>
-      <p class="stat">195</p>
+      <p class="stat">206</p>
     </div>
   </div>
   <div class="row historical">
@@ -63,11 +63,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty"></i></a></h2>
-      <p class="stat">29.42</p>
+      <p class="stat">29.11</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs"></i></a></h2>
-      <p class="stat">1.01</p>
+      <p class="stat">1.22</p>
     </div>
   </div>
 </div>
@@ -128,10 +128,10 @@
 
       .config(function ($translateProvider) {
 
-        $translateProvider.translations({
+        $translateProvider.translations(&#039;en&#039;,{
           &#039;TRANSLATION_ID&#039;: &#039;Hello there!&#039;,
           &#039;WITH_VALUES&#039;: &#039;The following value is dynamic: {{value}}&#039;
-        });
+        }).preferredLanguage(&#039;en&#039;);
 
       });
 
@@ -183,16 +183,27 @@
 
       var translateValueExist = tElement[0].outerHTML.match(/translate-value-+/i);
 
+      var interpolateRegExp = &quot;^(.*)(&quot; + $interpolate.startSymbol() + &quot;.*&quot; + $interpolate.endSymbol() + &quot;)(.*)&quot;;
+
       return function linkFn(scope, iElement, iAttr) {
 
         scope.interpolateParams = {};
+        scope.preText = &quot;&quot;;
+        scope.postText = &quot;&quot;;
 
         // Ensures any change of the attribute &quot;translate&quot; containing the id will
         // be re-stored to the scope&#039;s &quot;translationId&quot;.
         // If the attribute has no content, the element&#039;s text value (white spaces trimmed off) will be used.
         iAttr.$observe(&#039;translate&#039;, function (translationId) {
           if (angular.equals(translationId , &#039;&#039;) || !angular.isDefined(translationId)) {
-            scope.translationId = $interpolate(iElement.text().replace(/^\s+|\s+$/g,&#039;&#039;))(scope.$parent);
+            var interpolateMatches = iElement.text().match(interpolateRegExp);
+            if (angular.isArray(interpolateMatches)) {
+              scope.preText = interpolateMatches[1];
+              scope.postText = interpolateMatches[3];
+              scope.translationId = $interpolate(interpolateMatches[2])(scope.$parent);
+            } else {
+              scope.translationId = iElement.text().replace(/^\s+|\s+$/g,&#039;&#039;);
+            }
           } else {
             scope.translationId = translationId;
           }
@@ -219,7 +230,7 @@
             });
           };
           for (var attr in iAttr) {
-            if (iAttr.hasOwnProperty(attr) &amp;&amp; attr.substr(0, 14) === &#039;translateValue&#039; &amp;&amp; attr !== &#039;translateValues&#039;) {
+            if (Object.prototype.hasOwnProperty.call(iAttr, attr) &amp;&amp; attr.substr(0, 14) === &#039;translateValue&#039; &amp;&amp; attr !== &#039;translateValues&#039;) {
               fn(attr);
             }
           }
@@ -229,7 +240,7 @@
           if (!successful &amp;&amp; typeof scope.defaultText !== &#039;undefined&#039;) {
             value = scope.defaultText;
           }
-          iElement.html(value);
+          iElement.html(scope.preText + value + scope.postText);
           var globallyEnabled = $translate.isPostCompilingEnabled();
           var locallyDefined = typeof tAttr.translateCompile !== &#039;undefined&#039;;
           var locallyEnabled = locallyDefined &amp;&amp; tAttr.translateCompile !== &#039;false&#039;;

@@ -128,7 +128,7 @@ NG_DOCS={
       "type": "directive",
       "moduleName": "pascalprecht.translate",
       "shortDescription": "Translates given translation id either through attribute or DOM content.",
-      "keywords": "$compile $digest $filter $interpolate $rootscope $scope $translateprovider angular api attribute config content controller directive dom dynamic element expect filter function hello html inject internally interpolated js literal module ng-controller ngview object optional pascalprecht pass passed scenario script string text tobe translate translate-values translatectrl translates translation translation_id translationid translations values with_values"
+      "keywords": "$compile $digest $filter $interpolate $rootscope $scope $translateprovider angular api attribute config content controller directive dom dynamic element en expect filter function hello html inject internally interpolated js literal module ng-controller ngview object optional pascalprecht pass passed preferredlanguage scenario script string text tobe translate translate-values translatectrl translates translation translation_id translationid translations values with_values"
     },
     {
       "section": "api",
@@ -353,6 +353,15 @@ NG_DOCS={
       "moduleName": "遷移指南",
       "shortDescription": "1.1.1 -&gt; 2.0.0",
       "keywords": "$on $rootscope $scope $translate $translateprovider angular-translate en function github greetings guide hello instant interpolateparams js mit overview stringfromservice translate translation translationid translations unable var wtfpl"
+    },
+    {
+      "section": "guide",
+      "id": "22_unit-testing-with-angular-translate",
+      "shortName": "單元測試",
+      "type": "overview",
+      "moduleName": "單元測試",
+      "shortDescription": "angular-translate 單元測試",
+      "keywords": "$controller $httpbackend $new $provide $q $rootscope $scope $translate $translateprovider angular-translate angularjs app beforeeach code config controller customloader defer deferred describe en error expect expectget expects explicitly factory function guide happening injecting json languagecontroller languagectrl loader locale- locale-en logic mock myapp occur overview preferredlanguage prefix promise proper request resolve responses return scope service shouldn spec suffix switchlanguage test testing tests translations unexpected useloader usestaticfilesl var writing xhr xhrs"
     }
   ],
   "apis": {

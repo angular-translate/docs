@@ -128,7 +128,7 @@ NG_DOCS={
       "type": "directive",
       "moduleName": "pascalprecht.translate",
       "shortDescription": "Translates given translation id either through attribute or DOM content.",
-      "keywords": "$compile $digest $filter $interpolate $rootscope $scope $translateprovider angular api attribute config content controller directive dom dynamic element expect filter function hello html inject internally interpolated js literal module ng-controller ngview object optional pascalprecht pass passed scenario script string text tobe translate translate-values translatectrl translates translation translation_id translationid translations values with_values"
+      "keywords": "$compile $digest $filter $interpolate $rootscope $scope $translateprovider angular api attribute config content controller directive dom dynamic element en expect filter function hello html inject internally interpolated js literal module ng-controller ngview object optional pascalprecht pass passed preferredlanguage scenario script string text tobe translate translate-values translatectrl translates translation translation_id translationid translations values with_values"
     },
     {
       "section": "api",
