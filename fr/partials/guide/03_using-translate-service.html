@@ -61,6 +61,14 @@ app.controller('Ctrl', ['$scope', '$translate', function ($scope, $translate) {
 <p>Toutefois, le service renverra toujours un objet contenant les traductions - sans savoir si une
 traduction (ou même toutes) a échoué. Lorsque vous demandez plusieurs traductions en une seule
 requête, c&#39;est à vous de traiter le résultat.</p>
+<h3 id="utilisation-du-service-$translate_information-de-la-version-de-la-bibliothèque-angular-translate">Information de la version de la bibliothèque angular-translate</h3>
+<p>Il peut être utile d&#39;avoir certaines informations dans votre application, nous vous fournissons une
+fonction pour afficher ou utiliser les informations de la version de la bibliothèque installée.</p>
+<p>Il suffit de l&#39;appeler de cette façon :
+<pre class="prettyprint linenums">
+  $translate.versionInfo();
+  // retourne par exemple "2.1.0"
+</pre>
 <h3 id="utilisation-du-service-$translate_les-choses-à-garder-à-lesprit">Les choses à garder à l&#39;esprit</h3>
 <p>Veuillez gardez à l&#39;esprit que l&#39;utilisation du service <code>$translate</code> n&#39;assure pas une liaison de
 données par défaut bidirectionnelle ! Le service <code>$translate</code> fonctionne de manière asynchrone, ce qui

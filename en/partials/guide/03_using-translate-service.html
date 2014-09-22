@@ -62,6 +62,14 @@ app.controller('Ctrl', ['$scope', '$translate', function ($scope, $translate) {
 <p>However, the service will always return an object containing translations -- regardless whether
 a translation (or even all of them) has failed. When requesting multiple translations
 in one request, it is up to you to deal with the result.</p>
+<h3 id="using-$translate-service_angular-translate-library-version-information">angular-translate library version information</h3>
+<p>As it may be useful for some &quot;About&quot; information in your application, we provide you a convenience
+function to display or use the installed library version information.</p>
+<p>Just call it this way:
+<pre class="prettyprint linenums">
+  $translate.versionInfo();
+  // returns e.g. "2.1.0"
+</pre>
 <h3 id="using-$translate-service_things-to-keep-in-mind">Things to keep in mind</h3>
 <p>Please keep in mind that the usage of the <code>$translate</code> service doesn&#39;t provide a two-way
 data binding default! <code>$translate</code> service works asynchronously, which means

@@ -189,6 +189,39 @@ und die angefragte Sprache noch bisher noch nicht geladen wurde?</p>
 Sprache zur Laufzeit mit <code>$translate.use()</code> wechselt. Für den Fall dass die Daten
 asynchron geladen werden ändert sich nichts. <code>$translate.use()</code> überprüft ob die
 angefragte Sprache vorhanden ist und wenn nicht, wird diese erst geladen.</p>
+<h3 id="asynchrones-laden_konfiguration-eines-loaders">Konfiguration eines Loaders</h3>
+<p>Jedem Loader kann eine erweiterte Konfiguration <code>options</code> angegeben werden. Dies
+gilt sowohl für den allgemeinen Konstructor <code>useLoader(name, options)</code> als auch
+die Shortcut-Konstruktoren wie <code>useStaticFilesLoader(options)</code>:</p>
+<pre class="prettyprint linenums">
+$translationProvider.useLoader('customLoader', {
+  settingA: 'foobar'
+});
+$translationProvider.useStaticFilesLoader({
+  $http: {
+    method: 'POST'
+  }
+});
+</pre>
+<p>Die Eigenschaft <code>$http</code> wird entsprechend durchgereicht. Nur das Attribut <code>cache</code> wird ggf. überschrieben
+(siehe nächstes Kapitel).</p>
+<h3 id="asynchrones-laden_benutzung-eines-caches">Benutzung eines Caches</h3>
+<p>Bei der Verwendung der Standard Loader kann man das Caching steuern. Weitere Informationen
+über Caches finden sich in der
+<a href="https://docs.angularjs.org/api/ng/type/$cacheFactory.Cache">offiziellen AngularJS Dokumentation</a>.</p>
+<p>Den Cache kann man sehr leicht mit folgender Konfiguration aktivieren:</p>
+<pre class="prettyprint linenums">
+$translationProvider.useLoaderCache(true); // default ist false, also deaktiviert
+</pre>
+<p>Falls Du bereits eine eigene Instanz konfiguriert hast, kannst Du diese auch direkt übergeben:</p>
+<pre class="prettyprint linenums">
+$translationProvider.useLoaderCache(yourSpecialCacheService);
+</pre>
+<p>Angular-Translate unterstützt auch das Lazy-Binding, so dass auch folgendes funktioniert:</p>
+<pre class="prettyprint linenums">
+$translationProvider.useLoaderCache('yourSpecialCacheService');
+</pre>
+<p>Die Instanz mit der ID <code>yourSpecialCacheService</code> wird erst bei Bedarf aus dem Kontext geladen.</p>
 <h3 id="asynchrones-laden_fouc---flash-of-untranslated-content">FOUC - Flash of untranslated content</h3>
 <p>Es gibt einen Nachteil wenn man Asynchrone Loader verwendet. Für keinen kurzen
 Moment beim Startup der App könnte es ein kleines Flackern geben, da die initiale

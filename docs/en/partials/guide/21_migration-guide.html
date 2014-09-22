@@ -34,7 +34,7 @@ $translate(&#39;translationId&#39;).then(function(translation) {
   stringFromService = translationId;
 });</code></pre>
 <p>If you still want to use the service in sync manner then use
-<code>$translate.instant(langKey, translationId, interpolateParams)</code> method instead of direct service
+<code>$translate.instant(translationId, interpolateParams, interpolationId)</code> method instead of direct service
 call. But note that <code>instant</code> method doesn&#39;t wait until async loading is done. So, be careful using
 it.</p>
 <h3 id="111--&gt;-200_events-are-now-only-emitted-on-$rootscope">Events are now only emitted on $rootScope</h3>

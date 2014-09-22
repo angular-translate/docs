@@ -202,6 +202,41 @@ table for a given language key is present or not. And if not, it&#39;ll invoke t
 registered loader to get it down! Lazy loading at it best!</p>
 <p><strong>Note</strong>: Please notice that in case of using <code>partialLoader</code> you have to refresh
 translation tables first!</p>
+<h3 id="asynchronous-loading_configuration-of-a-loader">Configuration of a loader</h3>
+<p>Each loader can be applied a dedicated configuration <code>options</code>, both for the common constructor
+<code>useLoader()</code>
+Jedem Loader kann eine erweiterte Konfiguration angegeben werden. Dies gilt sowohl für
+den allgemeinen Konstructor <code>useLoader(name, options)</code> als auch die Shortcut-Konstruktoren
+wie <code>useStaticFilesLoader(options)</code>:</p>
+<pre class="prettyprint linenums">
+$translationProvider.useLoader('customLoader', {
+  settingA: 'foobar'
+});
+$translationProvider.useStaticFilesLoader({
+  $http: {
+    method: 'POST'
+  }
+});
+</pre>
+<p>The property <code>$http</code> will be used internally in the loaders, except attribute <code>cache</code> could be
+overridden (see next chapter)).</p>
+<h3 id="asynchronous-loading_using-a-cache">Using a cache</h3>
+<p>In order to control the caching behavior of the existing loaders, you can use an
+cache instance. See more details about this at the
+<a href="https://docs.angularjs.org/api/ng/type/$cacheFactory.Cache">Official AngularJS Docs</a>.</p>
+<p>In order to enable a standard cache, you can use following shortcut:</p>
+<pre class="prettyprint linenums">
+$translationProvider.useLoaderCache(true); // default is false which means disable
+</pre>
+<p>If you have already an instance (i.e. advanced configuration), you can bind this:</p>
+<pre class="prettyprint linenums">
+$translationProvider.useLoaderCache(yourSpecialCacheService);
+</pre>
+<p>Angular-Translate also supports lazy binding for instances, so this will work, too:</p>
+<pre class="prettyprint linenums">
+$translationProvider.useLoaderCache('yourSpecialCacheService');
+</pre>
+<p>The instance named with ID <code>yourspecialCacheService</code> will be looked up on demand.</p>
 <h3 id="asynchronous-loading_fouc---flash-of-untranslated-content">FOUC - Flash of untranslated content</h3>
 <p>There&#39;s one drawback when using asynchronous loaders to get your translation data
 into the app. There&#39;s a little amount of time when your app launches where you

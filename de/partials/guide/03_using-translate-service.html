@@ -61,6 +61,14 @@ app.controller('Ctrl', ['$scope', '$translate', function ($scope, $translate) {
 Übersetzungen zurückgibt. Dabei spielt es keine Rolle, ob eine einzelne
 Übersetzung (oder sogar alle) nicht übersetzt werden konnten. Eine mögliche
 Fehlerbehandlung muss von Deiner Seite aus geschehen.</p>
+<h3 id="$translate--service-benutzen_angular-translate-versionsinformationen">angular-translate Versionsinformationen</h3>
+<p>Für einige Anwendungen mag es sinnvoll sein, die eingesetzte Version im &quot;Über uns&quot;-Bereich o.ä. anzuzeigen.
+Damit dieses problemlos möglich ist, beinhaltet angular-translate eine Funktion, die sehr einfach verwendet werden
+kann und die aktuelle Modulversion zurückgibt:</p>
+<pre class="prettyprint linenums">
+  $translate.versionInfo();
+  // returns e.g. "2.1.0"
+</pre>
 <h3 id="$translate--service-benutzen_dinge-die-berücksichtigt-werden-sollten">Dinge die berücksichtigt werden sollten</h3>
 <p>Bitte beachte dass <code>$translate</code> Service kein Two-Way Data-Binding unterstützt.
 <code>$translate</code> Service arbeitet asynchron, dass bedeteut aber nicht, dass er informiert

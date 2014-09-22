@@ -34,7 +34,7 @@ $translate(&#39;translationId&#39;).then(function(translation) {
   stringFromService = translationId;
 });</code></pre>
 <p>Si vous voulez continuer à utiliser le service de manière synchrone alors utilisez
-la méthode <code>$translate.instant(langKey, translationId, interpolateParams)</code> au lieu de l&#39;appel direct
+la méthode <code>$translate.instant(translationId, interpolateParams, interpolationId)</code> au lieu de l&#39;appel direct
 du service. Mais notez que la méthode <code>instant</code> n&#39;attend pas que le chargement asynchrone soit fait.
 Alors, soyez prudent dans son utilisation.</p>
 <h3 id="111--&gt;-200_les-événements-sont-maintenant-seulement-émis-sur-$rootscope">Les événements sont maintenant seulement émis sur $rootScope</h3>

@@ -30,7 +30,7 @@ stringFromService = translation;
 stringFromService = translationId;
 });</code></pre>
 <p>如果您仍然想同步的方式使用該服務，那麼請使用
-<code>$translate.instant(langKey, translationId, interpolateParams)</code> 方法，而不是直接的服務通話。
+<code>$translate.instant(translationId, interpolateParams, interpolationId)</code> 方法，而不是直接的服務通話。
 但是請注意， <code>instant</code> 方法不會等到非同步載入完成。因此，要小心使用它。</p>
 <h3 id="111--&gt;-200_事件現在只在$rootscope發射">事件現在只在$rootScope發射</h3>
 <p>所有 angular-translate 事件現在都在$rootScope層面發射, 這意味著你不能再簡單監聽<code>$scope.$on()</code>了。 現在你必須使用<code>$rootScope.$on()</code>。

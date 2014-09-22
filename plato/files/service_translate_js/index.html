@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title></title>
+  <title>Plato - service/translate.js</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
@@ -15,7 +15,6 @@
   <link href="../../assets/css/vendor/morris.css" rel="stylesheet">
   <link href="../../assets/css/vendor/bootstrap.css" rel="stylesheet">
   <link href="../../assets/css/vendor/font-awesome.css" rel="stylesheet">
-  <link href="../../assets/css/vendor/font-awesome-ie7.css" rel="stylesheet">
   <link href="../../assets/css/vendor/codemirror.css" rel="stylesheet">
   <link href="../../assets/css/plato.css" rel="stylesheet">
   <link href="../../assets/css/plato-file.css" rel="stylesheet">
@@ -26,7 +25,7 @@
 
 <div class="navbar navbar-fixed-top">
   <div class="container">
-    <a class="navbar-brand" href="http://github.com/jsoverson/plato">Plato on Github</a>
+    <a class="navbar-brand" href="http://github.com/es-analysis/plato">Plato on Github</a>
     <ul class="nav navbar-nav">
       <li>
         <a href="../../index.html">Report Home</a>
@@ -44,12 +43,12 @@
 <div class="container aggregate-stats">
   <div class="row">
     <div class="col-md-6">
-      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"></i></a></h2>
-      <p class="stat">66.56</p>
+      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
+      <p class="stat">65.98</p>
     </div>
     <div class="col-md-6">
-      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC"></i></h2>
-      <p class="stat">1642</p>
+      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
+      <p class="stat">1719</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,12 +61,12 @@
   </div>
   <div class="row">
     <div class="col-md-6">
-      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty"></i></a></h2>
-      <p class="stat">103.45</p>
+      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
+      <p class="stat">102.81</p>
     </div>
     <div class="col-md-6">
-      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs"></i></a></h2>
-      <p class="stat">8.02</p>
+      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
+      <p class="stat">8.60</p>
     </div>
   </div>
 </div>
@@ -78,11 +77,11 @@
   </div>
   <div class="row">
     <div class="col-md-6">
-      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity"></i></a></h3>
+      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity" data-container="body"></i></a></h3>
       <div id="fn-by-complexity" class="stat"></div>
     </div>
     <div class="col-md-6">
-      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC"></i></h3>
+      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h3>
       <div id="fn-by-sloc" class="stat"></div>
     </div>
   </div>
@@ -122,13 +121,16 @@ angular.module(&#039;pascalprecht.translate&#039;).provider(&#039;$translate&#03
       $notFoundIndicatorLeft,
       $notFoundIndicatorRight,
       $postCompilingEnabled = false,
-      NESTED_OBJECT_DELIMITER = &#039;.&#039;;
+      NESTED_OBJECT_DELIMITER = &#039;.&#039;,
+      loaderCache;
 
+  var version = &#039;x.y.z&#039;;
 
   // tries to determine the browsers locale
   var getLocale = function () {
     var nav = window.navigator;
     return ((
+      angular.isArray(nav.languages) ? nav.languages[0] :
       nav.language ||
       nav.browserLanguage ||
       nav.systemLanguage ||
@@ -796,6 +798,37 @@ angular.module(&#039;pascalprecht.translate&#039;).provider(&#039;$translate&#03
   };
 
   /**
+   * @ngdoc function
+   * @name pascalprecht.translate.$translateProvider#useLoaderCache
+   * @methodOf pascalprecht.translate.$translateProvider
+   *
+   * @description
+   * Registers a cache for internal $http based loaders.
+   * {@link pascalprecht.translate.$translateProvider#determinePreferredLanguage determinePreferredLanguage}.
+   * When false the cache will be disabled (default). When true or undefined
+   * the cache will be a default (see $cacheFactory). When an object it will
+   * be treat as a cache object itself: the usage is $http({cache: cache})
+   *
+   * @param {object} cache boolean, string or cache-object
+   */
+  this.useLoaderCache = function (cache) {
+    if (cache === false) {
+      // disable cache
+      loaderCache = undefined;
+    } else if (cache === true) {
+      // enable cache using AJS defaults
+      loaderCache = true;
+    } else if (typeof(cache) === &#039;undefined&#039;) {
+      // enable cache using default
+      loaderCache = &#039;$translationCache&#039;;
+    } else if (cache) {
+      // enable cache using given one (see $cacheFactory)
+      loaderCache = cache;
+    }
+    return this;
+  };
+
+  /**
    * @ngdoc object
    * @name pascalprecht.translate.$translate
    * @requires $interpolate
@@ -895,9 +928,13 @@ angular.module(&#039;pascalprecht.translate&#039;).provider(&#039;$translate&#03
                 // maybe the language from storage is also defined as fallback language
                 // we increase the fallback language index to not search in that language
                 // as fallback, since it&#039;s probably the first used language
-                fallbackIndex = (index &gt; -1) ? index+=1 : 0;
+                // in that case the index starts after the first element
+                fallbackIndex = (index === 0) ? 1 : 0;
+
                 // but we can make sure to ALWAYS fallback to preferred language at least
-                $fallbackLanguage.push($preferredLanguage);
+                if (indexOf($fallbackLanguage, $preferredLanguage) &lt; 0) {
+                  $fallbackLanguage.push($preferredLanguage);
+                }
             }
           }
           return promise;
@@ -953,7 +990,7 @@ angular.module(&#039;pascalprecht.translate&#039;).provider(&#039;$translate&#03
        */
       var useLanguage = function (key) {
         $uses = key;
-        $rootScope.$emit(&#039;$translateChangeSuccess&#039;);
+        $rootScope.$emit(&#039;$translateChangeSuccess&#039;, {language: key});
 
         if ($storageFactory) {
           Storage.set($translate.storageKey(), $uses);
@@ -964,7 +1001,7 @@ angular.module(&#039;pascalprecht.translate&#039;).provider(&#039;$translate&#03
         angular.forEach(interpolatorHashMap, function (interpolator, id) {
           interpolatorHashMap[id].setLocale($uses);
         });
-        $rootScope.$emit(&#039;$translateChangeEnd&#039;);
+        $rootScope.$emit(&#039;$translateChangeEnd&#039;, {language: key});
       };
 
       /**
@@ -986,14 +1023,23 @@ angular.module(&#039;pascalprecht.translate&#039;).provider(&#039;$translate&#03
 
         var deferred = $q.defer();
 
-        $rootScope.$emit(&#039;$translateLoadingStart&#039;);
+        $rootScope.$emit(&#039;$translateLoadingStart&#039;, {language: key});
         pendingLoader = true;
 
+        var cache = loaderCache;
+        if (typeof(cache) === &#039;string&#039;) {
+          // getting on-demand instance of loader
+          cache = $injector.get(cache);
+        }
+
         $injector.get($loaderFactory)(angular.extend($loaderOptions, {
-          key: key
+          key: key,
+          $http: angular.extend({}, $loaderOptions.$http, {
+            cache: cache
+          })
         })).then(function (data) {
           var translationTable = {};
-          $rootScope.$emit(&#039;$translateLoadingSuccess&#039;);
+          $rootScope.$emit(&#039;$translateLoadingSuccess&#039;, {language: key});
 
           if (angular.isArray(data)) {
             angular.forEach(data, function (table) {
@@ -1007,11 +1053,11 @@ angular.module(&#039;pascalprecht.translate&#039;).provider(&#039;$translate&#03
             key: key,
             table: translationTable
           });
-          $rootScope.$emit(&#039;$translateLoadingEnd&#039;);
+          $rootScope.$emit(&#039;$translateLoadingEnd&#039;, {language: key});
         }, function (key) {
-          $rootScope.$emit(&#039;$translateLoadingError&#039;);
+          $rootScope.$emit(&#039;$translateLoadingError&#039;, {language: key});
           deferred.reject(key);
-          $rootScope.$emit(&#039;$translateLoadingEnd&#039;);
+          $rootScope.$emit(&#039;$translateLoadingEnd&#039;, {language: key});
         });
         return deferred.promise;
       };
@@ -1060,12 +1106,13 @@ angular.module(&#039;pascalprecht.translate&#039;).provider(&#039;$translate&#03
         var deferred = $q.defer();
         if (Object.prototype.hasOwnProperty.call($translationTable, langKey)) {
           deferred.resolve($translationTable[langKey]);
-          return deferred.promise;
-        } else {
+        } else if (langPromises[langKey]) {
           langPromises[langKey].then(function (data) {
             translations(data.key, data.table);
             deferred.resolve(data.table);
           }, deferred.reject);
+        } else {
+          deferred.reject();
         }
         return deferred.promise;
       };
@@ -1172,14 +1219,11 @@ angular.module(&#039;pascalprecht.translate&#039;).provider(&#039;$translate&#03
         if (fallbackLanguageIndex &lt; $fallbackLanguage.length) {
           var langKey = $fallbackLanguage[fallbackLanguageIndex];
           getFallbackTranslation(langKey, translationId, interpolateParams, Interpolator).then(
-            function (translation) {
-              deferred.resolve(translation);
-            },
+            deferred.resolve,
             function () {
               // Look in the next fallback language for a translation.
               // It delays the resolving by passing another promise to resolve.
-              var nextFallbackLanguagePromise = resolveForFallbackLanguage(fallbackLanguageIndex + 1, translationId, interpolateParams, Interpolator);
-              deferred.resolve(nextFallbackLanguagePromise);
+              resolveForFallbackLanguage(fallbackLanguageIndex + 1, translationId, interpolateParams, Interpolator).then(deferred.resolve);
             }
           );
         } else {
@@ -1484,7 +1528,7 @@ angular.module(&#039;pascalprecht.translate&#039;).provider(&#039;$translate&#03
 
         var deferred = $q.defer();
 
-        $rootScope.$emit(&#039;$translateChangeStart&#039;);
+        $rootScope.$emit(&#039;$translateChangeStart&#039;, {language: key});
 
         // Try to get the aliased language key
         var aliasedKey = negotiateLocale(key);
@@ -1500,15 +1544,17 @@ angular.module(&#039;pascalprecht.translate&#039;).provider(&#039;$translate&#03
             translations(translation.key, translation.table);
             deferred.resolve(translation.key);
 
+            useLanguage(translation.key);
             if ($nextLang === key) {
-              useLanguage(translation.key);
               $nextLang = undefined;
             }
           }, function (key) {
-            $nextLang = undefined;
-            $rootScope.$emit(&#039;$translateChangeError&#039;);
+            if ($nextLang === key) {
+              $nextLang = undefined;
+            }
+            $rootScope.$emit(&#039;$translateChangeError&#039;, {language: key});
             deferred.reject(key);
-            $rootScope.$emit(&#039;$translateChangeEnd&#039;);
+            $rootScope.$emit(&#039;$translateChangeEnd&#039;, {language: key});
           });
         } else {
           deferred.resolve(key);
@@ -1584,29 +1630,30 @@ angular.module(&#039;pascalprecht.translate&#039;).provider(&#039;$translate&#03
 
         function resolve() {
           deferred.resolve();
-          $rootScope.$emit(&#039;$translateRefreshEnd&#039;);
+          $rootScope.$emit(&#039;$translateRefreshEnd&#039;, {language: langKey});
         }
 
         function reject() {
           deferred.reject();
-          $rootScope.$emit(&#039;$translateRefreshEnd&#039;);
+          $rootScope.$emit(&#039;$translateRefreshEnd&#039;, {language: langKey});
         }
 
-        $rootScope.$emit(&#039;$translateRefreshStart&#039;);
+        $rootScope.$emit(&#039;$translateRefreshStart&#039;, {language: langKey});
 
         if (!langKey) {
           // if there&#039;s no language key specified we refresh ALL THE THINGS!
-          var tables = [];
+          var tables = [], loadingKeys = {};
 
           // reload registered fallback languages
           if ($fallbackLanguage &amp;&amp; $fallbackLanguage.length) {
             for (var i = 0, len = $fallbackLanguage.length; i &lt; len; i++) {
               tables.push(loadAsync($fallbackLanguage[i]));
+              loadingKeys[$fallbackLanguage[i]] = true;
             }
           }
 
           // reload currently used language
-          if ($uses) {
+          if ($uses &amp;&amp; !loadingKeys[$uses]) {
             tables.push(loadAsync($uses));
           }
 
@@ -1708,14 +1755,42 @@ angular.module(&#039;pascalprecht.translate&#039;).provider(&#039;$translate&#03
         }
 
         if (!result &amp;&amp; result !== &#039;&#039;) {
-          // Return translation if not found anything.
-          result = translationId;
+          // Return translation of default interpolator if not found anything.
+          result = defaultInterpolator.interpolate(translationId, interpolateParams);
           if ($missingTranslationHandlerFactory &amp;&amp; !pendingLoader) {
             result = translateByHandler(translationId);
           }
         }
 
         return result;
+      };
+
+      /**
+       * @ngdoc function
+       * @name pascalprecht.translate.$translate#versionInfo
+       * @methodOf pascalprecht.translate.$translate
+       *
+       * @description
+       * Returns the current version information for the angular-translate library
+       *
+       * @return {string} angular-translate version
+       */
+      $translate.versionInfo = function () {
+        return version;
+      };
+
+      /**
+       * @ngdoc function
+       * @name pascalprecht.translate.$translate#loaderCache
+       * @methodOf pascalprecht.translate.$translate
+       *
+       * @description
+       * Returns the defined loaderCache.
+       *
+       * @return {boolean|string|object} current value of loaderCache
+       */
+      $translate.loaderCache = function () {
+        return loaderCache;
       };
 
       if ($loaderFactory) {
@@ -1739,7 +1814,8 @@ angular.module(&#039;pascalprecht.translate&#039;).provider(&#039;$translate&#03
       }
 
       return $translate;
-    }];
+    }
+  ];
 }]);</textarea>
   </div>
 </div>

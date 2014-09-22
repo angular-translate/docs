@@ -34,7 +34,7 @@ $translate(&#39;translationId&#39;).then(function(translation) {
   stringFromService = translationId;
 });</code></pre>
 <p>Если вы все же хотите использовать сервис в синхронном стиле, используйте метод
-<code>$translate.instant(langKey, translationId, interpolateParams)</code> вместо прямого вызова сервиса. Но
+<code>$translate.instant(translationId, interpolateParams, interpolationId)</code> вместо прямого вызова сервиса. Но
 заметьте, что метод <code>instant</code> не ждет завершения асинхронной загрузки. Поэтому, будьте осторожны при
 его использовании.</p>
 <h3 id="111--&gt;-200_события-теперь-порождаются-только-в-$rootscope">События теперь порождаются только в $rootScope</h3>
