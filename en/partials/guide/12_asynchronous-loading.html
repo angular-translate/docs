@@ -204,10 +204,7 @@ registered loader to get it down! Lazy loading at it best!</p>
 translation tables first!</p>
 <h3 id="asynchronous-loading_configuration-of-a-loader">Configuration of a loader</h3>
 <p>Each loader can be applied a dedicated configuration <code>options</code>, both for the common constructor
-<code>useLoader()</code>
-Jedem Loader kann eine erweiterte Konfiguration angegeben werden. Dies gilt sowohl für
-den allgemeinen Konstructor <code>useLoader(name, options)</code> als auch die Shortcut-Konstruktoren
-wie <code>useStaticFilesLoader(options)</code>:</p>
+<code>useLoader()</code> and <code>useStaticFilesLoader(options)</code>:</p>
 <pre class="prettyprint linenums">
 $translationProvider.useLoader('customLoader', {
   settingA: 'foobar'

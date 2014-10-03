@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">65.98</p>
+      <p class="stat">65.93</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">1719</p>
+      <p class="stat">1723</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">102.81</p>
+      <p class="stat">103.25</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">8.60</p>
+      <p class="stat">8.67</p>
     </div>
   </div>
 </div>
@@ -576,9 +576,10 @@ angular.module(&#039;pascalprecht.translate&#039;).provider(&#039;$translate&#03
    * Tells angular-translate to use `$translateUrlLoader` extension service as loader.
    *
    * @param {string} url Url
+   * @param {Object=} options Optional configuration object
    */
-  this.useUrlLoader = function (url) {
-    return this.useLoader(&#039;$translateUrlLoader&#039;, { url: url });
+  this.useUrlLoader = function (url, options) {
+    return this.useLoader(&#039;$translateUrlLoader&#039;, angular.extend({ url: url }, options));
   };
 
   /**
@@ -1032,12 +1033,14 @@ angular.module(&#039;pascalprecht.translate&#039;).provider(&#039;$translate&#03
           cache = $injector.get(cache);
         }
 
-        $injector.get($loaderFactory)(angular.extend($loaderOptions, {
+        var loaderOptions = angular.extend({}, $loaderOptions, {
           key: key,
-          $http: angular.extend({}, $loaderOptions.$http, {
+          $http: angular.extend({}, {
             cache: cache
-          })
-        })).then(function (data) {
+          }, $loaderOptions.$http)
+        });
+
+        $injector.get($loaderFactory)(loaderOptions).then(function (data) {
           var translationTable = {};
           $rootScope.$emit(&#039;$translateLoadingSuccess&#039;, {language: key});
 
@@ -1806,6 +1809,7 @@ angular.module(&#039;pascalprecht.translate&#039;).provider(&#039;$translate&#03
         if ($fallbackLanguage &amp;&amp; $fallbackLanguage.length) {
           var processAsyncResult = function (translation) {
             translations(translation.key, translation.table);
+            $rootScope.$emit(&#039;$translateChangeEnd&#039;, { language: translation.key });
           };
           for (var i = 0, len = $fallbackLanguage.length; i &lt; len; i++) {
             langPromises[$fallbackLanguage[i]] = loadAsync($fallbackLanguage[i]).then(processAsyncResult);

@@ -202,6 +202,40 @@ traduction pour une clé de langue donnée est présente ou pas. Et si c&#39;est
 le chargeur enregistré pour le descendre !</p>
 <p><strong>Remarque</strong> : Veuillez noter que dans le cas de l&#39;utilisation de <code>partialLoader</code> vous
 devez d&#39;abord actualiser les tables de traduction!</p>
+<h3 id="chargement-asynchrone_configuration-dun-chargeur">Configuration d&#39;un chargeur</h3>
+<p>Pour chaque chargeur, une configuration avancée peut être spécifiée. Celle-ci est
+valable pour le constructeur <code>useLoader(name, options)</code> ainsi que pour les constructeurs
+tels que <code>useStaticFilesLoader(options)</code> :</p>
+<pre class="prettyprint linenums">
+$translationProvider.useLoader('customLoader', {
+  settingA: 'foobar'
+});
+$translationProvider.useStaticFilesLoader({
+  $http: {
+    method: 'POST'
+  }
+});
+</pre>
+<p>La propriété <code>$http</code> sera utilisée à l&#39;intérieur des chargeurs, à l&#39;exception de l&#39;attribut <code>cache</code> qui
+pourra être remplacé (voir le chapitre suivant).</p>
+<h3 id="chargement-asynchrone_utilisation-dun-cache">Utilisation d&#39;un cache</h3>
+<p>Afin de contrôler le comportement de mise en cache des chargeurs existants, vous pouvez utiliser une
+instance de cache. Vous pouvez voir plus de détails à ce sujet dans les
+[Docs officielles d&#39;AngularJS]
+(<a href="https://docs.angularjs.org/api/ng/type/$cacheFactory.Cache">https://docs.angularjs.org/api/ng/type/$cacheFactory.Cache</a>).</p>
+<p>Pour activer un cache standard, vous pouvez utiliser la technique suivante :</p>
+<pre class="prettyprint linenums">
+$translationProvider.useLoaderCache(true); // Par défaut c'est à false, ce qui signifie que c'est désactivé
+</pre>
+<p>Si vous avez déjà un exemple (de configuration avancée), vous pouvez la lier comme ceci :</p>
+<pre class="prettyprint linenums">
+$translationProvider.useLoaderCache(yourSpecialCacheService);
+</pre>
+<p>Angular-Translate supporte aussi le Lazy-Binding, de sorte que ceci fonctionne aussi :</p>
+<pre class="prettyprint linenums">
+$translationProvider.useLoaderCache('yourSpecialCacheService');
+</pre>
+<p>L&#39;instance nommée avec l&#39;ID <code>yourspecialCacheService</code> est chargé à la demande à partir du contexte.</p>
 <h3 id="chargement-asynchrone_fouc---flash-de-contenu-non-traduit">FOUC - Flash de contenu non traduit</h3>
 <p>Il y a un inconvénient lors de l&#39;utilisation des chargeurs asynchrones pour obtenir vos données
 de traduction dans l&#39;application. Il y a un peu de temps lorsque votre application se lance donc
