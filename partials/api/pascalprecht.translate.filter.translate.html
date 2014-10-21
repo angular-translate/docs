@@ -47,10 +47,11 @@ to pass dynamized values though translation.</p>
 
   .config(function ($translateProvider) {
 
-    $translateProvider.translations({
+    $translateProvider.translations('en', {
       'TRANSLATION_ID': 'Hello there!',
       'WITH_VALUES': 'The following value is dynamic: {{value}}'
     });
+    $translateProvider.preferredLanguage('en');
 
   });
 

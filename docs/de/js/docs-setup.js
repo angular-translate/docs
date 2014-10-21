@@ -154,7 +154,7 @@ NG_DOCS={
       "type": "filter",
       "moduleName": "pascalprecht.translate",
       "shortDescription": "Uses $translate service to translate contents. Accepts interpolate parameters",
-      "keywords": "$parse $scope $translate $translateprovider accepts angular api config contents controller dynamic dynamized filter function hash hello html interpolate interpolateparams js literal module ng-controller ngview object optional parameters pascalprecht pass script service string text translate translatectrl translated translation translation_id translationid translations values with_values"
+      "keywords": "$parse $scope $translate $translateprovider accepts angular api config contents controller dynamic dynamized en filter function hash hello html interpolate interpolateparams js literal module ng-controller ngview object optional parameters pascalprecht pass preferredlanguage script service string text translate translatectrl translated translation translation_id translationid translations values with_values"
     },
     {
       "section": "guide",
@@ -353,6 +353,24 @@ NG_DOCS={
       "moduleName": "Tools",
       "shortDescription": "Tools",
       "keywords": "aber aktiviere alle als andere angegeben angular-translate angular-translate-kompatibles anwendungsfall app arbeit auf ausgabe ausgabedateien beiden beispiel benutzt bestehenden bevor bitte boolean bzw cleanprevstrings create das dateien default deinem den der derzeit dev devonefile die diesem dingen dist ein eine eines einflu einstellungen einzelne entwicklungs- erzeugt es existieren false file files folgende format funktionalit gebracht gem generate gerne gettext-formatierungen gibt github gro grunt grunt-angular-translate grunt-po2json-angular-translate gruntfile guide haben herum hier hilfsprogramme hinzu individuelle informationen initconfig install installiere ist je js json json-dateien kernmodul kleines komplettes konfiguration konvertieren konvertierung lesbarere loadnpmtasks man mehr mehrere mit module msgid nach names neue nicht noch npm nur oder optionen options optionsenablealtplaceholders optionsuppercaseid overview passend platzhalter pluralization po po-foramtierte po2json_angular_translate praxisbeispiel pretty produktionsumgebungen projekt repo schau schritte sehr sein single strings task team test tmp tollen tools true type um und unterscheidung uppercaseid verzeichnis vom von weitere weiteren werden wichtige wichtigsten your_target zahlreiche zeichenketten ziel zieldateien zu zur zus"
+    },
+    {
+      "section": "guide",
+      "id": "21_migration-guide",
+      "shortName": "Migration Guide",
+      "type": "overview",
+      "moduleName": "Migration Guide",
+      "shortDescription": "1.1.1 -&gt; 2.0.0",
+      "keywords": "$on $rootscope $scope $translate $translateprovider ab aktuellen alle allerdings als angular-translate anonyme asynchron auch auf aufruf aus bedeutet bei beschlossen changes code-zeilen dann das dass dem den dennoch der die dies dieser doch eigentliche ein eine einfaches en erfolgreiche erforderlich ersten es events falls festzulegen folge folgende fortan fortnun function funktioniert gef gesamte gesendet gibt gilt github greetings grund guide hei hello hier hierf instant internen interpolateparams interpolationid ist jetzt js kann konsequenz konsistenztgr laden lauschen man mehr methode migration mit muss nicht noch nur ob organization overview paratemer performance-gr projekt promise promise-callbacks provider repositories selber service sind sofort sollte sowohl sprache stattdessen stringfromservice structural strukturverbesserungen synchron synchroner tragen translate translation translationid translations umgestellt unable und unter unterst var ver verschoben version verwenden verwendet verwendung von wartet werden wird worden wtfpl wurde zur"
+    },
+    {
+      "section": "guide",
+      "id": "22_unit-testing-with-angular-translate",
+      "shortName": "Unit Testing",
+      "type": "overview",
+      "moduleName": "Unit Testing",
+      "shortDescription": "Unit Testing with angular-translate",
+      "keywords": "$controller $httpbackend $new $provide $q $rootscope $scope $translate $translateprovider access angular angular-translate angularjs app application applications apply asynchronous beforeeach bit block build building built cached called calls caused code common config configuration controller custom customloader data defer deferred define describe design developing di doesn en endpoint error errors example executed expect expectget expects experience explicitly factory files flow forward function going great ground guide handles happening hell i18n idea imagine impact implicitly injected injecting inline instantiated instantiating issue issues jasmine json language languagecontroller languagectrl ll load loaded loader locale locale- locale-en locally logic love mind minds mock mocked module modules myapp notices occur option overview overwrite preferred preferredlanguage prefix pretty problem process promise proper provide provider providers ready register registered remote request resolve responses return runtime scenario scope service set shouldn siginificant solution spec specs start static step steps straight suffix suite support switch switchlanguage table test testability tested testing tests thing time translation translations tricky turns understand unexpected unit useloader usestaticfilesloader var work writing xhr xhrs"
     }
   ],
   "apis": {

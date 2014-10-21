@@ -154,7 +154,7 @@ NG_DOCS={
       "type": "filter",
       "moduleName": "pascalprecht.translate",
       "shortDescription": "Uses $translate service to translate contents. Accepts interpolate parameters",
-      "keywords": "$parse $scope $translate $translateprovider accepts angular api config contents controller dynamic dynamized filter function hash hello html interpolate interpolateparams js literal module ng-controller ngview object optional parameters pascalprecht pass script service string text translate translatectrl translated translation translation_id translationid translations values with_values"
+      "keywords": "$parse $scope $translate $translateprovider accepts angular api config contents controller dynamic dynamized en filter function hash hello html interpolate interpolateparams js literal module ng-controller ngview object optional parameters pascalprecht pass preferredlanguage script service string text translate translatectrl translated translation translation_id translationid translations values with_values"
     },
     {
       "section": "guide",
