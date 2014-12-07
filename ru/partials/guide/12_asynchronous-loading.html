@@ -181,6 +181,37 @@ app.run(function ($rootScope, $translate) {
 лучшем виде!</p>
 <p><strong>Внимание</strong>: Заметьте, что при использовании <code>partialLoader</code> вам нужно сперва обновить таблицы
 перевода!</p>
+<h3 id="асинхронная-загрузка_настройка-загрузчика">Настройка загрузчика</h3>
+<p>В каждый загрузчик могут быть переданы настройки. Для этого используется такой синтаксис:</p>
+<pre class="prettyprint linenums">
+$translationProvider.useLoader('customLoader', {
+  settingA: 'foobar'
+});
+$translationProvider.useStaticFilesLoader({
+  $http: {
+    method: 'POST'
+  }
+});
+</pre>
+<p>Свойство <code>$http</code> будет использовано загрузчиками при запросе, однако атрибут <code>cache</code> может быть
+переопределен (см. следующий раздел).</p>
+<h3 id="асинхронная-загрузка_использование-кэша">Использование кэша</h3>
+<p>Для контроля над кэшированием в существующих загрузчиках можно использовать объект cache. Более
+подробно об этом Вы можете прочитать в
+<a href="https://docs.angularjs.org/api/ng/type/$cacheFactory.Cache">официальной документации AngularJS</a>.</p>
+<p>Для включения стандартного кэширования используйте следующий метод:</p>
+<pre class="prettyprint linenums">
+$translationProvider.useLoaderCache(true); // default is false which means disable
+</pre>
+<p>Если же у Вас уже есть экземпляр кэша (специально настроенный), то привяжите его так:</p>
+<pre class="prettyprint linenums">
+$translationProvider.useLoaderCache(yourSpecialCacheService);
+</pre>
+<p>Angular-Translate также поддерживает ленивое связывание. Поэтому, такой вариант тоже будет работать:</p>
+<pre class="prettyprint linenums">
+$translationProvider.useLoaderCache('yourSpecialCacheService');
+</pre>
+<p>Экземпляр под названием <code>yourspecialCacheService</code> будет найден при необходимости.</p>
 <h3 id="асинхронная-загрузка_мнпк---мигание-не-переведенного-контента">МНПК - Мигание не переведенного контента</h3>
 <p>В использовании асинхронных загрузчиков для получения переводов есть один недостаток. При запуске
 приложения есть небольшой промежуток времени, когда возможно мерцание из-за того, что данные

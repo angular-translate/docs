@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">65.93</p>
+      <p class="stat">65.72</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">1723</p>
+      <p class="stat">1750</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">103.25</p>
+      <p class="stat">103.20</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">8.67</p>
+      <p class="stat">8.89</p>
     </div>
   </div>
 </div>
@@ -126,17 +126,40 @@ angular.module(&#039;pascalprecht.translate&#039;).provider(&#039;$translate&#03
 
   var version = &#039;x.y.z&#039;;
 
+  // tries to determine the browsers language
+  var getFirstBrowserLanguage = function () {
+    var nav = window.navigator,
+        browserLanguagePropertyKeys = [&#039;language&#039;, &#039;browserLanguage&#039;, &#039;systemLanguage&#039;, &#039;userLanguage&#039;],
+        i,
+        language;
+
+    // support for HTML 5.1 &quot;navigator.languages&quot;
+    if (angular.isArray(nav.languages)) {
+      for (i = 0; i &lt; nav.languages.length; i++) {
+        language = nav.languages[i];
+        if (language &amp;&amp; language.length) {
+          return language;
+        }
+      }
+    }
+
+    // support for other well known properties in browsers
+    for (i = 0; i &lt; browserLanguagePropertyKeys.length; i++) {
+      language = nav[browserLanguagePropertyKeys[i]];
+      if (language &amp;&amp; language.length) {
+        return language;
+      }
+    }
+
+    return null;
+  };
+  getFirstBrowserLanguage.displayName = &#039;angular-translate/service: getFirstBrowserLanguage&#039;;
+
   // tries to determine the browsers locale
   var getLocale = function () {
-    var nav = window.navigator;
-    return ((
-      angular.isArray(nav.languages) ? nav.languages[0] :
-      nav.language ||
-      nav.browserLanguage ||
-      nav.systemLanguage ||
-      nav.userLanguage
-    ) || &#039;&#039;).split(&#039;-&#039;).join(&#039;_&#039;);
+    return (getFirstBrowserLanguage() || &#039;&#039;).split(&#039;-&#039;).join(&#039;_&#039;);
   };
+  getLocale.displayName = &#039;angular-translate/service: getLocale&#039;;
 
   /**
    * @name indexOf
@@ -852,6 +875,7 @@ angular.module(&#039;pascalprecht.translate&#039;).provider(&#039;$translate&#03
    *                                     results that the function returns an object where each key
    *                                     is the translation id and the value the translation.
    * @param {object=} interpolateParams An object hash for dynamic values
+   * @param {string} interpolationId The id of the interpolation to use
    * @returns {object} promise
    */
   this.$get = [
@@ -994,7 +1018,7 @@ angular.module(&#039;pascalprecht.translate&#039;).provider(&#039;$translate&#03
         $rootScope.$emit(&#039;$translateChangeSuccess&#039;, {language: key});
 
         if ($storageFactory) {
-          Storage.set($translate.storageKey(), $uses);
+          Storage.put($translate.storageKey(), $uses);
         }
         // inform default interpolator
         defaultInterpolator.setLocale($uses);
@@ -1068,8 +1092,8 @@ angular.module(&#039;pascalprecht.translate&#039;).provider(&#039;$translate&#03
       if ($storageFactory) {
         Storage = $injector.get($storageFactory);
 
-        if (!Storage.get || !Storage.set) {
-          throw new Error(&#039;Couldn\&#039;t use storage \&#039;&#039; + $storageFactory + &#039;\&#039;, missing get() or set() method!&#039;);
+        if (!Storage.get || !Storage.put) {
+          throw new Error(&#039;Couldn\&#039;t use storage \&#039;&#039; + $storageFactory + &#039;\&#039;, missing get() or put() method!&#039;);
         }
       }
 
@@ -1168,7 +1192,7 @@ angular.module(&#039;pascalprecht.translate&#039;).provider(&#039;$translate&#03
       var getFallbackTranslationInstant = function (langKey, translationId, interpolateParams, Interpolator) {
         var result, translationTable = $translationTable[langKey];
 
-        if (Object.prototype.hasOwnProperty.call(translationTable, translationId)) {
+        if (translationTable &amp;&amp; Object.prototype.hasOwnProperty.call(translationTable, translationId)) {
           Interpolator.setLocale(langKey);
           result = Interpolator.interpolate(translationTable[translationId], interpolateParams);
           Interpolator.setLocale($uses);
@@ -1551,6 +1575,7 @@ angular.module(&#039;pascalprecht.translate&#039;).provider(&#039;$translate&#03
             if ($nextLang === key) {
               $nextLang = undefined;
             }
+            return translation;
           }, function (key) {
             if ($nextLang === key) {
               $nextLang = undefined;
@@ -1705,6 +1730,7 @@ angular.module(&#039;pascalprecht.translate&#039;).provider(&#039;$translate&#03
        *                                     results that the function&#039;s promise returns an object where
        *                                     each key is the translation id and the value the translation.
        * @param {object} interpolateParams Params
+       * @param {string} interpolationId The id of the interpolation to use
        *
        * @return {string} translation
        */
@@ -1810,6 +1836,7 @@ angular.module(&#039;pascalprecht.translate&#039;).provider(&#039;$translate&#03
           var processAsyncResult = function (translation) {
             translations(translation.key, translation.table);
             $rootScope.$emit(&#039;$translateChangeEnd&#039;, { language: translation.key });
+            return translation;
           };
           for (var i = 0, len = $fallbackLanguage.length; i &lt; len; i++) {
             langPromises[$fallbackLanguage[i]] = loadAsync($fallbackLanguage[i]).then(processAsyncResult);

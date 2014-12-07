@@ -180,6 +180,37 @@ UI Router.</p>
 найкращому вигляді!</p>
 <p><strong>Увага</strong>: Відмітьте, що при використанні <code>partialLoader</code> вам треба спочатку оновити таблиці
 перекладів!</p>
+<h3 id="асинхронне-завантаження_налаштування-завантажувача">Налаштування завантажувача</h3>
+<p>У будь-який завантажувач можна передати налаштування. для цього використовується такий синтаксис:</p>
+<pre class="prettyprint linenums">
+$translationProvider.useLoader('customLoader', {
+  settingA: 'foobar'
+});
+$translationProvider.useStaticFilesLoader({
+  $http: {
+    method: 'POST'
+  }
+});
+</pre>
+<p>Властивість <code>$http</code> буде використана завантажувачем під час запиту, проте атрибут <code>cache</code> може бути
+перевизначений (см. следующий раздел).</p>
+<h3 id="асинхронне-завантаження_використання-кеша">Використання кеша</h3>
+<p>Для контролю над кешуванням в існуючих завантажувачах можна використовувати об&#39;єкт cache. Докладніше
+про це Ви можете прочитати в 
+<a href="https://docs.angularjs.org/api/ng/type/$cacheFactory.Cache">офіційній документації AngularJS</a>.</p>
+<p>Для увімкнення стандартного кешування використовується наступний метод:</p>
+<pre class="prettyprint linenums">
+$translationProvider.useLoaderCache(true); // default is false which means disable
+</pre>
+<p>Якщо ж у Вас вже є єкземпляр кеша (спеціально налаштований), то прив&#39;яжіть його так:</p>
+<pre class="prettyprint linenums">
+$translationProvider.useLoaderCache(yourSpecialCacheService);
+</pre>
+<p>Angular-Translate також підтримує ліниве зв&#39;язування. Тому, такий варіант також буде працювати:</p>
+<pre class="prettyprint linenums">
+$translationProvider.useLoaderCache('yourSpecialCacheService');
+</pre>
+<p>Екземпляр під назвою <code>yourspecialCacheService</code> буде знайдено при необхідності.</p>
 <h3 id="асинхронне-завантаження_мнпк---миготіння-не-перекладеного-контента">МНПК - Миготіння не перекладеного контента</h3>
 <p>У використання асинхронних завантажувачів для отримання перекладів є один недолік. При запуску
 застосунку є невеликий проміжок часу, коли можливе миготіння через те, що дані перекладів ще не

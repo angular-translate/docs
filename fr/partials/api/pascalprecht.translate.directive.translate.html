@@ -18,11 +18,17 @@ pass an optional <code>translate-values</code> object literal as string into tra
 </ul>
 <h2 id="usage">Usage</h2>
 <div class="usage">as attribute<pre class="prettyprint linenums">&lt;ANY translate="{string}"
-     [translate-values="{string}"]&gt;
+     [translate-values="{string}"]
+     [translate-attr--a-t-t-r="{string}"]
+     [translate-default="{string}"]
+     [translate-compile="{boolean}"]&gt;
    ...
 &lt;/ANY&gt;</pre>
 <h4 id="usage_parameters">Parameters</h4><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>translate <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-directive-page pascalprecht-translate-directive-translate-page"><p>Translation id which could be either string or interpolated string.</p>
 </div></td></tr><tr><td>translate-values <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-directive-page pascalprecht-translate-directive-translate-page"><p>Values to pass into translation id. Can be passed as object literal string or interpolated object.</p>
+</div></td></tr><tr><td>translate-attr-ATTR <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-directive-page pascalprecht-translate-directive-translate-page"><p>translate Translation id and put it into ATTR attribute.</p>
+</div></td></tr><tr><td>translate-default <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-directive-page pascalprecht-translate-directive-translate-page"><p>will be used unless translation was successful</p>
+</div></td></tr><tr><td>translate-compile <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="pascalprecht-translate-directive-page pascalprecht-translate-directive-translate-page"><p>(default true if present) defines locally activation of <a href="#/api/pascalprecht.translate.$translate#usepostcompiling">pascalprecht.translate.$translate#usePostCompiling</a></p>
 </div></td></tr></tbody></table></div>
 <h2 id="example">Example</h2>
 <div class="example"><div class="pascalprecht-translate-directive-page pascalprecht-translate-directive-translate-page"><h4 id="example_source">Source</h4>
@@ -34,12 +40,14 @@ pass an optional <code>translate-values</code> object literal as string into tra
 
     <pre translate="TRANSLATION_ID"></pre>
     <pre translate>TRANSLATION_ID</pre>
+    <pre translate translate-attr-title="TRANSLATION_ID"></pre>
     <pre translate="{{translationId}}"></pre>
     <pre translate>{{translationId}}</pre>
     <pre translate="WITH_VALUES" translate-values="{value: 5}"></pre>
     <pre translate translate-values="{value: 5}">WITH_VALUES</pre>
     <pre translate="WITH_VALUES" translate-values="{{values}}"></pre>
     <pre translate translate-values="{{values}}">WITH_VALUES</pre>
+    <pre translate translate-attr-title="WITH_VALUES" translate-values="{{values}}"></pre>
 
   </div>
 </script>
@@ -89,6 +97,10 @@ pass an optional <code>translate-values</code> object literal as string into tra
       element = $compile('<p translate>{{translationId}}</p>')($rootScope);
       $rootScope.$digest();
       expect(element.text()).toBe('Hello there!');
+
+      element = $compile('<p translate translate-attr-title="TRANSLATION_ID"></p>')($rootScope);
+      $rootScope.$digest();
+      expect(element.attr('title')).toBe('Hello there!');
     });
   });
 </script>

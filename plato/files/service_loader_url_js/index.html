@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">76.08</p>
+      <p class="stat">74.90</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">39</p>
+      <p class="stat">44</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">13.00</p>
+      <p class="stat">13.30</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">0.17</p>
+      <p class="stat">0.19</p>
     </div>
   </div>
 </div>
@@ -98,12 +98,14 @@
  *
  * @description
  * Creates a loading function for a typical dynamic url pattern:
- * &quot;locale.php?lang=en_US&quot;, &quot;locale.php?lang=de_DE&quot;, etc. Prefixing the specified
- * url, the current requested, language id will be applied with &quot;?lang={key}&quot;.
+ * &quot;locale.php?lang=en_US&quot;, &quot;locale.php?lang=de_DE&quot;, &quot;locale.php?language=nl_NL&quot; etc.
+ * Prefixing the specified url, the current requested, language id will be applied
+ * with &quot;?{queryParameter}={key}&quot;.
  * Using this service, the response of these urls must be an object of
  * key-value pairs.
  *
- * @param {object} options Options object, which gets the url and key.
+ * @param {object} options Options object, which gets the url, key and
+ * optional queryParameter (&#039;lang&#039; is used by default).
  */
 .factory(&#039;$translateUrlLoader&#039;, [&#039;$q&#039;, &#039;$http&#039;, function ($q, $http) {
 
@@ -113,11 +115,14 @@
       throw new Error(&#039;Couldn\&#039;t use urlLoader since no url is given!&#039;);
     }
 
-    var deferred = $q.defer();
+    var deferred = $q.defer(),
+        requestParams = {};
+
+    requestParams[options.queryParameter || &#039;lang&#039;] = options.key;
 
     $http(angular.extend({
       url: options.url,
-      params: { lang: options.key },
+      params: requestParams,
       method: &#039;GET&#039;
     }, options.$http)).success(function (data) {
       deferred.resolve(data);

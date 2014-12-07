@@ -38,7 +38,7 @@ NG_DOCS={
       "type": "object",
       "moduleName": "pascalprecht.translate",
       "shortDescription": "The $translate service is the actual core of angular-translate. It expects a translation id",
-      "keywords": "$interpolate $log $q $rootscope $scope $translate $translaterefreshend $translaterefreshstart actual angular-translate api app array asynchronous asynchronously background broadcast care case change choosed class cloakclassname compiling configured contents core current currently data defined directive drop dynamic en_us enabled error events existent expects fallback fallbacklanguage false file finished function handling hash headline_text hello ids instant instantly internal interpolate interpolateparams invoked isn ispostcompilingenabled iteration key langkey language languages library load loaded loadercache loaders loading method module object optional optionally parameters params pascalprecht pointed post preferred preferredlanguage process promise proposedlanguage refresh refreshed refreshes refreshing registered reject reload remember represents resolved returns rules runtime service set sets skipped stack start storage storagekey store storing string table tables takes target tells text throw token translate translate-cloak translatedtext translation translationid usefallbacklanguage values version versioninfo"
+      "keywords": "$interpolate $log $q $rootscope $scope $translate $translaterefreshend $translaterefreshstart actual angular-translate api app array asynchronous asynchronously background broadcast care case change choosed class cloakclassname compiling configured contents core current currently data defined directive drop dynamic en_us enabled error events existent expects fallback fallbacklanguage false file finished function handling hash headline_text hello ids instant instantly internal interpolate interpolateparams interpolation interpolationid invoked isn ispostcompilingenabled iteration key langkey language languages library load loaded loadercache loaders loading method module object optional optionally parameters params pascalprecht pointed post preferred preferredlanguage process promise proposedlanguage refresh refreshed refreshes refreshing registered reject reload remember represents resolved returns rules runtime service set sets skipped stack start storage storagekey store storing string table tables takes target tells text throw token translate translate-cloak translatedtext translation translationid usefallbacklanguage values version versioninfo"
     },
     {
       "section": "api",
@@ -128,7 +128,7 @@ NG_DOCS={
       "type": "object",
       "moduleName": "pascalprecht.translate",
       "shortDescription": "Creates a loading function for a typical dynamic url pattern:",
-      "keywords": "$http $q $translateurlloader api applied creates current dynamic function key key-value language loading locale object options pairs pascalprecht pattern php prefixing requested response service translate typical url urls"
+      "keywords": "$http $q $translateurlloader api applied creates current default dynamic function key key-value lang language loading locale object optional options pairs pascalprecht pattern php prefixing queryparameter requested response service translate typical url urls"
     },
     {
       "section": "api",
@@ -137,7 +137,7 @@ NG_DOCS={
       "type": "directive",
       "moduleName": "pascalprecht.translate",
       "shortDescription": "Translates given translation id either through attribute or DOM content.",
-      "keywords": "$compile $digest $filter $interpolate $rootscope $scope $translateprovider angular api attribute config content controller directive dom dynamic element en expect filter function hello html inject internally interpolated js literal module ng-controller ngview object optional pascalprecht pass passed preferredlanguage scenario script string text tobe translate translate-values translatectrl translates translation translation_id translationid translations values with_values"
+      "keywords": "$compile $digest $filter $interpolate $rootscope $scope $translate $translateprovider activation angular api attr attribute config content controller defines directive dom dynamic element en expect filter function hello html inject internally interpolated js literal locally module ng-controller ngview object optional pascalprecht pass passed preferredlanguage scenario script string successful text title tobe translate translate-attr-attr translate-attr-title translate-compile translate-default translate-values translatectrl translates translation translation_id translationid translations true usepostcompiling values with_values"
     },
     {
       "section": "api",
@@ -145,7 +145,7 @@ NG_DOCS={
       "shortName": "translateCloak",
       "type": "directive",
       "moduleName": "pascalprecht.translate",
-      "keywords": "$description $rootscope $translate adds api applied asynchronously class data directive element finished flickering initial initially loader loading pascalprecht prevent removes required string translate translate-cloak translation"
+      "keywords": "$description $rootscope $translate $translateprovider adds api applied asynchronously basically class cloak cloakclassname data defined directive element finished flickering hiding initial initially loader loading pascalprecht prevent provided relies removes resolve showing translate translate-cloak translation translationid"
     },
     {
       "section": "api",
@@ -235,7 +235,7 @@ NG_DOCS={
       "type": "overview",
       "moduleName": "Многоязычность",
       "shortDescription": "Многоязычность",
-      "keywords": "$scope $translate $translateprovider add als anf angular angular-translate app attribut attribute awesome beginners bin browserlanguage button_lang_de button_lang_en changelanguage config controller cool ctrl custom de determinepreferredlanguage deutsch ein en englisch english ernsthaft fallbacklanguage find function german going greeting gro guide ha hallo headline hello hey html ich interpolated interpoliert key language logic love missing missing_translation modul module myapp navigator ng-click ng-controller oder oops overview paragraph pascalprecht passed passed_as_attribute passed_as_interpolation passed_as_text preferred preferredlangkey preferredlanguage registers return srsly systemlanguage table tables tells text translate translate-values translated translation translations translationsde translationsen unicorn userlanguage var variable_replacement welt window world wurde"
+      "keywords": "$scope $translate $translateprovider add als anf angular angular-translate app attribut attribute awesome beginners bin browserlanguage button_lang_de button_lang_en changelanguage config controller cool ctrl custom de determinepreferredlanguage deutsch ein en englisch english ernsthaft fallbacklanguage find function german going greeting gro guide ha hallo headline hello hey html ich interpolated interpoliert key language languages logic love missing missing_translation modul module myapp navigator ng-click ng-controller oder oops overview paragraph pascalprecht passed passed_as_attribute passed_as_interpolation passed_as_text preferred preferredlangkey preferredlanguage registers return srsly systemlanguage table tables tells text translate translate-values translated translation translations translationsde translationsen unicorn userlanguage var variable_replacement welt window world wurde"
     },
     {
       "section": "guide",
@@ -280,7 +280,7 @@ NG_DOCS={
       "type": "overview",
       "moduleName": "Асинхронная загрузка",
       "shortDescription": "Асинхронная загрузка",
-      "keywords": "$on $rootscope $scope $translate $translatepartialloader $translatepartialloaderprovider $translatepartialloaderstructurechanged $translateprovider $translaterpartialloaderprovider _json_ addpart als anf angular angular-translate angular-translate-loader-partial angular-translate-loader-static-files angular-translate-loader-url app attribut attribute awesome beginners bin bower button_lang_de button_lang_en changelanguage config configures contact contactctrl controller cool ctrl data de deutsch ein en englisch english ernsthaft foo function german gro guide ha headline hello hello_text hey html ich install interpolated interpoliert json lang load locale- locale-de locale-en love main mainapp modul module myapp ng-click ng-controller ngcookies ngroute oder overview paragraph partialloader pascalprecht passed passed_as_attribute passed_as_interpolation passed_as_text preferredlanguage prefix refresh router srsly startup staticfilesloader suffix table text translate translate-values translations ui unicorn url urlloader urltemplate useloader uselocalstorage usestaticfilesloader useurlloader var variable_replacement world wurde"
+      "keywords": "$http $on $rootscope $scope $translate $translatepartialloader $translatepartialloaderprovider $translatepartialloaderstructurechanged $translateprovider $translaterpartialloaderprovider $translationprovider _json_ addpart als anf angular angular-translate angular-translate-loader-partial angular-translate-loader-static-files angular-translate-loader-url angularjs app attribut attribute awesome beginners bin bower button_lang_de button_lang_en cache changelanguage config configures contact contactctrl controller cool ctrl customloader data de default deutsch disable ein en englisch english ernsthaft false foo foobar function german gro guide ha headline hello hello_text hey html ich install interpolated interpoliert json lang load locale- locale-de locale-en love main mainapp method modul module myapp ng-click ng-controller ngcookies ngroute oder org overview paragraph partialloader pascalprecht passed passed_as_attribute passed_as_interpolation passed_as_text post preferredlanguage prefix refresh router settinga srsly startup staticfilesloader suffix table text translate translate-values translations ui unicorn url urlloader urltemplate useloader useloadercache uselocalstorage usestaticfilesloader useurlloader var variable_replacement world wurde yourspecialcacheservice"
     },
     {
       "section": "guide",

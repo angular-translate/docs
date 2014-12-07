@@ -48,7 +48,7 @@
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">45</p>
+      <p class="stat">50</p>
     </div>
   </div>
   <div class="row historical">
@@ -104,7 +104,12 @@
  * This directive can be used to prevent initial flickering when loading translation
  * data asynchronously.
  *
- * @param {string=} translate-cloak No string required
+ * The class name is defined in
+ * {@link pascalprecht.translate.$translateProvider#cloakClassName $translate.cloakClassName()}.
+ *
+ * @param {string=} translate-cloak If a translationId is provided, it will be used for showing
+ *                                  or hiding the cloak. Basically it relies on the translation
+ *                                  resolve.
  */
 .directive(&#039;translateCloak&#039;, [&#039;$rootScope&#039;, &#039;$translate&#039;, function ($rootScope, $translate) {
 

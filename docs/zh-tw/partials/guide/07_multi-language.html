@@ -43,6 +43,7 @@ $translateProvider.preferredLanguage('de');
 <p>版本<code>2.0</code> <code>$translateProvider</code>還有一個方法<code>determinePreferredLanguage()</code>。這個方法試圖自己來確定什麼首選語言。
 它在該<code>window.navigator</code>對像下面搜索以下屬性（也按照這個順序）：</p>
 <ul>
+<li><code>navigator.languages[0]</code></li>
 <li><code>navigator.language</code></li>
 <li><code>navigator.browserLanguage</code></li>
 <li><code>navigator.systemLanguage</code></li>

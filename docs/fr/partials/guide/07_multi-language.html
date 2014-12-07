@@ -61,11 +61,12 @@ Vous en apprendrez plus à ce sujet plus tard. Pour contourner ce problème, nou
 avons introduit <code>preferredLanguage()</code>. Vous devriez toujours utiliser <code>preferredLanguage()</code>
 à la place de <code>use()</code> sur <code>$translateProvider</code>.</p>
 <h3 id="multilingue_déterminer-automatiquement-la-langue-préférée">Déterminer automatiquement la langue préférée</h3>
-<p>Depuis la version 2.0 il y a aussi une méthode <code>determinePreferredLanguage()</code> sur 
+<p>Depuis la version 2.0 il y a aussi une méthode <code>determinePreferredLanguage()</code> sur
 <code>$translateProvider</code>. Cette méthode tente de déterminer par elle-même quelle serait
 la langue préférée. Elle cherche les valeurs de l&#39;objet <code>window.navigator</code> dans les
 propriétés suivantes (également dans cet ordre) :</p>
 <ul>
+<li><code>navigator.languages[0]</code></li>
 <li><code>navigator.language</code></li>
 <li><code>navigator.browserLanguage</code></li>
 <li><code>navigator.systemLanguage</code></li>
@@ -209,7 +210,7 @@ app.controller('Ctrl', ['$translate', '$scope', function ($translate, $scope) {
         // MISSING_TRANSLATION est ... oublié :)
         BUTTON_LANG_FR: 'french',
         BUTTON_LANG_EN: 'english'
-        
+
       };
 
       var app = angular.module('monApp', ['pascalprecht.translate']);
