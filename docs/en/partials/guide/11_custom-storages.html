@@ -12,14 +12,14 @@ instead.</p>
 <p>If you want to use your own custom storage in your app, you have to build a
 service which has to implement some methods, so angular-translate can make use
 of them. The interface for a storage service is pretty straight forward. All you
-need is to provide a <code>set()</code> and a <code>get()</code> method on your custom storage service.</p>
+need is to provide a <code>put()</code> and a <code>get()</code> method on your custom storage service.</p>
 <p>Let&#39;s say we want to use a custom storage service within our sample app. We can
 easily extend it with a new service. We just have to make sure that we return an
-object with a <code>get()</code> and a <code>set()</code> method. A custom service could look like this:</p>
+object with a <code>get()</code> and a <code>put()</code> method. A custom service could look like this:</p>
 <pre class="prettyprint linenums">
 app.factory('customStorage', function () {
   return {
-    set: function (name, value) {
+    put: function (name, value) {
       // store `value` under `name` somehow
     },
     get: function (name) {
@@ -28,7 +28,7 @@ app.factory('customStorage', function () {
   };
 });
 </pre>
-<p>Easy, right? As you can see, <code>set()</code> expects two arguments. A name and a value. So
+<p>Easy, right? As you can see, <code>put()</code> expects two arguments. A name and a value. So
 you work with simple key-value pairs. On the other side, <code>get()</code> just needs a name
 to request a value. Providing a custom storage as a separate service gives you high
 flexibility when it comes to using this service in a different place. In addition
@@ -104,7 +104,7 @@ at runtime to save the last chosen language.</p>
 
       app.factory('customStorage', function () {
         return {
-          set: function (name, value) {
+          put: function (name, value) {
             // store `value` under `name` somehow
           },
           get: function (name) {

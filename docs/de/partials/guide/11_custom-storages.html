@@ -12,14 +12,14 @@ eigene Storage-Services schreiben und diese verwenden.</p>
 <p>Wenn du einen anderen Storage verwenden möchtest, musst du deinen eigenen Storage-Service
 entwickeln, der ein bestimmtes Interface implementieren muss. In JavaScript gibt
 es keine Interfaces. Deswegen wird hier beschrieben, welche Methoden ein Storage-Service
-implementieren muss. Es wird nur eine <code>set()</code>- und eine <code>get()</code>- Methode gebraucht.</p>
+implementieren muss. Es wird nur eine <code>put()</code>- und eine <code>get()</code>- Methode gebraucht.</p>
 <p>Nehmen wir also an, wir wollen unsere Beispiel-App mit einem eigenen Storage-Service
-versehen. Dazu müssen wir nur sicher Stellen, dass unser Service eine <code>set()</code>- und
+versehen. Dazu müssen wir nur sicher Stellen, dass unser Service eine <code>put()</code>- und
 eine <code>get()</code>- Methode implementiert. Unser Service könnte so aussehen:</p>
 <pre class="prettyprint linenums">
 app.factory('customStorage', function () {
   return {
-    set: function (name, value) {
+    put: function (name, value) {
       // store `value` under `name` somehow
     },
     get: function (name) {
@@ -28,7 +28,7 @@ app.factory('customStorage', function () {
   };
 });
 </pre>
-<p>Wie du sehen kannst, erwartet <code>set()</code> zwei Parameter. Einen Namen und einen Value.
+<p>Wie du sehen kannst, erwartet <code>put()</code> zwei Parameter mit einem Namen und einen Wert.
 Die <code>get()</code>- Methode braucht nur einen Namen um einen bestimmten Wert aus dem
 vorhanden Speicher anzufragen. Da wir Storage-Services als echt Angular Services
 implementieren müssen, können wir automatisch von einfachen Testing und Dependency
@@ -104,7 +104,7 @@ der App beizubringen, sich eine Sprache zu merken.</p>
 
       app.factory('customStorage', function () {
         return {
-          set: function (name, value) {
+          put: function (name, value) {
             // store `value` under `name` somehow
           },
           get: function (name) {

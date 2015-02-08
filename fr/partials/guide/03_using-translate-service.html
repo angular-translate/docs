@@ -82,7 +82,7 @@ sur <code>$rootScope</code>, qui se déclenchera à chaque fois qu&#39;un change
 Une fois qu&#39;elle a changé, il vous suffit de ré-exécuter le code, qui vous donne vos traductions nécessaires.</p>
 <p>Voilà à quoi cela pourrait ressembler :</p>
 <pre class="prettyprint linenums">
-app.controller('Ctrl', ['$scope', '$translate', function ($scope, $translate, $rootScope) {
+app.controller('Ctrl', ['$scope', '$translate', '$rootScope', function ($scope, $translate, $rootScope) {
   $rootScope.$on('$translateChangeSuccess', function () {
     $translate('HEADLINE').then(function (translation) {
       $scope.headline = translation;

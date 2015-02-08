@@ -58,12 +58,29 @@ the following information is required:</p>
 <li><strong>suffix</strong> - specifies file suffix</li>
 </ul>
 <p>Let&#39;s say you have two localization files <code>locale-de.json</code> and  <code>locale-en.json</code>.
-You can simply use the staticFilesLoader with this pattern like this:</p>
+You can simply use the loader like this:</p>
 <pre class="prettyprint linenums">
 $translateProvider.useStaticFilesLoader({
     prefix: 'locale-',
     suffix: '.json'
 });
+$translateProvider.preferredLanguage('en');
+</pre>
+<p>Alternatively, if you have multiple translation files in distinct locations, you
+may instead supply an array of files to the loader:</p>
+<pre class="prettyprint linenums">
+$translateProvider.useStaticFilesLoader(
+    files: [{
+        prefix: 'locale-',
+        suffix: '.json'
+    }, {
+        prefix: '/absolute/path/to/locale-',
+        suffix: '.json'
+    }, {
+        prefix: 'another/path/to/locales/',
+        suffix: ''
+    }]
+);
 $translateProvider.preferredLanguage('en');
 </pre>
 <p>angular-translate will concatenate the given information to

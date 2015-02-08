@@ -53,12 +53,29 @@ $translateProvider.preferredLanguage('en');
 <li><strong>suffix</strong> - вказує суфікс назви файла</li>
 </ul>
 <p>Скажімо, у вас є два файла локалізації <code>locale-de.json</code> і <code>locale-en.json</code>. Ви легко можете
-скористатися staticFilesLoader з таким шаблоном:</p>
+скористатися завантажувачем наступним чином:</p>
 <pre class="prettyprint linenums">
 $translateProvider.useStaticFilesLoader({
     prefix: 'locale-',
     suffix: '.json'
 });
+$translateProvider.preferredLanguage('en');
+</pre>
+<p>Крім того, якщо у вас є декілька файлів з перекладами, що знаходяться у різних місцях, то можна
+передати завантажувачу масив файлів:</p>
+<pre class="prettyprint linenums">
+$translateProvider.useStaticFilesLoader(
+    files: [{
+        prefix: 'locale-',
+        suffix: '.json'
+    }, {
+        prefix: '/absolute/path/to/locale-',
+        suffix: '.json'
+    }, {
+        prefix: 'another/path/to/locales/',
+        suffix: ''
+    }]
+);
 $translateProvider.preferredLanguage('en');
 </pre>
 <p>angular-translate об&#39;єднає передану інформацію в <code>{{prefix}}{{langKey}}{{suffix}}</code>. Таким чином буде

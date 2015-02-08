@@ -22,12 +22,13 @@
 <h4 id="usage_parameters">Parameters</h4><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>options</td><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="pascalprecht-translate-translatepartialloader-page"><p>Options object</p>
 </div></td></tr></tbody></table></div>
 <div class="member method"><h2 id="methods">Methods</h2>
-<ul class="methods"><li><h3 id="methods_addpart">addPart(name)</h3>
-<div class="addpart"><div class="pascalprecht-translate-translatepartialloader-addpart-page"><p>Registers a new part of the translation table. This method does actually not perform any xhr
-requests to get a translation data. The new parts would be loaded from the server next time
-<code>angular-translate</code> asks to loader to loaded translations.</p>
+<ul class="methods"><li><h3 id="methods_addpart">addPart(name, priority)</h3>
+<div class="addpart"><div class="pascalprecht-translate-translatepartialloader-addpart-page"><p>Registers a new part of the translation table. This method does not actually perform any xhr
+requests to get translation data. The new parts will be loaded in order of priority from the server next time
+<code>angular-translate</code> asks the loader to load translations.</p>
 </div><h5 id="methods_addpart_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>name</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-translatepartialloader-addpart-page"><p>A name of the part to add</p>
-</div></td></tr></tbody></table><h5 id="methods_addpart_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="pascalprecht-translate-translatepartialloader-addpart-page"><p>$translatePartialLoader, so this method is chainable</p>
+</div></td></tr><tr><td>priority</td><td><a href="" class="label type-hint type-hint-int">int</a></td><td><div class="pascalprecht-translate-translatepartialloader-addpart-page"><p>Sets the load priority of this part.</p>
+</div> <p><em>(default: 0)</em></p></td></tr></tbody></table><h5 id="methods_addpart_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="pascalprecht-translate-translatepartialloader-addpart-page"><p>$translatePartialLoader, so this method is chainable</p>
 </div></td></tr></table></div>
 </li>
 <li><h3 id="methods_deletepart">deletePart(name, removeData)</h3>
@@ -45,6 +46,11 @@ deleted physically and might be reused in the future to prevent an additional xh
 </div> <p><em>(default: false)</em></p></td></tr></tbody></table><h5 id="methods_deletepart_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="pascalprecht-translate-translatepartialloader-deletepart-page"><p>$translatePartialLoader, so this method is chainable</p>
 </div></td></tr></table></div>
 </li>
+<li><h3 id="methods_getregisteredparts">getRegisteredParts()</h3>
+<div class="getregisteredparts"><div class="pascalprecht-translate-translatepartialloader-getregisteredparts-page"><p>Gets names of the parts that were added with the <code>addPart</code>.</p>
+</div><h5 id="methods_getregisteredparts_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-array">array</a></td><td><div class="pascalprecht-translate-translatepartialloader-getregisteredparts-page"><p>Returns array of registered parts, if none were registered then an empty array is returned.</p>
+</div></td></tr></table></div>
+</li>
 <li><h3 id="methods_ispartavailable">isPartAvailable(name)</h3>
 <div class="ispartavailable"><div class="pascalprecht-translate-translatepartialloader-ispartavailable-page"><p>Checks if a target translation part is available. The part becomes available just after it was
 added by the <code>addPart</code> method. Part&#39;s availability does not mean that it was loaded from the
@@ -52,6 +58,13 @@ server, but only that it was added to the loader. The available part might be lo
 time the loader is called.</p>
 </div><h5 id="methods_ispartavailable_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>name</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-translatepartialloader-ispartavailable-page"><p>A name of the part to delete</p>
 </div></td></tr></tbody></table><h5 id="methods_ispartavailable_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="pascalprecht-translate-translatepartialloader-ispartavailable-page"><p>Returns <strong>true</strong> if the part is available now and <strong>false</strong> if not.</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_ispartloaded">isPartLoaded(name, lang)</h3>
+<div class="ispartloaded"><div class="pascalprecht-translate-translatepartialloader-ispartloaded-page"><p>Checks if the registered translation part is loaded into the translation table.</p>
+</div><h5 id="methods_ispartloaded_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>name</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-translatepartialloader-ispartloaded-page"><p>A name of the part</p>
+</div></td></tr><tr><td>lang</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-translatepartialloader-ispartloaded-page"><p>A key of the language</p>
+</div></td></tr></tbody></table><h5 id="methods_ispartloaded_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="pascalprecht-translate-translatepartialloader-ispartloaded-page"><p>Returns <strong>true</strong> if the translation of the part is loaded to the translation table and <strong>false</strong> if not.</p>
 </div></td></tr></table></div>
 </li>
 </ul>

@@ -10,12 +10,13 @@ lifetime. All parts you add by using this provider would be loaded by
 angular-translate at the startup as soon as possible.</p>
 </div></div>
 <div class="member method"><h2 id="methods">Methods</h2>
-<ul class="methods"><li><h3 id="methods_addpart">addPart(name)</h3>
+<ul class="methods"><li><h3 id="methods_addpart">addPart(name, priority)</h3>
 <div class="addpart"><div class="pascalprecht-translate-translatepartialloaderprovider-addpart-page"><p>Registers a new part of the translation table to be loaded once the
 <code>angular-translate</code> gets into runtime phase. It does not actually load any
 translation data, but only registers a part to be loaded in the future.</p>
 </div><h5 id="methods_addpart_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>name</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-translatepartialloaderprovider-addpart-page"><p>A name of the part to add</p>
-</div></td></tr></tbody></table><h5 id="methods_addpart_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="pascalprecht-translate-translatepartialloaderprovider-addpart-page"><p>$translatePartialLoaderProvider, so this method is chainable</p>
+</div></td></tr><tr><td>priority</td><td><a href="" class="label type-hint type-hint-int">int</a></td><td><div class="pascalprecht-translate-translatepartialloaderprovider-addpart-page"><p>Sets the load priority of this part.</p>
+</div> <p><em>(default: 0)</em></p></td></tr></tbody></table><h5 id="methods_addpart_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="pascalprecht-translate-translatepartialloaderprovider-addpart-page"><p>$translatePartialLoaderProvider, so this method is chainable</p>
 </div></td></tr></table></div>
 </li>
 <li><h3 id="methods_deletepart">deletePart(name)</h3>

@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">67.82</p>
+      <p class="stat">70.17</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">439</p>
+      <p class="stat">486</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">49.21</p>
+      <p class="stat">46.24</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">1.97</p>
+      <p class="stat">2.18</p>
     </div>
   </div>
 </div>
@@ -109,10 +109,11 @@
    * @description
    * Represents Part object to add and set parts at runtime.
    */
-  function Part(name) {
+  function Part(name, priority) {
     this.name = name;
     this.isActive = true;
     this.tables = {};
+    this.priority = priority || 0;
   }
 
   /**
@@ -193,6 +194,19 @@
     return dst;
   }
 
+  function getPrioritizedParts() {
+    var prioritizedParts = [];
+    for(var part in parts) {
+      if (parts[part].isActive) {
+        prioritizedParts.push(parts[part]);
+      }
+    }
+    prioritizedParts.sort(function (a, b) {
+      return a.priority - b.priority;
+    });
+    return prioritizedParts;
+  }
+
 
   /**
    * @ngdoc function
@@ -205,18 +219,20 @@
    * translation data, but only registers a part to be loaded in the future.
    *
    * @param {string} name A name of the part to add
+   * @param {int} [priority=0] Sets the load priority of this part.
+   *
    * @returns {object} $translatePartialLoaderProvider, so this method is chainable
    * @throws {TypeError} The method could throw a **TypeError** if you pass the param
    * of the wrong type. Please, note that the `name` param has to be a
    * non-empty **string**.
    */
-  this.addPart = function(name) {
+  this.addPart = function(name, priority) {
     if (!isStringValid(name)) {
       throw new TypeError(&#039;Couldn\&#039;t add part, part name has to be a string!&#039;);
     }
 
     if (!hasPart(name)) {
-      parts[name] = new Part(name);
+      parts[name] = new Part(name, priority);
     }
     parts[name].isActive = true;
 
@@ -359,40 +375,28 @@
       }
 
       var loaders = [],
-          tables = [],
-          deferred = $q.defer();
+          deferred = $q.defer(),
+          prioritizedParts = getPrioritizedParts();
 
-      function addTablePart(table) {
-        tables.push(table);
-      }
-
-      for (var part in parts) {
-        if (hasPart(part) &amp;&amp; parts[part].isActive) {
-          loaders.push(
-            parts[part]
-              .getTable(options.key, $q, $http, options.$http, options.urlTemplate, errorHandler)
-              .then(addTablePart)
-          );
-          parts[part].urlTemplate = options.urlTemplate;
-        }
-      }
-
-      if (loaders.length) {
-        $q.all(loaders).then(
-          function() {
-            var table = {};
-            for (var i = 0; i &lt; tables.length; i++) {
-              deepExtend(table, tables[i]);
-            }
-            deferred.resolve(table);
-          },
-          function() {
-            deferred.reject(options.key);
-          }
+      angular.forEach(prioritizedParts, function(part, index) {
+        loaders.push(
+          part.getTable(options.key, $q, $http, options.$http, options.urlTemplate, errorHandler)
         );
-      } else {
-        deferred.resolve({});
-      }
+        part.urlTemplate = options.urlTemplate;
+      });
+
+      $q.all(loaders).then(
+        function() {
+          var table = {};
+          angular.forEach(prioritizedParts, function(part) {
+            deepExtend(table, part.tables[options.key]);
+          });
+          deferred.resolve(table);
+        },
+        function() {
+          deferred.reject(options.key);
+        }
+      );
 
       return deferred.promise;
     };
@@ -403,11 +407,12 @@
      * @methodOf pascalprecht.translate.$translatePartialLoader
      *
      * @description
-     * Registers a new part of the translation table. This method does actually not perform any xhr
-     * requests to get a translation data. The new parts would be loaded from the server next time
-     * `angular-translate` asks to loader to loaded translations.
+     * Registers a new part of the translation table. This method does not actually perform any xhr
+     * requests to get translation data. The new parts will be loaded in order of priority from the server next time
+     * `angular-translate` asks the loader to load translations.
      *
      * @param {string} name A name of the part to add
+     * @param {int} [priority=0] Sets the load priority of this part.
      *
      * @returns {object} $translatePartialLoader, so this method is chainable
      *
@@ -419,13 +424,13 @@
      * @throws {TypeError} The method could throw a **TypeError** if you pass the param of the wrong
      * type. Please, note that the `name` param has to be a non-empty **string**.
      */
-    service.addPart = function(name) {
+    service.addPart = function(name, priority) {
       if (!isStringValid(name)) {
         throw new TypeError(&#039;Couldn\&#039;t add part, first arg has to be a string&#039;);
       }
 
       if (!hasPart(name)) {
-        parts[name] = new Part(name);
+        parts[name] = new Part(name, priority);
         $rootScope.$emit(&#039;$translatePartialLoaderStructureChanged&#039;, name);
       } else if (!parts[name].isActive) {
         parts[name].isActive = true;
@@ -502,6 +507,48 @@
 
       return service;
     };
+
+    /**
+     * @ngdoc function
+     * @name pascalprecht.translate.$translatePartialLoader#isPartLoaded
+     * @methodOf pascalprecht.translate.$translatePartialLoader
+     *
+     * @description
+     * Checks if the registered translation part is loaded into the translation table.
+     *
+     * @param {string} name A name of the part
+     * @param {string} lang A key of the language
+     *
+     * @returns {boolean} Returns **true** if the translation of the part is loaded to the translation table and **false** if not.
+     *
+     * @throws {TypeError} The method could throw a **TypeError** if you pass the param of the wrong
+     * type. Please, note that the `name` and `lang` params have to be non-empty **string**.
+     */
+    service.isPartLoaded = function(name, lang) {
+      return angular.isDefined(parts[name]) &amp;&amp; angular.isDefined(parts[name].tables[lang]);
+    };
+
+    /**
+     * @ngdoc function
+     * @name pascalprecht.translate.$translatePartialLoader#getRegisteredParts
+     * @methodOf pascalprecht.translate.$translatePartialLoader
+     *
+     * @description
+     * Gets names of the parts that were added with the `addPart`.
+     *
+     * @returns {array} Returns array of registered parts, if none were registered then an empty array is returned.
+     */
+    service.getRegisteredParts = function() {
+      var registeredParts = [];
+      angular.forEach(parts, function(p){
+        if(p.isActive) {
+          registeredParts.push(p.name);
+        }
+      });
+      return registeredParts;
+    };
+
+
 
     /**
      * @ngdoc function

@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">70.20</p>
+      <p class="stat">68.97</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">243</p>
+      <p class="stat">280</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">31.39</p>
+      <p class="stat">32.32</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">1.54</p>
+      <p class="stat">1.76</p>
     </div>
   </div>
 </div>
@@ -178,9 +178,23 @@
  */
 .directive(&#039;translate&#039;, [&#039;$translate&#039;, &#039;$q&#039;, &#039;$interpolate&#039;, &#039;$compile&#039;, &#039;$parse&#039;, &#039;$rootScope&#039;, function ($translate, $q, $interpolate, $compile, $parse, $rootScope) {
 
+  /**
+   * @name trim
+   * @private
+   *
+   * @description
+   * trim polyfill
+   *
+   * @returns {string} The string stripped of whitespace from both ends
+   */
+  var trim = function() {
+    return this.replace(/^\s+|\s+$/g, &#039;&#039;);
+  };
+
   return {
     restrict: &#039;AE&#039;,
     scope: true,
+    priority: $translate.directivePriority(),
     compile: function (tElement, tAttr) {
 
       var translateValuesExist = (tAttr.translateValues) ?
@@ -191,31 +205,38 @@
 
       var translateValueExist = tElement[0].outerHTML.match(/translate-value-+/i);
 
-      var interpolateRegExp = &quot;^(.*)(&quot; + $interpolate.startSymbol() + &quot;.*&quot; + $interpolate.endSymbol() + &quot;)(.*)&quot;,
-          watcherRegExp = &quot;^(.*)&quot; + $interpolate.startSymbol() + &quot;(.*)&quot; + $interpolate.endSymbol() + &quot;(.*)&quot;;
+      var interpolateRegExp = &#039;^(.*)(&#039; + $interpolate.startSymbol() + &#039;.*&#039; + $interpolate.endSymbol() + &#039;)(.*)&#039;,
+          watcherRegExp = &#039;^(.*)&#039; + $interpolate.startSymbol() + &#039;(.*)&#039; + $interpolate.endSymbol() + &#039;(.*)&#039;;
 
       return function linkFn(scope, iElement, iAttr) {
 
         scope.interpolateParams = {};
-        scope.preText = &quot;&quot;;
-        scope.postText = &quot;&quot;;
+        scope.preText = &#039;&#039;;
+        scope.postText = &#039;&#039;;
         var translationIds = {};
 
         // Ensures any change of the attribute &quot;translate&quot; containing the id will
         // be re-stored to the scope&#039;s &quot;translationId&quot;.
         // If the attribute has no content, the element&#039;s text value (white spaces trimmed off) will be used.
         var observeElementTranslation = function (translationId) {
+
+          // Remove any old watcher
+          if (angular.isFunction(observeElementTranslation._unwatchOld)) {
+            observeElementTranslation._unwatchOld();
+            observeElementTranslation._unwatchOld = undefined;
+          }
+
           if (angular.equals(translationId , &#039;&#039;) || !angular.isDefined(translationId)) {
             // Resolve translation id by inner html if required
-            var interpolateMatches = iElement.text().match(interpolateRegExp);
+            var interpolateMatches = trim.apply(iElement.text()).match(interpolateRegExp);
             // Interpolate translation id if required
             if (angular.isArray(interpolateMatches)) {
               scope.preText = interpolateMatches[1];
               scope.postText = interpolateMatches[3];
               translationIds.translate = $interpolate(interpolateMatches[2])(scope.$parent);
-              watcherMatches = iElement.text().match(watcherRegExp);
+              var watcherMatches = iElement.text().match(watcherRegExp);
               if (angular.isArray(watcherMatches) &amp;&amp; watcherMatches[2] &amp;&amp; watcherMatches[2].length) {
-                scope.$watch(watcherMatches[2], function (newValue) {
+                observeElementTranslation._unwatchOld = scope.$watch(watcherMatches[2], function (newValue) {
                   translationIds.translate = newValue;
                   updateTranslations();
                 });
@@ -236,12 +257,23 @@
           });
         };
 
+        var firstAttributeChangedEvent = true;
         iAttr.$observe(&#039;translate&#039;, function (translationId) {
-          observeElementTranslation(translationId);
+          if (typeof translationId === &#039;undefined&#039;) {
+            // case of element &quot;&lt;translate&gt;xyz&lt;/translate&gt;&quot;
+            observeElementTranslation(&#039;&#039;);
+          } else {
+            // case of regular attribute
+            if (translationId !== &#039;&#039; || !firstAttributeChangedEvent) {
+              translationIds.translate = translationId;
+              updateTranslations();
+            }
+          }
+          firstAttributeChangedEvent = false;
         });
 
         for (var translateAttr in iAttr) {
-          if(iAttr.hasOwnProperty(translateAttr) &amp;&amp; translateAttr.substr(0, 13) === &#039;translateAttr&#039;) {
+          if (iAttr.hasOwnProperty(translateAttr) &amp;&amp; translateAttr.substr(0, 13) === &#039;translateAttr&#039;) {
             observeAttributeTranslation(translateAttr);
           }
         }
@@ -277,20 +309,25 @@
         // Master update function
         var updateTranslations = function () {
           for (var key in translationIds) {
-            if (translationIds.hasOwnProperty(key) &amp;&amp; translationIds[key]) {
-              updateTranslation(key, translationIds[key], scope, scope.interpolateParams);
+            if (translationIds.hasOwnProperty(key)) {
+              updateTranslation(key, translationIds[key], scope, scope.interpolateParams, scope.defaultText);
             }
           }
         };
 
         // Put translation processing function outside loop
-        var updateTranslation = function(translateAttr, translationId, scope, interpolateParams) {
-          $translate(translationId, interpolateParams, translateInterpolation)
-            .then(function (translation) {
-              applyTranslation(translation, scope, true, translateAttr);
-            }, function (translationId) {
-              applyTranslation(translationId, scope, false, translateAttr);
-            });
+        var updateTranslation = function(translateAttr, translationId, scope, interpolateParams, defaultTranslationText) {
+          if (translationId) {
+            $translate(translationId, interpolateParams, translateInterpolation, defaultTranslationText)
+              .then(function (translation) {
+                applyTranslation(translation, scope, true, translateAttr);
+              }, function (translationId) {
+                applyTranslation(translationId, scope, false, translateAttr);
+              });
+          } else {
+            // as an empty string cannot be translated, we can solve this using successful=false
+            applyTranslation(translationId, scope, false, translateAttr);
+          }
         };
 
         var applyTranslation = function (value, scope, successful, translateAttr) {
