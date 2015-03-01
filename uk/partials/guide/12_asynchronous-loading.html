@@ -64,7 +64,7 @@ $translateProvider.preferredLanguage('en');
 <p>Крім того, якщо у вас є декілька файлів з перекладами, що знаходяться у різних місцях, то можна
 передати завантажувачу масив файлів:</p>
 <pre class="prettyprint linenums">
-$translateProvider.useStaticFilesLoader(
+$translateProvider.useStaticFilesLoader({
     files: [{
         prefix: 'locale-',
         suffix: '.json'
@@ -75,7 +75,7 @@ $translateProvider.useStaticFilesLoader(
         prefix: 'another/path/to/locales/',
         suffix: ''
     }]
-);
+});
 $translateProvider.preferredLanguage('en');
 </pre>
 <p>angular-translate об&#39;єднає передану інформацію в <code>{{prefix}}{{langKey}}{{suffix}}</code>. Таким чином буде
@@ -213,7 +213,7 @@ $translationProvider.useStaticFilesLoader({
 перевизначений (см. следующий раздел).</p>
 <h3 id="асинхронне-завантаження_використання-кеша">Використання кеша</h3>
 <p>Для контролю над кешуванням в існуючих завантажувачах можна використовувати об&#39;єкт cache. Докладніше
-про це Ви можете прочитати в 
+про це Ви можете прочитати в
 <a href="https://docs.angularjs.org/api/ng/type/$cacheFactory.Cache">офіційній документації AngularJS</a>.</p>
 <p>Для увімкнення стандартного кешування використовується наступний метод:</p>
 <pre class="prettyprint linenums">

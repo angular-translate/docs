@@ -21,6 +21,8 @@ the user launches the app.</p>
 <strong>cookieStorage</strong>. Whereas localStorage falls back to cookieStorage if it isn&#39;t
 supported by the browser the user currently uses. To use one of those storages,
 you have to install the corresponding extension package.</p>
+<p>Also remember to include angular-cookies.min.js file in your HTML and to add &#39;ngCookies&#39; as dependency.</p>
+<pre><code class="lang-js">var module = angular.module(&#39;AppService&#39;, [&#39;pascalprecht.translate&#39;,&#39;ngCookies&#39;]);</code></pre>
 <h3 id="storages_using-cookiestorage">Using cookieStorage</h3>
 <p>If you want to use the cookieStorage to store the language over cross http requests,
 simply install the cookie storage extension via bower:</p>
