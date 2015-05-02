@@ -22,8 +22,8 @@
 керівництво, ви навчитеся користуватися angular-translate і чудовими функціями! Давайте ж почнемо!</p>
 <h3 id="i18n-для-ваших-angular-застосунків---просто_швидкий-старт">Швидкий старт</h3>
 <p>Встановіть модуль за допомогою Bower:</p>
-<pre><code>$ bower install angular-translate</code></pre>
-<p>Переконайтеся, що підключили його в HTML документ:</p>
+<pre><code>$ bower install angular-translate
+</code></pre><p>Переконайтеся, що підключили його в HTML документ:</p>
 <pre class="prettyprint linenums">
 &lt;script src="path/to/angular-translate.js"&gt;&lt;/script&gt;
 </pre>
@@ -41,7 +41,7 @@ app.config(['$translateProvider', function ($translateProvider) {
 
   $translateProvider.translations('de', {
     'TITLE': 'Hallo',
-    'FOO': 'Dies ist ein Paragraph'
+    'FOO': 'Dies ist ein Absatz'
   });
 
   $translateProvider.preferredLanguage('en');

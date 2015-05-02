@@ -14,10 +14,12 @@ und einer gewünschte Security-Strategy; dies gilt dann für die gesamte Applika
 <p>Derzeit gibt es nur zwei Strategien: <code>null</code> (keine) und <code>escaped</code> (für HTML).</p>
 <p>Um eine vollständige Rückwärtskompatibilität zu gewährleisten, ist das Feature derzeit
 deaktiviert:</p>
-<pre><code class="lang-javascript">$translateProvider.useSanitizeValueStrategy(null);</code></pre>
+<pre><code class="lang-javascript">$translateProvider.useSanitizeValueStrategy(null);
+</code></pre>
 <p>Selbstverständlich empfehlen wir aber das aktivierte Escaping (in einer späteren
 Version wird dies Standard sein):</p>
-<pre><code class="lang-javascript">$translateProvider.useSanitizeValueStrategy(&#39;escaped&#39;);</code></pre>
+<pre><code class="lang-javascript">$translateProvider.useSanitizeValueStrategy(&#39;escaped&#39;);
+</code></pre>
 <h3 id="escapen-dynamischer-werte_anwendungsbeispiele">Anwendungsbeispiele</h3>
 <h4 id="escapen-dynamischer-werte_anwendungsbeispiele_ausgabe-von-dynamischen-variablen-nicht-escaped">Ausgabe von dynamischen Variablen nicht escaped</h4>
 <h3 id="escapen-dynamischer-werte_source">Source</h3>

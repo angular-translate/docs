@@ -68,8 +68,8 @@ describe('myApp', function () {
 });
 </pre>
 <p>當我們運行這個測試中，我們會得到以下錯誤：</p>
-<pre><code>Error: Unexpected request: GET locale-en.json</code></pre>
-<p>那麼，為什麼我們得到這個錯誤？這裡的問題是，那angular-translate 調用異步含蓄加載。這意味著，當<code>$translate</code>服務通過DI實例化，我們雖然什麼也沒做但是有一個XHR發生。</p>
+<pre><code>Error: Unexpected request: GET locale-en.json
+</code></pre><p>那麼，為什麼我們得到這個錯誤？這裡的問題是，那angular-translate 調用異步含蓄加載。這意味著，當<code>$translate</code>服務通過DI實例化，我們雖然什麼也沒做但是有一個XHR發生。</p>
 <p>When writing tests and there are XHRs, one has to explicitly say that one expects
 a XHR in a certain spec. This is part of proper testing. In other words,
 when we explicitly say that there&#39;s a XHR happening, this error shouldn&#39;t occur,

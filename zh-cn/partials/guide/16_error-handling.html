@@ -6,8 +6,8 @@
 <p>有时候，你有一个复杂的应用程序，你不知道有多少翻译。你也不知道是否有漏译特定ID。这是漏译的处理程序大显身手的地方。</p>
 <h3 id="错误处理_使用日志处理程序扩展失踪翻译">使用日志处理程序扩展失踪翻译</h3>
 <p>有一个针对 angular-translate 的扩展，如果你试着翻译不存在翻译的ID他将日志记录传到控制台。像所有的扩展一样，您可以通过 Bower 这样安装：</p>
-<pre><code>$ bower install angular-translate-handler-log</code></pre>
-<p>要使用它你只需要在 <code>$translateProvider</code> 上调用<code>useMissingTranslationHandlerLog()</code>。 angular-translate 会帮你完成其他所需。</p>
+<pre><code>$ bower install angular-translate-handler-log
+</code></pre><p>要使用它你只需要在 <code>$translateProvider</code> 上调用<code>useMissingTranslationHandlerLog()</code>。 angular-translate 会帮你完成其他所需。</p>
 <pre class="prettyprint linenums">
 $translateProvider.useMissingTranslationHandlerLog();
 </pre>

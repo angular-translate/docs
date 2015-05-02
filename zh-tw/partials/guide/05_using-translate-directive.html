@@ -12,8 +12,8 @@
 <p>同樣通過angular-translate 的<code>translate</code> 過濾器， 我們可以簡單的將控制器的邏輯轉化到視圖層。
 <a href="#/guide/03_using-translate-service#generalusage">使用$translate 服務</a>。
 簡單說 <code>translate</code> 過濾器是這樣的:</p>
-<pre><code>&lt;ANY&gt;{{ TRANSLATION_ID | translate }}&lt;/ANY&gt;</code></pre>
-<p>因此，要更新我們的例子，我們在控制器中刪除<code>$translate</code> 服務的使用，並使用<code>translate</code> 過濾器將邏輯添加到視圖層。
+<pre><code>&lt;ANY&gt;{{ TRANSLATION_ID | translate }}&lt;/ANY&gt;
+</code></pre><p>因此，要更新我們的例子，我們在控制器中刪除<code>$translate</code> 服務的使用，並使用<code>translate</code> 過濾器將邏輯添加到視圖層。
 就像這樣：</p>
 <pre class="prettyprint linenums">
 &lt;h1&gt;{{'HEADLINE' | translate}}&lt;/h1&gt;

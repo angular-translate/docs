@@ -13,8 +13,10 @@
 如果你想更深入的信息，去<a href="http://github.com/angular-translate/grunt-po2json-angular-translate">GitHub 库</a>.</p>
 <p>简单地说，设置它，你需要两个步骤：</p>
 <p>1）安装它，在你的 gruntfile 中启用</p>
-<pre><code class="lang-shell">npm install grunt-po2json-angular-translate --save-dev</code></pre>
-<pre><code class="lang-js">grunt.loadNpmTasks(&#39;grunt-po2json-angular-translate&#39;);</code></pre>
+<pre><code class="lang-shell">npm install grunt-po2json-angular-translate --save-dev
+</code></pre>
+<pre><code class="lang-js">grunt.loadNpmTasks(&#39;grunt-po2json-angular-translate&#39;);
+</code></pre>
 <p>2) 根据您的需要添加的配置，例如：</p>
 <pre><code class="lang-js">grunt.initConfig({
   po2json_angular_translate: {
@@ -32,7 +34,8 @@
                   }
     },
   },
-});</code></pre>
+});
+</code></pre>
 <p>无论您是需要一个或多个.json的文件，取决于您的特例。
 这里有几个选项可以在开发/生产环境下帮助您，但更重要的，是以下的：</p>
 <h5 id="工具_grunt-po2json-angular-translate_optionspretty">options.pretty</h5>
@@ -84,5 +87,6 @@ Default value:  <code>false</code>
                     &#39;app/dist/i18n/de/common-strings.json&#39; : [&#39;po/de/dashboard/common/*.po&#39;]
                 }
             }
-        },</code></pre>
+        },
+</code></pre>
 </div></div>

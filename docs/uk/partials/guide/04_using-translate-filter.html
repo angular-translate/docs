@@ -19,8 +19,8 @@
 приклад з розділу <a href="#/guide/03_using-translate-service#generalusage">Використання сервісу $translate</a>
 шляхом перенесення логіки з контролера на рівень представлення. В цілому, фільтр <code>translate</code> працює
 так:</p>
-<pre><code>&lt;ANY&gt;{{ TRANSLATION_ID | translate }}&lt;/ANY&gt;</code></pre>
-<p>Для того, щоб оновити наш приклад, ми відмовимося від використання сервісу <code>$translate</code> у
+<pre><code>&lt;ANY&gt;{{ TRANSLATION_ID | translate }}&lt;/ANY&gt;
+</code></pre><p>Для того, щоб оновити наш приклад, ми відмовимося від використання сервісу <code>$translate</code> у
 контролері і додамо логіку у представлення, використовуючи фільтр <code>translate</code> так:</p>
 <pre class="prettyprint linenums">
 &lt;h1&gt;{{'HEADLINE' | translate}}&lt;/h1&gt;

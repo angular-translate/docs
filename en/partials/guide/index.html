@@ -23,8 +23,8 @@ When you read this doc, you&#39;ll learn how to use angular-translate and its co
 Let&#39;s have a quick start:</p>
 <h3 id="i18n-for-your-angular-apps,-made-easy_quick-start">Quick Start</h3>
 <p>Install module via Bower:</p>
-<pre><code>$ bower install angular-translate</code></pre>
-<p>Make sure to embed it in your HTML document.</p>
+<pre><code>$ bower install angular-translate
+</code></pre><p>Make sure to embed it in your HTML document.</p>
 <pre class="prettyprint linenums">
 &lt;script src="path/to/angular-translate.js"&gt;&lt;/script&gt;
 </pre>
@@ -42,7 +42,7 @@ app.config(['$translateProvider', function ($translateProvider) {
 
   $translateProvider.translations('de', {
     'TITLE': 'Hallo',
-    'FOO': 'Dies ist ein Paragraph'
+    'FOO': 'Dies ist ein Absatz'
   });
 
   $translateProvider.preferredLanguage('en');

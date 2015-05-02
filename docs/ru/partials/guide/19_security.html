@@ -13,9 +13,11 @@
 <p>На текущий момент доступно два варианта: <code>null</code> (ничего) и <code>escaped</code> (для HTML).</p>
 <p>Экранирование осуществляется с полным сохранением обратной совместимости. Это означает, что
 экранирование отключено по умолчанию.</p>
-<pre><code class="lang-javascript">$translateProvider.useSanitizeValueStrategy(null);</code></pre>
+<pre><code class="lang-javascript">$translateProvider.useSanitizeValueStrategy(null);
+</code></pre>
 <p>Впрочем, в будущем по умолчанию будет использоваться более защищенный вариант <code>escaped</code>.</p>
-<pre><code class="lang-javascript">$translateProvider.useSanitizeValueStrategy(&#39;escaped&#39;);</code></pre>
+<pre><code class="lang-javascript">$translateProvider.useSanitizeValueStrategy(&#39;escaped&#39;);
+</code></pre>
 <h3 id="экранирование-динамического-контента_демонтрация">Демонтрация</h3>
 <h4 id="экранирование-динамического-контента_демонтрация_без-экранирования">Без экранирования</h4>
 <h3 id="экранирование-динамического-контента_source">Source</h3>

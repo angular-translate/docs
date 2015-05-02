@@ -18,8 +18,8 @@
 和 <a href="https://github.com/SlexAxton/messageformat.js#pluralformat">复数格式</a>.
 那么在我们的应用程序中我们如何在 angular-translate 中使用 MessageFormat 来借此充分发挥其优势呢？</p>
 <p>当然，这有它相应的扩展。只需通过 bower 安装 MessageFormat：</p>
-<pre><code>$ bower install angular-translate-interpolation-messageformat</code></pre>
-<p>好吧，简单。不要忘了将它嵌入在你的HTML文档中，这样我们才可以使用所提供的服务。不要忘了先嵌入MessageFormat.js本身：</p>
+<pre><code>$ bower install angular-translate-interpolation-messageformat
+</code></pre><p>好吧，简单。不要忘了将它嵌入在你的HTML文档中，这样我们才可以使用所提供的服务。不要忘了先嵌入MessageFormat.js本身：</p>
 <pre class="prettyprint linenums">
 &lt;script src="path/to/messageformat.js"&gt;&lt;/script&gt;
 &lt;script src="path/to/angular-translate-interpolation-messageformat"&gt;&lt;/script&gt;
@@ -40,8 +40,8 @@ $translateProvider.preferredLanguage('en');
 这是有些翻译可能的形式：</p>
 <pre><code>{
   &quot;LIKE_TEXT&quot;: &quot;{GENDER, select, male{He} female{She} other{They}} liked this.&quot;
-}</code></pre>
-<p>正如你所看到的，在给定的例子里， MessageFormat 支持的 <code>SelectFormat</code> 来插值给定的性别。我们可以使用 <code>$translate</code> 翻译服务，以及
+}
+</code></pre><p>正如你所看到的，在给定的例子里， MessageFormat 支持的 <code>SelectFormat</code> 来插值给定的性别。我们可以使用 <code>$translate</code> 翻译服务，以及
 <code>translate</code> 翻译指令和过滤器，去翻译 <code>LIKE_TEXT</code> 的翻译ID，如我们总是这样做：</p>
 <pre class="prettyprint linenums">
 // using `$translate` service来
@@ -58,8 +58,8 @@ $translate('LIKE_TEXT', { GENDER: 'male' });
 <pre><code>{
   &quot;DEFAULT_INTERPOLATION&quot;: &quot;This is a translation that uses default interpolation with a dynamic value: {{value}}&quot;,
   &quot;MF_INTERPOLATION&quot;: &quot;This is a translation that uses MessageFormat interpolation with a dynamic value: {value}&quot;
-}</code></pre>
-<p>没错。 MessageFormat 中它的插值使用不同的语法。这意味着，在使用MessageFormat插值时，你必须检查你所有的翻译，
+}
+</code></pre><p>没错。 MessageFormat 中它的插值使用不同的语法。这意味着，在使用MessageFormat插值时，你必须检查你所有的翻译，
 如果他们使用任何类型的变量替换，你要更新它们相匹配的插值语法。这不是一件很酷的事情。</p>
 <p>除此之外，我们也失去了所有 Angular 的很酷的功能，比如表达式求值或使用过滤器，因为 MessageFormat 不支持
 它们。那么，我们如何解决这个问题呢？我们需要一种方法来使用 angular-translate 的

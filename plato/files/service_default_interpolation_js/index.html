@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">71.86</p>
+      <p class="stat">75.92</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">86</p>
+      <p class="stat">72</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">15.83</p>
+      <p class="stat">8.28</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">0.34</p>
+      <p class="stat">0.18</p>
     </div>
   </div>
 </div>
@@ -97,40 +97,22 @@
  * @description
  * Uses angular&#039;s `$interpolate` services to interpolate strings against some values.
  *
- * @return {object} $translateInterpolator Interpolator service
+ * Be aware to configure a proper sanitization strategy.
+ *
+ * See also:
+ * * {@link pascalprecht.translate.$translateSanitization}
+ *
+ * @return {object} $translateDefaultInterpolation Interpolator service
  */
-angular.module(&#039;pascalprecht.translate&#039;).factory(&#039;$translateDefaultInterpolation&#039;, [&#039;$interpolate&#039;, function ($interpolate) {
+angular.module(&#039;pascalprecht.translate&#039;).factory(&#039;$translateDefaultInterpolation&#039;, $translateDefaultInterpolation);
+
+function $translateDefaultInterpolation ($interpolate, $translateSanitization) {
+
+  &#039;use strict&#039;;
 
   var $translateInterpolator = {},
       $locale,
-      $identifier = &#039;default&#039;,
-      $sanitizeValueStrategy = null,
-      // map of all sanitize strategies
-      sanitizeValueStrategies = {
-        escaped: function (params) {
-          var result = {};
-          for (var key in params) {
-            if (Object.prototype.hasOwnProperty.call(params, key)) {
-              if (angular.isNumber(params[key])) {
-                result[key] = params[key];
-              } else {
-                result[key] = angular.element(&#039;&lt;div&gt;&lt;/div&gt;&#039;).text(params[key]).html();
-              }
-            }
-          }
-          return result;
-        }
-      };
-
-  var sanitizeParams = function (params) {
-    var result;
-    if (angular.isFunction(sanitizeValueStrategies[$sanitizeValueStrategy])) {
-      result = sanitizeValueStrategies[$sanitizeValueStrategy](params);
-    } else {
-      result = params;
-    }
-    return result;
-  };
+      $identifier = &#039;default&#039;;
 
   /**
    * @ngdoc function
@@ -160,8 +142,12 @@ angular.module(&#039;pascalprecht.translate&#039;).factory(&#039;$translateDefau
     return $identifier;
   };
 
+  /**
+   * @deprecated will be removed in 3.0
+   * @see {@link pascalprecht.translate.$translateSanitization}
+   */
   $translateInterpolator.useSanitizeValueStrategy = function (value) {
-    $sanitizeValueStrategy = value;
+    $translateSanitization.useStrategy(value);
     return this;
   };
 
@@ -176,15 +162,20 @@ angular.module(&#039;pascalprecht.translate&#039;).factory(&#039;$translateDefau
    *
    * @returns {string} interpolated string.
    */
-  $translateInterpolator.interpolate = function (string, interpolateParams) {
-    if ($sanitizeValueStrategy) {
-      interpolateParams = sanitizeParams(interpolateParams);
-    }
-    return $interpolate(string)(interpolateParams || {});
+  $translateInterpolator.interpolate = function (string, interpolationParams) {
+    interpolationParams = interpolationParams || {};
+    interpolationParams = $translateSanitization.sanitize(interpolationParams, &#039;params&#039;);
+
+    var interpolatedText = $interpolate(string)(interpolationParams);
+    interpolatedText = $translateSanitization.sanitize(interpolatedText, &#039;text&#039;);
+
+    return interpolatedText;
   };
 
   return $translateInterpolator;
-}]);</textarea>
+}
+
+$translateDefaultInterpolation.displayName = &#039;$translateDefaultInterpolation&#039;;</textarea>
   </div>
 </div>
 

@@ -8,19 +8,22 @@
 <pre><code class="lang-js">$translateProvider.translations({
 &#39;greetings&#39; : &#39;Hello&#39;,
 // some other keys
-});</code></pre>
+});
+</code></pre>
 <p>要解決它，你只需要添加一門語言的鍵作為第一個參數：</p>
 <pre><code class="lang-js">$translateProvider.translations(&#39;en&#39;, {
 &#39;greetings&#39; : &#39;Hello&#39;,
 // some other keys
 });
-$translateProvider.use(&#39;en&#39;);</code></pre>
+$translateProvider.use(&#39;en&#39;);
+</code></pre>
 <h3 id="111--&gt;-200_uses--&gt;-use">uses -&gt; use</h3>
 <p>為了提高一致性我們決定將 <code>.uses()</code> 方法更名為 <code>.use()</code>. 這個是在 $translate 和 $translateProvider兩者上都做的改變。
 所以請確保您已更新所有出現這些方法的代碼為新的樣式。</p>
 <h3 id="111--&gt;-200_$translate-現在是非同步了">$translate() 現在是非同步了</h3>
 <p>$translate 服務是基於現在的承諾。所以你不能再同步方式使用它了。請更新以下代碼從：</p>
-<pre><code class="lang-js">var stringFromService = $translate(&#39;translationId&#39;);</code></pre>
+<pre><code class="lang-js">var stringFromService = $translate(&#39;translationId&#39;);
+</code></pre>
 <p>變成</p>
 <pre><code class="lang-js">var stringFromService;
 $translate(&#39;translationId&#39;).then(function(translation) {
@@ -28,7 +31,8 @@ stringFromService = translation;
 }, function(translationId){
 // Unable to translate given translationId
 stringFromService = translationId;
-});</code></pre>
+});
+</code></pre>
 <p>如果您仍然想同步的方式使用該服務，那麼請使用
 <code>$translate.instant(translationId, interpolateParams, interpolationId)</code> 方法，而不是直接的服務通話。
 但是請注意， <code>instant</code> 方法不會等到非同步載入完成。因此，要小心使用它。</p>

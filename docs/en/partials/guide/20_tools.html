@@ -15,8 +15,10 @@ you might be interested in when developing apps with angular-translate.</p>
 If you want deeper information, head over to <a href="http://github.com/angular-translate/grunt-po2json-angular-translate">the GitHub repo</a>.</p>
 <p>Briefly, to set it up, you need two steps:</p>
 <p>1) Install it and enable it on your gruntfile</p>
-<pre><code class="lang-shell">npm install grunt-po2json-angular-translate --save-dev</code></pre>
-<pre><code class="lang-js">grunt.loadNpmTasks(&#39;grunt-po2json-angular-translate&#39;);</code></pre>
+<pre><code class="lang-shell">npm install grunt-po2json-angular-translate --save-dev
+</code></pre>
+<pre><code class="lang-js">grunt.loadNpmTasks(&#39;grunt-po2json-angular-translate&#39;);
+</code></pre>
 <p>2) Add the configuration according to your needs, for example:</p>
 <pre><code class="lang-js">grunt.initConfig({
   po2json_angular_translate: {
@@ -34,7 +36,8 @@ If you want deeper information, head over to <a href="http://github.com/angular-
                   }
     },
   },
-});</code></pre>
+});
+</code></pre>
 <p>Whether you need a single or multiple .json files, depends on your special case.</p>
 <p>There are several options that could help you on the development/production environment, but the more important ones,
 are the next ones:</p>
@@ -86,5 +89,6 @@ formatted <a href="https://github.com/angular-translate/grunt-po2json-angular-tr
                     &#39;app/dist/i18n/de/common-strings.json&#39; : [&#39;po/de/dashboard/common/*.po&#39;]
                 }
             }
-        },</code></pre>
+        },
+</code></pre>
 </div></div>

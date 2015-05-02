@@ -12,8 +12,8 @@
 <h3 id="異步加載_使用-urlloader">使用 urlLoader</h3>
 <p>這是可能異步裝載換算數據的最簡單的方法。所有您需要做的，
 就是用bower 安裝<code>angular-translate-loader-url</code>擴展：</p>
-<pre><code>$ bower install angular-translate-loader-url</code></pre>
-<p>安裝完成後，請確認你已經在HTML文檔中內嵌了。
+<pre><code>$ bower install angular-translate-loader-url
+</code></pre><p>安裝完成後，請確認你已經在HTML文檔中內嵌了。
 好吧， 裝載機是可用的了，我們現在要告訴angular-translate 去使用它。
 <code>$translateProvider</code> 提供一個方法叫做<code>useUrlLoader()</code>. 很簡單對吧? 、
 <code>useUrlLoader()</code> 預期一個描述端點的參數。他將與那服務器進行翻譯數據響應。</p>
@@ -33,8 +33,8 @@ $translateProvider.preferredLanguage('en');
 <p>如果您有不只有一個URL期待<code>lang</code>參數來返回一個JSON，其中包含記得翻譯，而是有多個本地化文件匹配一個特定的模式，
 你可能想使用<code>angular-translate-loader-static-files</code>擴展，它描述您的本地化文件模式。</p>
 <p>和urlLoader一樣, 你可以使用bower 安裝staticFilesL​​oader:</p>
-<pre><code>$ bower install angular-translate-loader-static-files</code></pre>
-<p>一旦軟件包安裝和嵌入，則可以使用<code>$translateProvider</code> 的<code>useStaticFilesL​​oader()</code> 方法來告訴angular-translate 去使用它.
+<pre><code>$ bower install angular-translate-loader-static-files
+</code></pre><p>一旦軟件包安裝和嵌入，則可以使用<code>$translateProvider</code> 的<code>useStaticFilesL​​oader()</code> 方法來告訴angular-translate 去使用它.
 靜態文件加載器的工作原理有點不同。不只具有固定url 而且需要一個<code>lang</code>參數，你現在可以有不同的本地化匹配特定模式的文件。</p>
 <p>如何定義模式取決於您的需要。要指定一種模式，以下信息是必需的：</p>
 <ul>
@@ -68,16 +68,16 @@ $translateProvider.preferredLanguage('en');
 <p>是啊，當我們想部分加載這些都是我們關心的。然而，<code>angular-translate</code> 已經為你做了。這就是
 <code>partialLoader</code> 的用武之地。</p>
 <p>你可以使用bower 來安裝， 就好像安裝其他加載器一樣:</p>
-<pre><code>$ bower install angular-translate-loader-partial</code></pre>
-<p>當你使用<code>partialLoader</code> 你必須考慮用哪一個<code>angular-translate</code> 模式來加載你的數據。這和
+<pre><code>$ bower install angular-translate-loader-partial
+</code></pre><p>當你使用<code>partialLoader</code> 你必須考慮用哪一個<code>angular-translate</code> 模式來加載你的數據。這和
 <code>staticFilesL​​oader</code> 很相似但更具體一點。你必須指定一個<code>part</code> 和一個​​<code>lang</code> 屬性,
 <code>part</code> 為您的應用程序的具體屬性(可能就是<code>home</code>)， <code>lang</code> 是你知道的語言鍵.</p>
 <p>比方說，我們的翻譯文件和組件文件結構看起來像這樣的：</p>
 <pre><code>/i18n/home/en.json
 /i18n/home/de.json
 /i18n/contact/en.json
-/i18n/contact/de.json</code></pre>
-<p>非常直截了當哈？現在，我們知道我們的數據是如何組織的，我們可以配置<code>$translateProvider</code> 來使用這種模式的部分裝載機：</p>
+/i18n/contact/de.json
+</code></pre><p>非常直截了當哈？現在，我們知道我們的數據是如何組織的，我們可以配置<code>$translateProvider</code> 來使用這種模式的部分裝載機：</p>
 <pre class="prettyprint linenums">
 $translateProvider.useLoader('$translatePartialLoader', {
   urlTemplate: '/i18n/{part}/{lang}.json'
@@ -165,7 +165,7 @@ $translateProvider.useStaticFilesL​​oader({
     'prefix': 'locale-',
     'suffix': '.json'
 });
-$translateProvider.preferredLanguage('de');
+$translateProvider.preferredLanguage('en');
 </pre>
 <p>讓我們來使用相應的異步加載器來更新我們的示例應用程序！我們將使用 staticFilesL​​oader。首先，我們要從代碼中抽取翻譯轉換錶出來
 並把它們放在不同的區域設置文件中：</p>

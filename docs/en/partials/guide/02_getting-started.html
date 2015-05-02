@@ -82,7 +82,8 @@ when loading remotely, as a JSON object. This is how a translation table could
 look like:</p>
 <pre><code class="lang-json">{
   &quot;TRANSLATION_ID&quot;: &quot;This is a concrete translation for a specific language.&quot;
-}</code></pre>
+}
+</code></pre>
 <p>Is that easy? The translation table above contains just one translation. As you
 can see, the key represents a translation ID, whereas the value represents
 the concrete translation for a certain language. You don&#39;t even have to provide
@@ -97,7 +98,8 @@ All you have to do is to create nested JSON objects:</p>
        &quot;TRANSLATION_ID1&quot;: &quot;This is a namespaced translation.&quot;
     }
   }
-}</code></pre>
+}
+</code></pre>
 <p>This translation table only contains one translation, but you can extend it very
 easily. You can have various nesting levels in your translation table, and each
 namespace can contain as many subnamespace as you want making it very flexible
@@ -111,7 +113,8 @@ Let&#39;s say you have a translation table that looks like this:</p>
       &quot;foo&quot;: &quot;This is my text.&quot;
     }
   }
-}</code></pre>
+}
+</code></pre>
 <p>You would later access the existing translation id actually via <code>bar.foo.foo</code>.
 So, this is pretty much okay, but we can do better. angular-translate is clever
 enought to recognize, if there&#39;s a translation id that has the same identifier as
@@ -131,7 +134,8 @@ following translation table:</p>
   &quot;ANOTHER_NAMESPACE&quot;: {
     &quot;OK_TEXT&quot;: &quot;OK&quot;
   }
-}</code></pre>
+}
+</code></pre>
 <p>So as you can see we have to introduced namespaces here, but both of them kind of need
 a text that probably just says &quot;OK&quot;. This case isn&#39;t unusual if you just think about
 a confirmation button or similar in your app. However, it isn&#39;t hard to recognize
@@ -148,7 +152,8 @@ could look like this:</p>
   &quot;ANOTHER_NAMESPACE&quot;: {
     &quot;OK_TEXT&quot;: &quot;@:SOME_NAMESPACE.OK_TEXT&quot;
   }
-}</code></pre>
+}
+</code></pre>
 <h3 id="getting-started_aaaand-action">Aaaand action!</h3>
 <p>Let&#39;s add a translation table to our app. <code>$translateProvider</code> provides a
 method called <code>translations()</code>, which takes care of that. Let&#39;s say we have a

@@ -15,8 +15,8 @@
 <h3 id="асинхронная-загрузка_использование-urlloader">Использование urlLoader</h3>
 <p>Это, возможно, простейший способ загрузки данных перевода асинхронно. Все, что для этого нужно - это
 установить расширение <code>angular-translate-loader-url</code> при помощи Bower:</p>
-<pre><code>$ bower install angular-translate-loader-url</code></pre>
-<p>Когда оно установится, убедитесь, что включили его в свой HTML документ. Хорошо, загрузчик доступен
+<pre><code>$ bower install angular-translate-loader-url
+</code></pre><p>Когда оно установится, убедитесь, что включили его в свой HTML документ. Хорошо, загрузчик доступен
 и мы должны сказать angular-translate использовать его. <code>$translateProvider</code> предоставляет метод под
 названием <code>useUrlLoader()</code>. Очень просто, да? <code>useUrlLoader()</code> принимает аргумент, который описывает
 конечную точку на сервере, которая вернет в ответ данные перевода.</p>
@@ -40,8 +40,8 @@ $translateProvider.preferredLanguage('en');
 вероятно, нужно использовать расширение <code>angular-translate-loader-static-files</code>, которое описывает
 шаблон ваших файлов локализации.</p>
 <p>Как и urlLoader, вы можете установить расширение staticFilesLoader при помощи Bower:</p>
-<pre><code>$ bower install angular-translate-loader-static-files</code></pre>
-<p>Когда пакет установлен и подключен, вы можете вызвать <code>useStaticFilesLoader()</code> метод
+<pre><code>$ bower install angular-translate-loader-static-files
+</code></pre><p>Когда пакет установлен и подключен, вы можете вызвать <code>useStaticFilesLoader()</code> метод
 <code>$translateProvider</code>&#39;а, чтобы сказать angular-translate, что нужно использовать его. Загрузчик
 статичных файлов работает немного иначе. Вместо того, чтобы иметь фиксированный URL, который
 нуждается только в параметре <code>lang</code>, вы теперь можете иметь различные файлы локализации, которые
@@ -99,8 +99,8 @@ angular-translate загрузит его автоматически как мо
 <p>Да, это то, о чем необходимо позаботиться, если нам нужна загрузка по частям. Тем не менее,
 <code>angular-translate</code> предусмотрел это. Тут в игру вступает <code>partialLoader</code>.</p>
 <p>Вы можете установить его как и любой другой загрузчик просто используя Bower:</p>
-<pre><code>$ bower install angular-translate-loader-partial</code></pre>
-<p>Используя <code>partialLoader</code> вам нужно подумать о шаблоне, который <code>angular-translate</code> будет
+<pre><code>$ bower install angular-translate-loader-partial
+</code></pre><p>Используя <code>partialLoader</code> вам нужно подумать о шаблоне, который <code>angular-translate</code> будет
 использовать для загрузки переводов. Это похоже на <code>staticFilesLoader</code>, но немного более специфично.
 Вам необходимо указать свойства <code>part</code> и <code>lang</code>, где <code>part</code> означает часть вашего приложения
 (к примеру, <code>home</code>), и <code>lang</code> - ключ нужного языка.</p>
@@ -108,8 +108,8 @@ angular-translate загрузит его автоматически как мо
 <pre><code>/i18n/home/en.json
 /i18n/home/de.json
 /i18n/contact/en.json
-/i18n/contact/de.json</code></pre>
-<p>Вполне логично, да? Теперь, когда мы знаем как структурированы наши данные, мы можем настроить
+/i18n/contact/de.json
+</code></pre><p>Вполне логично, да? Теперь, когда мы знаем как структурированы наши данные, мы можем настроить
 <code>$translateProvider</code> для использования загрузчика с этим шаблоном:</p>
 <pre class="prettyprint linenums">
 $translateProvider.useLoader('$translatePartialLoader', {
@@ -187,6 +187,36 @@ app.run(function ($rootScope, $translate) {
 </pre>
 <p>Так как <code>$translate.refresh()</code> возвращает обещание, это отлично работает как с модулем <code>ngRoute</code>,
 так и с UI Router.</p>
+<p>Интересным является вопрос борьбы с ошибками загрузки. По умолчанию загрузчик отвергает весь
+процесс загрузки, если любая из частей не была загружена с сервера. Но вы можете немного изменить
+это поведение. Загрузчик позволяет указать обработчик ошибок - сервис, который будет вызываться,
+если какая-либо часть не может быть загружена. В данном сервисе вы можете делать все, чтобы
+обрабатывать такие ситуации.</p>
+<p>Есть несколько вещей, которые вы должны знать, прежде чем вы сможете создать ваш первый обработчик
+ошибок:</p>
+<p>1) Загрузчик рассчитывает, что обработчик ошибок имеет следующую сигнатуру
+<code>function (part:String, langKey:String):Promise</code>
+2) Вы должны либо разрешить обещание с таблицей перевода для данных части и языка или отклонить его
+3) Загрузчик будет использовать данную таблицу перевода так же, как если бы она была успешно
+получена с сервера
+4) Если вы отвергнете обещание, то загрузчик отвергнет весь процесс загрузки</p>
+<p>Вот пример простого обработчика ошибок:</p>
+<pre><code class="lang-js">angular.module(&#39;translation&#39;)
+.factory(&#39;MyErrorHandler&#39;, function ($q, $log) {
+  return function (part, lang) {
+    $log.error(&#39;The &quot;&#39; + part + &#39;/&#39; + lang + &#39;&quot; part was not loaded.&#39;);
+    return $q.when({});
+  };
+});
+</code></pre>
+<p>Итак, теперь все, что мы должны сделать, это сказать загрузчику название сервиса, который он должен
+использовать в качестве обработчика ошибок:</p>
+<pre class="prettyprint linenums">
+$translateProvider.useLoader('$translatePartialLoader', {
+  urlTemplate: '/i18n/{part}/{lang}.json',
+  loadFailureHandler: 'MyErrorHandler'
+});
+</pre>
 <h3 id="асинхронная-загрузка_отложенная-загрузка-во-время-выполнения">Отложенная загрузка во время выполнения</h3>
 <p>Как только ваше приложение загрузится, то оно асинхронно загрузит необходимые данные переводов.
 Окей, круто. Но что, если пользователь хочет изменить язык, а соответствующие данные переводов еще
@@ -201,10 +231,10 @@ app.run(function ($rootScope, $translate) {
 <h3 id="асинхронная-загрузка_настройка-загрузчика">Настройка загрузчика</h3>
 <p>В каждый загрузчик могут быть переданы настройки. Для этого используется такой синтаксис:</p>
 <pre class="prettyprint linenums">
-$translationProvider.useLoader('customLoader', {
+$translateProvider.useLoader('customLoader', {
   settingA: 'foobar'
 });
-$translationProvider.useStaticFilesLoader({
+$translateProvider.useStaticFilesLoader({
   $http: {
     method: 'POST'
   }
@@ -218,15 +248,15 @@ $translationProvider.useStaticFilesLoader({
 <a href="https://docs.angularjs.org/api/ng/type/$cacheFactory.Cache">официальной документации AngularJS</a>.</p>
 <p>Для включения стандартного кэширования используйте следующий метод:</p>
 <pre class="prettyprint linenums">
-$translationProvider.useLoaderCache(true); // default is false which means disable
+$translateProvider.useLoaderCache(true); // default is false which means disable
 </pre>
 <p>Если же у Вас уже есть экземпляр кэша (специально настроенный), то привяжите его так:</p>
 <pre class="prettyprint linenums">
-$translationProvider.useLoaderCache(yourSpecialCacheService);
+$translateProvider.useLoaderCache(yourSpecialCacheService);
 </pre>
 <p>Angular-Translate также поддерживает ленивое связывание. Поэтому, такой вариант тоже будет работать:</p>
 <pre class="prettyprint linenums">
-$translationProvider.useLoaderCache('yourSpecialCacheService');
+$translateProvider.useLoaderCache('yourSpecialCacheService');
 </pre>
 <p>Экземпляр под названием <code>yourspecialCacheService</code> будет найден при необходимости.</p>
 <h3 id="асинхронная-загрузка_мнпк---мигание-не-переведенного-контента">МНПК - Мигание не переведенного контента</h3>
@@ -248,8 +278,10 @@ $translateProvider.useStaticFilesLoader({
     'prefix': 'locale-',
     'suffix': '.json'
 });
-$translateProvider.preferredLanguage('de');
+$translateProvider.preferredLanguage('en');
 </pre>
+<p><strong>Заметка:</strong> Пользователь Angular-Translate поделился хорошим решением этой проблемы
+<a href="https://github.com/angular-translate/angular-translate/issues/921">при помощи Grunt</a>.</p>
 <p>Давайте обновим наше учебное приложение таким образом, чтобы использовать асинхронный загрузчик!
 Воспользуемся staticFilesLoader. Для начала, мы должны изъять таблицы переводов из кода и поместить
 их в отдельные файлы:</p>

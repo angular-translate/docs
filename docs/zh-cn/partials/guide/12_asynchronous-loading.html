@@ -12,8 +12,8 @@
 <h3 id="异步加载_使用-urlloader">使用 urlLoader</h3>
 <p>这是可能异步装载换算数据的最简单的方法。所有您需要做的，
 就是用 bower 安装 <code>angular-translate-loader-url</code>扩展：</p>
-<pre><code>$ bower install angular-translate-loader-url</code></pre>
-<p>安装完成后，请确认你已经在HTML文档中内嵌了。
+<pre><code>$ bower install angular-translate-loader-url
+</code></pre><p>安装完成后，请确认你已经在HTML文档中内嵌了。
 好吧， 装载机是可用的了，我们现在要告诉 angular-translate 去使用它。
 <code>$translateProvider</code> 提供一个方法叫做 <code>useUrlLoader()</code>. 很简单对吧? 、
 <code>useUrlLoader()</code> 预期一个描述端点的参数。他将与那服务器进行翻译数据响应。</p>
@@ -33,8 +33,8 @@ $translateProvider.preferredLanguage('en');
 <p>如果您有不只有一个URL期待<code>lang</code>参数来返回一个JSON，其中包含记得翻译，而是有多个本地化文件匹配一个特定的模式，
 你可能想使用<code>angular-translate-loader-static-files</code>扩展，它描述您的本地化文件模式。</p>
 <p>和urlLoader一样, 你可以使用 bower 安装 staticFilesLoader:</p>
-<pre><code>$ bower install angular-translate-loader-static-files</code></pre>
-<p>一旦软件包安装和嵌入，则可以使用 <code>$translateProvider</code> 的 <code>useStaticFilesLoader()</code> 方法来告诉 angular-translate 去使用它.
+<pre><code>$ bower install angular-translate-loader-static-files
+</code></pre><p>一旦软件包安装和嵌入，则可以使用 <code>$translateProvider</code> 的 <code>useStaticFilesLoader()</code> 方法来告诉 angular-translate 去使用它.
 静态文件加载器的工作原理有点不同。不只具有固定 url 而且需要一个<code>lang</code>参数，你现在可以有不同的本地化匹配特定模式的文件。</p>
 <p>如何定义模式取决于您的需要。要指定一种模式，以下信息是必需的：</p>
 <ul>
@@ -68,16 +68,16 @@ $translateProvider.preferredLanguage('en');
 <p>是啊，当我们想部分加载这些都是我们关心的。然而，<code>angular-translate</code> 已经为你做了。 这就是
 <code>partialLoader</code> 的用武之地。</p>
 <p>你可以使用 bower 来安装， 就好象安装其他加载器一样:</p>
-<pre><code>$ bower install angular-translate-loader-partial</code></pre>
-<p>当你使用 <code>partialLoader</code> 你必须考虑用哪一个 <code>angular-translate</code> 模式来加载你的数据。 这和
+<pre><code>$ bower install angular-translate-loader-partial
+</code></pre><p>当你使用 <code>partialLoader</code> 你必须考虑用哪一个 <code>angular-translate</code> 模式来加载你的数据。 这和
 <code>staticFilesLoader</code> 很相似但更具体一点。 你必须指定一个 <code>part</code> 和一个 <code>lang</code> 属性, 
 <code>part</code> 为您的应用程序的具体属性(可能就是 <code>home</code>)， <code>lang</code> 是你知道的语言键.</p>
 <p>比方说，我们的翻译文件和组件文件结构看起来象这样的：</p>
 <pre><code>/i18n/home/en.json
 /i18n/home/de.json
 /i18n/contact/en.json
-/i18n/contact/de.json</code></pre>
-<p>非常直截了当哈？现在，我们知道我们的数据是如何组织的，我们可以配置 <code>$translateProvider</code> 来使用这种模式的部分装载机：</p>
+/i18n/contact/de.json
+</code></pre><p>非常直截了当哈？现在，我们知道我们的数据是如何组织的，我们可以配置 <code>$translateProvider</code> 来使用这种模式的部分装载机：</p>
 <pre class="prettyprint linenums">
 $translateProvider.useLoader('$translatePartialLoader', {
   urlTemplate: '/i18n/{part}/{lang}.json'
@@ -165,7 +165,7 @@ $translateProvider.useStaticFilesLoader({
     'prefix': 'locale-',
     'suffix': '.json'
 });
-$translateProvider.preferredLanguage('de');
+$translateProvider.preferredLanguage('en');
 </pre>
 <p>让我们来使用相应的异步加载器来更新我们的示例应用程序！我们将使用 staticFilesLoader。首先，我们要从代码中抽取翻译转换表出来
 并把它们放在不同的区域设置文件中：</p>

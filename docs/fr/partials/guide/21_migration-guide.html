@@ -10,13 +10,15 @@ Ceci a été fait pour améliorer la cohérence du code.</p>
 <pre><code class="lang-js">$translateProvider.translations({
   &#39;greetings&#39; : &#39;Hello&#39;,
   // some other keys
-});</code></pre>
+});
+</code></pre>
 <p>Pour résoudre ce problème, vous devez juste ajouter une clé de langue comme premier argument :</p>
 <pre><code class="lang-js">$translateProvider.translations(&#39;fr&#39;, {
   &#39;greetings&#39; : &#39;Hello&#39;,
   // some other keys
 });
-$translateProvider.use(&#39;fr&#39;);</code></pre>
+$translateProvider.use(&#39;fr&#39;);
+</code></pre>
 <h3 id="111--&gt;-200_uses--&gt;-use">uses -&gt; use</h3>
 <p>En termes de cohérence, nous avons décidé de renommer les méthodes <code>.uses()</code> en <code>.use()</code>. Cela a été fait pour
 $translate and $translateProvider. Donc, veuillez vous assurer que vous avez mis à jour toutes les occurrences de
@@ -24,7 +26,8 @@ ces méthodes avec le nouveau style.</p>
 <h3 id="111--&gt;-200_$translate-est-maintenant-asynchrone">$translate() est maintenant asynchrone</h3>
 <p>Le service $translate est maintenant basé sur une promise. Donc, vous ne pouvez plus l&#39;utiliser de manière synchrone.
 S&#39;il vous plaît, mettez à jour le code suivant:</p>
-<pre><code class="lang-js">var stringFromService = $translate(&#39;translationId&#39;);</code></pre>
+<pre><code class="lang-js">var stringFromService = $translate(&#39;translationId&#39;);
+</code></pre>
 <p>en</p>
 <pre><code class="lang-js">var stringFromService;
 $translate(&#39;translationId&#39;).then(function(translation) {
@@ -32,7 +35,8 @@ $translate(&#39;translationId&#39;).then(function(translation) {
 }, function(translationId){
   // Impossible de traduire l&#39;ID de traduction donné
   stringFromService = translationId;
-});</code></pre>
+});
+</code></pre>
 <p>Si vous voulez continuer à utiliser le service de manière synchrone alors utilisez
 la méthode <code>$translate.instant(translationId, interpolateParams, interpolationId)</code> au lieu de l&#39;appel direct
 du service. Mais notez que la méthode <code>instant</code> n&#39;attend pas que le chargement asynchrone soit fait.

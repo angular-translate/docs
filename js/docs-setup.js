@@ -15,15 +15,6 @@ NG_DOCS={
     },
     {
       "section": "api",
-      "id": "$translationCache",
-      "shortName": "$translationCache",
-      "type": "service",
-      "moduleName": "$translationCache",
-      "shortDescription": "The first time a translation table is used, it is loaded in the translation cache for quick retrieval. You",
-      "keywords": "$cachefactory $translationcache api cache consuming directly load loaded object quick retrieval service table tables time translation"
-    },
-    {
-      "section": "api",
       "id": "pascalprecht.translate",
       "shortName": "pascalprecht.translate",
       "type": "overview",
@@ -56,7 +47,7 @@ NG_DOCS={
       "type": "object",
       "moduleName": "pascalprecht.translate",
       "shortDescription": "Uses angular&#39;s $interpolate services to interpolate strings against some values.",
-      "keywords": "$identifier $interpolate $translatedefaultinterpolation $translateinterpolator agains angular angulars api current currently function getinterpolationidentifier identifier interpolate interpolated interpolates interpolation interpolator key language locale object params pascalprecht returns service services setlocale sets string strings translate values"
+      "keywords": "$identifier $interpolate $translatedefaultinterpolation $translatesanitization agains angular angulars api aware configure current currently function getinterpolationidentifier identifier interpolate interpolated interpolates interpolation interpolator key language locale object params pascalprecht proper returns sanitization service services setlocale sets strategy string strings translate values"
     },
     {
       "section": "api",
@@ -74,7 +65,7 @@ NG_DOCS={
       "type": "object",
       "moduleName": "pascalprecht.translate",
       "shortDescription": "Uses MessageFormat.js to interpolate strings against some values.",
-      "keywords": "$identifier $translateinterpolator $translatemessageformatinterpolation agains api current currently function getinterpolationidentifier identifier interpolate interpolated interpolates interpolation interpolator js key language locale messageformat object params pascalprecht returns service setlocale sets string strings translate translate_mf_interpolation_cache values"
+      "keywords": "$identifier $translatemessageformatinterpolation $translatesanitization agains api aware configure current currently function getinterpolationidentifier https identifier interpolate interpolated interpolates interpolation interpolator js key language locale messageformat object params pascalprecht proper returns sanitization service setlocale sets strategy string strings translate translate_mf_interpolation_cache values"
     },
     {
       "section": "api",
@@ -110,7 +101,25 @@ NG_DOCS={
       "type": "object",
       "moduleName": "pascalprecht.translate",
       "shortDescription": "$translateProvider allows developers to register translation-tables, asynchronous loaders",
-      "keywords": "$cachefactory $compile $http $injector $translatecookiestorage $translatelocalstorage $translateprovider $translatestaticfilesloader $translateurlloader actual add addinterpolation adds alias aliases allows angular-translate angularjs api app application-wide argument arguments array asynchronous automatically based behavior best boolean browser browsers build built-in cache cache-object called calling change choosed class cloakclassname combination compiling config configuration configure considering convention correct current custom customhandler de_de default define defined dep1 dep2 depending determine determinepreferredlanguage developers directive directivepriority directly disabled doesn don en_us enabled error example exist expects extended extension factory fallbacklanguage false find fitting fn format function functionality gender getlocale greeting hallo handler hello high implement indicator indicators initial inside instantiated interface internal internally interpolation invoking isn javascript job js key langkey language languagekeys languages layer left level ll loaded loader loaderfactory loaders locale log manage map messageformat method methods missing missingtranslationhandler module multiple not_found object optional options parameter pascalprecht pass passing plain pluralization post preferred preferredlanguage prefix priority processed provided register registeravailablelanguagekeys registered registering registers represent represents result return returns risk sanitation selection service services set sets setting shortcut simply specific standard startup storage storagekey storageprefix strategy string style table tables tells throw translate translate-cloak translate-directive translated translation translation-tables translationid translationnotfoundindicator translationnotfoundindicatorleft translationnotfoundindicatorright translations translationtable treat true type undefined url usage usecookiestorage useinterpolation useloader useloadercache uselocalstorage usemessageformatinterpolation usemissingtranslationhandler usemissingtranslationhandlerlog usepostcompiling user usesanitizestrategy usestaticfilesloader usestorage useurlloader valid values welt whitespace work world"
+      "keywords": "$cachefactory $compile $http $injector $translatecookiestorage $translatelocalstorage $translateprovider $translatestaticfilesloader $translateurlloader actual add addinterpolation adds alias aliases allows angular-translate angularjs api app application-wide argument arguments array asynchronous automatically based bcp bcp47 behavior best boolean browser browsers build built-in cache cache-object called calling change choosed class cloakclassname combination compiling config configuration configure considering convention converted correct current currently custom customhandler de_de default define defined defines dep1 dep2 depending determine determinepreferredlanguage determining developers directive directivepriority directly disabled doesn don en-us en_us enabled error example exist expects explicit extended extension factory fallbacklanguage false filter filters find fitting fn format function functionality gender getlocale greeting hallo handler hello high http hyphens ietf implement indicator indicators initial inside instantiated interface internal internally interpolation invoking isn java javascript job js key langkey language languagekeys languages layer left level ll loaded loader loaderfactory loaders locale log manage map meaning messageformat method methods methods_determinepreferredlanguage methods_uniformlanguagetag missing missingtranslationhandler module multiple not_found object optional options org parameter pascalprecht pass passing plain pluralization post preferred preferredlanguage prefix priority processed provided register registeravailablelanguagekeys registered registering registers represent represents resolver result return returns risk sanitation scope second selection service services set sets setting shortcut simply specific standard startup stateful statefulfilter stateless storage storagekey storageprefix strategy string style supports table tables tag tells throw translate translate-cloak translate-directive translated translation translation-tables translationid translationnotfoundindicator translationnotfoundindicatorleft translationnotfoundindicatorright translations translationtable treat true type undefined underscores uniformlanguagetag uppercase url usage usecookiestorage useinterpolation useloader useloadercache uselocalstorage usemessageformatinterpolation usemissingtranslationhandler usemissingtranslationhandlerlog usepostcompiling user usesanitizestrategy usestaticfilesloader usestorage useurlloader valid values w3 welt whitespace wikipedia work world"
+    },
+    {
+      "section": "api",
+      "id": "pascalprecht.translate.$translateSanitization",
+      "shortName": "pascalprecht.translate.$translateSanitization",
+      "type": "object",
+      "moduleName": "pascalprecht.translate",
+      "shortDescription": "Sanitizes interpolation parameters and translated texts.",
+      "keywords": "$injector $log $translatesanitization api array consisting current currently custom executed existing function functions interpolation mode multiple names object optional order parameters params pascalprecht provided sanitization sanitize sanitized sanitizes selected selects strategies strategy text texts translate translated usestrategy"
+    },
+    {
+      "section": "api",
+      "id": "pascalprecht.translate.$translateSanitizationProvider",
+      "shortName": "pascalprecht.translate.$translateSanitizationProvider",
+      "type": "object",
+      "moduleName": "pascalprecht.translate",
+      "shortDescription": "Configurations for $translateSanitization",
+      "keywords": "$sanitize $translatesanitization $translatesanitizationprovider adds addstrategy api array backwards built-in compatibility configurations consisting custom escaped executed existing function functions html interpolation key legacy list multiple names object order parameters pascalprecht property provided removed removes removestrategy sanitization selects strategies strategy strategyfunction strategyname text translate translation unique usestrategy values"
     },
     {
       "section": "api",
@@ -132,12 +141,21 @@ NG_DOCS={
     },
     {
       "section": "api",
+      "id": "pascalprecht.translate.$translationCache",
+      "shortName": "pascalprecht.translate.$translationCache",
+      "type": "object",
+      "moduleName": "pascalprecht.translate",
+      "shortDescription": "The first time a translation table is used, it is loaded in the translation cache for quick retrieval. You",
+      "keywords": "$cachefactory $translationcache api cache consuming directly load loaded object pascalprecht quick retrieval service table tables time translate translation"
+    },
+    {
+      "section": "api",
       "id": "pascalprecht.translate.directive:translate",
       "shortName": "translate",
       "type": "directive",
       "moduleName": "pascalprecht.translate",
       "shortDescription": "Translates given translation id either through attribute or DOM content.",
-      "keywords": "$compile $digest $filter $interpolate $rootscope $scope $translate $translateprovider activation angular api attr attribute config content controller defines directive dom dynamic element en expect filter function hello html inject internally interpolated js literal locally module ng-controller ngview object optional pascalprecht pass passed preferredlanguage scenario script string successful text title tobe translate translate-attr-attr translate-attr-title translate-compile translate-default translate-values translatectrl translates translation translation_id translationid translations true usepostcompiling values with_values"
+      "keywords": "$compile $digest $filter $interpolate $rootscope $scope $translateprovider activation angular api attr attribute config content controller defines directive dom dynamic element en expect filter function hello html inject internally interpolated js literal locally methods_usepostcompiling module ng-controller ngview object optional pascalprecht pass passed preferredlanguage scenario script string successful text title tobe translate translate-attr-attr translate-attr-title translate-compile translate-default translate-values translatectrl translates translation translation_id translationid translations true values with_values"
     },
     {
       "section": "api",
@@ -157,13 +175,22 @@ NG_DOCS={
       "keywords": "$parse $scope $translate $translateprovider accepts angular api config contents controller dynamic dynamized en filter function hash hello html interpolate interpolateparams js literal module ng-controller ngview object optional parameters pascalprecht pass preferredlanguage script service string text translate translatectrl translated translation translation_id translationid translations values with_values"
     },
     {
+      "section": "api",
+      "id": "pascalprecht.translate.TRANSLATE_MF_INTERPOLATION_CACHE",
+      "shortName": "pascalprecht.translate.TRANSLATE_MF_INTERPOLATION_CACHE",
+      "type": "property",
+      "moduleName": "pascalprecht.translate",
+      "shortDescription": "Uses MessageFormat.js to interpolate strings against some values.",
+      "keywords": "api interpolate js messageformat pascalprecht property strings translate translate_mf_interpolation_cache values"
+    },
+    {
       "section": "guide",
       "id": "index",
       "shortName": "Guide",
       "type": "overview",
       "moduleName": "Guide",
       "shortDescription": "i18n for your Angular apps, made easy",
-      "keywords": "$translateprovider _i _provide al angular angular-translate angularjs app apps article asynchronous awesome basically bower bring button check click comment-773 community components config contents contributors cool couldn covered currently customization data de demos dependency dies discuss doc document easier easiest easy ein embed en example expandability extensions feature features feedback find flexibility foo function german github google great guide guys hallo hello high html huh i18n ideas inject install interesting interfaces interpolate ist it_ js l10n learn list ll loading lot love mailinglist module myapp neoskop ng-newsletter ngmodules org overview paragraph partial pascalprecht path people plenty plnkr pluralization preferredlanguage projects public quick read repository requests resources src start support teach thankful thing things title translate translations ultra unicorn values var web wordpress works wouldn"
+      "keywords": "$translateprovider _i _provide absatz al angular angular-translate angularjs app apps article asynchronous awesome basically bower bring button check click comment-773 community components config contents contributors cool couldn covered currently customization data de demos dependency dies discuss doc document easier easiest easy ein embed en example expandability extensions feature features feedback find flexibility foo function german github google great guide guys hallo hello high html huh i18n ideas inject install interesting interfaces interpolate ist it_ js l10n learn list ll loading lot love mailinglist module myapp neoskop ng-newsletter ngmodules org overview paragraph partial pascalprecht path people plenty plnkr pluralization preferredlanguage projects public quick read repository requests resources src start support teach thankful thing things title translate translations ultra unicorn values var web wordpress works wouldn"
     },
     {
       "section": "guide",
@@ -235,7 +262,7 @@ NG_DOCS={
       "type": "overview",
       "moduleName": "Multi Language",
       "shortDescription": "Multi Language",
-      "keywords": "$scope $translate $translateprovider add adding als anf angular angular-translate app apps argument asynchronous attribut attribute automatically aware awesome bad basic beginners belongs bin browser browserlanguage button button_lang_de button_lang_en buttons calling calls cases change changelanguage code combination components config controller controllers controls cool corresponding course covered ctrl current custom de decide default detail determine determinepreferredlanguage determines determining deutsch directive doesn dynamic ein en englisch english ernsthaft expect expects extend fallbacklanguage feeling find fit function functionality german going good greeting gro guide ha hallo happen hasn headline hello hey html ich ids implement interesting internally interpolated interpolation interpoliert introduced invokes key language languages learn learned learning level limit ll loaded loaders loading logic love method missing missing_translation modul module multi myapp navigator needed ng-click ng-controller object oder oops order overview paragraph pascalprecht pass passed passed_as_attribute passed_as_interpolation passed_as_text passing points practice prefer preferred preferredlangkey preferredlanguage pretty properties provide ready recognize registered registers registration replacement return returns risk runtime sample scope searches second service setting setup simple srsly started storage support switch switching systemlanguage table tables teaching tells text things time translate translate-values translated translation translations translationsde translationsen turns unicorn update usage userlanguage values var variable_replacement ve version voil welt window work world wurde"
+      "keywords": "$scope $translate $translateprovider add adding als anf angular angular-translate app apps argument asynchronous attribut attribute automatically aware awesome bad basic bcp-47 bcp47 beginners belongs bin browser browserlanguage button button_lang_de button_lang_en buttons calling calls cases change changelanguage code combination components config controller controllers controls cool corresponding course covered ctrl current custom de decide default detail determine determinepreferredlanguage determines determining deutsch directive doesn dynamic ein en enable englisch english ernsthaft expect expects extend fallbacklanguage feeling find fit function functionality german going good greeting gro guide ha hallo happen hasn headline hello helping hey html ich ids implement interesting internally interpolated interpolation interpoliert introduced invokes key language languages learn learned learning level limit ll loaded loaders loading logic love method missing missing_translation modul module multi myapp navigator needed ng-click ng-controller object oder oops order overview paragraph pascalprecht pass passed passed_as_attribute passed_as_interpolation passed_as_text passing points practice prefer preferred preferredlangkey preferredlanguage pretty properties provide ready recognize registered registers registration replacement resolved return returns risk runtime sample scope searches second service setting setup simple srsly started storage support switch switching systemlanguage table tables tag teaching tells text things time transformed translate translate-values translated translation translations translationsde translationsen turns unicorn uniformlanguagetag update usage userlanguage values var variable_replacement ve version voil welt window work world wurde"
     },
     {
       "section": "guide",
@@ -280,7 +307,7 @@ NG_DOCS={
       "type": "overview",
       "moduleName": "Asynchronous Loading",
       "shortDescription": "Asynchronous Loading",
-      "keywords": "$http $on $rootscope $scope $translate $translatepartialloader $translatepartialloaderprovider $translatepartialloaderstructurechanged $translateprovider $translationprovider _json_ accessing accross achieve activities add adding addition additional addpart adds advanced ago allright alright als alternatively amount anf angular angular-translate angular-translate-loader-partial angular-translate-loader-static-files angular-translate-loader-url angularjs app applied apps argument array asynchronous asynchronously attribut attribute automate automatically awesome basically beautifully beginners behavior best better big bigger bin bind binding bit bootstraps bower break browser bug build button_lang_de button_lang_en cache caching called care case change changelanguage changes changing chapter charm checks chosen clever code combination comment common complete complex concatenate config configuration configure configures contact contactctrl content contents control controller controllers cool copy corresponding course covered ctrl current currently custom customloader data de dealing dedicated default demand depends describes details deutsch devtools differently disable distinct docs document doesn don double drawback drops ein embedded embeded en enable endpoint englisch english ernsthaft event everytime example execute executed executing existing expects extension extensions false file files fired fires fixed flash flickering foo foobar forward fouc function functionality german gro guide ha hard haven headline hello hello_text hey html ich imagine inital inject install installable installed instance instances instantiated interesting internally interpolated interpoliert invoke invoked isn json key kind lang language languages launches lazy learn learned listening ll load loaded loader loaders loading loads locale locale- locale-de locale-en localization locations logical looked love main mainapp manipulate match method modul module modules multiple myapp named needed network ng-click ng-controller ngcookies ngroute notice notices oder open options order org overridden overview package paragraph parameter partial partialloader parts pascalprecht passed passed_as_attribute passed_as_interpolation passed_as_text pattern plain post preferredlanguage prefix pretty process promise property provide provided provider pull quotes real refresh refreshing registered reloads request requests required respond return returns router runtime sample send separate server service services settinga setup short shortcut simplest simply sits specifc specific specifies srsly standard startup static staticfilesloader straight string structured stuff submodule submodules suffix supply support supports table tables telling text things three time transform translate translate-values translating translation translations ui unicorn untranslated update url urlloader urltemplate useloader useloadercache user usestaticfilesloader useurlloader var variable_replacement ve wanna wasn won work working works world wurde yea yourspecialcacheservice"
+      "keywords": "$http $log $on $q $rootscope $scope $translate $translatepartialloader $translatepartialloaderprovider $translatepartialloaderstructurechanged $translateprovider _json_ ability accessing accross achieve activities add adding addition additional addpart adds advanced ago allright alright als alternatively amount anf angular angular-translate angular-translate-loader-partial angular-translate-loader-static-files angular-translate-loader-url angularjs app applied apps argument array asynchronous asynchronously attribut attribute automate automatically awesome basically beautifully beginners behavior best better big bigger bin bind binding bit bootstraps bower break browser bug build button_lang_de button_lang_en cache caching called care case change changelanguage changes changing chapter charm checks chosen clever code combination comment common complete complex concatenate config configuration configure configures contact contactctrl content contents control controller controllers cool copy corresponding course covered create ctrl current currently custom customloader data de deal dealing dedicated default demand depends describes details deutsch devtools differently disable distinct docs document doesn don double drawback drops ein embedded embeded en enable endpoint englisch english ernsthaft error errors event everytime example execute executed executing existing expects extension extensions factory false fetched file files fired fires fixed flash flickering foo foobar forward fouc function functionality german gro grunt guide ha handle handler hard haven headline hello hello_text hey html ich imagine inital inject install installable installed instance instances instantiated interesting internally interpolated interpoliert invoke invoked isn js json key kind lang langkey language languages launches lazy learn learned listening ll load loaded loader loaders loadfailurehandler loading loads locale locale- locale-de locale-en localization locations logical looked love main mainapp manipulate match method modul module modules multiple myapp myerrorhandler named needed network ng-click ng-controller ngcookies ngroute nice notice notices oder open options order org overridden overview package paragraph parameter partial partialloader parts pascalprecht passed passed_as_attribute passed_as_interpolation passed_as_text pattern plain post posted preferredlanguage prefix pretty process promise property provide provided provider pull question quotes real refresh refreshing registered reject rejects reloads request requests required resolve respond return returns router runtime sample send separate server service services settinga setup short shortcut signature simple simplest simply sits situations solution specifc specific specifies srsly standard startup static staticfilesloader straight string structured stuff submodule submodules suffix supply support supports table tables telling text things three time transform translate translate-values translating translation translations ui unicorn untranslated update url urlloader urltemplate useloader useloadercache user usestaticfilesloader useurlloader var variable_replacement ve wanna wasn won work working works world wurde yea yourspecialcacheservice"
     },
     {
       "section": "guide",
@@ -378,19 +405,20 @@ NG_DOCS={
     "guide": false
   },
   "html5Mode": false,
+  "editExample": true,
   "startPage": "/guide",
   "scripts": [
-    "bootstrap-dropdown.js",
     "messageformat.js",
-    "de.js",
-    "fr.js",
-    "angular.min.js",
-    "angular-cookies.min.js",
-    "angular-translate.min.js",
-    "angular-translate-interpolation-messageformat.min.js",
-    "angular-translate-storage-cookie.min.js",
-    "angular-translate-storage-local.min.js",
-    "angular-translate-loader-static-files.min.js",
-    "angular-translate-handler-log.min.js"
+    "angular.js",
+    "angular-animate.js",
+    "angular-cookies.js",
+    "angular-sanitize.js",
+    "angular-translate.js",
+    "angular-translate-interpolation-messageformat.js",
+    "angular-translate-storage-cookie.js",
+    "angular-translate-storage-local.js",
+    "angular-translate-loader-url.js",
+    "angular-translate-loader-static-files.js",
+    "angular-translate-handler-log.js"
   ]
 };

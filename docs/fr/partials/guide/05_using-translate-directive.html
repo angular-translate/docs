@@ -11,32 +11,32 @@ place trop d&#39;expressions <em>watch</em>, ce qui explique pourquoi <code>angu
 <h3 id="utilisation-de-la-directive-translate_utilisation-générale">Utilisation générale</h3>
 <p>Vous pouvez utiliser la directive <code>translate</code> de différentes façons. L&#39;utilisation
 générale ressemble à :</p>
-<pre><code>&lt;ANY translate&gt;TRANSLATION_ID&lt;/ANY&gt;</code></pre>
-<p>Vous pouvez également passer un ID de traduction en tant que valeur de l&#39;attribut à
+<pre><code>&lt;ANY translate&gt;TRANSLATION_ID&lt;/ANY&gt;
+</code></pre><p>Vous pouvez également passer un ID de traduction en tant que valeur de l&#39;attribut à
 la directive comme ceci :</p>
-<pre><code>&lt;ANY translate=&quot;TRANSLATION_ID&quot;&gt;&lt;/ANY&gt;</code></pre>
-<p>Même si c&#39;est déjà une façon très souple pour utiliser une directive, angular-translate
+<pre><code>&lt;ANY translate=&quot;TRANSLATION_ID&quot;&gt;&lt;/ANY&gt;
+</code></pre><p>Même si c&#39;est déjà une façon très souple pour utiliser une directive, angular-translate
 offres une <strong>autre</strong> façon de l&#39;utiliser. Imaginons un ID de traduction qui n&#39;est pas disponible
 comme un identifiant concret, car par exemple l&#39;un boucle sur un ensemble de données qui contient
 un ID de traduction dans chaque itération. Dans ce cas, un ID de traduction n&#39;est disponible que
 dynamiquement. Vous devez en fait interpoler l&#39;ID sur lui-même. angular-translate
 fait cela pour vous. Donc, ceci est également possible :</p>
-<pre><code>&lt;ANY translate=&quot;{{toBeInterpolated}}&quot;&gt;&lt;/ANY&gt;</code></pre>
-<p>C&#39;est cool ? Et oui, angular-translate ne serait pas angular-translate s&#39;il ne pouvait
+<pre><code>&lt;ANY translate=&quot;{{toBeInterpolated}}&quot;&gt;&lt;/ANY&gt;
+</code></pre><p>C&#39;est cool ? Et oui, angular-translate ne serait pas angular-translate s&#39;il ne pouvait
 pas gérer de la même façon notre premier exemple d&#39;utilisation. Cela fonctionne également :</p>
-<pre><code>&lt;ANY translate&gt;{{toBeInterpolated}}&lt;/ANY&gt;</code></pre>
-<p>Choisissez ce qui vous convient le mieux !</p>
+<pre><code>&lt;ANY translate&gt;{{toBeInterpolated}}&lt;/ANY&gt;
+</code></pre><p>Choisissez ce qui vous convient le mieux !</p>
 <h3 id="utilisation-de-la-directive-translate_post-compilation">Post compilation</h3>
 <p>En commençant avec la version 2, la traduction elle-même peut être post traitée dans le
 contexte du scope actuel (en utilisant <code>$compile</code>). Cela signifie qu&#39;une directive utilisée
 dans une valeur de traduction elle-même fonctionnera désormais comme prévu.</p>
 <p>Ce comportement peut être activé par la directive :</p>
-<pre><code>&lt;ANY translate=&quot;TRANSLATION_ID&quot; translate-compile&gt;&lt;/ANY&gt;</code></pre>
-<p>En plus de cela, vous pouvez également activer la fonction de façon globale avec ...</p>
-<pre><code>$translateProvider.usePostCompiling(true);</code></pre>
-<p>... Et même vous pouvez désactiver à nouveau la fonction par la directive :</p>
-<pre><code>&lt;ANY translate=&quot;TRANSLATION_ID&quot; translate-compile=&quot;false&quot;&gt;&lt;/ANY&gt;</code></pre>
-<h3 id="utilisation-de-la-directive-translate_exemple">Exemple</h3>
+<pre><code>&lt;ANY translate=&quot;TRANSLATION_ID&quot; translate-compile&gt;&lt;/ANY&gt;
+</code></pre><p>En plus de cela, vous pouvez également activer la fonction de façon globale avec ...</p>
+<pre><code>$translateProvider.usePostCompiling(true);
+</code></pre><p>... Et même vous pouvez désactiver à nouveau la fonction par la directive :</p>
+<pre><code>&lt;ANY translate=&quot;TRANSLATION_ID&quot; translate-compile=&quot;false&quot;&gt;&lt;/ANY&gt;
+</code></pre><h3 id="utilisation-de-la-directive-translate_exemple">Exemple</h3>
 <p>Mettons à jour l&#39;exemple de notre application et ajoutons quelques nouvelles traductions.
 Que diriez-vous d&#39;utiliser des textes qui représentent chaque manière possible d&#39;utiliser
 la directive <code>translate</code> ? Notre table de traduction pourrait ressembler à ceci :</p>

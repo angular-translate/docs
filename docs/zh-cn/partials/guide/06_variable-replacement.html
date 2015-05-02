@@ -16,8 +16,8 @@
 <p>当使用angular-translate的默认插值服务，您可以简单地依靠 Angular 的插值服务语法。因此，要在翻译中定义一个变量的值，你需要做的就是用 Angular 的插补指令。</p>
 <pre><code>{
   &quot;TRANSLATION_ID&quot;: &quot;{{username}} is logged in.&quot;
-}</code></pre>
-<p>而&#39;username&#39;是，你可以传递的一个变量值的标识符。 那么它是如何通过组件获得了这些angular-translate提供的变量的值呢？</p>
+}
+</code></pre><p>而&#39;username&#39;是，你可以传递的一个变量值的标识符。 那么它是如何通过组件获得了这些angular-translate提供的变量的值呢？</p>
 <h3 id="变量替换_变量替换-$translate-服务">变量替换 $translate 服务</h3>
 <p>你可以通过第二个参数来传递变量给 <code>$translate</code> 服务。
 <code>$translate</code> 服务需要一个 JavaScript 对象的哈希作为第二个参数，这是用来插值的翻译。

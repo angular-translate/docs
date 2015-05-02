@@ -24,8 +24,8 @@ zu benutzen! In dieser Dokumentation lernst du, wie du dieses Modul und seine
 coolen Features nutzen kannst. Hier ein kleiner Einblick:</p>
 <h3 id="i18n-in-angularjs-anwendungen,-einfach-gemacht_quick-start">Quick Start</h3>
 <p>Modul via Bower installieren:</p>
-<pre><code>$ bower install angular-translate</code></pre>
-<p>Nicht vergessen das Skript einzubinden:</p>
+<pre><code>$ bower install angular-translate
+</code></pre><p>Nicht vergessen das Skript einzubinden:</p>
 <pre class="prettyprint linenums">
 &lt;script src="path/to/angular-translate.js"&gt;&lt;/script&gt;
 </pre>
@@ -43,7 +43,7 @@ app.config(['$translateProvider', function ($translateProvider) {
 
   $translateProvider.translations('de', {
     'TITLE': 'Hallo',
-    'FOO': 'Dies ist ein Paragraph'
+    'FOO': 'Dies ist ein Absatz'
   });
 
   $translateProvider.preferredLanguage('en');

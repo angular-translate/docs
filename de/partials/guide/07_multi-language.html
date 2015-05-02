@@ -78,6 +78,13 @@ $translateProvider.determinePreferredLanguage();
 <p>Die Zuverlässigkeit der Funktion kann allerdings nicht 100% garantiert werden, da jeder
 Browser unterschiedliche Werte in diese Parameter einträgt und diese nicht standardisiert
 sind.</p>
+<p>Ab Version <code>2.7</code> steht darüberhinaus <code>$translateProvider.uniformLanguageTag()</code> als
+Hilfsmittel zur Verfügung. Damit kann man jene so genannten &quot;Language Tags&quot; vereinheitlichen.</p>
+<pre class="prettyprint linenums">
+$translateProvider
+  .uniformLanguageTag('bcp47') // enable BCP-47, must be before determinePreferredLanguage!
+  .determinePreferredLanguage();
+</pre>
 <p>Falls die Werte unerwartet oder unpassend sind, kann eine eigene Funktion geschrieben werden,
 die entsprechende Werte ermittelt und zurückgibt.</p>
 <p>Beispiel:</p>

@@ -24,8 +24,8 @@
 функциональности?</p>
 <p>Конечно, для этого есть соответствующее расширение. Просто установите сервис интерполяции
 MessageFormat при помощи Bower:</p>
-<pre><code>$ bower install angular-translate-interpolation-messageformat</code></pre>
-<p>Хорошо, это просто. Не забудьте подключить его к вашему HTML документу, чтобы получить доступ к
+<pre><code>$ bower install angular-translate-interpolation-messageformat
+</code></pre><p>Хорошо, это просто. Не забудьте подключить его к вашему HTML документу, чтобы получить доступ к
 предоставленному сервису. Убедитесь, что первым подключен непосредственно сам MessageFormat.js:</p>
 <pre class="prettyprint linenums">
 &lt;script src="path/to/messageformat.js"&gt;&lt;/script&gt;
@@ -51,8 +51,8 @@ $translateProvider.preferredLanguage('en');
 выглядеть переводы:</p>
 <pre><code>{
   &quot;LIKE_TEXT&quot;: &quot;{GENDER, select, male{He} female{She} other{They}} liked this.&quot;
-}</code></pre>
-<p>Как видите, MessageFormat поддерживает <code>SelectFormat</code> для интерполяции текстов на основе, к примеру,
+}
+</code></pre><p>Как видите, MessageFormat поддерживает <code>SelectFormat</code> для интерполяции текстов на основе, к примеру,
 данного пола. Мы можем использовать сервис <code>$translate</code>, директиву и фильтр <code>translate</code> для перевода
 идентификатора <code>LIKE_TEXT</code> так же, как и всегда:</p>
 <pre class="prettyprint linenums">
@@ -72,8 +72,8 @@ $translate('LIKE_TEXT', { GENDER: 'male' });
 <pre><code>{
   &quot;DEFAULT_INTERPOLATION&quot;: &quot;This is a translation that uses default interpolation with a dynamic value: {{value}}&quot;,
   &quot;MF_INTERPOLATION&quot;: &quot;This is a translation that uses MessageFormat interpolation with a dynamic value: {value}&quot;
-}</code></pre>
-<p>То-то. MessageFormat использует другой синтаксис для интерполяции. Поэтому, использую интерполяцию
+}
+</code></pre><p>То-то. MessageFormat использует другой синтаксис для интерполяции. Поэтому, использую интерполяцию
 MessageFormat, вы должны пройтись по всем своим переводам, проверить используется ли в них
 подстановка переменных и обновить их так, чтобы использовался правильный синтаксис интерполяции.
 Это не круто.</p>

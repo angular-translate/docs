@@ -30,8 +30,8 @@ und <a href="https://github.com/SlexAxton/messageformat.js#pluralformat">PluralF
 Apps zu bringen?</p>
 <p>Selbstverständlich gibt es eine Extension dafür. Sie lässt sich sehr einfach via
 Bower installieren:</p>
-<pre><code>$ bower install angular-translate-interpolation-messageformat</code></pre>
-<p>Und nicht vergessen auch MessageFormat im HTML-Dokument einzubinden:</p>
+<pre><code>$ bower install angular-translate-interpolation-messageformat
+</code></pre><p>Und nicht vergessen auch MessageFormat im HTML-Dokument einzubinden:</p>
 <pre class="prettyprint linenums">
 &lt;script src="path/to/messageformat.js"&gt;&lt;/script&gt;
 &lt;script src="path/to/angular-translate-interpolation-messageformat"&gt;&lt;/script&gt;
@@ -54,8 +54,8 @@ erwartete Syntax innerhalb unserer Übersetzungen verwenden.</p>
 <p>Schauen wir uns ein Paar Beispiele an:</p>
 <pre><code>{
   &quot;LIKE_TEXT&quot;: &quot;{GENDER, select, male{He} female{She} other{They}} liked this.&quot;
-}</code></pre>
-<p>Wie du sehen kannst, unterstützt MessageFormat <code>SelectFormat</code> um Texte abhängig
+}
+</code></pre><p>Wie du sehen kannst, unterstützt MessageFormat <code>SelectFormat</code> um Texte abhängig
 von einem gegebenen Geschlecht zu interpolieren. Wir können sowohl den<code>$translate</code>- Service,
 als auch die Direktive oder den Filter benutzen,um <code>LIKE_TEXT</code> zu übersetzen:</p>
 <pre class="prettyprint linenums">
@@ -76,8 +76,8 @@ etwas größeres Problem. Schauen wir uns mal folgenden Code an. Fällt dir was 
 <pre><code>{
   &quot;DEFAULT_INTERPOLATION&quot;: &quot;This is a translation that uses default interpolation with a dynamic value: {{value}}&quot;,
   &quot;MF_INTERPOLATION&quot;: &quot;This is a translation that uses MessageFormat interpolation with a dynamic value: {value}&quot;
-}</code></pre>
-<p>Genau. MessageFormat verwendet eine andere Syntax. Das bedeutet, wenn wir MessageFormat
+}
+</code></pre><p>Genau. MessageFormat verwendet eine andere Syntax. Das bedeutet, wenn wir MessageFormat
 Interpolation verwenden, müssen wir all Übersetzungen untersuchen und schauen, ob
 sie die richtige Syntax verwenden. Das ist definitiv nicht cool.</p>
 <p>Oben drauf, verlieren wir alle coolen Features die Angular mit sich bringt.

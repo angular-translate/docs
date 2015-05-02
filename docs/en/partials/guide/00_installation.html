@@ -15,42 +15,42 @@ Please install the following tools:</p>
 <h3 id="installation_installing-via-bower">Installing via Bower</h3>
 <p>You can install the <code>angular-translate</code> package very easily using Bower. After
 installing Bower on your machine, simply run:</p>
-<pre><code>$ bower install angular-translate</code></pre>
-<p>This will install a package in your configured components folder. You can watch the
+<pre><code>$ bower install angular-translate
+</code></pre><p>This will install a package in your configured components folder. You can watch the
 bower package repository <a href="https://github.com/PascalPrecht/bower-angular-translate">here</a>.
 As you can see, it&#39;s pretty much broken down to things that matter. The raw source.
 For development as well as production use.</p>
 <h3 id="installation_installing-with-git">Installing with Git</h3>
 <p>Another way to get the source of angular-translate, is to clone the whole repository
 from GitHub.</p>
-<pre><code>$ git clone git://github.com/PascalPrecht/angular-translate.git</code></pre>
-<p>You now have a full clone of the repository including the history and everything
+<pre><code>$ git clone git://github.com/PascalPrecht/angular-translate.git
+</code></pre><p>You now have a full clone of the repository including the history and everything
 else that ever happened during the development of angular-translate. Do with the code
 what ever the fuck you want.</p>
 <p>Since angular-translate has some dependencies when developing it, you can just install
 all of them at once. To install all needed dependencies, simply run the following
 commands in the cloned angular-translate repository.</p>
 <pre><code>$ npm install
-$ bower install</code></pre>
-<h3 id="installation_running-provided-unit-tests">Running provided unit tests</h3>
+$ bower install
+</code></pre><h3 id="installation_running-provided-unit-tests">Running provided unit tests</h3>
 <p>Of course, <code>angular-translate</code> comes with a full featured testsuite which just waits
 for you to run it. This is where the <strong>Karma testrunner</strong> comes in. Navigate to the
 folder you cloned the project in and run:</p>
-<pre><code>$ karma start karma.unit.conf</code></pre>
-<p>This will start a testrunner which uses the <strong>Jasmine testing framework</strong> to execute all
+<pre><code>$ karma start karma.unit.conf
+</code></pre><p>This will start a testrunner which uses the <strong>Jasmine testing framework</strong> to execute all
 provided unit tests. If everything&#39;s green, go ahead. Otherwise, fix it and send a pull
 request. Thanks.</p>
 <p>There are also <strong>midway tests</strong> you can run. To do that, start Karma with the provided
 configuration file for midway tests:</p>
-<pre><code>$ karma start karma.midway.conf</code></pre>
-<h3 id="installation_building-from-source">Building from source</h3>
+<pre><code>$ karma start karma.midway.conf
+</code></pre><h3 id="installation_building-from-source">Building from source</h3>
 <p>When all tests passed successfully you can then build a development, as well as
 a production version of the code, just like you get from the Bower package.
 angular-translate provides a <code>Gruntfile.js</code> files which contains configured
 tasks you can run with the <code>grunt</code> command.</p>
 <p>To get a build of <code>angular-translate</code> simply run:</p>
-<pre><code>$ grunt build</code></pre>
-<p>This will generate files ready for development and production use in a created
+<pre><code>$ grunt build
+</code></pre><p>This will generate files ready for development and production use in a created
 <code>dist</code> folder. Files should look like <code>dist/angular-translate.js</code> and
 <code>dist/angular-translate.min.js</code>.</p>
 <p>These two files are ready to use, embed them in your HTML document and you&#39;re

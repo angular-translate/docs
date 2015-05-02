@@ -11,30 +11,30 @@ dem Filter eine Direktive.</p>
 <h3 id="translate--direktive-benutzen_allgemeine-benutzung">Allgemeine Benutzung</h3>
 <p>Es gibt verschiedene Möglichkeiten <code>translate</code>- Direktive zu verwenden. So sieht
 es generell aus:</p>
-<pre><code>&lt;ANY translate&gt;TRANSLATION_ID&lt;/ANY&gt;</code></pre>
-<p>Außerdem kannst du eine Translation ID auch als Attributwert übergeben:</p>
-<pre><code>&lt;ANY translate=&quot;TRANSLATION_ID&quot;&gt;&lt;/ANY&gt;</code></pre>
-<p>Auch wenn das schon sehr flexibel ist, angular-translate bietet <strong>noch einen</strong>
+<pre><code>&lt;ANY translate&gt;TRANSLATION_ID&lt;/ANY&gt;
+</code></pre><p>Außerdem kannst du eine Translation ID auch als Attributwert übergeben:</p>
+<pre><code>&lt;ANY translate=&quot;TRANSLATION_ID&quot;&gt;&lt;/ANY&gt;
+</code></pre><p>Auch wenn das schon sehr flexibel ist, angular-translate bietet <strong>noch einen</strong>
 Weg, die Direktive zu nutzen. Gehen wir mal davon aus, dass eine Translation ID
 nicht als konkreter Identifier zur Verfügung steht, weil beispielsweise über ein
 Dataset iteriert wird. In solch einem Fall ist die Translation ID nur dynamisch
 verfügbar. Was bedeteut, sie muss interpoliert werden. Folgendes funktioniert also
 auch:</p>
-<pre><code>&lt;ANY translate=&quot;{{toBeInterpolated}}&quot;&gt;&lt;/ANY&gt;</code></pre>
-<p>Und auch das hier, funktioniert:</p>
-<pre><code>&lt;ANY translate&gt;{{toBeInterpolated}}&lt;/ANY&gt;</code></pre>
-<p>Benutze sie so, wie es dir am besten passt!!</p>
+<pre><code>&lt;ANY translate=&quot;{{toBeInterpolated}}&quot;&gt;&lt;/ANY&gt;
+</code></pre><p>Und auch das hier, funktioniert:</p>
+<pre><code>&lt;ANY translate&gt;{{toBeInterpolated}}&lt;/ANY&gt;
+</code></pre><p>Benutze sie so, wie es dir am besten passt!!</p>
 <h3 id="translate--direktive-benutzen_post-compiling">Post compiling</h3>
 <p>Seit Version 2 gibt es die Möglichkeit, der Inhalt der Übersetzung auch im Kontext
 des aktuellen Scope via <code>$compile</code> zu kompilieren. Das bedeutet, dass alle dort
 verwendeten Direktiven innerhalb einer Übersetzung nun auch wie erwartet funktionieren.</p>
 <p>Dieses Verhalten kann man pro Direktive einschalten:</p>
-<pre><code>&lt;ANY translate=&quot;TRANSLATION_ID&quot; translate-compile&gt;&lt;/ANY&gt;</code></pre>
-<p>Darüberhinaus kann man das Feature auch global einschalten...</p>
-<pre><code>$translateProvider.usePostCompiling(true);</code></pre>
-<p>... um es dann pro Direktive wieder ausschalten zu können.</p>
-<pre><code>&lt;ANY translate=&quot;TRANSLATION_ID&quot; translate-compile=&quot;false&quot;&gt;&lt;/ANY&gt;</code></pre>
-<h3 id="translate--direktive-benutzen_beispiel">Beispiel</h3>
+<pre><code>&lt;ANY translate=&quot;TRANSLATION_ID&quot; translate-compile&gt;&lt;/ANY&gt;
+</code></pre><p>Darüberhinaus kann man das Feature auch global einschalten...</p>
+<pre><code>$translateProvider.usePostCompiling(true);
+</code></pre><p>... um es dann pro Direktive wieder ausschalten zu können.</p>
+<pre><code>&lt;ANY translate=&quot;TRANSLATION_ID&quot; translate-compile=&quot;false&quot;&gt;&lt;/ANY&gt;
+</code></pre><h3 id="translate--direktive-benutzen_beispiel">Beispiel</h3>
 <p>Passen wir unser Beispiel an fügen ein paar neue Übersetzungen hinzu. Wie wär&#39;s
 mit Texten, die jede mögliche Verwendung der Direktive darstellen? Unsere Übersetzungstabelle
 könnte so aussehen:</p>

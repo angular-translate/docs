@@ -18,8 +18,8 @@
 使用這些存儲中的一個，你都必須安裝相應的擴展包。</p>
 <h3 id="存儲_使用cookiestorage">使用cookieStorage</h3>
 <p>如果您想使用cookieStorage在跨http請求時存儲語言，只需通過bower 安裝cookie存儲擴展：</p>
-<pre><code>$ bower install angular-translate-storage-cookie</code></pre>
-<p>之後，請確保您已在HTML文檔中內嵌了他。一旦嵌入，你可以使用<code>$translateProvider</code>中的<code>useCookieStorage</code>方法，
+<pre><code>$ bower install angular-translate-storage-cookie
+</code></pre><p>之後，請確保您已在HTML文檔中內嵌了他。一旦嵌入，你可以使用<code>$translateProvider</code>中的<code>useCookieStorage</code>方法，
 angular-translate會替你做其餘的工作。</p>
 <pre class="prettyprint linenums">
 $translateProvider.useCookieStorage();
@@ -32,8 +32,8 @@ $translateProvider.useCookieStorage();
 <p>請記住，如果瀏覽器不支持localStorage, localStorage 會回退到cookieStorage 中。
 因此，你必須提供 ​​cookieStorage 擴展。</p>
 <p>您可以這樣安裝擴展包：</p>
-<pre><code>$ bower install angular-translate-storage-local</code></pre>
-<p>現在告訴<code>$translateProvider</code> 你希望用以下的:</p>
+<pre><code>$ bower install angular-translate-storage-local
+</code></pre><p>現在告訴<code>$translateProvider</code> 你希望用以下的:</p>
 <pre class="prettyprint linenums">
 $translateProvider.useLocalStorage();
 </pre>

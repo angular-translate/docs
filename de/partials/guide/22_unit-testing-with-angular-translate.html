@@ -86,8 +86,8 @@ describe('myApp', function () {
 });
 </pre>
 <p>When we run this test, we&#39;ll get the following error:</p>
-<pre><code>Error: Unexpected request: GET locale-en.json</code></pre>
-<p>So why do we get this error? So problem here is, that angular-translate calls the
+<pre><code>Error: Unexpected request: GET locale-en.json
+</code></pre><p>So why do we get this error? So problem here is, that angular-translate calls the
 asynchronous loader implicitly. Which means, when <code>$translate</code> service is instantiated
 through DI, there&#39;s a XHR happening without us doing anything about it.</p>
 <p>When writing tests and there are XHRs, one has to explicitly say that one expects

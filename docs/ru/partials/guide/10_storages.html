@@ -23,8 +23,8 @@
 <h3 id="хранилища_использование-cookiestorage">Использование cookieStorage</h3>
 <p>Если вы хотите использовать cookieStorage для хранения языка между http запросами, просто установите
 расширение cookie storage при помощи bower:</p>
-<pre><code>$ bower install angular-translate-storage-cookie</code></pre>
-<p>После этого убедитесь, что вы включили его в свой HTML документ. Как только оно будет включено вы
+<pre><code>$ bower install angular-translate-storage-cookie
+</code></pre><p>После этого убедитесь, что вы включили его в свой HTML документ. Как только оно будет включено вы
 сможете использовать метод <code>useCookieStorage()</code> <code>$translateProvider</code>&#39;а и angular-translate
 позаботится об остальном.</p>
 <pre class="prettyprint linenums">
@@ -41,8 +41,8 @@ localStorage при помощи метода <code>useLocalStorage()</code>. И
 <p>Имейте в виду, что localStorage откатывается на cookieStorage если браузер не поддерживает
 localStorage. Следовательно, вам нужно также предоставить и расширение cookieStorage.</p>
 <p>Вы можете установить пакет расширений так:</p>
-<pre><code>$ bower install angular-translate-storage-local</code></pre>
-<p>Теперь, скажите <code>$translateProvider</code>&#39;у, что вы хотите использовать его:</p>
+<pre><code>$ bower install angular-translate-storage-local
+</code></pre><p>Теперь, скажите <code>$translateProvider</code>&#39;у, что вы хотите использовать его:</p>
 <pre class="prettyprint linenums">
 $translateProvider.useLocalStorage();
 </pre>

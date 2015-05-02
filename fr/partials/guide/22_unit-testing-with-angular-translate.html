@@ -86,8 +86,8 @@ describe('monApp', function () {
 });
 </pre>
 <p>Quand nous lançons ce test, nous obtenons l&#39;erreur suivante :</p>
-<pre><code>Error: Unexpected request: GET locale-fr.json</code></pre>
-<p>Alors, pourquoi nous obtenons cette erreur ? Car le problème ici, c&#39;est que angular-translate appelle le
+<pre><code>Error: Unexpected request: GET locale-fr.json
+</code></pre><p>Alors, pourquoi nous obtenons cette erreur ? Car le problème ici, c&#39;est que angular-translate appelle le
 chargeur asynchrone implicitement. C&#39;est à dire, lorsque le service <code>$translate</code> est instancié par la DI
 (l&#39;injection de dépendance), il y a un XHR qui se déroule sans que nous faisions quelque chose.</p>
 <p>Lors de l&#39;écriture des tests et lorsqu&#39;il y a des XHRs, on doit explicitement dire que l&#39;on attend

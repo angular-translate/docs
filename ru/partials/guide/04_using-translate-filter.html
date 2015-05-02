@@ -18,8 +18,8 @@
 <p>То же относится и к фильтру <code>translate</code> модуля angular-translate. Мы можем обновить наш пример из
 главы <a href="#/guide/03_using-translate-service#generalusage">Использование сервиса $translate</a>
 перенеся логику из контроллера на уровень представления. В целом, фильтр <code>translate</code> работает так:</p>
-<pre><code>&lt;ANY&gt;{{ TRANSLATION_ID | translate }}&lt;/ANY&gt;</code></pre>
-<p>Для того, чтобы обновить наш пример, мы откажемся от использования сервиса <code>$translate</code> в
+<pre><code>&lt;ANY&gt;{{ TRANSLATION_ID | translate }}&lt;/ANY&gt;
+</code></pre><p>Для того, чтобы обновить наш пример, мы откажемся от использования сервиса <code>$translate</code> в
 контроллере и добавим логику в представление, используя фильтр <code>translate</code> так:</p>
 <pre class="prettyprint linenums">
 &lt;h1&gt;{{'HEADLINE' | translate}}&lt;/h1&gt;

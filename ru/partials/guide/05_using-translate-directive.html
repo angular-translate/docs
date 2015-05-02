@@ -11,31 +11,31 @@ expressions). Поэтому, <code>angular-translate</code> также пред
 <h3 id="директива-translate_использование">Использование</h3>
 <p>Вы можете использовать директиву <code>translate</code> разными способами. Вот как выглядит обычное
 использование:</p>
-<pre><code>&lt;ANY translate&gt;TRANSLATION_ID&lt;/ANY&gt;</code></pre>
-<p>Вы также можете передать идентификатор перевода в качестве значения атрибута директивы <code>translate</code>:</p>
-<pre><code>&lt;ANY translate=&quot;TRANSLATION_ID&quot;&gt;&lt;/ANY&gt;</code></pre>
-<p>Даже если это уже очень гибкий способ использования директивы, angular-translate предлагает
+<pre><code>&lt;ANY translate&gt;TRANSLATION_ID&lt;/ANY&gt;
+</code></pre><p>Вы также можете передать идентификатор перевода в качестве значения атрибута директивы <code>translate</code>:</p>
+<pre><code>&lt;ANY translate=&quot;TRANSLATION_ID&quot;&gt;&lt;/ANY&gt;
+</code></pre><p>Даже если это уже очень гибкий способ использования директивы, angular-translate предлагает
 <strong>другой</strong> способ ее использования. Давайте предположим, что идентификатор перевода не доступен в
 качестве конкретного идентификатора потому, что, например, он расположен внутри цикла по набору
 данных, который содержит идентификатор перевода в каждом итераторе. В таком случае идентификатор
 перевода доступен только в качестве динамических данных. Фактически, сначала нужно интерполировать
 непосредственно сам идентификатор. angular-translate поможет вам в этом. Так тоже можно:</p>
-<pre><code>&lt;ANY translate=&quot;{{toBeInterpolated}}&quot;&gt;&lt;/ANY&gt;</code></pre>
-<p>Ну разве это не круто? И да, angular-translate не был бы angular-translate, если бы не мог проделать
+<pre><code>&lt;ANY translate=&quot;{{toBeInterpolated}}&quot;&gt;&lt;/ANY&gt;
+</code></pre><p>Ну разве это не круто? И да, angular-translate не был бы angular-translate, если бы не мог проделать
 тоже самое с нашим первым примером использования. Это тоже работает:</p>
-<pre><code>&lt;ANY translate&gt;{{toBeInterpolated}}&lt;/ANY&gt;</code></pre>
-<p>Выберите, что лучше для вас!</p>
+<pre><code>&lt;ANY translate&gt;{{toBeInterpolated}}&lt;/ANY&gt;
+</code></pre><p>Выберите, что лучше для вас!</p>
 <h3 id="директива-translate_пост-компиляция">Пост компиляция</h3>
 <p>Начиная с версии 2, к переводам может применяться пост обработка в контексте текущей области
 видимости (с использованием <code>$compile</code>). Это означает, что любая директива, используемая в тексте
 перевода теперь будет работать как ожидается.</p>
 <p>Это поведение можно включить для директивы:</p>
-<pre><code>&lt;ANY translate=&quot;TRANSLATION_ID&quot; translate-compile&gt;&lt;/ANY&gt;</code></pre>
-<p>Также, вы можете включить эту функцию глобально при помощи...</p>
-<pre><code>$translateProvider.usePostCompiling(true);</code></pre>
-<p>... и потом выключить ее снова для директивы:</p>
-<pre><code>&lt;ANY translate=&quot;TRANSLATION_ID&quot; translate-compile=&quot;false&quot;&gt;&lt;/ANY&gt;</code></pre>
-<h3 id="директива-translate_пример">Пример</h3>
+<pre><code>&lt;ANY translate=&quot;TRANSLATION_ID&quot; translate-compile&gt;&lt;/ANY&gt;
+</code></pre><p>Также, вы можете включить эту функцию глобально при помощи...</p>
+<pre><code>$translateProvider.usePostCompiling(true);
+</code></pre><p>... и потом выключить ее снова для директивы:</p>
+<pre><code>&lt;ANY translate=&quot;TRANSLATION_ID&quot; translate-compile=&quot;false&quot;&gt;&lt;/ANY&gt;
+</code></pre><h3 id="директива-translate_пример">Пример</h3>
 <p>Давайте обновим наше учебное приложение и добавим некоторые новые переводы. Как на счет текстов,
 которые представляют все возможные варианты использования директивы <code>translate</code>? Наша таблица
 переводов может выглядеть примерно так:</p>

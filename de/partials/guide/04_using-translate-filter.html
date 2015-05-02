@@ -19,8 +19,8 @@ lesen.</p>
 <p>Das Gleiche gilt übrigens für angular-translate&#39;s <code>translate</code>- Filter. Wir können
 unser Beispiel aus <a href="#/guide/03_using-translate-service#generalusage">$translate- Service benutzen</a>
 entsprechend updaten. Grundsätzlich funktioniert der <code>translate</code>- Filter so:</p>
-<pre><code>&lt;ANY&gt;{{ TRANSLATION_ID | translate }}&lt;/ANY&gt;</code></pre>
-<p>Also, um unser Beispiel zu updaten, nehmen wir den <code>$translate</code>- Service aus
+<pre><code>&lt;ANY&gt;{{ TRANSLATION_ID | translate }}&lt;/ANY&gt;
+</code></pre><p>Also, um unser Beispiel zu updaten, nehmen wir den <code>$translate</code>- Service aus
 unseren Controller wieder raus und benutzen stattdessen den Filter im View-Layer:</p>
 <pre class="prettyprint linenums">
 &lt;h1&gt;{{'HEADLINE' | translate}}&lt;/h1&gt;

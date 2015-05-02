@@ -16,8 +16,10 @@ angular-translate формат. За більш детальною інформ�
 <a href="http://github.com/angular-translate/grunt-po2json-angular-translate">GitHub репозиторій</a>.</p>
 <p>Коротко, для його налаштування вам знадобиться виконати два кроки:</p>
 <p>1) Встановіть та увімкніть його у вашому gruntfile</p>
-<pre><code class="lang-shell">npm install grunt-po2json-angular-translate --save-dev</code></pre>
-<pre><code class="lang-js">grunt.loadNpmTasks(&#39;grunt-po2json-angular-translate&#39;);</code></pre>
+<pre><code class="lang-shell">npm install grunt-po2json-angular-translate --save-dev
+</code></pre>
+<pre><code class="lang-js">grunt.loadNpmTasks(&#39;grunt-po2json-angular-translate&#39;);
+</code></pre>
 <p>2) Додайте налаштування в залежності від ваших потреб. Наприклад:</p>
 <pre><code class="lang-js">grunt.initConfig({
   po2json_angular_translate: {
@@ -35,7 +37,8 @@ angular-translate формат. За більш детальною інформ�
       }
     },
   },
-});</code></pre>
+});
+</code></pre>
 <p>Чи потрібен вам один або декілька .json залежить від вашого конкретного випадку.</p>
 <p>Є декілька опцій, що можуть допомогти вам у виробничому середовищі чи середовищі розробки, але
 найбільш важливими є наступні:</p>
@@ -93,5 +96,6 @@ angular-translate формат. За більш детальною інформ�
                     &#39;app/dist/i18n/de/common-strings.json&#39; : [&#39;po/de/dashboard/common/*.po&#39;]
                 }
             }
-        },</code></pre>
+        },
+</code></pre>
 </div></div>

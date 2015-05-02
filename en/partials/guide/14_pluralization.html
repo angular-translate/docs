@@ -28,8 +28,8 @@ So, how can we use MessageFormat with angular-translate to take advantage of its
 functionality within our apps?</p>
 <p>Of course, there is a corresponding extension for it. Simply install the MessageFormat
 interpolation service via Bower like this:</p>
-<pre><code>$ bower install angular-translate-interpolation-messageformat</code></pre>
-<p>Okay, easy. Don&#39;t forget to embed it in your HTML document, so we have access to the provided
+<pre><code>$ bower install angular-translate-interpolation-messageformat
+</code></pre><p>Okay, easy. Don&#39;t forget to embed it in your HTML document, so we have access to the provided
 service. Don&#39;t forget to embed MessageFormat.js itself first:</p>
 <pre class="prettyprint linenums">
 &lt;script src="path/to/messageformat.js"&gt;&lt;/script&gt;
@@ -56,8 +56,8 @@ the syntax MessageFormat.js expects to interpolate your translations.</p>
 how some translations could look like:</p>
 <pre><code>{
   &quot;LIKE_TEXT&quot;: &quot;{GENDER, select, male{He} female{She} other{They}} liked this.&quot;
-}</code></pre>
-<p>As you can see, MessageFormat supports <code>SelectFormat</code> to interpolate texts depending
+}
+</code></pre><p>As you can see, MessageFormat supports <code>SelectFormat</code> to interpolate texts depending
 on a given gender for example. We can use <code>$translate</code> service, as well as
 <code>translate</code> directive and filter, to translate the <code>LIKE_TEXT</code> translation ID, like
 we always do:</p>
@@ -79,8 +79,8 @@ Do you see any difference?</p>
 <pre><code>{
   &quot;DEFAULT_INTERPOLATION&quot;: &quot;This is a translation that uses default interpolation with a dynamic value: {{value}}&quot;,
   &quot;MF_INTERPOLATION&quot;: &quot;This is a translation that uses MessageFormat interpolation with a dynamic value: {value}&quot;
-}</code></pre>
-<p>Exactly. MessageFormat uses a different syntax for its interpolation. This means,
+}
+</code></pre><p>Exactly. MessageFormat uses a different syntax for its interpolation. This means,
 when using MessageFormat interpolation, you have to rock over all of your translations,
 check if they use any kind of variable replacement and update them to match the
 right interpolation syntax. This isn&#39;t a cool thing.</p>

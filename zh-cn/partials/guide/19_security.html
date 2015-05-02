@@ -9,9 +9,11 @@
 <p><code>useSanitizeValueStrategy(strategy)</code> 方法定义哪种转义策略将被使用，这是全局的。</p>
 <p>目前，有两个选项可供选择：<code>null</code>（无）和 <code>escaped</code>（对于HTML）。</p>
 <p>我们执行是完全向后兼容，这意味着在默认情况下转义被禁用。</p>
-<pre><code class="lang-javascript">$translateProvider.useSanitizeValueStrategy(null);</code></pre>
+<pre><code class="lang-javascript">$translateProvider.useSanitizeValueStrategy(null);
+</code></pre>
 <p>然而，我们在未来缺省将启用更安全的变量 <code>escaped</code>。</p>
-<pre><code class="lang-javascript">$translateProvider.useSanitizeValueStrategy(&#39;escaped&#39;);</code></pre>
+<pre><code class="lang-javascript">$translateProvider.useSanitizeValueStrategy(&#39;escaped&#39;);
+</code></pre>
 <h3 id="转义的变量内容_演示">演示</h3>
 <h4 id="转义的变量内容_演示_没有转义">没有转义</h4>
 <h3 id="转义的变量内容_source">Source</h3>

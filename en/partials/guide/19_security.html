@@ -13,9 +13,11 @@ will be used; this is global.</p>
 <p>At the moment, two options are available: <code>null</code> (nothing) and <code>escaped</code> (for HTML).</p>
 <p>We enforce being completely backwards compatible, which means the escaping is disabled
 by default.</p>
-<pre><code class="lang-javascript">$translateProvider.useSanitizeValueStrategy(null);</code></pre>
+<pre><code class="lang-javascript">$translateProvider.useSanitizeValueStrategy(null);
+</code></pre>
 <p>However, we will enable the more secure variant <code>escaped</code> in the future by default.</p>
-<pre><code class="lang-javascript">$translateProvider.useSanitizeValueStrategy(&#39;escaped&#39;);</code></pre>
+<pre><code class="lang-javascript">$translateProvider.useSanitizeValueStrategy(&#39;escaped&#39;);
+</code></pre>
 <h3 id="escaping-of-variable-content_demonstrations">Demonstrations</h3>
 <h4 id="escaping-of-variable-content_demonstrations_not-escaped">Not escaped</h4>
 <h3 id="escaping-of-variable-content_source">Source</h3>

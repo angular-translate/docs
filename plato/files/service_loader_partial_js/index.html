@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">70.17</p>
+      <p class="stat">69.89</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">486</p>
+      <p class="stat">499</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">46.24</p>
+      <p class="stat">46.45</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">2.18</p>
+      <p class="stat">2.26</p>
     </div>
   </div>
 </div>
@@ -100,7 +100,11 @@
  * lifetime. All parts you add by using this provider would be loaded by
  * angular-translate at the startup as soon as possible.
  */
-.provider(&#039;$translatePartialLoader&#039;, function() {
+  .provider(&#039;$translatePartialLoader&#039;, $translatePartialLoader);
+
+function $translatePartialLoader() {
+
+  &#039;use strict&#039;;
 
   /**
    * @constructor
@@ -124,11 +128,16 @@
    * Returns a parsed url template string and replaces given target lang
    * and part name it.
    *
-   * @param {string} urlTemplate Url pattern to use.
-   * @param {string} targetLang Language key for language to be used.
+   * @param {string|function} urlTemplate - Either a string containing an url pattern (with
+   *                                        &#039;{part}&#039; and &#039;{lang}&#039;) or a function(part, lang)
+   *                                        returning a string.
+   * @param {string} targetLang - Language key for language to be used.
    * @return {string} Parsed url template string
    */
   Part.prototype.parseUrl = function(urlTemplate, targetLang) {
+    if (angular.isFunction(urlTemplate)) {
+      return urlTemplate(this.name, targetLang);
+    }
     return urlTemplate.replace(/\{part\}/g, this.name).replace(/\{lang\}/g, targetLang);
   };
 
@@ -257,7 +266,7 @@
    * of the wrong type. Please, note that the `lang` and `part` params have to be a
    * non-empty **string**s and the `table` param has to be an object.
    */
-  this.setPart = function(lang, part, table) {
+  this.setPart = function (lang, part, table) {
     if (!isStringValid(lang)) {
       throw new TypeError(&#039;Couldn\&#039;t set part.`lang` parameter has to be a string!&#039;);
     }
@@ -293,7 +302,7 @@
    * @throws {TypeError} The method could throw a **TypeError** if you pass the param of the wrong
    * type. Please, note that the `name` param has to be a non-empty **string**.
    */
-  this.deletePart = function(name) {
+  this.deletePart = function (name) {
     if (!isStringValid(name)) {
       throw new TypeError(&#039;Couldn\&#039;t delete part, first arg has to be string.&#039;);
     }
@@ -363,22 +372,24 @@
         throw new TypeError(&#039;Unable to load data, a key is not a non-empty string.&#039;);
       }
 
-      if (!isStringValid(options.urlTemplate)) {
-        throw new TypeError(&#039;Unable to load data, a urlTemplate is not a non-empty string.&#039;);
+      if (!isStringValid(options.urlTemplate) &amp;&amp; !angular.isFunction(options.urlTemplate)) {
+        throw new TypeError(&#039;Unable to load data, a urlTemplate is not a non-empty string or not a function.&#039;);
       }
 
       var errorHandler = options.loadFailureHandler;
       if (errorHandler !== undefined) {
         if (!angular.isString(errorHandler)) {
           throw new Error(&#039;Unable to load data, a loadFailureHandler is not a string.&#039;);
-        } else errorHandler = $injector.get(errorHandler);
+        } else {
+          errorHandler = $injector.get(errorHandler);
+        }
       }
 
       var loaders = [],
           deferred = $q.defer(),
           prioritizedParts = getPrioritizedParts();
 
-      angular.forEach(prioritizedParts, function(part, index) {
+      angular.forEach(prioritizedParts, function(part) {
         loaders.push(
           part.getTable(options.key, $q, $http, options.$http, options.urlTemplate, errorHandler)
         );
@@ -574,7 +585,9 @@
 
   }];
 
-});</textarea>
+}
+
+$translatePartialLoader.displayName = &#039;$translatePartialLoader&#039;;</textarea>
   </div>
 </div>
 

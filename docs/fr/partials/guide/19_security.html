@@ -13,9 +13,11 @@ pour échapper, de manière globale.</p>
 <p>Pour le moment, deux options sont disponibles : <code>null</code> (rien) et <code>escaped</code> (pour le HTML).</p>
 <p>Nous appliquons totalement la rétrocompatibilité, ce qui signifie que l&#39;échappement est
 désactivée par défaut.</p>
-<pre><code class="lang-javascript">$translateProvider.useSanitizeValueStrategy(null);</code></pre>
+<pre><code class="lang-javascript">$translateProvider.useSanitizeValueStrategy(null);
+</code></pre>
 <p>Pourtant, nous allons activer par défaut la variante la plus sûre : <code>escaped</code>.</p>
-<pre><code class="lang-javascript">$translateProvider.useSanitizeValueStrategy(&#39;escaped&#39;);</code></pre>
+<pre><code class="lang-javascript">$translateProvider.useSanitizeValueStrategy(&#39;escaped&#39;);
+</code></pre>
 <h3 id="échapper-du-contenu-de-variable_démonstrations">Démonstrations</h3>
 <h4 id="échapper-du-contenu-de-variable_démonstrations_pas-échappé">Pas échappé</h4>
 <h3 id="échapper-du-contenu-de-variable_source">Source</h3>

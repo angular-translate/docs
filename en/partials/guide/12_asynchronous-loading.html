@@ -17,8 +17,8 @@ of them are installable via Bower. Let&#39;s take a look at them!</p>
 <p>This is possibly the simplest way of loading translation data asynchronously.
 All you have to do, is to install the <code>angular-translate-loader-url</code> extension
 via Bower like this:</p>
-<pre><code>$ bower install angular-translate-loader-url</code></pre>
-<p>Once it&#39;s installed, make sure you&#39;ve embeded it in your HTML document. Alright,
+<pre><code>$ bower install angular-translate-loader-url
+</code></pre><p>Once it&#39;s installed, make sure you&#39;ve embeded it in your HTML document. Alright,
 the loader is available, we now have to tell angular-translate to use it.
 <code>$translateProvider</code> provides a method called <code>useUrlLoader()</code>. Pretty straight
 forward, ha? <code>useUrlLoader()</code> expects an argument that describes the endpoint
@@ -45,8 +45,8 @@ specific pattern, you probably want to use the
 <code>angular-translate-loader-static-files</code> extension which describes the pattern of
 your localization files.</p>
 <p>Like urlLoader, you can install staticFilesLoader extension via Bower:</p>
-<pre><code>$ bower install angular-translate-loader-static-files</code></pre>
-<p>Once the package is installed and embedded, you can use <code>$translateProvider</code>
+<pre><code>$ bower install angular-translate-loader-static-files
+</code></pre><p>Once the package is installed and embedded, you can use <code>$translateProvider</code>
 method <code>useStaticFilesLoader()</code> to tell angular-translate that it should use it.
 The static files loader works a bit differently. Instead of having a fixed url which
 just expects a <code>lang</code> parameter, you are now able to have different localization
@@ -109,8 +109,8 @@ we already loaded it a little while ago.</p>
 loading. However, <code>angular-translate</code> got your covered. This is where
 <code>partialLoader</code> comes in.</p>
 <p>You can install it like every other loader by simply using Bower:</p>
-<pre><code>$ bower install angular-translate-loader-partial</code></pre>
-<p>When using <code>partialLoader</code> you have to think about which pattern
+<pre><code>$ bower install angular-translate-loader-partial
+</code></pre><p>When using <code>partialLoader</code> you have to think about which pattern
 <code>angular-translate</code> should use to load your translation data. It&#39;s similar to
 <code>staticFilesLoader</code> but a bit more specifc. You have to specify a <code>part</code> and
 a <code>lang</code> property, where <code>part</code> is your specifc part of your app (maybe <code>home</code>)
@@ -120,8 +120,8 @@ like this:</p>
 <pre><code>/i18n/home/en.json
 /i18n/home/de.json
 /i18n/contact/en.json
-/i18n/contact/de.json</code></pre>
-<p>Pretty straight forward ha? Now that we know how our data is structured, we
+/i18n/contact/de.json
+</code></pre><p>Pretty straight forward ha? Now that we know how our data is structured, we
 can configure <code>$translateProvider</code> to use the partial loader with this pattern:</p>
 <pre class="prettyprint linenums">
 $translateProvider.useLoader('$translatePartialLoader', {
@@ -208,6 +208,37 @@ app.run(function ($rootScope, $translate) {
 </pre>
 <p>Since <code>$translate.refresh()</code> returns a promise, it works beautifully together
 with either <code>ngRoute</code> module or UI Router.</p>
+<p>An interesting question is how to deal with loading errors. By default the partial
+loader rejects a whole loading process if any of the parts was not loaded from the
+server. But you can change this behavior a bit. The loader provides an ability to
+specify an error handler - a service which will be called if some part can not be
+loaded. In this service you are able to do anything to handle such situations.</p>
+<p>There are a few things you have to know before you&#39;ll be able to create your first
+error handler:</p>
+<p>1) The partial loader expects the error handler to have the following signature
+<code>function (part:String, langKey:String):Promise</code>
+2) You have to either resolve the promise with a translation table for the given
+part and language or reject it
+3) The partial loader will use the given translation table like it was successfully
+fetched from the server
+4) If you reject the promise, then the loader will reject the whole loading process</p>
+<p>Here is an example of a simple error handler:</p>
+<pre><code class="lang-js">angular.module(&#39;translation&#39;)
+.factory(&#39;MyErrorHandler&#39;, function ($q, $log) {
+  return function (part, lang) {
+    $log.error(&#39;The &quot;&#39; + part + &#39;/&#39; + lang + &#39;&quot; part was not loaded.&#39;);
+    return $q.when({});
+  };
+});
+</code></pre>
+<p>So, now all we have to do is to tell the partial loader which service it has to
+use as an error handler:</p>
+<pre class="prettyprint linenums">
+$translateProvider.useLoader('$translatePartialLoader', {
+  urlTemplate: '/i18n/{part}/{lang}.json',
+  loadFailureHandler: 'MyErrorHandler'
+});
+</pre>
 <h3 id="asynchronous-loading_lazy-loading-at-runtime">Lazy loading at runtime</h3>
 <p>Once your app bootstraps, it&#39;ll load needed translation data asynchronously as
 soon as possible. Okay, cool. But what if a user wants to change the language and
@@ -223,10 +254,10 @@ translation tables first!</p>
 <p>Each loader can be applied a dedicated configuration <code>options</code>, both for the common constructor
 <code>useLoader()</code> and <code>useStaticFilesLoader(options)</code>:</p>
 <pre class="prettyprint linenums">
-$translationProvider.useLoader('customLoader', {
+$translateProvider.useLoader('customLoader', {
   settingA: 'foobar'
 });
-$translationProvider.useStaticFilesLoader({
+$translateProvider.useStaticFilesLoader({
   $http: {
     method: 'POST'
   }
@@ -240,15 +271,15 @@ cache instance. See more details about this at the
 <a href="https://docs.angularjs.org/api/ng/type/$cacheFactory.Cache">Official AngularJS Docs</a>.</p>
 <p>In order to enable a standard cache, you can use following shortcut:</p>
 <pre class="prettyprint linenums">
-$translationProvider.useLoaderCache(true); // default is false which means disable
+$translateProvider.useLoaderCache(true); // default is false which means disable
 </pre>
 <p>If you have already an instance (i.e. advanced configuration), you can bind this:</p>
 <pre class="prettyprint linenums">
-$translationProvider.useLoaderCache(yourSpecialCacheService);
+$translateProvider.useLoaderCache(yourSpecialCacheService);
 </pre>
 <p>Angular-Translate also supports lazy binding for instances, so this will work, too:</p>
 <pre class="prettyprint linenums">
-$translationProvider.useLoaderCache('yourSpecialCacheService');
+$translateProvider.useLoaderCache('yourSpecialCacheService');
 </pre>
 <p>The instance named with ID <code>yourspecialCacheService</code> will be looked up on demand.</p>
 <h3 id="asynchronous-loading_fouc---flash-of-untranslated-content">FOUC - Flash of untranslated content</h3>
@@ -271,8 +302,9 @@ $translateProvider.useStaticFilesLoader({
     'prefix': 'locale-',
     'suffix': '.json'
 });
-$translateProvider.preferredLanguage('de');
+$translateProvider.preferredLanguage('en');
 </pre>
+<p><strong>Note:</strong> An Angular Translate user has been posted a nice solution <a href="https://github.com/angular-translate/angular-translate/issues/921">using Grunt</a>.</p>
 <p>Let&#39;s update our sample app accordingly to use an asynchronous loader! We&#39;ll use
 the staticFilesLoader. First, we have to pull the translation tables out of the
 code and put them into separate locale files:</p>

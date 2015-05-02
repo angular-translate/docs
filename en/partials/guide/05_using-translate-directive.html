@@ -11,32 +11,32 @@ your contents in view layer.</p>
 <h3 id="using-translate-directive_general-usage">General usage</h3>
 <p>You can use <code>translate</code> directive in many different ways. This is how the general
 usage looks like:</p>
-<pre><code>&lt;ANY translate&gt;TRANSLATION_ID&lt;/ANY&gt;</code></pre>
-<p>You can also pass a translation ID as attribute value of the <code>translate</code> directive
+<pre><code>&lt;ANY translate&gt;TRANSLATION_ID&lt;/ANY&gt;
+</code></pre><p>You can also pass a translation ID as attribute value of the <code>translate</code> directive
 like this:</p>
-<pre><code>&lt;ANY translate=&quot;TRANSLATION_ID&quot;&gt;&lt;/ANY&gt;</code></pre>
-<p>Even if that&#39;s already a very flexible way of using a directive, angular-translate
+<pre><code>&lt;ANY translate=&quot;TRANSLATION_ID&quot;&gt;&lt;/ANY&gt;
+</code></pre><p>Even if that&#39;s already a very flexible way of using a directive, angular-translate
 offers <strong>another</strong> way of using it. Let&#39;s say a translation ID isn&#39;t available
 as a concrete identifier, because e.g. one is looping over a dataset which contains
 a translation ID in each iterator. In that case a translation ID is only dynamically
 available. You actually have to interpolate the ID itself first. angular-translate
 got you covered. This is also possible:</p>
-<pre><code>&lt;ANY translate=&quot;{{toBeInterpolated}}&quot;&gt;&lt;/ANY&gt;</code></pre>
-<p>Isn&#39;t that cool? And yeah, angular-translate wouldn&#39;t be angular-translate if it
+<pre><code>&lt;ANY translate=&quot;{{toBeInterpolated}}&quot;&gt;&lt;/ANY&gt;
+</code></pre><p>Isn&#39;t that cool? And yeah, angular-translate wouldn&#39;t be angular-translate if it
 couldn&#39;t handle it the same way with our first usage example. This also works:</p>
-<pre><code>&lt;ANY translate&gt;{{toBeInterpolated}}&lt;/ANY&gt;</code></pre>
-<p>Choose what works best for you!</p>
+<pre><code>&lt;ANY translate&gt;{{toBeInterpolated}}&lt;/ANY&gt;
+</code></pre><p>Choose what works best for you!</p>
 <h3 id="using-translate-directive_post-compiling">Post compiling</h3>
 <p>Starting with version 2, the translation itself can be post processed in context of the
 current scope (using <code>$compile</code>). This means any directive used in a translation value
 itself will now work as expected.</p>
 <p>This behavior can be enabled per directive:</p>
-<pre><code>&lt;ANY translate=&quot;TRANSLATION_ID&quot; translate-compile&gt;&lt;/ANY&gt;</code></pre>
-<p>In addition to it, you can also enable the feature globally with...</p>
-<pre><code>$translateProvider.usePostCompiling(true);</code></pre>
-<p>... and even then you can disable the feature again per directive:</p>
-<pre><code>&lt;ANY translate=&quot;TRANSLATION_ID&quot; translate-compile=&quot;false&quot;&gt;&lt;/ANY&gt;</code></pre>
-<h3 id="using-translate-directive_example">Example</h3>
+<pre><code>&lt;ANY translate=&quot;TRANSLATION_ID&quot; translate-compile&gt;&lt;/ANY&gt;
+</code></pre><p>In addition to it, you can also enable the feature globally with...</p>
+<pre><code>$translateProvider.usePostCompiling(true);
+</code></pre><p>... and even then you can disable the feature again per directive:</p>
+<pre><code>&lt;ANY translate=&quot;TRANSLATION_ID&quot; translate-compile=&quot;false&quot;&gt;&lt;/ANY&gt;
+</code></pre><h3 id="using-translate-directive_example">Example</h3>
 <p>Let&#39;s update our example app and add some new translations. How about texts which
 represents each possible way of using <code>translate</code> directive? Our translation table
 could look like this:</p>

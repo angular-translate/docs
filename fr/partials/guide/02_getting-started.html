@@ -82,7 +82,8 @@ dans le cas d&#39;un chargement à distance, comme un objet JSON. Une table de t
 ressembler à ceci :</p>
 <pre><code class="lang-json">{
   &quot;TRANSLATION_ID&quot;: &quot;Ceci est une traduction concrète pour une langue spécifique.&quot;
-}</code></pre>
+}
+</code></pre>
 <p>Est-ce facile ? La table de traduction ci-dessus contient une seule traduction. Comme vous
 pouvez le voir, la clé représente un ID de traduction, alors que la valeur représente la
 traduction concrète d&#39;une certaine langue. Vous n&#39;avez même pas besoin de fournir des
@@ -97,7 +98,8 @@ Tout ce que vous avez à faire est de créer des objets JSON imbriqués :</p>
        &quot;TRANSLATION_ID1&quot;: &quot;Ceci est une traduction d&#39;un espace de nommage.&quot;
     }
   }
-}</code></pre>
+}
+</code></pre>
 <p>Cette table de traduction ne contient qu&#39;une seule traduction, mais vous pouvez l&#39;étendre très
 facilement. Vous pouvez avoir plusieurs niveaux d&#39;imbrication dans votre table de traduction, et
 chaque espace de nommage peut contenir autant de sous-espace comme vous le souhaitez, ce qui
@@ -111,7 +113,8 @@ des raccourcis et des liens. Imaginons que vous avez une table de traduction qui
       &quot;foo&quot;: &quot;Ceci est mon texte.&quot;
     }
   }
-}</code></pre>
+}
+</code></pre>
 <p>Vous souhaitez accéder ultérieurement à l&#39;id de traduction existant via <code>bar.foo.foo</code>.
 C&#39;est à peu près correct, mais nous pouvons faire mieux. angular-translate est assez
 intelligent pour reconnaître s&#39;il y a un id de traduction qui a le même identifiant que
@@ -131,7 +134,8 @@ table de traduction qui suit :</p>
   &quot;ANOTHER_NAMESPACE&quot;: {
     &quot;OK_TEXT&quot;: &quot;OK&quot;
   }
-}</code></pre>
+}
+</code></pre>
 <p>Donc, comme vous pouvez le voir, nous avons introduit ici des espaces de nommage, mais les deux ont
 besoin d&#39;un texte qui dit juste &quot;OK&quot;. Ce cas n&#39;est pas rare, dans le cas d&#39;un bouton de confirmation
 ou similaire dans votre application. Cependant, il n&#39;est pas difficile de reconnaître que nous avons
@@ -148,7 +152,8 @@ pourrait ressembler à ceci :</p>
   &quot;ANOTHER_NAMESPACE&quot;: {
     &quot;OK_TEXT&quot;: &quot;@:SOME_NAMESPACE.OK_TEXT&quot;
   }
-}</code></pre>
+}
+</code></pre>
 <h3 id="mise-en-route_eeeeeeeeet-action">Eeeeeeeeet action !</h3>
 <p>Ajoutons une table de traduction à notre application. <code>$translateProvider</code> fournit une
 méthode appelée <code>translations()</code>, qui s&#39;occupe de cela. Imaginons que nous avons une table

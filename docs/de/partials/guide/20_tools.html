@@ -15,8 +15,10 @@ Team, die für die Arbeit mit angular-translate sehr nützlich sein können.</p>
 Für weitere Informationen schau bitte auf <a href="http://github.com/angular-translate/grunt-po2json-angular-translate">GitHub repo</a>.</p>
 <p>Hier aber die Wichtigsten beiden Schritte:</p>
 <p>1) Installiere und aktiviere den Task in deinem Gruntfile</p>
-<pre><code class="lang-shell">npm install grunt-po2json-angular-translate --save-dev</code></pre>
-<pre><code class="lang-js">grunt.loadNpmTasks(&#39;grunt-po2json-angular-translate&#39;);</code></pre>
+<pre><code class="lang-shell">npm install grunt-po2json-angular-translate --save-dev
+</code></pre>
+<pre><code class="lang-js">grunt.loadNpmTasks(&#39;grunt-po2json-angular-translate&#39;);
+</code></pre>
 <p>2) Füge die Konfiguration passend zu deinem Projekt hinzu - Beispiel:</p>
 <pre><code class="lang-js">grunt.initConfig({
   po2json_angular_translate: {
@@ -34,7 +36,8 @@ Für weitere Informationen schau bitte auf <a href="http://github.com/angular-tr
                   }
     },
   },
-});</code></pre>
+});
+</code></pre>
 <p>Je nach Anwendungsfall können einzelne oder mehrere JSON-Dateien bzw. ein Verzeichnis als Ziel angegeben werden.</p>
 <p>Es gibt zahlreiche Optionen zur Unterscheidung von Entwicklungs- und Produktionsumgebungen. Zusätzlich gibt es aber
 noch andere, sehr wichtige Einstellungen:</p>
@@ -88,5 +91,6 @@ oder um <a href="https://github.com/angular-translate/grunt-po2json-angular-tran
                     &#39;app/dist/i18n/de/common-strings.json&#39; : [&#39;po/de/dashboard/common/*.po&#39;]
                 }
             }
-        },</code></pre>
+        },
+</code></pre>
 </div></div>

@@ -22,8 +22,8 @@ angular-translate可以提供你所需的服务。它配备了丰富实用的功
 让我们开始吧：</p>
 <h3 id="国际化你的-angular-应用程序是如此的轻松_快速入门">快速入门</h3>
 <p>通过 bower 安装模块：</p>
-<pre><code>$ bower install angular-translate</code></pre>
-<p>确保将它嵌入在你的HTML文档中。</p>
+<pre><code>$ bower install angular-translate
+</code></pre><p>确保将它嵌入在你的HTML文档中。</p>
 <pre class="prettyprint linenums">
 &lt;script src="path/to/angular-translate.js"&gt;&lt;/script&gt;
 </pre>
@@ -41,7 +41,7 @@ app.config(['$translateProvider', function ($translateProvider) {
 
   $translateProvider.translations('de', {
     'TITLE': 'Hallo',
-    'FOO': 'Dies ist ein Paragraph'
+    'FOO': 'Dies ist ein Absatz'
   });
 
   $translateProvider.preferredLanguage('en');

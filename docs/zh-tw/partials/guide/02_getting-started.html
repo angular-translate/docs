@@ -66,7 +66,8 @@ angular-translate 期待一個翻譯列表，他是一個JSON對象. 所以你�
 作為 JSON 對象來遠程加載。翻譯列表的格式大概是這樣的：</p>
 <pre><code class="lang-json">{
   &quot;TRANSLATION_ID&quot;: &quot;This is a concrete translation for a specific language.&quot;
-}</code></pre>
+}
+</code></pre>
 <p>不是很容易嗎？上面的轉換錶只包含一個翻譯ID。正如你可以看到，鍵代表一個翻譯的ID，而該值表示對一定的語言有具體的翻譯。你甚至不必
 在你的翻譯表中提供任何信息，何種語言和它相對應。關於此底下我們還會提到。</p>
 <p>您也可以通過命名空間來安排您的翻譯列表。這是許多有趣的大網站對大和長的頁面的做法。您需要做的就是創建嵌套的JSON 對象：</p>
@@ -76,7 +77,8 @@ angular-translate 期待一個翻譯列表，他是一個JSON對象. 所以你�
        &quot;TRANSLATION_ID1&quot;: &quot;This is a namespaced translation.&quot;
     }
   }
-}</code></pre>
+}
+</code></pre>
 <p>這個翻譯列表只包含一個翻譯。但是你可以很容易的擴展它。你可以有不同的嵌套的層次，在你的翻譯列表中每一個命名空間都可以包括
 更多的子命名空間，這可以使你的解決方案非常的靈活！</p>
 <h3 id="入門_快捷方式和鏈接">快捷方式和鏈接</h3>
@@ -88,7 +90,8 @@ angular-translate 期待一個翻譯列表，他是一個JSON對象. 所以你�
       &quot;foo&quot;: &quot;This is my text.&quot;
     }
   }
-}</code></pre>
+}
+</code></pre>
 <p>您你後將可以通過<code>bar.foo.foo</code> 來對現有的翻譯ID進行訪問。雖然這樣也不錯，但我們可以做的更好。 angular-translate 很聰明，
 它可以認識到，在其對應的命名空間是否有翻譯的id具有相同標識符。如果是這樣的話，他就可以用快捷方式在指向的命名空間訪問這個翻譯ID
 ，而不是那個完整的翻譯ID。</p>
@@ -101,7 +104,8 @@ angular-translate 期待一個翻譯列表，他是一個JSON對象. 所以你�
   &quot;ANOTHER_NAMESPACE&quot;: {
     &quot;OK_TEXT&quot;: &quot;OK&quot;
   }
-}</code></pre>
+}
+</code></pre>
 <p>因此，大家可以看到我們要在這裡引入命名空間，但兩者其實就是需要一個字符串，“OK（確定）”。這種情況下是很尋常的，如果你只是想想
 一個確認按鈕，或者在您的應用程序其他類似的文本。然而，不難認識到我們有一個冗餘在這裡，我們開發者不喜歡冗餘吧？</p>
 <p>如果有翻譯ID已經有相同的具體文本，那你需要此文本的時候可以直接鏈接它。要鏈接到另一個翻譯的ID，你只需要用<code>@：</code>符號，後面寫上全名
@@ -113,7 +117,8 @@ angular-translate 期待一個翻譯列表，他是一個JSON對象. 所以你�
   &quot;ANOTHER_NAMESPACE&quot;: {
     &quot;OK_TEXT&quot;: &quot;@:SOME_NAMESPACE.OK_TEXT&quot;
   }
-}</code></pre>
+}
+</code></pre>
 <h3 id="入門_現在讓我們付諸行動">現在讓我們付諸行動!</h3>
 <p>讓我們在我們的應用程序添加一個翻譯列表。 <code>$translateProvider</code> 提供一個方法叫做<code>translates()</code>，就是用來做這個的。
 比方說，我們有一個翻譯列表是這樣的：</p>

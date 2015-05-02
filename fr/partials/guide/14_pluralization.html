@@ -28,8 +28,8 @@ Alors, comment pouvons-nous utiliser MessageFormat avec angular-translate pour p
 de toutes ses fonctionnalités dans nos applications ?</p>
 <p>Bien entendu, il existe une extension correspondante pour cela. Il suffit d&#39;installer le service
 d&#39;interpolation MessageFormat via Bower comme ceci :</p>
-<pre><code>$ bower install angular-translate-interpolation-messageformat</code></pre>
-<p>Bon, c&#39;est facile. N&#39;oubliez pas de l&#39;intégrer dans votre document HTML pour avoir accès
+<pre><code>$ bower install angular-translate-interpolation-messageformat
+</code></pre><p>Bon, c&#39;est facile. N&#39;oubliez pas de l&#39;intégrer dans votre document HTML pour avoir accès
 au service fourni. N&#39;oubliez pas d&#39;intégrer aussi MessageFormat.js en premier :</p>
 <pre class="prettyprint linenums">
 &lt;script src="path/to/messageformat.js"&gt;&lt;/script&gt;
@@ -56,8 +56,8 @@ syntaxe de MessageFormat.js pour interpoler vos traductions.</p>
 Certaines traductions pourraient ressembler à cela :</p>
 <pre><code>{
   &quot;LIKE_TEXT&quot;: &quot;{GENDER, select, male{Il aime} female{Elle aime} other{Ils aiment}} cela.&quot;
-}</code></pre>
-<p>Comme vous pouvez le voir, MessageFormat supporte <code>SelectFormat</code> pour interpoler les
+}
+</code></pre><p>Comme vous pouvez le voir, MessageFormat supporte <code>SelectFormat</code> pour interpoler les
 textes en fonction par exemple du sexe donné. Nous pouvons utiliser le service <code>$translate</code>,
 ainsi que la directive et le filtre <code>translate</code>, pour traduire l&#39;ID de traduction
 <code>LIKE_TEXT</code>, comme nous le faisons d&#39;habitude :</p>
@@ -79,8 +79,8 @@ suivant, voyez-vous une différence ?</p>
 <pre><code>{
   &quot;DEFAULT_INTERPOLATION&quot;: &quot;Ceci est une traduction qui utilise l&#39;interpolation par défaut avec une valeur dynamique : {{value}}&quot;,
   &quot;MF_INTERPOLATION&quot;: &quot;Ceci est une traduction qui utilise l&#39;interpolation de  MessageFormat avec une valeur dynamique : {value}&quot;
-}</code></pre>
-<p>Exactement. MessageFormat utilise une syntaxe différente pour son interpolation. Cela signifie que
+}
+</code></pre><p>Exactement. MessageFormat utilise une syntaxe différente pour son interpolation. Cela signifie que
 lors de l&#39;utilisation de l&#39;interpolation de MessageFormat, vous devez changer l&#39;ensemble de vos traductions,
 vérifier si elles utilisent toute sorte de remplacement de variables et les mettre à jour pour correspondre
 à la bonne syntaxe d&#39;interpolation. Ce n&#39;est pas quelque chose de cool.</p>

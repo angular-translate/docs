@@ -66,7 +66,8 @@ angular-translate 期待一个翻译列表，他是一个JSON对象. 所以你�
 作为 JSON 对象来远程加载。翻译列表的格式大概是这样的：</p>
 <pre><code class="lang-json">{
   &quot;TRANSLATION_ID&quot;: &quot;This is a concrete translation for a specific language.&quot;
-}</code></pre>
+}
+</code></pre>
 <p>不是很容易吗？上面的转换表只包含一个翻译ID。正如你可以看到，键代表一个翻译的ID，而该值表示对一定的语言有具体的翻译。你甚至不必
 在你的翻译表中提供任何信息，何种语言和它相对应。关于此底下我们还会提到。</p>
 <p>您也可以通过命名空间来安排您的翻译列表。这是许多有趣的大网站对大和长的页面的做法。您需要做的就是创建嵌套的 JSON 对象：</p>
@@ -76,7 +77,8 @@ angular-translate 期待一个翻译列表，他是一个JSON对象. 所以你�
        &quot;TRANSLATION_ID1&quot;: &quot;This is a namespaced translation.&quot;
     }
   }
-}</code></pre>
+}
+</code></pre>
 <p>这个翻译列表只包含一个翻译。但是你可以很容易的扩展它。你可以有不同的嵌套的层次，在你的翻译列表中每一个命名空间都可以包括
 更多的子命名空间，这可以使你的解决方案非常的灵活！</p>
 <h3 id="入门_快捷方式和链接">快捷方式和链接</h3>
@@ -88,7 +90,8 @@ angular-translate 期待一个翻译列表，他是一个JSON对象. 所以你�
       &quot;foo&quot;: &quot;This is my text.&quot;
     }
   }
-}</code></pre>
+}
+</code></pre>
 <p>您你后将可以通过 <code>bar.foo.foo</code> 来对现有的翻译ID进行访问。虽然这样也不错，但我们可以做的更好。angular-translate 很聪明，
 它可以认识到，在其对应的命名空间是否有翻译的id具有相同标识符。如果是这样的话，他就可以用快捷方式在指向的命名空间访问这个翻译ID
 ，而不是那个完整的翻译ID。</p>
@@ -101,7 +104,8 @@ angular-translate 期待一个翻译列表，他是一个JSON对象. 所以你�
   &quot;ANOTHER_NAMESPACE&quot;: {
     &quot;OK_TEXT&quot;: &quot;OK&quot;
   }
-}</code></pre>
+}
+</code></pre>
 <p>因此，大家可以看到我们要在这里引入命名空间，但两者其实就是需要一个字符串，“OK（确定）”。这种情况下是很寻常的，如果你只是想想
 一个确认按钮，或者在您的应用程序其他类似的文本。然而，不难认识到我们有一个冗余在这里，我们开发者不喜欢冗余吧？</p>
 <p>如果有翻译ID已经有相同的具体文本，那你需要此文本的时候可以直接链接它。要链接到另一个翻译的ID，你只需要用<code>@：</code>符号，后面写上全名
@@ -113,7 +117,8 @@ angular-translate 期待一个翻译列表，他是一个JSON对象. 所以你�
   &quot;ANOTHER_NAMESPACE&quot;: {
     &quot;OK_TEXT&quot;: &quot;@:SOME_NAMESPACE.OK_TEXT&quot;
   }
-}</code></pre>
+}
+</code></pre>
 <h3 id="入门_现在让我们付诸行动">现在让我们付诸行动!</h3>
 <p>让我们在我们的应用程序添加一个翻译列表。 <code>$translateProvider</code> 提供一个方法叫做 <code>translates()</code>，就是用来做这个的。
 比方说，我们有一个翻译列表是这样的：</p>

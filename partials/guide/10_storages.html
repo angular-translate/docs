@@ -22,12 +22,13 @@ the user launches the app.</p>
 supported by the browser the user currently uses. To use one of those storages,
 you have to install the corresponding extension package.</p>
 <p>Also remember to include angular-cookies.min.js file in your HTML and to add &#39;ngCookies&#39; as dependency.</p>
-<pre><code class="lang-js">var module = angular.module(&#39;AppService&#39;, [&#39;pascalprecht.translate&#39;,&#39;ngCookies&#39;]);</code></pre>
+<pre><code class="lang-js">var module = angular.module(&#39;AppService&#39;, [&#39;pascalprecht.translate&#39;,&#39;ngCookies&#39;]);
+</code></pre>
 <h3 id="storages_using-cookiestorage">Using cookieStorage</h3>
 <p>If you want to use the cookieStorage to store the language over cross http requests,
 simply install the cookie storage extension via bower:</p>
-<pre><code>$ bower install angular-translate-storage-cookie</code></pre>
-<p>After that make sure you&#39;ve embeded it in your HTML document. Once it&#39;s embeded
+<pre><code>$ bower install angular-translate-storage-cookie
+</code></pre><p>After that make sure you&#39;ve embeded it in your HTML document. Once it&#39;s embeded
 you can use <code>$translateProvider</code> method <code>useCookieStorage()</code> and angular-translate
 takes care of the rest.</p>
 <pre class="prettyprint linenums">
@@ -45,8 +46,8 @@ the rest.</p>
 doesn&#39;t support localStorage. Therefore you have to provide the cookieStorage
 extension as well.</p>
 <p>You can install the extension package like this:</p>
-<pre><code>$ bower install angular-translate-storage-local</code></pre>
-<p>Now, inform <code>$translateProvider</code> that you want to use it:</p>
+<pre><code>$ bower install angular-translate-storage-local
+</code></pre><p>Now, inform <code>$translateProvider</code> that you want to use it:</p>
 <pre class="prettyprint linenums">
 $translateProvider.useLocalStorage();
 </pre>

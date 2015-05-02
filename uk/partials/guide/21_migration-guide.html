@@ -10,13 +10,15 @@
 <pre><code class="lang-js">$translateProvider.translations({
   &#39;greetings&#39; : &#39;Hello&#39;,
   // some other keys
-});</code></pre>
+});
+</code></pre>
 <p>Щоб це виправити вам необхідно всього лише додати ключ мови у якості першого параметра:</p>
 <pre><code class="lang-js">$translateProvider.translations(&#39;en&#39;, {
   &#39;greetings&#39; : &#39;Hello&#39;,
   // some other keys
 });
-$translateProvider.use(&#39;en&#39;);</code></pre>
+$translateProvider.use(&#39;en&#39;);
+</code></pre>
 <h3 id="111--&gt;-200_uses--&gt;-use">uses -&gt; use</h3>
 <p>З міркувань послідовності коду ми вирішили перейменувати метод <code>.uses()</code> в <code>.use()</code>. Це було
 зроблено як для $translate, так і для $translateProvider. Будь ласка, переконайтеся, що ви
@@ -24,7 +26,8 @@ $translateProvider.use(&#39;en&#39;);</code></pre>
 <h3 id="111--&gt;-200_$translate-тепер-асинхронний">$translate() тепер асинхронний</h3>
 <p>Сервіс $translate тепер базується на обіцянках (promise). Тому, тепер ви не можете використовувати
 його у синхронному стилі. Будь ласка, замініть такий код:</p>
-<pre><code class="lang-js">var stringFromService = $translate(&#39;translationId&#39;);</code></pre>
+<pre><code class="lang-js">var stringFromService = $translate(&#39;translationId&#39;);
+</code></pre>
 <p>на такий</p>
 <pre><code class="lang-js">var stringFromService;
 $translate(&#39;translationId&#39;).then(function(translation) {
@@ -32,7 +35,8 @@ $translate(&#39;translationId&#39;).then(function(translation) {
 }, function(translationId){
   // Unable to translate given translationId
   stringFromService = translationId;
-});</code></pre>
+});
+</code></pre>
 <p>Якщо ви, все ж таки, хочете використовувати сервіс у синхронному стилі, використовуйте метод
 <code>$translate.instant(translationId, interpolateParams, interpolationId)</code> замість прямого виклику сервісу. Але
 майте на увазі, що метод <code>instant</code> не чекає завершення асинхронного завантаження. Тому, будьте

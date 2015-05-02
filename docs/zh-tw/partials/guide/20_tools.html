@@ -13,8 +13,10 @@
 如果你想更深入的信息，去<a href="http://github.com/angular-translate/grunt-po2json-angular-translate">GitHub 庫</a>.</p>
 <p>簡單地說，設置它，你需要兩個步驟：</p>
 <p>1）安裝它，在你的 gruntfile 中啟用</p>
-<pre><code class="lang-shell">npm install grunt-po2json-angular-translate --save-dev</code></pre>
-<pre><code class="lang-js">grunt.loadNpmTasks(&#39;grunt-po2json-angular-translate&#39;);</code></pre>
+<pre><code class="lang-shell">npm install grunt-po2json-angular-translate --save-dev
+</code></pre>
+<pre><code class="lang-js">grunt.loadNpmTasks(&#39;grunt-po2json-angular-translate&#39;);
+</code></pre>
 <p>2) 根據您的需要添加的配置，例如：</p>
 <pre><code class="lang-js">grunt.initConfig({
   po2json_angular_translate: {
@@ -32,7 +34,8 @@
                   }
     },
   },
-});</code></pre>
+});
+</code></pre>
 <p>無論您是需要一個或多個.json的文件，取決於您的特例。
 這裡有幾個選項可以在開發/生產環境下幫助您，但更重要的，是以下的：</p>
 <h5 id="工具_grunt-po2json-angular-translate_optionspretty">options.pretty</h5>
@@ -43,7 +46,7 @@ Default value:  <code>false</code>
 <p>Type: <code>Boolean</code>
 Default value:  <code>false</code>
 它會在創建新的之前刪除在目標文件夾裡所有以前生成的文件。</p>
-<p>還有其他選項，以幫助您生成.JSON文件的，例如，將您的gettext 的格式化[多樣化字符串](<a href="https://github.com/angular-translate/grunt-po2json-angular-translate#">https://github.com/angular-translate/grunt-po2json-angular-translate#</a> pluralization)，
+<p>還有其他選項，以幫助您生成.JSON文件的，例如，將您的gettext 的格式化<a href="https://github.com/angular-translate/grunt-po2json-angular-translate# pluralization">多樣化字符串</a>，
 設置<a href="https://github.com/angular-translate/grunt-po2json-angular-translate#optionsenablealtplaceholders">自定義的佔位符</a>
 或者<a href="https://github.com/angular-translate/grunt-po2json-angular-translate#optionsuppercaseid">轉換<code>msgid</code>為大寫</a>.</p>
 <p>這是在實際的項目中使用的一個例子的配置：</p>
@@ -84,5 +87,6 @@ Default value:  <code>false</code>
                     &#39;app/dist/i18n/de/common-strings.json&#39; : [&#39;po/de/dashboard/common/*.po&#39;]
                 }
             }
-        },</code></pre>
+        },
+</code></pre>
 </div></div>

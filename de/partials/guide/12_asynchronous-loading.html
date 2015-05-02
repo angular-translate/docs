@@ -15,8 +15,8 @@ verschiedene Loader zum asynchronen Nachladen von Daten von Haus aus mit.</p>
 <h3 id="asynchrones-laden_den-urlloader-benutzen">Den urlLoader benutzen</h3>
 <p>Der wahrscheinlich einfachste Weg, Daten asynchron mit Hilfe von angular-translate
 zu laden. Zuerst installiert man die Extension via Bower:</p>
-<pre><code>$ bower install angular-translate-loader-url</code></pre>
-<p>Sobald die Extension installiert und um HTML-Dokument eingebunden ist, kann man
+<pre><code>$ bower install angular-translate-loader-url
+</code></pre><p>Sobald die Extension installiert und um HTML-Dokument eingebunden ist, kann man
 die <code>useUrlLoader()</code>- Methode vom <code>$translateProvider</code> nutzen, um angular-translate
 zu sagen, Daten asynchron zu laden. <code>useUrlLoader()</code> erwartet als Argument ein
 Endpoint eines Servers, der Übersetzungsdaten anhand eines Sprachschlüssels
@@ -39,8 +39,8 @@ und führt einen registrierten Loader so früh wie möglich aus.</p>
 liefert, dafür aber sämtliche Lokalisierungsdateien, die einem bestimmten Muster
 entsprechen, möchtest du möglicherweise den <code>staticFilesLoader</code> benutzen.</p>
 <p>Genau wie der urlLoader, lässt sich der staticFilesLoader via Bower installieren:</p>
-<pre><code>$ bower install angular-translate-loader-static-files</code></pre>
-<p>Sobald die Extension installiert und im HTML-Dokument eingebunden ist, kann analog
+<pre><code>$ bower install angular-translate-loader-static-files
+</code></pre><p>Sobald die Extension installiert und im HTML-Dokument eingebunden ist, kann analog
 zur <code>useUrlLoader()</code>- Methode, die <code>useStaticFilesLoader()</code>- Methode benutzt werden.
 Der staticFilesLoader funktioniert allerdings etwas anders. Anstatt einer fixen URL,
 die einen <code>lang</code> Parameter bekommt, erwartet der staticFilesLoader die Beschreibung
@@ -104,8 +104,8 @@ wird, wollen wir nicht die gleichen Übersetzungen noch einmal laden. Bereits ge
 Übersetzungsdateien auf Modulebene haben möchte. angular-translate bietet für genau
 solch einen Fall den <code>partialLoader</code>.</p>
 <p>Auch er lässt sich ganz einfach via Bower installieren:</p>
-<pre><code>$ bower install angular-translate-loader-partial</code></pre>
-<p>Wenn man den partialLoader benutzt muss man sich, ähnlich wie beim staticFilesLoader,
+<pre><code>$ bower install angular-translate-loader-partial
+</code></pre><p>Wenn man den partialLoader benutzt muss man sich, ähnlich wie beim staticFilesLoader,
 Gedanken darüber machen, wie die Übersetzungsdaten strukturiert sind und wie
 angular-translate sie laden soll. Man muss eine <code>part</code> und eine <code>lang</code> Property
 bestimmen, während <code>part</code> der Teil der Übersetzungen ist, den man laden möchte
@@ -115,8 +115,8 @@ strukturiert:</p>
 <pre><code>/i18n/home/en.json
 /i18n/home/de.json
 /i18n/contact/en.json
-/i18n/contact/de.json</code></pre>
-<p>Jetzt wo wir wissen, wie unsere Daten strukturiert sind, können wir <code>$translateProvider</code>
+/i18n/contact/de.json
+</code></pre><p>Jetzt wo wir wissen, wie unsere Daten strukturiert sind, können wir <code>$translateProvider</code>
 konfigurieren, um Gebrauch vom partialLoader zu machen.</p>
 <pre class="prettyprint linenums">
 $translateProvider.useLoader('$translatePartialLoader', {
@@ -211,10 +211,10 @@ angefragte Sprache vorhanden ist und wenn nicht, wird diese erst geladen.</p>
 gilt sowohl für den allgemeinen Konstructor <code>useLoader(name, options)</code> als auch
 die Shortcut-Konstruktoren wie <code>useStaticFilesLoader(options)</code>:</p>
 <pre class="prettyprint linenums">
-$translationProvider.useLoader('customLoader', {
+$translateProvider.useLoader('customLoader', {
   settingA: 'foobar'
 });
-$translationProvider.useStaticFilesLoader({
+$translateProvider.useStaticFilesLoader({
   $http: {
     method: 'POST'
   }
@@ -228,15 +228,15 @@ $translationProvider.useStaticFilesLoader({
 <a href="https://docs.angularjs.org/api/ng/type/$cacheFactory.Cache">offiziellen AngularJS Dokumentation</a>.</p>
 <p>Den Cache kann man sehr leicht mit folgender Konfiguration aktivieren:</p>
 <pre class="prettyprint linenums">
-$translationProvider.useLoaderCache(true); // default ist false, also deaktiviert
+$translateProvider.useLoaderCache(true); // default ist false, also deaktiviert
 </pre>
 <p>Falls Du bereits eine eigene Instanz konfiguriert hast, kannst Du diese auch direkt übergeben:</p>
 <pre class="prettyprint linenums">
-$translationProvider.useLoaderCache(yourSpecialCacheService);
+$translateProvider.useLoaderCache(yourSpecialCacheService);
 </pre>
 <p>Angular-Translate unterstützt auch das Lazy-Binding, so dass auch folgendes funktioniert:</p>
 <pre class="prettyprint linenums">
-$translationProvider.useLoaderCache('yourSpecialCacheService');
+$translateProvider.useLoaderCache('yourSpecialCacheService');
 </pre>
 <p>Die Instanz mit der ID <code>yourSpecialCacheService</code> wird erst bei Bedarf aus dem Kontext geladen.</p>
 <h3 id="asynchrones-laden_fouc---flash-of-untranslated-content">FOUC - Flash of untranslated content</h3>
@@ -256,8 +256,10 @@ $translateProvider.useStaticFilesLoader({
     'prefix': 'locale-',
     'suffix': '.json'
 });
-$translateProvider.preferredLanguage('de');
+$translateProvider.preferredLanguage('en');
 </pre>
+<p><strong>Hinweis:</strong> Ein Benutzer von Angular Translate eine schöne Lösung
+<a href="https://github.com/angular-translate/angular-translate/issues/921">mittels Grunt</a> veröffentlicht.</p>
 <p>Okay, passen wir unsere App mit dem staticFilesLoader an. Als erstes ziehen wir
 die Übersetzungen aus dem Code und schreiben Sie in seperate Dateien:</p>
 <pre class="prettyprint linenums">

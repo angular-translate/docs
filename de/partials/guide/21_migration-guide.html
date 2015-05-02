@@ -11,13 +11,15 @@ eine Folge von internen Strukturverbesserungen.</p>
 <pre><code class="lang-js">$translateProvider.translations({
   &#39;greetings&#39; : &#39;Hello&#39;,
   // some other keys
-});</code></pre>
+});
+</code></pre>
 <p>Die Lösung ist, als ersten Paratemer die eigentliche Sprache festzulegen.</p>
 <pre><code class="lang-js">$translateProvider.translations(&#39;en&#39;, {
   &#39;greetings&#39; : &#39;Hello&#39;,
   // some other keys
 });
-$translateProvider.use(&#39;en&#39;);</code></pre>
+$translateProvider.use(&#39;en&#39;);
+</code></pre>
 <h3 id="111--&gt;-200_uses--&gt;-use">uses -&gt; use</h3>
 <p>Aus Konsistenztgründen wurde beschlossen, dass die Methode <code>.uses()</code> fortan <code>.use()</code> heißen wird.
 Dies gilt sowohl für den Service $translate als auch den Provider $translateProvider. Es sollte
@@ -26,7 +28,8 @@ Dies gilt sowohl für den Service $translate als auch den Provider $translatePro
 <p>Der Service $translate() ist ab sofort asynchron und gibt eine Promise zurück. Eine synchroner Aufruf
 ist nicht mehr möglich. Falls dies doch erforderlich ist, dann kann man $translate.instant() verwenden.</p>
 <p>Folgende Code-Zeilen müssen umgestellt werden:</p>
-<pre><code class="lang-js">var stringFromService = $translate(&#39;translationId&#39;);</code></pre>
+<pre><code class="lang-js">var stringFromService = $translate(&#39;translationId&#39;);
+</code></pre>
 <p>Die Lösung ist die Verwendung von Promise-Callbacks.</p>
 <pre><code class="lang-js">var stringFromService;
 $translate(&#39;translationId&#39;).then(function(translation) {
@@ -34,7 +37,8 @@ $translate(&#39;translationId&#39;).then(function(translation) {
 }, function(translationId){
   // Unable to translate given translationId
   stringFromService = translationId;
-});</code></pre>
+});
+</code></pre>
 <p>Falls man dennoch die Übersetzungen synchron laden will, dann kann man
 <code>$translate.instant(translationId, interpolateParams, interpolationId)</code> verwenden.
 Allerdings muss man hier die Konsequenz von nicht aktuellen Übersetzungen selber tragen. Dieser

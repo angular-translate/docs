@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">68.97</p>
+      <p class="stat">67.38</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">280</p>
+      <p class="stat">316</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">32.32</p>
+      <p class="stat">35.53</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">1.76</p>
+      <p class="stat">2.07</p>
     </div>
   </div>
 </div>
@@ -107,7 +107,7 @@
  * @param {string=} translate-values Values to pass into translation id. Can be passed as object literal string or interpolated object.
  * @param {string=} translate-attr-ATTR translate Translation id and put it into ATTR attribute.
  * @param {string=} translate-default will be used unless translation was successful
- * @param {boolean=} translate-compile (default true if present) defines locally activation of {@link pascalprecht.translate.$translate#usePostCompiling}
+ * @param {boolean=} translate-compile (default true if present) defines locally activation of {@link pascalprecht.translate.$translateProvider#methods_usePostCompiling}
  *
  * @example
    &lt;example module=&quot;ngView&quot;&gt;
@@ -176,7 +176,10 @@
     &lt;/file&gt;
    &lt;/example&gt;
  */
-.directive(&#039;translate&#039;, [&#039;$translate&#039;, &#039;$q&#039;, &#039;$interpolate&#039;, &#039;$compile&#039;, &#039;$parse&#039;, &#039;$rootScope&#039;, function ($translate, $q, $interpolate, $compile, $parse, $rootScope) {
+.directive(&#039;translate&#039;, translateDirective);
+function translateDirective($translate, $q, $interpolate, $compile, $parse, $rootScope) {
+
+  &#039;use strict&#039;;
 
   /**
    * @name trim
@@ -214,6 +217,22 @@
         scope.preText = &#039;&#039;;
         scope.postText = &#039;&#039;;
         var translationIds = {};
+
+        var initInterpolationParams = function (interpolateParams, iAttr, tAttr) {
+          // initial setup
+          if (iAttr.translateValues) {
+            angular.extend(interpolateParams, $parse(iAttr.translateValues)(scope.$parent));
+          }
+          // initially fetch all attributes if existing and fill the params
+          if (translateValueExist) {
+            for (var attr in tAttr) {
+              if (Object.prototype.hasOwnProperty.call(iAttr, attr) &amp;&amp; attr.substr(0, 14) === &#039;translateValue&#039; &amp;&amp; attr !== &#039;translateValues&#039;) {
+                var attributeName = angular.lowercase(attr.substr(14, 1)) + attr.substr(15);
+                interpolateParams[attributeName] = tAttr[attr];
+              }
+            }
+          }
+        };
 
         // Ensures any change of the attribute &quot;translate&quot; containing the id will
         // be re-stored to the scope&#039;s &quot;translationId&quot;.
@@ -256,6 +275,9 @@
             updateTranslations();
           });
         };
+
+        // initial setup with values
+        initInterpolationParams(scope.interpolateParams, iAttr, tAttr);
 
         var firstAttributeChangedEvent = true;
         iAttr.$observe(&#039;translate&#039;, function (translationId) {
@@ -309,7 +331,8 @@
         // Master update function
         var updateTranslations = function () {
           for (var key in translationIds) {
-            if (translationIds.hasOwnProperty(key)) {
+
+            if (translationIds.hasOwnProperty(key) &amp;&amp; translationIds[key] !== undefined) {
               updateTranslation(key, translationIds[key], scope, scope.interpolateParams, scope.defaultText);
             }
           }
@@ -348,12 +371,19 @@
             if (!successful &amp;&amp; typeof scope.defaultText !== &#039;undefined&#039;) {
               value = scope.defaultText;
             }
-            var attributeName = iAttr.$attr[translateAttr].substr(15);
+            var attributeName = iAttr.$attr[translateAttr];
+            if (attributeName.substr(0, 5) === &#039;data-&#039;) {
+              // ensure html5 data prefix is stripped
+              attributeName = attributeName.substr(5);
+            }
+            attributeName = attributeName.substr(15);
             iElement.attr(attributeName, value);
           }
         };
 
-        scope.$watch(&#039;interpolateParams&#039;, updateTranslations, true);
+        if (translateValuesExist || translateValueExist || iAttr.translateDefault) {
+          scope.$watch(&#039;interpolateParams&#039;, updateTranslations, true);
+        }
 
         // Ensures the text will be refreshed after the current language was changed
         // w/ $translate.use(...)
@@ -361,14 +391,20 @@
 
         // ensure translation will be looked up at least one
         if (iElement.text().length) {
-          observeElementTranslation(&#039;&#039;);
+          if (iAttr.translate) {
+            observeElementTranslation(iAttr.translate);
+          } else {
+            observeElementTranslation(&#039;&#039;);
+          }
         }
         updateTranslations();
         scope.$on(&#039;$destroy&#039;, unbind);
       };
     }
   };
-}]);</textarea>
+}
+
+translateDirective.displayName = &#039;translateDirective&#039;;</textarea>
   </div>
 </div>
 
