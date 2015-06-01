@@ -11,15 +11,28 @@ Applikation (siehe auch: <a href="https://www.owasp.org/index.php/Cross-site_Scr
 <h3 id="escapen-dynamischer-werte_allgemeine-benutzung">Allgemeine Benutzung</h3>
 <p>Grundsätzlich konfiguriert man die Ausgabeform mittels <code>useSanitizeValueStrategy(strategy)</code>
 und einer gewünschte Security-Strategy; dies gilt dann für die gesamte Applikation.</p>
-<p>Derzeit gibt es nur zwei Strategien: <code>null</code> (keine) und <code>escaped</code> (für HTML).</p>
+<p>Derzeit gibt es folgende Standardstrategien:</p>
+<ul>
+<li><code>sanitize</code>: bereinigt HTML in den Übersetzungen mittels <code>$sanitize</code></li>
+<li><code>escape</code>: escaped HTML in den Übersetzungen</li>
+<li><code>sanitizeParameters</code>: bereinigt HTML der Inhalte von Interpolation Parametern mittels <code>$sanitize</code></li>
+<li><code>escapeParameters</code>: escaped HTML der Inhalte von Interpolation Parametern</li>
+</ul>
+<p>Darüberhinaus gibt es noch folgende, welche aber nur noch für Version zur Verfügung stehen:</p>
+<ul>
+<li><code>null</code>: nichts, unsicherer Standard (wird in 3.0 entfernt)</li>
+<li><code>escaped</code>: Synonym für &#39;escapeParameters&#39; (seit 2.7.0, wird in 3.0 entfernt)</li>
+</ul>
 <p>Um eine vollständige Rückwärtskompatibilität zu gewährleisten, ist das Feature derzeit
 deaktiviert:</p>
 <pre><code class="lang-javascript">$translateProvider.useSanitizeValueStrategy(null);
 </code></pre>
 <p>Selbstverständlich empfehlen wir aber das aktivierte Escaping (in einer späteren
 Version wird dies Standard sein):</p>
-<pre><code class="lang-javascript">$translateProvider.useSanitizeValueStrategy(&#39;escaped&#39;);
+<pre><code class="lang-javascript">$translateProvider.useSanitizeValueStrategy(&#39;sanitize&#39;);
 </code></pre>
+<p>Wir empfehlen dringlich eine sichere Strategie zu aktivieren. Daher zeigen wir
+einen Warnhinweis an, so lange nicht explizit eine Strategie gewählt wurde.</p>
 <h3 id="escapen-dynamischer-werte_anwendungsbeispiele">Anwendungsbeispiele</h3>
 <h4 id="escapen-dynamischer-werte_anwendungsbeispiele_ausgabe-von-dynamischen-variablen-nicht-escaped">Ausgabe von dynamischen Variablen nicht escaped</h4>
 <h3 id="escapen-dynamischer-werte_source">Source</h3>

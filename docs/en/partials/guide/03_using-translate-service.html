@@ -78,7 +78,7 @@ it. If it doesn&#39;t exist it&#39;ll probably just return the translation id.</
 <p>However, this doesn&#39;t mean that it knows when a languages has been changed. And because
 of that, translations translated through a directive <code>$translate</code> call, don&#39;t get
 updated when changing the language at runtime.</p>
-<p>You can fix that by simply wrapping your <code>$translate</code> call into a <code>$translateChangeSucces</code>
+<p>You can fix that by simply wrapping your <code>$translate</code> call into a <code>$translateChangeSuccess</code>
 callback on <code>$rootScope</code>, which gets fired every time a translation change was successful.
 Once it&#39;s changed, you can simply re-execute the code, that gives you your needed translations.</p>
 <p>Here&#39;s how it could look like:</p>

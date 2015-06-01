@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">65.60</p>
+      <p class="stat">65.73</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">1967</p>
+      <p class="stat">2006</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">99.82</p>
+      <p class="stat">99.31</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">10.48</p>
+      <p class="stat">10.59</p>
     </div>
   </div>
 </div>
@@ -126,6 +126,7 @@ function $translate($STORAGE_KEY, $windowProvider, $translateSanitizationProvide
       $notFoundIndicatorLeft,
       $notFoundIndicatorRight,
       $postCompilingEnabled = false,
+      $forceAsyncReloadEnabled = false,
       NESTED_OBJECT_DELIMITER = &#039;.&#039;,
       loaderCache,
       directivePriority = 0,
@@ -225,7 +226,7 @@ function $translate($STORAGE_KEY, $windowProvider, $translateSanitizationProvide
    * @returns {string} The string stripped of whitespace from both ends
    */
   var trim = function() {
-    return this.replace(/^\s+|\s+$/g, &#039;&#039;);
+    return this.toString().replace(/^\s+|\s+$/g, &#039;&#039;);
   };
 
   var negotiateLocale = function (preferred) {
@@ -795,6 +796,30 @@ function $translate($STORAGE_KEY, $windowProvider, $translateSanitizationProvide
    */
   this.usePostCompiling = function (value) {
     $postCompilingEnabled = !(!value);
+    return this;
+  };
+
+  /**
+   * @ngdoc function
+   * @name pascalprecht.translate.$translateProvider#forceAsyncReload
+   * @methodOf pascalprecht.translate.$translateProvider
+   *
+   * @description
+   * If force async reload is enabled, async loader will always be called
+   * even if $translationTable already contains the language key, adding
+   * possible new entries to the $translationTable.
+   *
+   * Example:
+   * &lt;pre&gt;
+   *  app.config(function ($translateProvider) {
+   *    $translateProvider.forceAsyncReload(true);
+   *  });
+   * &lt;/pre&gt;
+   *
+   * @param {boolean} value - valid values are true or false
+   */
+  this.forceAsyncReload = function (value) {
+    $forceAsyncReloadEnabled = !(!value);
     return this;
   };
 
@@ -1754,7 +1779,7 @@ function $translate($STORAGE_KEY, $windowProvider, $translateSanitizationProvide
 
         // if there isn&#039;t a translation table for the language we&#039;ve requested,
         // we load it asynchronously
-        if (!$translationTable[key] &amp;&amp; $loaderFactory &amp;&amp; !langPromises[key]) {
+        if (($forceAsyncReloadEnabled || !$translationTable[key]) &amp;&amp; $loaderFactory &amp;&amp; !langPromises[key]) {
           $nextLang = key;
           langPromises[key] = loadAsync(key).then(function (translation) {
             translations(translation.key, translation.table);
@@ -1814,6 +1839,20 @@ function $translate($STORAGE_KEY, $windowProvider, $translateSanitizationProvide
        */
       $translate.isPostCompilingEnabled = function () {
         return $postCompilingEnabled;
+      };
+
+      /**
+       * @ngdoc function
+       * @name pascalprecht.translate.$translate#isForceAsyncReloadEnabled
+       * @methodOf pascalprecht.translate.$translate
+       *
+       * @description
+       * Returns whether force async reload is enabled or not
+       *
+       * @return {boolean} forceAsyncReload value
+       */
+      $translate.isForceAsyncReloadEnabled = function () {
+        return $forceAsyncReloadEnabled;
       };
 
       /**
@@ -2052,7 +2091,7 @@ function $translate($STORAGE_KEY, $windowProvider, $translateSanitizationProvide
           };
           for (var i = 0, len = $fallbackLanguage.length; i &lt; len; i++) {
             var fallbackLanguageId = $fallbackLanguage[i];
-            if (!$translationTable[fallbackLanguageId]) {
+            if ($forceAsyncReloadEnabled || !$translationTable[fallbackLanguageId]) {
               langPromises[fallbackLanguageId] = loadAsync(fallbackLanguageId).then(processAsyncResult);
             }
           }

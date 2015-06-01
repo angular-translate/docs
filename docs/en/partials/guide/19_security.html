@@ -10,14 +10,27 @@ escaped correctly. This means your app is vulnerable for serious attacks
 <h3 id="escaping-of-variable-content_general-use">General use</h3>
 <p>The method <code>useSanitizeValueStrategy(strategy)</code> defines which strategy for escaping
 will be used; this is global.</p>
-<p>At the moment, two options are available: <code>null</code> (nothing) and <code>escaped</code> (for HTML).</p>
+<p>At the moment, following strategies are built-in:</p>
+<ul>
+<li><code>sanitize</code>: sanitizes HTML in the translation text using <code>$sanitize</code></li>
+<li><code>escape</code>: escapes HTML in the translation</li>
+<li><code>sanitizeParameters</code>: sanitizes HTML in the values of the interpolation parameters using <code>$sanitize</code></li>
+<li><code>escapeParameters</code>: escapes HTML in the values of the interpolation parameters</li>
+</ul>
+<p>Additionally, there are this defaults only valid for version 2:</p>
+<ul>
+<li><code>null</code>: nothing, unsecure default (will be removed in 3.0)</li>
+<li><code>escaped</code>: alias for &#39;escapeParameters&#39; for backwards compatibility (since 2.7.0, will be removed in 3.0)</li>
+</ul>
 <p>We enforce being completely backwards compatible, which means the escaping is disabled
 by default.</p>
 <pre><code class="lang-javascript">$translateProvider.useSanitizeValueStrategy(null);
 </code></pre>
-<p>However, we will enable the more secure variant <code>escaped</code> in the future by default.</p>
-<pre><code class="lang-javascript">$translateProvider.useSanitizeValueStrategy(&#39;escaped&#39;);
+<p>However, we will enable the more secure variant <code>sanitize</code> in the future by default.</p>
+<pre><code class="lang-javascript">$translateProvider.useSanitizeValueStrategy(&#39;sanitize&#39;);
 </code></pre>
+<p>We strongly recommend a secure strategy. Therefore a warning will be displayed
+as long as no strategy has been chosen explicitly.</p>
 <h3 id="escaping-of-variable-content_demonstrations">Demonstrations</h3>
 <h4 id="escaping-of-variable-content_demonstrations_not-escaped">Not escaped</h4>
 <h3 id="escaping-of-variable-content_source">Source</h3>

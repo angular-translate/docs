@@ -1,4 +1,4 @@
-<a href="https://github.com/angular-translate/angular-translate/edit/master/src/service/translate.js" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><a href="https://github.com/angular-translate/angular-translate/blob/0a1e448/src/service/translate.js#L929" class="view-source"><i class="icon-eye-open"> </i>View source</a><h1><code ng:non-bindable="">$translate</code>
+<a href="https://github.com/angular-translate/angular-translate/edit/master/src/service/translate.js" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><a href="https://github.com/angular-translate/angular-translate/blob/20e2857/src/service/translate.js#L954" class="view-source"><i class="icon-eye-open"> </i>View source</a><h1><code ng:non-bindable="">$translate</code>
 <div><span class="hint">service in module <code ng:non-bindable="">pascalprecht.translate</code>
 </span>
 </div>
@@ -33,18 +33,18 @@ is the translation id and the value the translation.</p>
 </div></td></tr></tbody></table><h4 id="usage_returns">Returns</h4><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="pascalprecht-translate-translate-page"><p>promise</p>
 </div></td></tr></table></div>
 <div class="member method"><h2 id="methods">Methods</h2>
-<ul class="methods"><li><a href="https://github.com/angular-translate/angular-translate/blob/0a1e448/src/service/translate.js#L1531" class="view-source icon-eye-open"> </a><h3 id="methods_cloakclassname">cloakClassName()</h3>
+<ul class="methods"><li><a href="https://github.com/angular-translate/angular-translate/blob/20e2857/src/service/translate.js#L1556" class="view-source icon-eye-open"> </a><h3 id="methods_cloakclassname">cloakClassName()</h3>
 <div class="cloakclassname"><div class="pascalprecht-translate-translate-cloakclassname-page"><p>Returns the configured class name for <code>translate-cloak</code> directive.</p>
 </div><h5 id="methods_cloakclassname_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-translate-cloakclassname-page"><p>cloakClassName</p>
 </div></td></tr></table></div>
 </li>
-<li><a href="https://github.com/angular-translate/angular-translate/blob/0a1e448/src/service/translate.js#L1547" class="view-source icon-eye-open"> </a><h3 id="methods_fallbacklanguage">fallbackLanguage(langKey)</h3>
+<li><a href="https://github.com/angular-translate/angular-translate/blob/20e2857/src/service/translate.js#L1572" class="view-source icon-eye-open"> </a><h3 id="methods_fallbacklanguage">fallbackLanguage(langKey)</h3>
 <div class="fallbacklanguage"><div class="pascalprecht-translate-translate-fallbacklanguage-page"><p>Returns the language key for the fallback languages or sets a new fallback stack.</p>
 </div><h5 id="methods_fallbacklanguage_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>langKey <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-translate-fallbacklanguage-page"><p>language String or Array of fallback languages to be used (to change stack at runtime)</p>
 </div></td></tr></tbody></table><h5 id="methods_fallbacklanguage_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-string">string||array</a></td><td><div class="pascalprecht-translate-translate-fallbacklanguage-page"><p>fallback language key</p>
 </div></td></tr></table></div>
 </li>
-<li><a href="https://github.com/angular-translate/angular-translate/blob/0a1e448/src/service/translate.js#L1846" class="view-source icon-eye-open"> </a><h3 id="methods_instant">instant(translationId, interpolateParams, interpolationId)</h3>
+<li><a href="https://github.com/angular-translate/angular-translate/blob/20e2857/src/service/translate.js#L1885" class="view-source icon-eye-open"> </a><h3 id="methods_instant">instant(translationId, interpolateParams, interpolationId)</h3>
 <div class="instant"><div class="pascalprecht-translate-translate-instant-page"><p>Returns a translation instantly from the internal state of loaded translation. All rules
 regarding the current language, the preferred language of even fallback languages will be
 used except any promise handling. If a language was not found, an asynchronous loading
@@ -58,28 +58,33 @@ each key is the translation id and the value the translation.</p>
 </div></td></tr></tbody></table><h5 id="methods_instant_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-string">string|object</a></td><td><div class="pascalprecht-translate-translate-instant-page"><p>translation</p>
 </div></td></tr></table></div>
 </li>
-<li><a href="https://github.com/angular-translate/angular-translate/blob/0a1e448/src/service/translate.js#L1724" class="view-source icon-eye-open"> </a><h3 id="methods_ispostcompilingenabled">isPostCompilingEnabled()</h3>
+<li><a href="https://github.com/angular-translate/angular-translate/blob/20e2857/src/service/translate.js#L1763" class="view-source icon-eye-open"> </a><h3 id="methods_isforceasyncreloadenabled">isForceAsyncReloadEnabled()</h3>
+<div class="isforceasyncreloadenabled"><div class="pascalprecht-translate-translate-isforceasyncreloadenabled-page"><p>Returns whether force async reload is enabled or not</p>
+</div><h5 id="methods_isforceasyncreloadenabled_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="pascalprecht-translate-translate-isforceasyncreloadenabled-page"><p>forceAsyncReload value</p>
+</div></td></tr></table></div>
+</li>
+<li><a href="https://github.com/angular-translate/angular-translate/blob/20e2857/src/service/translate.js#L1749" class="view-source icon-eye-open"> </a><h3 id="methods_ispostcompilingenabled">isPostCompilingEnabled()</h3>
 <div class="ispostcompilingenabled"><div class="pascalprecht-translate-translate-ispostcompilingenabled-page"><p>Returns whether post compiling is enabled or not</p>
 </div><h5 id="methods_ispostcompilingenabled_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-bool">bool</a></td><td><div class="pascalprecht-translate-translate-ispostcompilingenabled-page"><p>storage key</p>
 </div></td></tr></table></div>
 </li>
-<li><a href="https://github.com/angular-translate/angular-translate/blob/0a1e448/src/service/translate.js#L1932" class="view-source icon-eye-open"> </a><h3 id="methods_loadercache">loaderCache()</h3>
+<li><a href="https://github.com/angular-translate/angular-translate/blob/20e2857/src/service/translate.js#L1971" class="view-source icon-eye-open"> </a><h3 id="methods_loadercache">loaderCache()</h3>
 <div class="loadercache"><div class="pascalprecht-translate-translate-loadercache-page"><p>Returns the defined loaderCache.</p>
 </div><h5 id="methods_loadercache_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-boolean">boolean|string|object</a></td><td><div class="pascalprecht-translate-translate-loadercache-page"><p>current value of loaderCache</p>
 </div></td></tr></table></div>
 </li>
-<li><a href="https://github.com/angular-translate/angular-translate/blob/0a1e448/src/service/translate.js#L1514" class="view-source icon-eye-open"> </a><h3 id="methods_preferredlanguage">preferredLanguage(langKey)</h3>
+<li><a href="https://github.com/angular-translate/angular-translate/blob/20e2857/src/service/translate.js#L1539" class="view-source icon-eye-open"> </a><h3 id="methods_preferredlanguage">preferredLanguage(langKey)</h3>
 <div class="preferredlanguage"><div class="pascalprecht-translate-translate-preferredlanguage-page"><p>Returns the language key for the preferred language.</p>
 </div><h5 id="methods_preferredlanguage_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>langKey</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-translate-preferredlanguage-page"><p>language String or Array to be used as preferredLanguage (changing at runtime)</p>
 </div></td></tr></tbody></table><h5 id="methods_preferredlanguage_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-translate-preferredlanguage-page"><p>preferred language key</p>
 </div></td></tr></table></div>
 </li>
-<li><a href="https://github.com/angular-translate/angular-translate/blob/0a1e448/src/service/translate.js#L1609" class="view-source icon-eye-open"> </a><h3 id="methods_proposedlanguage">proposedLanguage()</h3>
+<li><a href="https://github.com/angular-translate/angular-translate/blob/20e2857/src/service/translate.js#L1634" class="view-source icon-eye-open"> </a><h3 id="methods_proposedlanguage">proposedLanguage()</h3>
 <div class="proposedlanguage"><div class="pascalprecht-translate-translate-proposedlanguage-page"><p>Returns the language key of language that is currently loaded asynchronously.</p>
 </div><h5 id="methods_proposedlanguage_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-translate-proposedlanguage-page"><p>language key</p>
 </div></td></tr></table></div>
 </li>
-<li><a href="https://github.com/angular-translate/angular-translate/blob/0a1e448/src/service/translate.js#L1757" class="view-source icon-eye-open"> </a><h3 id="methods_refresh">refresh(langKey)</h3>
+<li><a href="https://github.com/angular-translate/angular-translate/blob/20e2857/src/service/translate.js#L1796" class="view-source icon-eye-open"> </a><h3 id="methods_refresh">refresh(langKey)</h3>
 <div class="refresh"><div class="pascalprecht-translate-translate-refresh-page"><p>Refreshes a translation table pointed by the given langKey. If langKey is not specified,
 the module will drop all existent translation tables and load new version of those which
 are currently in use.</p>
@@ -99,17 +104,17 @@ $translate.refresh(&#39;en_US&#39;);</p>
 </div></div>
 </div>
 </li>
-<li><a href="https://github.com/angular-translate/angular-translate/blob/0a1e448/src/service/translate.js#L1623" class="view-source icon-eye-open"> </a><h3 id="methods_storage">storage()</h3>
+<li><a href="https://github.com/angular-translate/angular-translate/blob/20e2857/src/service/translate.js#L1648" class="view-source icon-eye-open"> </a><h3 id="methods_storage">storage()</h3>
 <div class="storage"><div class="pascalprecht-translate-translate-storage-page"><p>Returns registered storage.</p>
 </div><h5 id="methods_storage_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="pascalprecht-translate-translate-storage-page"><p>Storage</p>
 </div></td></tr></table></div>
 </li>
-<li><a href="https://github.com/angular-translate/angular-translate/blob/0a1e448/src/service/translate.js#L1710" class="view-source icon-eye-open"> </a><h3 id="methods_storagekey">storageKey()</h3>
+<li><a href="https://github.com/angular-translate/angular-translate/blob/20e2857/src/service/translate.js#L1735" class="view-source icon-eye-open"> </a><h3 id="methods_storagekey">storageKey()</h3>
 <div class="storagekey"><div class="pascalprecht-translate-translate-storagekey-page"><p>Returns the key for the storage.</p>
 </div><h5 id="methods_storagekey_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-translate-storagekey-page"><p>storage key</p>
 </div></td></tr></table></div>
 </li>
-<li><a href="https://github.com/angular-translate/angular-translate/blob/0a1e448/src/service/translate.js#L1649" class="view-source icon-eye-open"> </a><h3 id="methods_use">use(key)</h3>
+<li><a href="https://github.com/angular-translate/angular-translate/blob/20e2857/src/service/translate.js#L1674" class="view-source icon-eye-open"> </a><h3 id="methods_use">use(key)</h3>
 <div class="use"><div class="pascalprecht-translate-translate-use-page"><p>Tells angular-translate which language to use by given language key. This method is
 used to change language at runtime. It also takes care of storing the language
 key in a configured store to let your app remember the choosed language.</p>
@@ -125,14 +130,14 @@ $scope.text = $translate(&quot;HELLO&quot;);
 </div></div>
 </div>
 </li>
-<li><a href="https://github.com/angular-translate/angular-translate/blob/0a1e448/src/service/translate.js#L1584" class="view-source icon-eye-open"> </a><h3 id="methods_usefallbacklanguage">useFallbackLanguage(langKey)</h3>
+<li><a href="https://github.com/angular-translate/angular-translate/blob/20e2857/src/service/translate.js#L1609" class="view-source icon-eye-open"> </a><h3 id="methods_usefallbacklanguage">useFallbackLanguage(langKey)</h3>
 <div class="usefallbacklanguage"><div class="pascalprecht-translate-translate-usefallbacklanguage-page"><p>Sets the first key of the fallback language stack to be used for translation.
 Therefore all languages in the fallback array BEFORE this key will be skipped!</p>
 </div><h5 id="methods_usefallbacklanguage_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>langKey <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-translate-usefallbacklanguage-page"><p>Contains the langKey the iteration shall start with. Set to false if you want to
 get back to the whole stack</p>
 </div></td></tr></tbody></table></div>
 </li>
-<li><a href="https://github.com/angular-translate/angular-translate/blob/0a1e448/src/service/translate.js#L1918" class="view-source icon-eye-open"> </a><h3 id="methods_versioninfo">versionInfo()</h3>
+<li><a href="https://github.com/angular-translate/angular-translate/blob/20e2857/src/service/translate.js#L1957" class="view-source icon-eye-open"> </a><h3 id="methods_versioninfo">versionInfo()</h3>
 <div class="versioninfo"><div class="pascalprecht-translate-translate-versioninfo-page"><p>Returns the current version information for the angular-translate library</p>
 </div><h5 id="methods_versioninfo_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-translate-versioninfo-page"><p>angular-translate version</p>
 </div></td></tr></table></div>
