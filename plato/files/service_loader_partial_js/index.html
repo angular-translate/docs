@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">69.89</p>
+      <p class="stat">70.04</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">499</p>
+      <p class="stat">498</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">46.45</p>
+      <p class="stat">45.73</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">2.26</p>
+      <p class="stat">2.23</p>
     </div>
   </div>
 </div>
@@ -142,34 +142,34 @@ function $translatePartialLoader() {
   };
 
   Part.prototype.getTable = function(lang, $q, $http, $httpOptions, urlTemplate, errorHandler) {
-    var deferred = $q.defer();
 
     if (!this.tables[lang]) {
       var self = this;
 
-      $http(angular.extend({
+      return $http(angular.extend({
         method : &#039;GET&#039;,
         url: this.parseUrl(urlTemplate, lang)
-      }, $httpOptions)).success(function(data){
-        self.tables[lang] = data;
-        deferred.resolve(data);
-      }).error(function() {
-        if (errorHandler) {
-          errorHandler(self.name, lang).then(function(data) {
-            self.tables[lang] = data;
-            deferred.resolve(data);
-          }, function() {
-            deferred.reject(self.name);
-          });
-        } else {
-          deferred.reject(self.name);
-        }
-      });
+      }, $httpOptions))
+        .then(function(result){
+          self.tables[lang] = result.data;
+          return result.data;
+        }, function() {
+          if (errorHandler) {
+            return errorHandler(self.name, lang)
+              .then(function(data) {
+                self.tables[lang] = data;
+                return data;
+              }, function() {
+                return $q.reject(self.name);
+              });
+          } else {
+            return $q.reject(self.name);
+          }
+        });
 
     } else {
-      deferred.resolve(this.tables[lang]);
+      return $q.when(this.tables[lang]);
     }
-    return deferred.promise;
   };
 
   var parts = {};
@@ -396,15 +396,14 @@ function $translatePartialLoader() {
         part.urlTemplate = options.urlTemplate;
       });
 
-      $q.all(loaders).then(
-        function() {
+      $q.all(loaders)
+        .then(function() {
           var table = {};
           angular.forEach(prioritizedParts, function(part) {
             deepExtend(table, part.tables[options.key]);
           });
           deferred.resolve(table);
-        },
-        function() {
+        }, function() {
           deferred.reject(options.key);
         }
       );

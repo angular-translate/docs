@@ -1,0 +1,113 @@
+<a href="https://github.com/angular-translate/angular-translate/edit/master/docs/content/guide/es/11_custom-storages.ngdoc" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="almacenamientos-personalizados-page"><h2 id="almacenamientos-personalizados">Almacenamientos personalizados</h2>
+<p>Si leyó <a href="#/guide/10_storages">Almacenamientos</a>, usted sabe ahora cómo usar
+cookiesStorage, o localStorage, para que su aplicación recuerde el último lenguaje elegido a lo largo de varios llamados o &quot;requests&quot; http. Si ni localStorage ni cookieStorage son adecuados para sus necesidades, usted puede construir y usar su propio servicio de almacenamiento.</p>
+<h3 id="almacenamientos-personalizados_contruir-un-servicio-de-almacenamiento-personalizado">Contruir un servicio de almacenamiento personalizado</h3>
+<p>Si usted quiere usar un servicio de almacenamiento personalizado en su aplicación, tiene que constuirlo implementando ciertos métodos, de manera que angular-translate pueda usarlo. La interfaz para un almacenamiento es bastante sencilla, lo único que hay que proveer son los métodos  <code>put()</code> y <code>get()</code> de un sistema de almacenamiento propio.</p>
+<p>Digamos que usted quiere usar un servicio de almacenamiento personalizado en nuestra aplicación de ejemplo. Podemos fácilmente extenderla con un nuevo servicio. Sólo tenemos que asegurarnos de devolver un objeto con los métodos <code>get()</code> y <code>put()</code> method. Dicho servicio personalizado puede ser algo así:</p>
+<pre class="prettyprint linenums">
+app.factory('customStorage', function () {
+  return {
+    put: function (name, value) {
+      // store `value` under `name` somehow
+    },
+    get: function (name) {
+      // request value of `name` somehow
+    }
+  };
+});
+</pre>
+<p>Fácil ¿verdad? Como se puede ver, <code>put()</code>  espera 2 argumentos: un par clave-valor. Por otra parte,  <code>get()</code> requiere sólo una clave, y devuelve el valor. Proveer un almacenamiento personalizado como servicio separado brinda gran flexibilidad, por ejemplo si se quiere usar este servicio en algún otro contexto. Además es bastante fácil de testeas, dado que está aislado.</p>
+<h3 id="almacenamientos-personalizados_usar-el-servicio-personalizado-de-almacenamiento">Usar el servicio personalizado de almacenamiento</h3>
+<p>Una vez que haya construido su servicio personalizado de almacenamiento, tiene que indicarla a angular-translate que lo use. Los métodos de <code>$translateProvider</code> llamados <code>useCookieStorage()</code> y
+<code>useLocalStorage()</code> son, en realidad, atajos que usan
+<code>useStorage()</code> internamente. También este último método puede usarse para informarle a angular-translate acerca de nuestro almacenamiento personalizado:</p>
+<pre class="prettyprint linenums">
+$translateProvider.useStorage('customStorage');
+</pre>
+<p>angular-translate usará <code>$injector</code> para obtener una isntancia de la &quot;factory&quot; por su nombre, el cual en nuestro caso es <code>customStorage</code>, y luego será capaz de acceder a los métodos de ésta en tiempo de ejecución, para almacenar el último idioma elegido.</p>
+<h3 id="almacenamientos-personalizados_source">Source</h3>
+<div source-edit="myApp" source-edit-deps="angular.js script.js" source-edit-html="index.html-19" source-edit-css="" source-edit-js="script.js-18" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div class="tabbable"><div class="tab-pane" title="index.html">
+<pre class="prettyprint linenums" ng-set-text="index.html-19" ng-html-wrap-loaded="myApp angular.js script.js"></pre>
+<script type="text/ng-template" id="index.html-19">
+    
+    <div ng-controller="Ctrl">
+      <p>{{ 'HEADLINE' | translate }}</p>
+      <p>{{ 'PARAGRAPH' | translate }}</p>
+
+      <p translate>PASSED_AS_TEXT</p>
+      <p translate="PASSED_AS_ATTRIBUTE"></p>
+      <p translate>{{ 'PASSED_AS_INTERPOLATION' }}</p>
+      <p translate="{{ 'PASSED_AS_INTERPOLATION' }}"></p>
+      <p translate="VARIABLE_REPLACEMENT" translate-values="{ name: 'PascalPrecht' }"></p>
+
+      <button ng-click="changeLanguage('de')" translate="BUTTON_LANG_DE"></button>
+      <button ng-click="changeLanguage('en')" translate="BUTTON_LANG_EN"></button>
+    </div>
+  </script>
+</div>
+<div class="tab-pane" title="script.js">
+<pre class="prettyprint linenums" ng-set-text="script.js-18"></pre>
+<script type="text/ng-template" id="script.js-18">
+      var translationsEN = {
+        HEADLINE: 'What an awesome module!',
+        PARAGRAPH: 'Srsly!',
+        PASSED_AS_TEXT: 'Hey there! I\'m passed as text value!',
+        PASSED_AS_ATTRIBUTE: 'I\'m passed as attribute value, cool ha?',
+        PASSED_AS_INTERPOLATION: 'Beginners! I\'m interpolated!',
+        VARIABLE_REPLACEMENT: 'Hi {{name}}',
+        BUTTON_LANG_DE: 'German',
+        BUTTON_LANG_EN: 'English'
+      };
+
+      var translationsDE= {
+        HEADLINE: 'Was für ein großartiges Modul!',
+        PARAGRAPH: 'Ernsthaft!',
+        PASSED_AS_TEXT: 'Hey! Ich wurde als text übergeben!',
+        PASSED_AS_ATTRIBUTE: 'Ich wurde als Attribut übergeben, cool oder?',
+        PASSED_AS_INTERPOLATION: 'Anfänger! Ich bin interpoliert!',
+        VARIABLE_REPLACEMENT: 'Hi {{name}}',
+        BUTTON_LANG_DE: 'deutsch',
+        BUTTON_LANG_EN: 'englisch'
+      };
+
+      var app = angular.module('myApp', ['ngCookies', 'pascalprecht.translate']);
+
+      app.config(['$translateProvider', function ($translateProvider) {
+        // add translation tables
+        $translateProvider.translations('en', translationsEN);
+        $translateProvider.translations('de', translationsDE);
+        $translateProvider.preferredLanguage('en');
+        // remember language
+        $translateProvider.useStorage('customStorage');
+      }]);
+
+      app.factory('customStorage', function () {
+        return {
+          put: function (name, value) {
+            // store `value` under `name` somehow
+          },
+          get: function (name) {
+            // request value of `name` somehow
+          }
+        };
+      });
+
+      app.controller('Ctrl', ['$translate', '$scope', function ($translate, $scope) {
+
+        $scope.changeLanguage = function (langKey) {
+          $translate.use(langKey);
+        };
+      }]);
+    </script>
+</div>
+</div><h3 id="almacenamientos-personalizados_demo">Demo</h3>
+<div class="well doc-example-live animate-container" ng-embed-app="myApp" ng-set-html="index.html-19" ng-eval-javascript="script.js-18"></div>
+<p>Por supuesto, nuestro servicio personalizado de ejemplo no almacena nada, si usted lo utiliza en su navegador tal cual está, no recordará el lenguaje al refrescarlo.
+<br></p>
+<p><hr></p>
+<center>Hecho con &hearts; de unicornio y con amor por <a href="http://github.com/PascalPrecht">PascalPrecht</a></center></div></div>

@@ -1,4 +1,4 @@
-<h1><code ng:non-bindable=""></code>
+<a href="https://github.com/angular-translate/angular-translate/edit/master/docs/content/guide/de/09_language-negotiation.ngdoc" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><h1><code ng:non-bindable=""></code>
 <div><span class="hint"></span>
 </div>
 </h1>
@@ -48,7 +48,20 @@ $translateProvider
   .determinePreferredLanguage();
 </pre>
 <p>Falls der Browser nun &#39;en_US&#39; oder &#39;en_UK&#39; zurückgibt, wird angular-translate &#39;en&#39; als
-präferierte Sprache setzen. Diese Funktionalität ergibt nur Sinn in Kombination mit
+präferierte Sprache setzen.</p>
+<p>Zusätzlich werden auch Teilausdrücke (sprich: Wildcards) unterstützt, damit unterschiedliche Länder unter der
+gleichen Sprache angenommen werden:</p>
+<pre class="prettyprint linenums">
+$translateProvider
+  .translations('en', { /* ... */ })
+  .translations('de', { /* ... */ })
+  .registerAvailableLanguageKeys(['en', 'de'], {
+    'en_*': 'en',
+    'de_*': 'de'
+  })
+  .determinePreferredLanguage();
+</pre>
+<p>Diese Funktionalität ergibt nur Sinn in Kombination mit
 &#39;determinePreferredLanguage()&#39;!</p>
 <p><br></p>
 <p><hr></p>

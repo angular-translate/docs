@@ -18,11 +18,17 @@
     // before the base attribute is added, causing 404 and terribly slow loading of the docs app.
     (function() {
       var indexFile = (location.pathname.match(/\/(index[^\.]*\.html)/) || ['', ''])[1],
-          rUrl = /(#!\/|api|guide|index[^\.]*\.html).*$/,
-          origin = location.origin || (window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port: '')),
-          baseUrl = origin + location.href.substr(origin.length).replace(rUrl, indexFile),
+          origin, baseUrl, rUrl = /(\/?#!\/.*|\/(api|guide)\/?(\?.*)*|\/index[^\.]*\.html.*)$/,
           headEl = document.getElementsByTagName('head')[0],
           sync = true;
+
+      if (location.href.slice(0, 7) == 'file://') {
+        baseUrl = location.href.replace(rUrl, '/' + indexFile);
+      } else {
+        origin = location.origin || (window.location.protocol + "//" + window.location.hostname +
+                                    (window.location.port ? ':' + window.location.port: ''));
+        baseUrl = origin + location.href.substr(origin.length).replace(rUrl, '/' + indexFile);
+      }
 
       addTag('base', {href: baseUrl});
       addTag('link', {rel: 'stylesheet', href: 'css/bootstrap.min.css', type: 'text/css'});
@@ -49,19 +55,19 @@
       
         addTag('script', {src: 'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular-sanitize.js'}, sync);
       
-        addTag('script', {src: 'https://cdnjs.cloudflare.com/ajax/libs/angular-translate/2.6.1/angular-translate.js'}, sync);
+        addTag('script', {src: 'https://cdnjs.cloudflare.com/ajax/libs/angular-translate/2.7.2/angular-translate.js'}, sync);
       
-        addTag('script', {src: 'https://cdnjs.cloudflare.com/ajax/libs/angular-translate-interpolation-messageformat/2.6.1/angular-translate-interpolation-messageformat.js'}, sync);
+        addTag('script', {src: 'https://cdnjs.cloudflare.com/ajax/libs/angular-translate-interpolation-messageformat/2.7.2/angular-translate-interpolation-messageformat.js'}, sync);
       
-        addTag('script', {src: 'https://cdnjs.cloudflare.com/ajax/libs/angular-translate-storage-cookie/2.6.1/angular-translate-storage-cookie.js'}, sync);
+        addTag('script', {src: 'https://cdnjs.cloudflare.com/ajax/libs/angular-translate-storage-cookie/2.7.2/angular-translate-storage-cookie.js'}, sync);
       
-        addTag('script', {src: 'https://cdnjs.cloudflare.com/ajax/libs/angular-translate-storage-local/2.6.1/angular-translate-storage-local.js'}, sync);
+        addTag('script', {src: 'https://cdnjs.cloudflare.com/ajax/libs/angular-translate-storage-local/2.7.2/angular-translate-storage-local.js'}, sync);
       
-        addTag('script', {src: 'https://cdnjs.cloudflare.com/ajax/libs/angular-translate-loader-url/2.6.1/angular-translate-loader-url.js'}, sync);
+        addTag('script', {src: 'https://cdnjs.cloudflare.com/ajax/libs/angular-translate-loader-url/2.7.2/angular-translate-loader-url.js'}, sync);
       
-        addTag('script', {src: 'https://cdnjs.cloudflare.com/ajax/libs/angular-translate-loader-static-files/2.6.1/angular-translate-loader-static-files.js'}, sync);
+        addTag('script', {src: 'https://cdnjs.cloudflare.com/ajax/libs/angular-translate-loader-static-files/2.7.2/angular-translate-loader-static-files.js'}, sync);
       
-        addTag('script', {src: 'https://cdnjs.cloudflare.com/ajax/libs/angular-translate-handler-log/2.6.1/angular-translate-handler-log.js'}, sync);
+        addTag('script', {src: 'https://cdnjs.cloudflare.com/ajax/libs/angular-translate-handler-log/2.7.2/angular-translate-handler-log.js'}, sync);
       
       
       addTag('script', {src: 'js/angular-bootstrap.js'}, sync);
@@ -118,7 +124,8 @@
           </ul>
           <script>
 function langLink(locale) {
-  return 'https://angular-translate.github.io/docs/' + locale + '/' + window.location.hash;
+  var origin = location.origin || 'https://angular-translate.github.io';
+  return origin + '/docs/' + locale + '/' + window.location.hash;
 }
 </script>
 
@@ -134,6 +141,7 @@ function langLink(locale) {
   <li class="dropdown">
   <a href="#" class="dropdown-toggle"><i class="icon-align-justify"></i> Language</a>
     <ul class="dropdown-menu">
+      <li><a href="" onClick="window.location = langLink('es');"><img src="img/flags/es.png"> Spanish</a></li>
       <li><a href="" onClick="window.location = langLink('en');"><img src="img/flags/en.png"> English</a></li>
       <li><a href="" onClick="window.location = langLink('ru');"><img src="img/flags/ru.png"> Russian</a></li>
       <li><a href="" onClick="window.location = langLink('de');"><img src="img/flags/de.png"> German</a></li>
@@ -223,9 +231,9 @@ function langLink(locale) {
             <li class="nav-header section" ng-show="module.services.length">
               <a class="guide">service</a>
             </li>
-            <li ng-repeat="service in module.services track by service.instance.url" ng-class="navClass(service.instance, service.provider)" class="api-list-item expand">
+            <li ng-repeat="service in module.services track by  (service.instance.url || service.provider.url)" ng-class="navClass(service.instance, service.provider)" class="api-list-item expand">
               <a ng-show="service.provider" class="pull-right" href="{{service.provider.url}}" tabindex="2"><i class="icon-cog"></i></a>
-              <a href="{{service.instance.url}}" tabindex="2">{{service.name}}</a>
+              <a href="{{service.instance ? service.instance.url : service.provider.url}}" tabindex="2">{{service.name}}</a>
             </li>
 
             <li class="nav-header section" ng-show="module.types.length">

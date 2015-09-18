@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">67.07</p>
+      <p class="stat">66.89</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">319</p>
+      <p class="stat">343</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">35.70</p>
+      <p class="stat">36.14</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">2.11</p>
+      <p class="stat">2.23</p>
     </div>
   </div>
 </div>
@@ -216,6 +216,7 @@ function translateDirective($translate, $q, $interpolate, $compile, $parse, $roo
         scope.interpolateParams = {};
         scope.preText = &#039;&#039;;
         scope.postText = &#039;&#039;;
+        scope.translateNamespace = getTranslateNamespace(scope);
         var translationIds = {};
 
         var initInterpolationParams = function (interpolateParams, iAttr, tAttr) {
@@ -246,14 +247,16 @@ function translateDirective($translate, $q, $interpolate, $compile, $parse, $roo
           }
 
           if (angular.equals(translationId , &#039;&#039;) || !angular.isDefined(translationId)) {
+            var iElementText = trim.apply(iElement.text());
+
             // Resolve translation id by inner html if required
-            var interpolateMatches = trim.apply(iElement.text()).match(interpolateRegExp);
+            var interpolateMatches = iElementText.match(interpolateRegExp);
             // Interpolate translation id if required
             if (angular.isArray(interpolateMatches)) {
               scope.preText = interpolateMatches[1];
               scope.postText = interpolateMatches[3];
               translationIds.translate = $interpolate(interpolateMatches[2])(scope.$parent);
-              var watcherMatches = iElement.text().match(watcherRegExp);
+              var watcherMatches = iElementText.match(watcherRegExp);
               if (angular.isArray(watcherMatches) &amp;&amp; watcherMatches[2] &amp;&amp; watcherMatches[2].length) {
                 observeElementTranslation._unwatchOld = scope.$watch(watcherMatches[2], function (newValue) {
                   translationIds.translate = newValue;
@@ -261,7 +264,7 @@ function translateDirective($translate, $q, $interpolate, $compile, $parse, $roo
                 });
               }
             } else {
-              translationIds.translate = iElement.text().replace(/^\s+|\s+$/g,&#039;&#039;);
+              translationIds.translate = iElementText;
             }
           } else {
             translationIds.translate = translationId;
@@ -333,14 +336,19 @@ function translateDirective($translate, $q, $interpolate, $compile, $parse, $roo
           for (var key in translationIds) {
 
             if (translationIds.hasOwnProperty(key) &amp;&amp; translationIds[key] !== undefined) {
-              updateTranslation(key, translationIds[key], scope, scope.interpolateParams, scope.defaultText);
+              updateTranslation(key, translationIds[key], scope, scope.interpolateParams, scope.defaultText, scope.translateNamespace);
             }
           }
         };
 
         // Put translation processing function outside loop
-        var updateTranslation = function(translateAttr, translationId, scope, interpolateParams, defaultTranslationText) {
+        var updateTranslation = function(translateAttr, translationId, scope, interpolateParams, defaultTranslationText, translateNamespace) {
           if (translationId) {
+            // if translation id starts with &#039;.&#039; and translateNamespace given, prepend namespace
+            if (translateNamespace &amp;&amp; translationId.charAt(0) === &#039;.&#039;) {
+              translationId = translateNamespace + translationId;
+            }
+
             $translate(translationId, interpolateParams, translateInterpolation, defaultTranslationText)
               .then(function (translation) {
                 applyTranslation(translation, scope, true, translateAttr);
@@ -359,7 +367,7 @@ function translateDirective($translate, $q, $interpolate, $compile, $parse, $roo
             if (!successful &amp;&amp; typeof scope.defaultText !== &#039;undefined&#039;) {
               value = scope.defaultText;
             }
-            iElement.html(scope.preText + value + scope.postText);
+            iElement.empty().append(scope.preText + value + scope.postText);
             var globallyEnabled = $translate.isPostCompilingEnabled();
             var locallyDefined = typeof tAttr.translateCompile !== &#039;undefined&#039;;
             var locallyEnabled = locallyDefined &amp;&amp; tAttr.translateCompile !== &#039;false&#039;;
@@ -405,6 +413,22 @@ function translateDirective($translate, $q, $interpolate, $compile, $parse, $roo
       };
     }
   };
+}
+
+/**
+ * Returns the scope&#039;s namespace.
+ * @private
+ * @param scope
+ * @returns {string}
+ */
+function getTranslateNamespace(scope) {
+  &#039;use strict&#039;;
+  if (scope.translateNamespace) {
+    return scope.translateNamespace;
+  }
+  if (scope.$parent) {
+    return getTranslateNamespace(scope.$parent);
+  }
 }
 
 translateDirective.displayName = &#039;translateDirective&#039;;</textarea>

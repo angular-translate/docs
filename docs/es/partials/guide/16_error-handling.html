@@ -1,0 +1,68 @@
+<a href="https://github.com/angular-translate/angular-translate/edit/master/docs/content/guide/es/16_error-handling.ngdoc" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="manejo-de-errores-page"><h2 id="manejo-de-errores">Manejo de errores</h2>
+<p>A veces, en una aplicación compleja, no se sabe cuántas traducciones hay. No se puede estar seguro de su falta una traducción para una clave específica, tampoco. Y aquí es donde interviene la manipulación o manejo de errores (error handlers).</p>
+<h3 id="manejo-de-errores_uso-de-la-extensión-de-bitácora-para-manejo-de-errores-de-traducciones-faltantes">Uso de la extensión de bitácora (log) para manejo de errores de traducciones faltantes</h3>
+<p>Hay una extensión de angular-traslate que &quot;loguea&quot; avisos en la consola cuando se intenta traducir algo cuya clave no existe. Como todas las extensiones, se puede instalar vía Bower así:</p>
+<pre><code>$ bower install angular-translate-handler-log
+</code></pre><p>Para usar este manipulador, todo lo que hay qye hacer es llamar a <code>useMissingTranslationHandlerLog()</code> de <code>$translateProvider</code>. angular-translate se encarga del resto</p>
+<pre class="prettyprint linenums">
+$translateProvider.useMissingTranslationHandlerLog();
+</pre>
+<p>Aquí hay un ejemplo en funcionamiento:</p>
+<h3 id="manejo-de-errores_source">Source</h3>
+<div source-edit="myApp" source-edit-deps="angular.js script.js" source-edit-html="index.html-29" source-edit-css="" source-edit-js="script.js-28" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div class="tabbable"><div class="tab-pane" title="index.html">
+<pre class="prettyprint linenums" ng-set-text="index.html-29" ng-html-wrap-loaded="myApp angular.js script.js"></pre>
+<script type="text/ng-template" id="index.html-29">
+    
+    <div ng-controller="Ctrl">
+      <p translate="NOT_EXISTING"></p>
+      <p translate="ALSO_NOT_EXISTING"></p>
+
+      <button ng-click="changeLanguage('de')" translate="BUTTON_LANG_DE"></button>
+      <button ng-click="changeLanguage('en')" translate="BUTTON_LANG_EN"></button>
+    </div>
+  </script>
+</div>
+<div class="tab-pane" title="script.js">
+<pre class="prettyprint linenums" ng-set-text="script.js-28"></pre>
+<script type="text/ng-template" id="script.js-28">
+      var app = angular.module('myApp', ['pascalprecht.translate']);
+
+      app.config(['$translateProvider', function ($translateProvider) {
+        $translateProvider.preferredLanguage('en');
+        $translateProvider.useMissingTranslationHandlerLog();
+        $translateProvider.translations('en', {
+          HEADLINE: 'I\'m a headline',
+          TEXT: 'I\'m using default interpolation {{ val + val }}',
+          PLURAL: '{GENDER, select, male{He} female{She} other{They}} liked this.',
+          BUTTON_LANG_EN: 'English',
+          BUTTON_LANG_DE: 'German'
+        });
+
+        $translateProvider.translations('de', {
+          HEADLINE: 'Ich bin eine Überschrift',
+          TEXT: 'Ich benutze default interpolation {{ val + val }}',
+          PLURAL: '{GENDER, select, male{Er fand} female{Sie fand} other{Sie fanden}} es gut.',
+          BUTTON_LANG_EN: 'englisch',
+          BUTTON_LANG_DE: 'deutsch'
+        });
+      }]);
+
+      app.controller('Ctrl', ['$translate', '$scope', function ($translate, $scope) {
+
+        $scope.changeLanguage = function (langKey) {
+          $translate.use(langKey);
+        };
+      }]);
+    </script>
+</div>
+</div><h3 id="manejo-de-errores_demo">Demo</h3>
+<div class="well doc-example-live animate-container" ng-embed-app="myApp" ng-set-html="index.html-29" ng-eval-javascript="script.js-28"></div>
+<p>Ahora, ¡Échele un vistazo a la consola, y verifique lo que ha sido &quot;logueado&quot;!</p>
+<p><br></p>
+<p><hr></p>
+<center>Hecho con &hearts; de unicornio y con amor por <a href="http://github.com/PascalPrecht">PascalPrecht</a></center></div></div>

@@ -1,0 +1,183 @@
+<a href="https://github.com/angular-translate/angular-translate/edit/master/docs/content/guide/es/06_variable-replacement.ngdoc" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="sustituci-n-de-variables-page"><h2 id="sustitución-de-variables">Sustitución de variables</h2>
+<p>Esta guía le eseñará sobre el reemplazo de variables dentro de una traducción.
+Si aún no ha leído las guías introductorias acerca del
+<a href="#/guide/03_using-translate-service">servicio $translate</a>,
+el <a href="#/guide/04_using-translate-filter">filtro translate</a> y la
+<a href="#/guide/05_using-translate-directive">directiva translate</a>, le recomendamos que lo haga.</p>
+<p>Está bueno usar el servicio <code>$translate</code>, el filtro <code>translate</code> y la directiva <code>translate</code>,
+pero ¿qué pasa su sus traducciones necesitan valores variables? Digamos que usted necesita
+mostrar un mensaje que diga &quot;<em>Se han recibido n mensajes</em>&quot; en donde <em>n</em> es simplemente un
+parámetro a sustituir por una variable que puede ser cualquier número.</p>
+<p>Pues bien, de nuevo angular-translate se encarga del asunto. Adosar valores variables a
+las traducciones usando los servicios de interpolación por defecto de <code>angular-translate</code> es bastante
+sencillo. Sí, escuchó bien: el manejo de variables en las traducciones depende del servicio de
+interpolación.</p>
+<h3 id="sustitución-de-variables_uso-de-valores-variables-en-las-traducciones">Uso de valores variables en las traducciones</h3>
+<p>Cuando se usa el servicio de interpolación por defacto de <code>angular-translate</code>, se puede simplemente
+  aprovechar la sintaxis de Angular. De manera que para definir una variable dentro de una
+  traducción, simplemente hay que usar la directiva de interpolación de Angular</p>
+<pre><code>{
+  &quot;TRANSLATION_ID&quot;: &quot;{{username}} is logged in.&quot;
+}
+</code></pre><p>en donde <code>username</code> es el marcador a través del cual pasará la variable. Entonces, ¿cómo es posible
+pasarles variables a los componentes que provee angular-translate?</p>
+<h3 id="sustitución-de-variables_reemplazo-de-variables-en-el-servicio-$translate">Reemplazo de variables en el servicio $translate</h3>
+<p>Se pueden pasar variables a través del servicio <code>$translate</code> utilizando su segundo argumento.
+Como segundo parámetro, el servicio  <code>$translate</code> espera un objeto hash de Javascript, contra el cual
+se interpola la traducción. De modo que, si tenemos una traducción como la descrita arriba, para pasarle valores de
+<code>username</code> tendríamos que hacer lo siguiente:
+<pre class="prettyprint linenums">
+$translate('TRANSLATION_ID', { username: 'PascalPrecht' });
+</pre>
+<p>Si hay una clave de traducción que requiera más de un valor, simplemente extienda el objeto hash que se
+pasa, con los pares clave-valor correspondientes.</p>
+<pre class="prettyprint linenums">
+$translate('TRANSLATION_ID', {
+  username: 'PascalPrecht',
+  lastLogin: '2013-07-21 6:50PM'
+});
+</pre>
+<h3 id="sustitución-de-variables_reemplazo-de-variables-en-un-filtro-translate">Reemplazo de variables en un filtro translate</h3>
+<p>Como el filtro <code>translate</code> usa internamente el servicio <code>translate</code>, simplemente necesitamos
+una forma de pasarle valores dinámicos al filtro, de manera de ponerlo a disposición del servicio
+como un objeto hash. Para lograr esto se requiere una sintaxis especial, porque hasta el momento los filtros en
+ Angular son incapaces de tener parámetros nombrados. De modo que hay dos maneras de pasar parámetros
+ a través del filtro <code>translate</code>:</p>
+<p> La primera es pasar un objeto en formato literal de string, el cual luego será interpolado por el servicio
+ <code>$translate</code>.</p>
+<pre class="prettyprint linenums">
+{{ 'TRANSLATION_ID' | translate:'{ username: "PascalPrecht" }' }}
+</pre>
+<p>No es muy difícil ¿verdad? Pero ese <code>username</code> ¿no debería tener un valor constante, y a su vez ser interpolado
+ antes de ser pasado? La única manera de hacer esto, es pasar un objeto scope como expresión Angular, a través del
+ filtro. Lo cual a su vez significa, que usted debe vincular los valores de variable para las traducciones en el
+ controlador que expone dichas variables en el scope.</p>
+<pre class="prettyprint linenums">
+angular.module('myApp').controller('Ctrl', ['$scope', function ($scope) {
+
+  $scope.translationData = {
+    username: 'PascalPrecht'
+  };
+}]);
+</pre>
+<p>y recién después pasarlos como expresión a través del filtro:</p>
+<pre class="prettyprint linenums">
+{{ 'TRANSLATION_ID' | translate:translationData }}
+</pre>
+<h3 id="sustitución-de-variables_reemplazo-de-variables-en-la-directiva-translate">Reemplazo de variables en la directiva translate</h3>
+<p>Por supuesto, se puede lograr lo mismo con la directiva <code>translate</code>. La directiva <code>translate</code> espera un parámetro
+opcional <code>translate-values</code>, mediante el cual se puede pasar parámetros. Todo lo que hay que hacer es combinar la
+directiva con el atributo <code>translate-values</code>.</p>
+<p>Se puede pasar un objeto como string literal, una expresión, o, si el valor es dinámico, una directiva de
+interpolación. Lo que sea que pase, al final es evaluado e interpretado por el filtro <code>translate</code>, de manera que lo que
+sale es un viejo y querido objeto Javascript, el cual a su vez le es pasado al servicio <code>$translate</code>.</p>
+<pre class="prettyprint linenums">
+&lt;ANY translate="TRANSLATION_ID"
+     translate-values='{ username: "PascalPrect"}'&gt;&lt;/ANY&gt;
+</pre>
+<p>o bien</p>
+<pre class="prettyprint linenums">
+&lt;ANY translate="TRANSLATION_ID"
+     translate-values="{ username: someScopeObject.username }"&gt;&lt;/ANY&gt;
+</pre>
+<p>o bien</p>
+<pre class="prettyprint linenums">
+&lt;ANY translate="TRANSLATION_ID"
+     translate-values="{{translationData}}"&gt;&lt;/ANY&gt;
+</pre>
+<h3 id="sustitución-de-variables_atributos-personalizados-para-valores-de-traducción">Atributos personalizados (custom) para valores de traducción</h3>
+<p>A partir de la versión <code>2.0</code>, la directiva <code>translate</code> viene con otra útil funcionalidad para pasarles valores
+a sus traducciones. Recién aprendimos cómo usar el atributo <code>translate-values</code>, lo cual está bien, pero ¿y si
+quisiéramos a veces ser un poco más declarativos en nuestro código? Por ejemplo, ¿si quisiéramos pasar uno o dos valores
+pero declararlos explícitamente en nuestro código HTML?</p>
+<p>Bueno, en tal caso, en angular-translate <code>&gt;=2.0</code> se puede hacer esto tal cual. Es decir, usted es capaz de
+ definir sus propios atributos <code>translate-value-*</code>.</p>
+<p>¿Cómo funciona esto? ¡Pan comido!</p>
+<p>Supongamos que tenemos la siguiente clave de traducción:</p>
+<pre class="prettyprint linenums">
+{
+  "GREETING": "Hi, my name is {{name}}"
+}
+</pre>
+<p>Y queremos traducirla mediante la impresionante directiva <code>translate</code>. Podemos hacerlo, pero
+ esta vez usaremos un atributo personalizado <code>translate-value-*</code> para pasar el valor. Así que haríamos lo siguiente:</p>
+<pre class="prettyprint linenums">
+&lt;p translate="GREETING" translate-value-name="Pascal"&gt;&lt;/p&gt;
+</pre>
+<p>Todo lo que hay que hacer, es usar el prefijo <code>translate-value-</code> y agregar el nombre del identificador de la
+ directiva de interpolación dentro de la traducción (en este ejemplo en particular, <code>name</code>).</p>
+<p>Ah, por supuesto, también se puede usar con valores interpolados:</p>
+<pre class="prettyprint linenums">
+&lt;p translate="GREETING" translate-value-name="{{name}}"&gt;&lt;/p&gt;
+</pre>
+<p>Si esta no es una funcionalidad &quot;cool&quot;, entonces ninguna lo es.</p>
+<p>¡Impresionante! ¡Ahora podemos reemplazar valores de variables dentro de nuestras traducciones! Actualicemos nuestra aplicación de ejemplo. Extendamos la tabla de traducciones de esta manera:</p>
+<pre class="prettyprint linenums">
+var translations = {
+  HEADLINE: 'What an awesome module!',
+  PARAGRAPH: 'Srsly!',
+  PASSED_AS_TEXT: 'Hey there! I\'m passed as text value!',
+  PASSED_AS_ATTRIBUTE: 'I\'m passed as attribute value, cool ha?',
+  PASSED_AS_INTERPOLATION: 'Beginners! I\'m interpolated!',
+  VARIABLE_REPLACEMENT: 'Hi, {{name}}'
+};
+</pre>
+<p>Seguidamente, pasemos un nombre mediante la directiva <code>translate</code>:</p>
+<pre class="prettyprint linenums">
+&lt;p translate="VARIABLE_REPLACEMENT" translate-values="{ name: 'PascalPrecht' }"&gt;&lt;/p&gt;
+</pre>
+<p>Y nuestro código en funcionamiento, ahora se ve así:</p>
+<h3 id="sustitución-de-variables_source">Source</h3>
+<div source-edit="myApp" source-edit-deps="angular.js script.js" source-edit-html="index.html-13" source-edit-css="" source-edit-js="script.js-12" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div class="tabbable"><div class="tab-pane" title="index.html">
+<pre class="prettyprint linenums" ng-set-text="index.html-13" ng-html-wrap-loaded="myApp angular.js script.js"></pre>
+<script type="text/ng-template" id="index.html-13">
+    
+    <div ng-controller="Ctrl">
+      <p>{{ 'HEADLINE' | translate }}</p>
+      <p>{{ 'PARAGRAPH' | translate }}</p>
+
+      <p translate>PASSED_AS_TEXT</p>
+      <p translate="PASSED_AS_ATTRIBUTE"></p>
+      <p translate>{{ 'PASSED_AS_INTERPOLATION' }}</p>
+      <p translate="{{ 'PASSED_AS_INTERPOLATION' }}"></p>
+      <p translate="VARIABLE_REPLACEMENT" translate-values="{ name: 'PascalPrecht'}"></p>
+      <p translate="VARIABLE_REPLACEMENT" translate-value-name="PascalPrecht"></p>
+    </div>
+  </script>
+</div>
+<div class="tab-pane" title="script.js">
+<pre class="prettyprint linenums" ng-set-text="script.js-12"></pre>
+<script type="text/ng-template" id="script.js-12">
+      var translations = {
+        HEADLINE: 'What an awesome module!',
+        PARAGRAPH: 'Srsly!',
+        PASSED_AS_TEXT: 'Hey there! I\'m passed as text value!',
+        PASSED_AS_ATTRIBUTE: 'I\'m passed as attribute value, cool ha?',
+        PASSED_AS_INTERPOLATION: 'Beginners! I\'m interpolated!',
+        VARIABLE_REPLACEMENT: 'Hi, {{name}}'
+      };
+
+      var app = angular.module('myApp', ['pascalprecht.translate']);
+
+      app.config(['$translateProvider', function ($translateProvider) {
+        // add translation table
+        $translateProvider
+          .translations('en', translations)
+          .preferredLanguage('en');
+      }]);
+
+      app.controller('Ctrl', ['$scope', function ($scope) {
+
+      }]);
+    </script>
+</div>
+</div><h3 id="sustitución-de-variables_demo">Demo</h3>
+<div class="well doc-example-live animate-container" ng-embed-app="myApp" ng-set-html="index.html-13" ng-eval-javascript="script.js-12"></div>
+<p><br></p>
+<p><hr></p>
+<center>Hecho con &hearts; de unicornio y con amor por <a href="http://github.com/PascalPrecht">PascalPrecht</a></center></div></div>

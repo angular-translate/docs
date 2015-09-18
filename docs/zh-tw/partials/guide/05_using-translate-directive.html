@@ -1,4 +1,4 @@
-<h1><code ng:non-bindable=""></code>
+<a href="https://github.com/angular-translate/angular-translate/edit/master/docs/content/guide/zh-tw/05_using-translate-directive.ngdoc" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><h1><code ng:non-bindable=""></code>
 <div><span class="hint"></span>
 </div>
 </h1>
@@ -21,10 +21,10 @@
 </pre>
 <p>很容易哈？當然，你可以在這裡查看工作示例：</p>
 <h3 id="使用翻譯過濾器_source">Source</h3>
-<div source-edit="myApp" source-edit-deps="angular.js script.js" source-edit-html="index.html-9" source-edit-css="" source-edit-js="script.js-8" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div source-edit="myApp" source-edit-deps="angular.js script.js" source-edit-html="index.html-11" source-edit-css="" source-edit-js="script.js-10" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
 <div class="tabbable"><div class="tab-pane" title="index.html">
-<pre class="prettyprint linenums" ng-set-text="index.html-9" ng-html-wrap-loaded="myApp angular.js script.js"></pre>
-<script type="text/ng-template" id="index.html-9">
+<pre class="prettyprint linenums" ng-set-text="index.html-11" ng-html-wrap-loaded="myApp angular.js script.js"></pre>
+<script type="text/ng-template" id="index.html-11">
     
     <div ng-controller="Ctrl">
       <p>{{ 'HEADLINE' | translate }}</p>
@@ -33,8 +33,8 @@
   </script>
 </div>
 <div class="tab-pane" title="script.js">
-<pre class="prettyprint linenums" ng-set-text="script.js-8"></pre>
-<script type="text/ng-template" id="script.js-8">
+<pre class="prettyprint linenums" ng-set-text="script.js-10"></pre>
+<script type="text/ng-template" id="script.js-10">
       var translations = {
 HEADLINE: 'What an awesome module!',
         PARAGRAPH: 'Srsly!'
@@ -54,7 +54,7 @@ app.controller('Ctrl', ['$scope', function ($scope) {
     </script>
 </div>
 </div><h3 id="使用翻譯過濾器_demo">Demo</h3>
-<div class="well doc-example-live animate-container" ng-embed-app="myApp" ng-set-html="index.html-9" ng-eval-javascript="script.js-8"></div>
+<div class="well doc-example-live animate-container" ng-embed-app="myApp" ng-set-html="index.html-11" ng-eval-javascript="script.js-10"></div>
 <p>太棒了！現在，您的內容的視圖層內的翻譯沒有你的控制器邏輯與轉換邏輯來污染了。
 當它涉及到一個視圖層更換時整個翻譯流程從你的業務邏輯分離出來，使您的應用程序更加靈活！
 接下來的章節將告訴您如何用所提供的<code>translate</code> 指令這樣做。

@@ -1,0 +1,42 @@
+<a href="https://github.com/angular-translate/angular-translate/edit/master/docs/content/guide/es/09_language-negotiation.ngdoc" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="negociaci-n-de-lenguajes-page"><h2 id="negociación-de-lenguajes">Negociación de lenguajes</h2>
+<p>angular-translate soporta una funcionalidad llamada &quot;Negociación de lenguajes&quot; (Language Negotiation), con la cual se puede declarar relaciones entre claves de lenguaje similares (por ejemplo, &#39;en_US&#39; en lugar de &#39;en&#39;).</p>
+<p>¿Qué significa esto? Supongamos que usted tiene tablas de traducción con las claves de lenguaaje <code>en</code> y <code>de</code>.</p>
+<pre class="prettyprint linenums">
+$translateProvider
+  .translations('en', { /* ... */ })
+  .translations('de', { /* ... */ });
+</pre>
+<p>.. y que también le dice a angular-translate que debería tratar de determinar el lenguaje preferido de su aplicación por sí solo, usando el método <code>.determinePreferredLanguage()</code>.</p>
+<pre class="prettyprint linenums">
+$translateProvider
+  .translations('en', { /* ... */ })
+  .translations('de', { /* ... */ })
+  .determinePreferredLanguage();
+</pre>
+<p>En <a href="#/guide/07_multi-language#multilenguaje_determinar-el-lenguaje-preferido-automáticamente">Determinar el lenguaje preferido automáticamente</a>
+aprendimos que al usar este método sin parámetros angular-translate tratatá de determinar el lenguaje preferido accediendo a propiedades del navegador.</p>
+<p>Ahora bien, ¿qué pasa si si navegador devuelve <code>en_US</code> en lugar de <code>en</code>?
+Normalmente, esto provocaría un error, porque <code>en_US</code> es, estrictamente hablando, una clave de lenguaje distinta.
+Lo que desearíamos es que angular-translate fuese capaz de reconocer la relación entre  <code>en_US</code> y <code>en</code>.</p>
+<p>Pues bien, angular-translate no nos defrauda. Se puede utilizar el sistema de negociación de lenguajes mediante el método<code>registerAvailableLanguageKeys()</code>. Este método acepta un array de claves de lenguajes que usted soporte en su aplicación. Una vez que éstas estén configuradas, angular-translate será capaz de mapear un <code>en_US</code> devuelto por su navegador a la clave <code>en</code> efectivamente usada por su aplicación.</p>
+<p>Para el caso de uso que discutíamos anteriormente, el código quedaría así:</p>
+<pre class="prettyprint linenums">
+$translateProvider
+  .translations('en', { /* ... */ })
+  .translations('de', { /* ... */ })
+  .registerAvailableLanguageKeys(['en', 'de'], {
+    'en_US': 'en',
+    'en_UK': 'en',
+    'de_DE': 'de',
+    'de_CH': 'de'
+  })
+  .determinePreferredLanguage();
+</pre>
+<p>Si el navegador nos devolviera <code>en_US</code> o <code>en_UK</code>, angular-translate configuraría <code>en</code> como lenguaje preferido. Deberíamos también mencionar que todo esto sólo tiene sentido cuando se utiliza el método  <code>determinePreferredLanguage()</code></p>
+<p><br></p>
+<p><hr></p>
+<center>Hecho con &hearts; de unicornio y con amor por <a href="http://github.com/PascalPrecht">PascalPrecht</a></center></div></div>
