@@ -199,7 +199,7 @@ NG_DOCS={
       "type": "overview",
       "moduleName": "Керівництво",
       "shortDescription": "i18n для ваших Angular застосунків - просто",
-      "keywords": "$translateprovider _i absatz angular angular-translate angularjs app bower comment-773 config de dies ein en foo function github google guide hallo hello html i18n install ist it_ js l10n love mailinglist module myapp neoskop ng-newsletter ngmodules org overview paragraph pascalprecht path plnkr preferredlanguage src title translate translations unicorn var wordpress"
+      "keywords": "$translateprovider _i absatz angular angular-translate angularjs app bower config de dies ein en foo function github google guide hallo hello html i18n install ist it_ js l10n love mailinglist module myapp ng-newsletter ngmodules org overview paragraph pascalprecht path plnkr preferredlanguage src title translate translations unicorn var wordpress"
     },
     {
       "section": "guide",

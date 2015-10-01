@@ -199,7 +199,7 @@ NG_DOCS={
       "type": "overview",
       "moduleName": "概觀",
       "shortDescription": "國際化你的 Angular 應用程式是如此的輕鬆",
-      "keywords": "$translateprovider _i absatz angular angular-translate angularjs app bower comment-773 config de dies ein en foo function git github google guide hallo hello html install ist it_ js love module myapp neoskop ng-newsletter ngmodules org overview paragraph pascalprecht path plnkr preferredlanguage repository src title translate translations unicorn var wordpress"
+      "keywords": "$translateprovider _i absatz angular angular-translate angularjs app bower config de dies ein en foo function git github google guide hallo hello html install ist it_ js love module myapp ng-newsletter ngmodules org overview paragraph pascalprecht path plnkr preferredlanguage repository src title translate translations unicorn var wordpress"
     },
     {
       "section": "guide",
