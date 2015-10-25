@@ -1,0 +1,31 @@
+<a href="https://github.com/angular-translate/angular-translate/edit/master/docs/content/guide/es/18_events.ngdoc" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="eventos-page"><h2 id="eventos">Eventos</h2>
+<p>angular-translate dispara ciertos eventos en el <code>$rootScope</code>, sobre los cuales se puede actuar. Por favor, asegúrese de escuchar dichos eventos a nivel de <code>$rootScope</code>, no de <code>$scope</code>, dado que se emiten a nivel de
+<code>$rootScope</code> para crear un &quot;event-bus&quot; válido para toda la aplicación, lo cual brinda mejor performance.</p>
+<p>Este documento describe los diferentes eventos, y cuándo pueden ser disparados.</p>
+<h3 id="eventos_generales">Generales</h3>
+<p>Algunos eventos son disparados independientemente de cómo esté configurado angular-translate. Son los eventos generales, los cuales es normal que se disparen.</p>
+<p><strong><code>$translateChangeStart</code></strong></p>
+<p>Es disparado cada vez que angular-translate empieza a intentar cambiar el lenguaje. Esto es, durante el arranque de la aplicación, cuando el lenguaje es configurado por primera vez, o cuando se cambia el lenguaje en tiempo de ejecución mediante <code>$translate.use()</code>. Este evento también se dispara cuando angular-translate tiene que cargar asincrónicamente datos de traducción primero.</p>
+<p><strong><code>$translateChangeSuccess</code></strong></p>
+<p>Como el nombre del evento lo indica, este es disparado si el cambio de traducción fue exitoso. Cuando no se esté usando un cargador asincrónico, este evento es normalmente disparado inmediatamente después del evento  <code>$translateChangeStart</code>. También es disparado después de que un cargador asincrónico haya tenido que cargar datos de traducción primero.</p>
+<p><strong><code>$translateChangeError</code></strong></p>
+<p>Se dispara cuando un cambio de traducción falla. Esto en realidad sólo ocurre cuando un cargador asincrónico rechaza una promesa devuelta.</p>
+<p><strong><code>$translateChangeEnd</code></strong></p>
+<p>Siempre es disparado cuando un cambio de traducción concluye, ya sea exitoso o no, y después de que todos los servicios de interpolación hayan sido notificados sobre el cambio de traducción.</p>
+<h3 id="eventos_asynchronous-loading">Asynchronous loading</h3>
+<p>Algunos eventos sólo se disparan cuando se usa un cargador asincrónico. Estos se cubren aquí.</p>
+<p><strong><code>$translateLoadingStart</code></strong></p>
+<p>Como su nombre lo indica, este evento se dispara cuando se invoca un cargador asincrónico registrado, ensequida después que <code>$translateChangeStart</code> haya sido disparado.</p>
+<p><strong><code>$translateLoadingSuccess</code></strong></p>
+<p>Se dispara cuando el cargador asincrónico devuelve una promesa resuelta.</p>
+<p><strong><code>$translateLoadingError</code></strong></p>
+<p>Se dispara cuando el cargador asincrónico devuelve una promesa rechazada.</p>
+<p><strong><code>$translateLoadingEnd</code></strong></p>
+<p>Se dispara cuando el cargador asincrónico devuelve una promesa, ya sea resuelta o rechazada. En el caso de que haya sido resuelta, se dispara luego de que la tabla de traducción haya sido actualizada.</p>
+<p><strong><code>$translatePartialLoaderStructureChanged</code></strong></p>
+<p>Se dispara cuando se cambia la &quot;estructura&quot; de <code>$translatePartialLoader</code> usando cualquier tipo de método <code>*Part()</code>.</p>
+</div></div>

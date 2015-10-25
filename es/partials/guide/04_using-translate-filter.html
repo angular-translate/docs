@@ -1,0 +1,73 @@
+<a href="https://github.com/angular-translate/angular-translate/edit/master/docs/content/guide/es/04_using-translate-filter.ngdoc" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="uso-del-filtro-translate-page"><h2 id="uso-del-filtro-translate">Uso del filtro translate</h2>
+<p>En <a href="#/guide/03_using-translate-service">Uso del servicio $translate</a> usted aprendió
+ cómo usar el servicio <code>$translate</code> para traducir directamente claves de traducción registradas.
+Es bastante interesante, cómo funciona, pero en realidad no es deseable atar la traducción
+de manera demasiado estrecha a los controladores y servicios. Mayormente, es preferible traducir
+contenidos en la capa de vista (view), porque ése ese el lugar en donde corresponde hacerlo.</p>
+<p>angular-translate le provee un componente filtro, con el cual se puede traducir las
+claves en la capa de vista, sin que el controlador sepa nada sobre ellas. Esto, efectivamente,
+  desvincula la lógica de traducción de los controladores y servicios, haciéndola modular y
+  eventualmente reemplazable, sin necesidad de tocar el código de la capa de negocios.</p>
+<h3 id="uso-del-filtro-translate_uso-general">Uso general</h3>
+<p>Usar un filtro en Angular es bastante simple. Se puede leer todo lo que hace falta
+<a href="http://docs.angularjs.org/guide/dev_guide.templates.filters.using_filters">aquí</a>.</p>
+<p>Lo mismo corre para el filtro <code>translate</code> de angular-translate. Ahora podemos actualizar nuestro
+ejemplo en <a href="#/guide/03_using-translate-service#generalusage">Uso del servicio $translate</a>
+simplemente transfiriendo la lógica desde el controlador hacia nuestro filtro <code>translate</code>.
+El filtro funcionaría así:</p>
+<pre><code>&lt;ANY&gt;{{ TRANSLATION_ID | translate }}&lt;/ANY&gt;
+</code></pre><p>Así que, para actualizar nuestro ejemplo, quitamos el uso del servicio <code>$translate</code> de nuestro
+controlador, y agregamos la lógica en nuestra capa de vista, utilizando el filtro <code>translate</code>,
+de esta manera:</p>
+<pre class="prettyprint linenums">
+&lt;h1&gt;{{'HEADLINE' | translate}}&lt;/h1&gt;
+&lt;p&gt;{{'PARAGRAPH' | translate}}&lt;/p&gt;
+</pre>
+<p>Fácil ¿no? Por supuesto, se puede ver una muestra andando aquí:</p>
+<h3 id="uso-del-filtro-translate_source">Source</h3>
+<div source-edit="myApp" source-edit-deps="angular.js script.js" source-edit-html="index.html-9" source-edit-css="" source-edit-js="script.js-8" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div class="tabbable"><div class="tab-pane" title="index.html">
+<pre class="prettyprint linenums" ng-set-text="index.html-9" ng-html-wrap-loaded="myApp angular.js script.js"></pre>
+<script type="text/ng-template" id="index.html-9">
+    
+    <div ng-controller="Ctrl">
+      <p>{{ 'HEADLINE' | translate }}</p>
+      <p>{{ 'PARAGRAPH' | translate }}</p>
+    </div>
+  </script>
+</div>
+<div class="tab-pane" title="script.js">
+<pre class="prettyprint linenums" ng-set-text="script.js-8"></pre>
+<script type="text/ng-template" id="script.js-8">
+      var translations = {
+        HEADLINE: 'What an awesome module!',
+        PARAGRAPH: 'Srsly!'
+      };
+
+      var app = angular.module('myApp', ['pascalprecht.translate']);
+
+      app.config(['$translateProvider', function ($translateProvider) {
+        // add translation table
+        $translateProvider.translations('en', translations);
+        $translateProvider.preferredLanguage('en');
+      }]);
+
+      app.controller('Ctrl', ['$scope', function ($scope) {
+
+      }]);
+    </script>
+</div>
+</div><h3 id="uso-del-filtro-translate_demo">Demo</h3>
+<div class="well doc-example-live animate-container" ng-embed-app="myApp" ng-set-html="index.html-9" ng-eval-javascript="script.js-8"></div>
+<p>¡Maravilloso! Ahora usted es capaz de traducir sus contenidos en la capa de vista,
+sin contaminar sus controladores con lógica de traducción. ¡Todo el tema traducción está
+desacoplado de la lógica de negocios, y vuelve su aplicación mucho más flexible a la hora de
+ reemplazar una u otra capa!
+El siguiente capítulo demostrará cómo hacer lo mismo pero con la directiva <code>translate</code>.</p>
+<p><br></p>
+<p><hr></p>
+<center>Hecho con &hearts; de unicornio y con amor por <a href="http://github.com/PascalPrecht">PascalPrecht</a></center></div></div>

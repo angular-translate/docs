@@ -80,8 +80,8 @@ app.factory('asyncLoader', function ($q, $timeout) {
         PASSED_AS_ATTRIBUTE: 'I\'m passed as attribute value, cool ha?',
         PASSED_AS_INTERPOLATION: 'Beginners! I\'m interpolated!',
         VARIABLE_REPLACEMENT: 'Hi {{name}}',
-        BUTTON_LANG_DE: 'german',
-        BUTTON_LANG_EN: 'english'
+        BUTTON_LANG_DE: 'German',
+        BUTTON_LANG_EN: 'English'
       };
     } else {
       translations = {
@@ -91,8 +91,8 @@ app.factory('asyncLoader', function ($q, $timeout) {
         PASSED_AS_ATTRIBUTE: 'Ich wurde als Attribut übergeben, cool oder?',
         PASSED_AS_INTERPOLATION: 'Anfänger! Ich bin interpoliert!',
         VARIABLE_REPLACEMENT: 'Hi {{name}}',
-        BUTTON_LANG_DE: 'deutsch',
-        BUTTON_LANG_EN: 'englisch'
+        BUTTON_LANG_DE: 'Deutsch',
+        BUTTON_LANG_EN: 'Englisch'
       };
     }
 
@@ -105,7 +105,7 @@ app.factory('asyncLoader', function ($q, $timeout) {
 });
 </pre>
 <p>So what does it do? It uses <code>$timeout</code> service to wait two seconds and resolves
-our promise with either the english or the german translation table, depending
+our promise with either the English or the German translation table, depending
 on the language key. Now use <code>$translateProvider.useLoader()</code> to make use of it:</p>
 <pre class="prettyprint linenums">
 $translateProvider.useLoader('asyncLoader');
@@ -156,8 +156,8 @@ $translateProvider.useLoader('asyncLoader');
               PASSED_AS_ATTRIBUTE: 'I\'m passed as attribute value, cool ha?',
               PASSED_AS_INTERPOLATION: 'Beginners! I\'m interpolated!',
               VARIABLE_REPLACEMENT: 'Hi {{name}}',
-              BUTTON_LANG_DE: 'german',
-              BUTTON_LANG_EN: 'english'
+              BUTTON_LANG_DE: 'German',
+              BUTTON_LANG_EN: 'English'
             };
           } else {
             translations = {
@@ -167,8 +167,8 @@ $translateProvider.useLoader('asyncLoader');
               PASSED_AS_ATTRIBUTE: 'Ich wurde als Attribut übergeben, cool oder?',
               PASSED_AS_INTERPOLATION: 'Anfänger! Ich bin interpoliert!',
               VARIABLE_REPLACEMENT: 'Hi {{name}}',
-              BUTTON_LANG_DE: 'deutsch',
-              BUTTON_LANG_EN: 'englisch'
+              BUTTON_LANG_DE: 'Deutsch',
+              BUTTON_LANG_EN: 'Englisch'
             };
           }
 
@@ -190,7 +190,7 @@ $translateProvider.useLoader('asyncLoader');
 </div>
 </div><h3 id="customer-loaders_demo">Demo</h3>
 <div class="well doc-example-live animate-container" ng-embed-app="myApp" ng-set-html="index.html-23" ng-eval-javascript="script.js-22"></div>
-<p>When changing the language by clicking the <code>german</code> button, you see the app waits
+<p>When changing the language by clicking the <code>German</code> button, you see the app waits
 2 seconds until it resolves with the new translation data. Isn&#39;t that cool?</p>
 <p><br></p>
 <p><hr></p>

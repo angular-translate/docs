@@ -7,8 +7,8 @@
 <a href="#/guide/06_variable-replacement">dynamize our translations</a>. We also learned
 <a href="#/guide/07_multi-language">how to add more than one language</a>. But there&#39;s still
 a thing which feels kinda silly when opening our web app. Everytime we launch our
-app, we have to click that &#39;german&#39; button again and again and again (of course
-only if you are a german user - I am!).</p>
+app, we have to click that &#39;German&#39; button again and again and again (of course
+only if you are a German user - I am!).</p>
 <p>So the problem is that our app just can&#39;t remember which language you&#39;ve chosen
 the last time you opened it. This chapter shows you how to teach your app
 to remember the language users choose.</p>
@@ -84,8 +84,8 @@ update our app to use localStorage as well!</p>
         PASSED_AS_ATTRIBUTE: 'I\'m passed as attribute value, cool ha?',
         PASSED_AS_INTERPOLATION: 'Beginners! I\'m interpolated!',
         VARIABLE_REPLACEMENT: 'Hi {{name}}',
-        BUTTON_LANG_DE: 'german',
-        BUTTON_LANG_EN: 'english'
+        BUTTON_LANG_DE: 'German',
+        BUTTON_LANG_EN: 'English'
       };
 
       var translationsDE= {
@@ -95,8 +95,8 @@ update our app to use localStorage as well!</p>
         PASSED_AS_ATTRIBUTE: 'Ich wurde als Attribut übergeben, cool oder?',
         PASSED_AS_INTERPOLATION: 'Anfänger! Ich bin interpoliert!',
         VARIABLE_REPLACEMENT: 'Hi {{name}}',
-        BUTTON_LANG_DE: 'deutsch',
-        BUTTON_LANG_EN: 'englisch'
+        BUTTON_LANG_DE: 'Deutsch',
+        BUTTON_LANG_EN: 'Englisch'
       };
 
       var app = angular.module('myApp', ['ngCookies', 'pascalprecht.translate']);

@@ -70,7 +70,7 @@ $translateProvider.preferredLanguage('en');
 <p>你可以使用 bower 来安装， 就好象安装其他加载器一样:</p>
 <pre><code>$ bower install angular-translate-loader-partial
 </code></pre><p>当你使用 <code>partialLoader</code> 你必须考虑用哪一个 <code>angular-translate</code> 模式来加载你的数据。 这和
-<code>staticFilesLoader</code> 很相似但更具体一点。 你必须指定一个 <code>part</code> 和一个 <code>lang</code> 属性, 
+<code>staticFilesLoader</code> 很相似但更具体一点。 你必须指定一个 <code>part</code> 和一个 <code>lang</code> 属性,
 <code>part</code> 为您的应用程序的具体属性(可能就是 <code>home</code>)， <code>lang</code> 是你知道的语言键.</p>
 <p>比方说，我们的翻译文件和组件文件结构看起来象这样的：</p>
 <pre><code>/i18n/home/en.json
@@ -180,8 +180,8 @@ JSON因为JSON不是纯文本格式！</p>
   "PASSED_AS_ATTRIBUTE": "I'm passed as attribute value, cool ha?",
   "PASSED_AS_INTERPOLATION": "Beginners! I'm interpolated!",
   "VARIABLE_REPLACEMENT": "Hi {{name}}",
-  "BUTTON_LANG_DE": "german",
-  "BUTTON_LANG_EN": "english"
+  "BUTTON_LANG_DE": "German",
+  "BUTTON_LANG_EN": "English"
 }
 </pre>
 <pre class="prettyprint linenums">
@@ -243,8 +243,8 @@ $translateProvider.preferredLanguage('en');
           "PASSED_AS_ATTRIBUTE": "I'm passed as attribute value, cool ha?",
           "PASSED_AS_INTERPOLATION": "Beginners! I'm interpolated!",
           "VARIABLE_REPLACEMENT": "Hi {{name}}",
-          "BUTTON_LANG_DE": "german",
-          "BUTTON_LANG_EN": "english"
+          "BUTTON_LANG_DE": "German",
+          "BUTTON_LANG_EN": "English"
         });
         // configures staticFilesLoader
         $translateProvider.useStaticFilesLoader({

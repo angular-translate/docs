@@ -7,7 +7,7 @@
 wie wir unsere <a href="#/guide/06_variable-replacement">Übersetzungen dynamisieren</a> können.
 Wir haben auch gelernt, wie man <a href="#/guide/07_multi-language">einer App mehrere Sprachen beibringt</a>.
 Aber da ist immer noch etwas, was sich komisch anfühlt, wenn wir unsere App
-aufrufen. Jedes Mal, wenn wir unsere App starten, müssen wir den &#39;deutsch&#39;- Button
+aufrufen. Jedes Mal, wenn wir unsere App starten, müssen wir den &#39;Deutsch&#39;- Button
 klicken.</p>
 <p>Unsere App kann sich also einfach nicht merken, welche Sprache wir gewählt hatten,
 als wir das letzte mal die App gestartet hatten. Dieses Kapitel zeigt dir, wie du
@@ -81,8 +81,8 @@ $translateProvider.useLocalStorage();
         PASSED_AS_ATTRIBUTE: 'I\'m passed as attribute value, cool ha?',
         PASSED_AS_INTERPOLATION: 'Beginners! I\'m interpolated!',
         VARIABLE_REPLACEMENT: 'Hi {{name}}',
-        BUTTON_LANG_DE: 'german',
-        BUTTON_LANG_EN: 'english'
+        BUTTON_LANG_DE: 'German',
+        BUTTON_LANG_EN: 'English'
       };
 
       var translationsDE= {
@@ -92,8 +92,8 @@ $translateProvider.useLocalStorage();
         PASSED_AS_ATTRIBUTE: 'Ich wurde als Attribut übergeben, cool oder?',
         PASSED_AS_INTERPOLATION: 'Anfänger! Ich bin interpoliert!',
         VARIABLE_REPLACEMENT: 'Hi {{name}}',
-        BUTTON_LANG_DE: 'deutsch',
-        BUTTON_LANG_EN: 'englisch'
+        BUTTON_LANG_DE: 'Deutsch',
+        BUTTON_LANG_EN: 'Englisch'
       };
 
       var app = angular.module('myApp', ['ngCookies', 'pascalprecht.translate']);

@@ -1,0 +1,46 @@
+<a href="https://github.com/angular-translate/angular-translate/edit/master/docs/content/guide/es/01_conceptual-overview.ngdoc" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="conceptos-generales-page"><h2 id="conceptos-generales">Conceptos generales</h2>
+<p>Esta imagen muesta, de manera algo abstracta, cómo angular-translate está estructurado, y los
+cómo se interconectan los diferentes componentes que provee.</p>
+<p><img class="pull-right" style="padding-left: 3em;" src="img/guide/conceptual_overview.png"></p>
+<h3 id="conceptos-generales_el-meollo-del-asunto">El meollo del asunto</h3>
+<p>Como se puede ver, angular-translate provee como componentes una directiva y un filtro, que se pueden usar
+para traducir el contenido de su aplicación. La directiva aparece encima del componente &quot;filtro&quot; porque, internamente, lo usa.</p>
+<p>La siguiente capa se pone más interesante: tanto la directiva como el filtro utilizan el servicio <code>$translate</code>. Lo cual significa que
+cuando los contenidos de su aplicación se traducen con una directiva, quien en realidad está traduciendo es el servicio.
+Esto también significa que se puede traducir contenido no solamente en la capa &quot;view&quot; (vista), de manera declarativa, sino también
+en la capa de negocios (por supuesto, sólo si es necesario), por ejemplo en un controlador u otro servicio.</p>
+<p>Dentro del servicio <code>$translate</code> se pueden observar algunos subcomponentes, los cuales se usan para traducir contenido. Entraremos en
+detalles sobre esto más adelante, pero he aquí un pantallazo general:</p>
+<h3 id="conceptos-generales_interpoladores">Interpoladores (Interpolators)</h3>
+<p>El cuadro de la derecha representa servicios posibles de interpolación que <code>$translate</code> utiliza para
+interpolar sus traducciones contra valores de variables que usted pueda querer utilizar. Si por ahora no entiende qué significa todo esto,
+ no se preocupe. Mas tarde aprenderá todo lo que haga falta sobre los interpoladores.
+ De todos modos, los servicios de interpolación están desacoplados del núcleo central (core), lo cual significa que se pueden instalar como
+ paquetes adicionales. Hay un servicio de interpolación &quot;por defecto&quot;, que ya viene incluido en <code>angular-translate</code>.</p>
+<p>Los interpoladores influencian la sintaxis a usar en sus traducciones. El servicio de interpolación por defecto usa el núcleo central (core)
+de interpolación de Angular, de modo que, si usted ya está familiarizado con él, no tiene que aprender nada nuevo. El servicio de interpolación
+<strong>MessageFormat</strong> usa una sintaxis diferente, pero eso lo veremos más adelante.</p>
+<h3 id="conceptos-generales_manipuladores-de-traducciones-faltantes">Manipuladores (handlers) de traducciones faltantes</h3>
+<p>El cuadro de la derecha muestra los manipuladores que se ofrecen para traducciones faltantes.
+ Son los que se ejecutan cuando <code>$translate</code> debe traducir una clave que no existe. No es obligatorio utilizar dichos
+ manipuladores, pero si usted lo desea, angular-translate viene con un servicio de logging (bitácora) que se puede instalar como extensión.
+ Además, usted puede implementar y usar su propio manipulador.</p>
+<h3 id="conceptos-generales_cargadores-asincrónicos">Cargadores asincrónicos</h3>
+<p>Por supuesto que usted querrá ser capaz de cargar sus datos de traducción asincrónicamente, para
+ acelerar la performance de sus aplicaciones. angular-translate soporta el uso de los llamados &quot;cargadores asincrónicos&quot; (asynchronous loaders),
+ los cuales son muy fáciles de usar. Hay dos tipos de cargador asincrónico: <code>urlloader</code> y <code>staticFilesLoader</code>. Cada uno de ellos se aplica a un
+ escenario específico de carga de datos. Y de todos modos (por supuesto), usted puede programar su propio cargador si quiere.</p>
+<h3 id="conceptos-generales_almacenamiento">Almacenamiento</h3>
+<p>Como es bastante común que una aplicación con suporte multi-idioma tenga que recordar cuál lenguaje el usuario ha elegido durante la ejecución,
+angular-translate provee la forma de usar cualquier tipo de almacenamiento. Primero establece si se debe recurrir al almacenamiento,
+y, si es así, trata de encontrar pares clave-valor específicos en el almacenamiento configurado, para determinar qué idioma debería usarse.</p>
+<p>angular-translate ya viene con soporte para  localStorage y cookieStorage. Se pueden usar fácilmente, instalando paquetes adicionales.</p>
+<p>Ahora usted ya tiene un pantallazo general de cómo está estructurado angular-translate, qué tipo de funcionalidades provee, y cómo se
+interconectan sus componentes. En el capítulo siguiente, veremos cómo empezar a usar angular-translate.</p>
+<p><br></p>
+<p><hr></p>
+<center>Hecho con &hearts; de unicornio y con amor por <a href="http://github.com/PascalPrecht">PascalPrecht</a></center></div></div>

@@ -49,7 +49,7 @@ Sprachschlüssel, sinnvollerweise einen der Übersetzungstabellen die du registr
 hast. Um deiner App also zu sagen, sie soll deutsch anstatt englisch als
 Standardsprache bevorzugen, muss der Code wie folgt erweitert werden:</p>
 <pre class="prettyprint linenums">
-// tells angular-translate to use the german language
+// tells angular-translate to use the German language
 $translateProvider.preferredLanguage('de');
 </pre>
 <p><strong>Achtung:</strong> Theoretisch ist es möglich <code>$translateProvider.use()</code> zu verwenden.
@@ -105,8 +105,8 @@ Fällen in kraft tritt.</p>
 Fallback-Sprache konfigurieren lässt. Sie erwartet genau wie <code>preferredLanguage()</code>
 einen Sprachschlüssel. <code>angular-translate</code> kümmert sich dann um den Rest.</p>
 <pre class="prettyprint linenums">
-// tells angular-translate to use the english language if translations are not
-// available in german
+// tells angular-translate to use the English language if translations are not
+// available in German
 $translateProvider.fallbackLanguage('en');
 </pre>
 <p>Seit Version 1.1.1 ist angular-translate auch in der Lage, mit mehreren Fallback-Sprachen
@@ -146,8 +146,8 @@ var translationsEN = {
   PASSED_AS_ATTRIBUTE: 'I\'m passed as attribute value, cool ha?',
   PASSED_AS_INTERPOLATION: 'Beginners! I\'m interpolated!',
   VARIABLE_REPLACEMENT: 'Hi {{name}}',
-  BUTTON_LANG_DE: 'german',
-  BUTTON_LANG_EN: 'english'
+  BUTTON_LANG_DE: 'German',
+  BUTTON_LANG_EN: 'English'
 };
 
 var translationsDE= {
@@ -157,8 +157,8 @@ var translationsDE= {
   PASSED_AS_ATTRIBUTE: 'Ich wurde als Attribut übergeben, cool oder?',
   PASSED_AS_INTERPOLATION: 'Anfänger! Ich bin interpoliert!',
   VARIABLE_REPLACEMENT: 'Hi {{name}}',
-  BUTTON_LANG_DE: 'deutsch',
-  BUTTON_LANG_EN: 'englisch'
+  BUTTON_LANG_DE: 'Deutsch',
+  BUTTON_LANG_EN: 'Englisch'
 };
 </pre>
 <p>Als nächstes passen wir die Registrierung der Übersetzungtabellen an, dass diese
@@ -219,9 +219,9 @@ app.controller('Ctrl', ['$translate', '$scope', function ($translate, $scope) {
         PASSED_AS_ATTRIBUTE: 'I\'m passed as attribute value, cool ha?',
         PASSED_AS_INTERPOLATION: 'Beginners! I\'m interpolated!',
         VARIABLE_REPLACEMENT: 'Hi {{name}}',
-        MISSING_TRANSLATION: 'Oops! I have not been translated into german...',
-        BUTTON_LANG_DE: 'german',
-        BUTTON_LANG_EN: 'english'
+        MISSING_TRANSLATION: 'Oops! I have not been translated into German...',
+        BUTTON_LANG_DE: 'German',
+        BUTTON_LANG_EN: 'English'
       };
 
       var translationsDE= {
@@ -232,8 +232,8 @@ app.controller('Ctrl', ['$translate', '$scope', function ($translate, $scope) {
         PASSED_AS_INTERPOLATION: 'Anfänger! Ich bin interpoliert!',
         VARIABLE_REPLACEMENT: 'Hi {{name}}',
         // MISSING_TRANSLATION is ... missing :)
-        BUTTON_LANG_DE: 'deutsch',
-        BUTTON_LANG_EN: 'englisch'
+        BUTTON_LANG_DE: 'Deutsch',
+        BUTTON_LANG_EN: 'Englisch'
       };
 
       var app = angular.module('myApp', ['pascalprecht.translate']);
