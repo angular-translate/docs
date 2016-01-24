@@ -29,7 +29,7 @@ NG_DOCS={
       "type": "object",
       "moduleName": "pascalprecht.translate",
       "shortDescription": "The $translate service is the actual core of angular-translate. It expects a translation id",
-      "keywords": "$interpolate $log $q $rootscope $scope $translate $translaterefreshend $translaterefreshstart actual angular-translate api app array async asynchronous asynchronously background broadcast care case change choosed class cloakclassname compiling configured contents core current currently data defined delimiter directive drop dynamic en_us enabled error events existent expects fallback fallbacklanguage false falsy file finished fn force forceasyncreload function handling hash hasn headline_text hello ids instant instantly internal interpolate interpolateparams interpolation interpolationid invoke invoked isforceasyncreloadenabled isn ispostcompilingenabled isready iteration key langkey language languages library load loaded loadercache loaders loading method methods_isready methods_onready module namespaces nested nestedobjectdelimeter object onready optional optionally param parameters params pascalprecht pointed post preferred preferredlanguage process promise proposedlanguage ready refresh refreshed refreshes refreshing registered reject reload remember represents resolved returned returns rules runtime service set sets setting skipped stack start storage storagekey store storing string table tables takes target tells text throw token translate translate-cloak translatedtext translation translationid undefined usefallbacklanguage values version versioninfo"
+      "keywords": "$interpolate $log $q $rootscope $scope $translate $translaterefreshend $translaterefreshstart actual aliases angular-translate api app array async asynchronous asynchronously background based broadcast care case change choosed class cloakclassname compiling configured contents core current currently data defined delimiter directive drop dynamic en_us enabled error events existent expects fallback fallbacklanguage false falsy file finished fn force forceasyncreload forcelanguage function handling hash hasn headline_text hello ids instant instantly internal interpolate interpolateparams interpolation interpolationid invoke invoked isforceasyncreloadenabled isn ispostcompilingenabled isready iteration key langkey language languages library load loaded loadercache loaders loading method methods_isready methods_onready module namespaces negotiatelocale nested nestedobjectdelimeter object onready optional optionally param parameters params pascalprecht pointed post preferred preferredlanguage process promise proposedlanguage ready refresh refreshed refreshes refreshing registered reject reload remember represents resolved returned returns rules runtime service set sets setting skipped stack start storage storagekey store storing string table tables takes target tells text throw token translate translate-cloak translatedtext translation translationid undefined usefallbacklanguage values version versioninfo"
     },
     {
       "section": "api",
@@ -155,7 +155,7 @@ NG_DOCS={
       "type": "directive",
       "moduleName": "pascalprecht.translate",
       "shortDescription": "Translates given translation id either through attribute or DOM content.",
-      "keywords": "$compile $digest $filter $interpolate $rootscope $scope $translateprovider activation angular api attr attribute config content controller defines directive dom dynamic element en expect filter function hello html inject internally interpolated js literal locally methods_usepostcompiling module ng-controller ngview object optional pascalprecht pass passed preferredlanguage scenario script string successful text title tobe translate translate-attr-attr translate-attr-title translate-compile translate-default translate-values translatectrl translates translation translation_id translationid translations true values with_values"
+      "keywords": "$compile $digest $filter $interpolate $rootscope $scope $translateprovider activation ae angular api attr attribute config content controller defines directive dom dynamic element en expect filter function hello html inject internally interpolated js literal locally methods_usepostcompiling module ng-controller ngview object optional pascalprecht pass passed preferredlanguage scenario script string successful text title tobe translate translate-attr-attr translate-attr-title translate-compile translate-default translate-values translatectrl translates translation translation_id translationid translations true values with_values"
     },
     {
       "section": "api",
@@ -164,6 +164,15 @@ NG_DOCS={
       "type": "directive",
       "moduleName": "pascalprecht.translate",
       "keywords": "$description $rootscope $translate $translateprovider adds api applied asynchronously basically class cloak cloakclassname data defined directive element finished flickering hiding initial initially loader loading pascalprecht prevent provided relies removes resolve showing translate translate-cloak translation translationid"
+    },
+    {
+      "section": "api",
+      "id": "pascalprecht.translate.directive:translateLanguage",
+      "shortName": "translateLanguage",
+      "type": "directive",
+      "moduleName": "pascalprecht.translate",
+      "shortDescription": "Forces the language to the directives in the underlying scope.",
+      "keywords": "$translateprovider angular api config de directive directives en forces hallo hello html js language module negotiated ngview pascalprecht preferredlanguage scope script translate translate-language translations underlying welt world"
     },
     {
       "section": "api",
@@ -208,7 +217,7 @@ NG_DOCS={
       "type": "overview",
       "moduleName": "Установка",
       "shortDescription": "Установка",
-      "keywords": "angular-translate bower build clone conf dist framework git github grunt gruntfile guide html install js karma love midway min npm overview pull request start testing testrunner unicorn unit"
+      "keywords": "angular-translate bower build clone conf dist framework git github grunt gruntfile guide html install io js karma love midway min npm overview pull request start testing testrunner unicorn unit"
     },
     {
       "section": "guide",

@@ -29,7 +29,7 @@ NG_DOCS={
       "type": "object",
       "moduleName": "pascalprecht.translate",
       "shortDescription": "The $translate service is the actual core of angular-translate. It expects a translation id",
-      "keywords": "$interpolate $log $q $rootscope $scope $translate $translaterefreshend $translaterefreshstart actual angular-translate api app array async asynchronous asynchronously background broadcast care case change choosed class cloakclassname compiling configured contents core current currently data defined delimiter directive drop dynamic en_us enabled error events existent expects fallback fallbacklanguage false falsy file finished fn force forceasyncreload function handling hash hasn headline_text hello ids instant instantly internal interpolate interpolateparams interpolation interpolationid invoke invoked isforceasyncreloadenabled isn ispostcompilingenabled isready iteration key langkey language languages library load loaded loadercache loaders loading method methods_isready methods_onready module namespaces nested nestedobjectdelimeter object onready optional optionally param parameters params pascalprecht pointed post preferred preferredlanguage process promise proposedlanguage ready refresh refreshed refreshes refreshing registered reject reload remember represents resolved returned returns rules runtime service set sets setting skipped stack start storage storagekey store storing string table tables takes target tells text throw token translate translate-cloak translatedtext translation translationid undefined usefallbacklanguage values version versioninfo"
+      "keywords": "$interpolate $log $q $rootscope $scope $translate $translaterefreshend $translaterefreshstart actual aliases angular-translate api app array async asynchronous asynchronously background based broadcast care case change choosed class cloakclassname compiling configured contents core current currently data defined delimiter directive drop dynamic en_us enabled error events existent expects fallback fallbacklanguage false falsy file finished fn force forceasyncreload forcelanguage function handling hash hasn headline_text hello ids instant instantly internal interpolate interpolateparams interpolation interpolationid invoke invoked isforceasyncreloadenabled isn ispostcompilingenabled isready iteration key langkey language languages library load loaded loadercache loaders loading method methods_isready methods_onready module namespaces negotiatelocale nested nestedobjectdelimeter object onready optional optionally param parameters params pascalprecht pointed post preferred preferredlanguage process promise proposedlanguage ready refresh refreshed refreshes refreshing registered reject reload remember represents resolved returned returns rules runtime service set sets setting skipped stack start storage storagekey store storing string table tables takes target tells text throw token translate translate-cloak translatedtext translation translationid undefined usefallbacklanguage values version versioninfo"
     },
     {
       "section": "api",
@@ -155,7 +155,7 @@ NG_DOCS={
       "type": "directive",
       "moduleName": "pascalprecht.translate",
       "shortDescription": "Translates given translation id either through attribute or DOM content.",
-      "keywords": "$compile $digest $filter $interpolate $rootscope $scope $translateprovider activation angular api attr attribute config content controller defines directive dom dynamic element en expect filter function hello html inject internally interpolated js literal locally methods_usepostcompiling module ng-controller ngview object optional pascalprecht pass passed preferredlanguage scenario script string successful text title tobe translate translate-attr-attr translate-attr-title translate-compile translate-default translate-values translatectrl translates translation translation_id translationid translations true values with_values"
+      "keywords": "$compile $digest $filter $interpolate $rootscope $scope $translateprovider activation ae angular api attr attribute config content controller defines directive dom dynamic element en expect filter function hello html inject internally interpolated js literal locally methods_usepostcompiling module ng-controller ngview object optional pascalprecht pass passed preferredlanguage scenario script string successful text title tobe translate translate-attr-attr translate-attr-title translate-compile translate-default translate-values translatectrl translates translation translation_id translationid translations true values with_values"
     },
     {
       "section": "api",
@@ -164,6 +164,15 @@ NG_DOCS={
       "type": "directive",
       "moduleName": "pascalprecht.translate",
       "keywords": "$description $rootscope $translate $translateprovider adds api applied asynchronously basically class cloak cloakclassname data defined directive element finished flickering hiding initial initially loader loading pascalprecht prevent provided relies removes resolve showing translate translate-cloak translation translationid"
+    },
+    {
+      "section": "api",
+      "id": "pascalprecht.translate.directive:translateLanguage",
+      "shortName": "translateLanguage",
+      "type": "directive",
+      "moduleName": "pascalprecht.translate",
+      "shortDescription": "Forces the language to the directives in the underlying scope.",
+      "keywords": "$translateprovider angular api config de directive directives en forces hallo hello html js language module negotiated ngview pascalprecht preferredlanguage scope script translate translate-language translations underlying welt world"
     },
     {
       "section": "api",
@@ -208,7 +217,7 @@ NG_DOCS={
       "type": "overview",
       "moduleName": "Installation",
       "shortDescription": "Installation",
-      "keywords": "acc aide ainsi alors angular-translate apr assurer attendent au aussi autre avec avez bien bower build ce ceci cela celle ces clon clone cloner code commande commandes comme commencer compilation complet complets composant conf configur configuration construire contenu contient continuez correctement cours dans de depuis des deux devriez dist document doivent donc donn dossier du en ensemble entre envisager envoyez est fa facilement faire faites fichier fichiers fins fois fonctionne fourni fournis fournit git github grunt gruntfile guide historique html il install installation installer installera int jasmine jeu js juste karma la lancer lanceur lancez le les livr lorsque love machine maintenant mani merci midway min npm obtenir outils overview package passent pour pouvez pr production projet pull qui regarder request ressembler si simplement sinon sont source sources start succ suffit suite suivantes suivants sur test testrunner tests tous tout toute toutes tr une unicorn unit unitaires utilis utilisation utilise va version vert veuillez voir votre voulez vous"
+      "keywords": "acc aide ainsi alors angular-translate apr assurer attendent au aussi autre avec avez bien bower build ce ceci cela celle ces clon clone cloner code commande commandes comme commencer compilation complet complets composant conf configur configuration construire contenu contient continuez correctement cours dans de depuis des deux devriez dist document doivent donc donn dossier du en ensemble entre envisager envoyez est fa facilement faire faites fichier fichiers fins fois fonctionne fourni fournis fournit git github grunt gruntfile guide historique html il install installation installer installera int io jasmine jeu js juste karma la lancer lanceur lancez le les livr lorsque love machine maintenant mani merci midway min npm obtenir outils overview package passent pour pouvez pr production projet pull qui regarder request ressembler si simplement sinon sont source sources start succ suffit suite suivantes suivants sur test testrunner tests tous tout toute toutes tr une unicorn unit unitaires utilis utilisation utilise va version vert veuillez voir votre voulez vous"
     },
     {
       "section": "guide",

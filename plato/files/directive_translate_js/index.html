@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">66.89</p>
+      <p class="stat">66.65</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">343</p>
+      <p class="stat">346</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">36.14</p>
+      <p class="stat">36.24</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">2.23</p>
+      <p class="stat">2.27</p>
     </div>
   </div>
 </div>
@@ -96,7 +96,7 @@
  * @requires $compile
  * @requires $filter
  * @requires $interpolate
- * @restrict A
+ * @restrict AE
  *
  * @description
  * Translates given translation id either through attribute or DOM content.
@@ -264,7 +264,8 @@ function translateDirective($translate, $q, $interpolate, $compile, $parse, $roo
                 });
               }
             } else {
-              translationIds.translate = iElementText;
+              // do not assigne the translation id if it is empty.
+              translationIds.translate = !iElementText ? undefined : iElementText;
             }
           } else {
             translationIds.translate = translationId;
@@ -305,6 +306,7 @@ function translateDirective($translate, $q, $interpolate, $compile, $parse, $roo
 
         iAttr.$observe(&#039;translateDefault&#039;, function (value) {
           scope.defaultText = value;
+          updateTranslations();
         });
 
         if (translateValuesExist) {
@@ -349,7 +351,7 @@ function translateDirective($translate, $q, $interpolate, $compile, $parse, $roo
               translationId = translateNamespace + translationId;
             }
 
-            $translate(translationId, interpolateParams, translateInterpolation, defaultTranslationText)
+            $translate(translationId, interpolateParams, translateInterpolation, defaultTranslationText, scope.translateLanguage)
               .then(function (translation) {
                 applyTranslation(translation, scope, true, translateAttr);
               }, function (translationId) {
@@ -392,6 +394,7 @@ function translateDirective($translate, $q, $interpolate, $compile, $parse, $roo
         if (translateValuesExist || translateValueExist || iAttr.translateDefault) {
           scope.$watch(&#039;interpolateParams&#039;, updateTranslations, true);
         }
+        scope.$watch(&#039;translateLanguage&#039;, updateTranslations);
 
         // Ensures the text will be refreshed after the current language was changed
         // w/ $translate.use(...)

@@ -29,7 +29,7 @@ NG_DOCS={
       "type": "object",
       "moduleName": "pascalprecht.translate",
       "shortDescription": "The $translate service is the actual core of angular-translate. It expects a translation id",
-      "keywords": "$interpolate $log $q $rootscope $scope $translate $translaterefreshend $translaterefreshstart actual angular-translate api app array async asynchronous asynchronously background broadcast care case change choosed class cloakclassname compiling configured contents core current currently data defined delimiter directive drop dynamic en_us enabled error events existent expects fallback fallbacklanguage false falsy file finished fn force forceasyncreload function handling hash hasn headline_text hello ids instant instantly internal interpolate interpolateparams interpolation interpolationid invoke invoked isforceasyncreloadenabled isn ispostcompilingenabled isready iteration key langkey language languages library load loaded loadercache loaders loading method methods_isready methods_onready module namespaces nested nestedobjectdelimeter object onready optional optionally param parameters params pascalprecht pointed post preferred preferredlanguage process promise proposedlanguage ready refresh refreshed refreshes refreshing registered reject reload remember represents resolved returned returns rules runtime service set sets setting skipped stack start storage storagekey store storing string table tables takes target tells text throw token translate translate-cloak translatedtext translation translationid undefined usefallbacklanguage values version versioninfo"
+      "keywords": "$interpolate $log $q $rootscope $scope $translate $translaterefreshend $translaterefreshstart actual aliases angular-translate api app array async asynchronous asynchronously background based broadcast care case change choosed class cloakclassname compiling configured contents core current currently data defined delimiter directive drop dynamic en_us enabled error events existent expects fallback fallbacklanguage false falsy file finished fn force forceasyncreload forcelanguage function handling hash hasn headline_text hello ids instant instantly internal interpolate interpolateparams interpolation interpolationid invoke invoked isforceasyncreloadenabled isn ispostcompilingenabled isready iteration key langkey language languages library load loaded loadercache loaders loading method methods_isready methods_onready module namespaces negotiatelocale nested nestedobjectdelimeter object onready optional optionally param parameters params pascalprecht pointed post preferred preferredlanguage process promise proposedlanguage ready refresh refreshed refreshes refreshing registered reject reload remember represents resolved returned returns rules runtime service set sets setting skipped stack start storage storagekey store storing string table tables takes target tells text throw token translate translate-cloak translatedtext translation translationid undefined usefallbacklanguage values version versioninfo"
     },
     {
       "section": "api",
@@ -155,7 +155,7 @@ NG_DOCS={
       "type": "directive",
       "moduleName": "pascalprecht.translate",
       "shortDescription": "Translates given translation id either through attribute or DOM content.",
-      "keywords": "$compile $digest $filter $interpolate $rootscope $scope $translateprovider activation angular api attr attribute config content controller defines directive dom dynamic element en expect filter function hello html inject internally interpolated js literal locally methods_usepostcompiling module ng-controller ngview object optional pascalprecht pass passed preferredlanguage scenario script string successful text title tobe translate translate-attr-attr translate-attr-title translate-compile translate-default translate-values translatectrl translates translation translation_id translationid translations true values with_values"
+      "keywords": "$compile $digest $filter $interpolate $rootscope $scope $translateprovider activation ae angular api attr attribute config content controller defines directive dom dynamic element en expect filter function hello html inject internally interpolated js literal locally methods_usepostcompiling module ng-controller ngview object optional pascalprecht pass passed preferredlanguage scenario script string successful text title tobe translate translate-attr-attr translate-attr-title translate-compile translate-default translate-values translatectrl translates translation translation_id translationid translations true values with_values"
     },
     {
       "section": "api",
@@ -164,6 +164,15 @@ NG_DOCS={
       "type": "directive",
       "moduleName": "pascalprecht.translate",
       "keywords": "$description $rootscope $translate $translateprovider adds api applied asynchronously basically class cloak cloakclassname data defined directive element finished flickering hiding initial initially loader loading pascalprecht prevent provided relies removes resolve showing translate translate-cloak translation translationid"
+    },
+    {
+      "section": "api",
+      "id": "pascalprecht.translate.directive:translateLanguage",
+      "shortName": "translateLanguage",
+      "type": "directive",
+      "moduleName": "pascalprecht.translate",
+      "shortDescription": "Forces the language to the directives in the underlying scope.",
+      "keywords": "$translateprovider angular api config de directive directives en forces hallo hello html js language module negotiated ngview pascalprecht preferredlanguage scope script translate translate-language translations underlying welt world"
     },
     {
       "section": "api",
@@ -208,7 +217,7 @@ NG_DOCS={
       "type": "overview",
       "moduleName": "Installation",
       "shortDescription": "Installation",
-      "keywords": "ahead angular-translate bower broken build building clone cloned code command commands components conf configuration configured consider course created dependencies developing development dist document easily embed execute featured file files folder framework fuck full generate git github green grunt gruntfile guide happened history html including install installation installing js karma love machine matter midway min navigate needed npm overview package passed pretty production project properly provided pull raw ready repository request rock running send simply source start tasks testing testrunner tests testsuite things tools unicorn unit version waits watch work"
+      "keywords": "ahead angular-translate bower broken build building clone cloned code command commands components conf configuration configured consider course created dependencies developing development dist document easily embed execute featured file files folder framework fuck full generate git github green grunt gruntfile guide happened history html including install installation installing io js karma love machine matter midway min navigate needed npm overview package passed pretty production project properly provided pull raw ready repository request rock running send simply source start tasks testing testrunner tests testsuite things tools unicorn unit version waits watch work"
     },
     {
       "section": "guide",
@@ -379,7 +388,7 @@ NG_DOCS={
       "type": "overview",
       "moduleName": "Security",
       "shortDescription": "Escaping of variable content",
-      "keywords": "$sanitize $scope $translateprovider additionally alias angular angular-translate angularjs app attacks backwards built-in chosen color compatibility compatible completely config content controller correctly ctrl default defaults defines demonstrations disabled displayed en enable enforce ensures escape escaped escapeparameters escapes escaping explicitly function future general global guide headline hello href html https interpolation javascript long love method module moment myapp_escape_params myapp_escaped myapp_not_escaped myapp_sanitize ng-controller ngsanitize null org output overview owasp paragraph parameters pascalprecht php preferredlanguage recommend regular removed result sanitize sanitized sanitizeparameters sanitizes secure security serious speaking standard strategies strategy style text translate translate-values translation translations unicorn unsecure usesanitizevaluestrategy valid values var variable variant version vulnerable warning xss"
+      "keywords": "$sanitize $scope $translateprovider additionally alias angular angular-translate angularjs app attacks backwards built-in characters chosen color compatibility compatible completely config content controller correctly ctrl default defaults defines demonstrations disabled displayed double en enable encode enforce ensures escape escaped escapeparameters escapes escaping explicitly function future general global guide headline hello href html https interpolation issue javascript long love method mode module moment myapp_escape_params myapp_escaped myapp_not_escaped myapp_sanitize ng-controller ngsanitize null org output overview owasp paragraph parameters pascalprecht php preferredlanguage recommend recommendation regular removed resolved result sanitize sanitized sanitizeparameters sanitizes secure security serious speaking special standard strategies strategy stratey style text translate translate-values translation translations unicorn unsecure usesanitizevaluestrategy utf-8 valid values var variable variant version vulnerable warning xss"
     },
     {
       "section": "guide",
@@ -388,7 +397,7 @@ NG_DOCS={
       "type": "overview",
       "moduleName": "Tools",
       "shortDescription": "Tools",
-      "keywords": "actual add additional angular-translate app apps boolean case cleanprevstrings compatible configuration convert converting covers create created creating currently deeper default depends destination dev developing development devonefile dist enable entire environment example false file files format formatted generate generated generation gettext github grunt grunt-angular-translate grunt-po2json-angular-translate gruntfile guide head help initconfig install interested isn js json loadnpmtasks maintaining module msgid multiple names npm options optionsenablealtplaceholders optionsuppercaseid output overview placeholders pluralization po po-formatted po2json_angular_translate pretty previous print project remove repo result set setting single special steps strings task test things tmp tools true type universe uppercase uppercaseid wanna your_target"
+      "keywords": "actual add additional angular-translate app apps boolean case cleanprevstrings compatible configuration convert converting covers create created creates creating currently deeper default depends destination dev developing development devonefile dist enable entire environment example extracts false file files format formatted generate generated generation gettext github grunt grunt-angular-translate grunt-po2json-angular-translate gruntfile guide head help html initconfig install interested isn javascript js json json-export loader loadnpmtasks maintaining module msgid multiple names npm options optionsenablealtplaceholders optionsuppercaseid output overview placeholders pluralization po po-formatted po2json_angular_translate pretty previous print project remove repo result set setting single special steps strings task test text things tmp tools translation true type universe uppercase uppercaseid wanna webpack webpack-angular-translate your_target"
     },
     {
       "section": "guide",
