@@ -8,13 +8,13 @@
 Por favor, asegúrese de que su aplicación no contenga código como este:</p>
 <pre><code class="lang-js">$translateProvider.translations({
   &#39;greetings&#39; : &#39;Hello&#39;,
-  // some other keys
+  // otras claves ...
 });
 </code></pre>
 <p>Para arreglarlo, simplemente agregue una clave de lenguaje como primer argumento:</p>
 <pre><code class="lang-js">$translateProvider.translations(&#39;en&#39;, {
   &#39;greetings&#39; : &#39;Hello&#39;,
-  // some other keys
+  // otras claves ...
 });
 $translateProvider.use(&#39;en&#39;);
 </code></pre>
@@ -30,7 +30,7 @@ $translate como para  $translateProvider. Así que, por favor, asegúrese de act
 $translate(&#39;translationId&#39;).then(function(translation) {
   stringFromService = translation;
 }, function(translationId){
-  // Unable to translate given translationId
+  // incapaz de traducir la clave dada
   stringFromService = translationId;
 });
 </code></pre>

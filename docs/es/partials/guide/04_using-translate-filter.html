@@ -44,16 +44,16 @@ de esta manera:</p>
 <pre class="prettyprint linenums" ng-set-text="script.js-10"></pre>
 <script type="text/ng-template" id="script.js-10">
       var translations = {
-        HEADLINE: 'What an awesome module!',
-        PARAGRAPH: 'Srsly!'
+        HEADLINE: '¡Qué módulo asombroso!',
+        PARAGRAPH: '¡En serio!'
       };
 
       var app = angular.module('myApp', ['pascalprecht.translate']);
 
       app.config(['$translateProvider', function ($translateProvider) {
-        // add translation table
-        $translateProvider.translations('en', translations);
-        $translateProvider.preferredLanguage('en');
+        // agregar tabla de traducción
+        $translateProvider.translations('es', translations);
+        $translateProvider.preferredLanguage('es');
       }]);
 
       app.controller('Ctrl', ['$scope', function ($scope) {

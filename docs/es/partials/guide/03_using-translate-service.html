@@ -63,7 +63,7 @@ para mostrar el número de versión de la biblioteca instalada.</p>
 <p>Simplemente invóquela así:</p>
 <pre class="prettyprint linenums">
   $translate.versionInfo();
-  // returns e.g. "2.1.0"
+  // devuelve, por ejemplo "2.1.0"
 </pre>
 <h3 id="uso-del-servicio-$translate_cosas-a-tener-en-cuenta">Cosas a tener en cuenta</h3>
 <p>¡Por favor tenga en cuenta que el servicio <code>$translate</code> no provee por defecto ningún tipo de
@@ -98,9 +98,9 @@ app.controller('Ctrl', ['$scope', '$translate', '$rootScope', function ($scope, 
 <script type="text/ng-template" id="index.html-9">
     
     <div ng-controller="Ctrl">
-      <h2 id="{{headline}}">{{headline}}</h2>
-      <p>{{paragraph}}</p>
-      <p>{{namespaced_paragraph}}</p>
+      <h2 id="{{encabezado}}">{{encabezado}}</h2>
+      <p>{{parrafo}}</p>
+      <p>{{parrafoConNamespace}}</p>
     </div>
   </script>
 </div>
@@ -108,10 +108,10 @@ app.controller('Ctrl', ['$scope', '$translate', '$rootScope', function ($scope, 
 <pre class="prettyprint linenums" ng-set-text="script.js-8"></pre>
 <script type="text/ng-template" id="script.js-8">
       var translations = {
-        HEADLINE: 'What an awesome module!',
-        PARAGRAPH: 'Srsly!',
+        HEADLINE: '¡Qué módulo asombroso!',
+        PARAGRAPH: '¡En serio!',
         NAMESPACE: {
-          PARAGRAPH: 'And it comes with awesome features!'
+          PARAGRAPH: '¡Y viene con funcionalidades extraordinarias!'
         }
       };
 
@@ -120,25 +120,25 @@ app.controller('Ctrl', ['$scope', '$translate', '$rootScope', function ($scope, 
       app.config(['$translateProvider', function ($translateProvider) {
         // add translation table
         $translateProvider
-          .translations('en', translations)
-          .preferredLanguage('en');
+          .translations('es', translations)
+          .preferredLanguage('es');
       }]);
 
       app.controller('Ctrl', ['$scope', '$translate', function ($scope, $translate) {
-        // expose translation via `$translate` service
+        // exponer la traducción vía el servicio `$translate` 
         $translate('HEADLINE').then(function (headline) {
-          $scope.headline = headline;
+          $scope.encabezado = headline;
         });
         $translate('PARAGRAPH').then(function (paragraph) {
-          $scope.paragraph = paragraph;
+          $scope.parrafo = paragraph;
         });
         $translate('NAMESPACE.PARAGRAPH').then(function (anotherOne) {
-          $scope.namespaced_paragraph = anotherOne;
+          $scope.parrafoConNamespace = anotherOne;
         });
       }]);
     </script>
 </div>
-</div><h3 id="{{headline}}_demo">Demo</h3>
+</div><h3 id="{{encabezado}}_demo">Demo</h3>
 <div class="well doc-example-live animate-container" ng-embed-app="myApp" ng-set-html="index.html-9" ng-eval-javascript="script.js-8"></div>
 <p><br></p>
 <p><hr></p>

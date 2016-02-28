@@ -15,11 +15,11 @@
 <code>$translateProvider</code> tiene un método llamado <code>useUrlLoader()</code>. Realmente sencillo. <code>useUrlLoader()</code> espera un argumento que describa el &quot;endpoint&quot; de un servidor, el cual responderá con los datos de traducción.</p>
 <p>Además, cuando usemos cargadores asincrónicos, tenemos que usar <code>$translateProvider.preferredLanguage()</code>, para indicarle a angular-translate para qué lenguaje tiene que cargar los datos de traducción.</p>
 <pre class="prettyprint linenums">
-$translateProvider.useUrlLoader('foo/bar.json');
+$translateProvider.useUrlLoader('cualquier/cosa.json');
 $translateProvider.preferredLanguage('en');
 </pre>
 <p>¿Qué está pasando aquú? angular-translate usa la extensión para transforma la cadena dada en un verdadero cargador, capaz de ser invocado más adelante, en tiempo de ejecución, una vez que el servicio <code>$translate</code> sea instanciado. Además, al decirle a angular-translate que use la clave de lenguaje &#39;en&#39;, se agrega dicha clave como parámetro de la request que dicha cadena del cargador generará.</p>
-<p>Así que el ejemplo de recién generará una request <code>foo/bar.json?lang=en</code>.</p>
+<p>Así que el ejemplo de recién generará una request <code>cualquier/cosa.json?lang=en</code>.</p>
 <p><code>angular-translate</code> también se da cuenta de cuándo no hay datos de traducción disponible al comienzo de la aplicación, e invocará automáticamente el cargador, tan pronto como se pueda.</p>
 <h3 id="carga-asincrónica_uso-de-staticfilesloader">Uso de staticFilesLoader</h3>
 <p>En caso de que usted no tenga una URL de un servidor que devualva dados JSON, sino varios archivos estáticos de localización conteniendo sus traducciones, cuyos nombres responden a un determinado patrón, entonces probablemente prefiera usar la extesnión
@@ -50,10 +50,10 @@ $translateProvider.useStaticFilesLoader({
         prefix: 'locale-',
         suffix: '.json'
     }, {
-        prefix: '/absolute/path/to/locale-',
+        prefix: '/path/absoluto/a/locale-',
         suffix: '.json'
     }, {
-        prefix: 'another/path/to/locales/',
+        prefix: 'otro/path/absoluto/a/locales/',
         suffix: ''
     }]
 });
@@ -61,8 +61,8 @@ $translateProvider.preferredLanguage('en');
 </pre>
 <p>angular-translate concatenará la información dada con
 <code>{{prefix}}{{langKey}}{{suffix}}</code>. De manera que eso producirá <code>locale-en.json</code>. Y, de nuevo, como no hay ningún dato de traducción disponible todavía, se cargará automáticamente tan pronto sea posible.</p>
-<p>##Uso del partialLoader (cargador parcial)</p>
-<p>Cuando se tiene una aplicación grande y compleja, normalmente se la subdivide en varios submódulos. Por ejemplo, usted podría tener un módulo <code>mainApp</code>, el cual dependa de submódulos como <code>home</code> y <code>contact</code>. Estos son sólo 2 submódulos, pero imagínese una aplicación realmente grande, que dependiere de 10 o 20 submódulos.</p>
+<h3 id="carga-asincrónica_uso-del-partialloader">Uso del partialLoader (cargador parcial)</h3>
+<p>Cuando se tiene una aplicación grande y compleja, normalmente se la subdivide en varios submódulos. Por ejemplo, usted podría tener un módulo <code>appPrincipal</code>, el cual dependa de submódulos como <code>inicio</code> y <code>contactos</code>. Estos son sólo 2 submódulos, pero imagínese una aplicación realmente grande, que dependiere de 10 o 20 submódulos.</p>
 <p>En una aplicación así, probablemente 13 de los 20 submódulos no se ejecuten casi nunca. En esos casos, ¿para qué cargar una gran cantidad de datos de traducción que nunca serán utilizados?</p>
 <p>Lo que necesitaríamos, sería una forma de cargar sólo los datos de traducción necesarios para el módulo en el que estamos en ese momento. Lo cual significa que, cuando estemos en el submódulo <code>home</code>, sólo querríamos cargar la traducción del módulo <code>home</code>. Si cambiamos el lenguaje, también querríamos cargar los nuevos datos de idioma, sólo para el módulo <code>home</code>.</p>
 <p>Además, cuando hayamos cargado las traducciones para, digamos, 3 módulos diferentes, y luego hayamos cambiado el lenguaje, y luego vuelto al lenguaje original, no querríamos tener que cargar todos esos datos de nuevo, porque ya los habríamos cargado anteriormente.</p>
@@ -71,12 +71,12 @@ $translateProvider.preferredLanguage('en');
 <pre><code>$ bower install angular-translate-loader-partial
 </code></pre><p>Cuando se use <code>partialLoader</code>, hay que prever qué patrón tendría que utilizar
 <code>angular-translate</code> para cargar los datos de su aplicación. Es similar a lo que pasa con
-<code>staticFilesLoader</code>, pero un poco más específico. Hay que especificar una <code>part</code> (que es una &quot;parte&quot; específica de su aplicación, por ejemplo &#39;home&#39;) y un <code>lang</code> (que es la clave de lenguaje).</p>
+<code>staticFilesLoader</code>, pero un poco más específico. Hay que especificar una <code>part</code> (que es una &quot;parte&quot; específica de su aplicación, por ejemplo &#39;inicio&#39;) y un <code>lang</code> (que es la clave de lenguaje).</p>
 <p>Suponga que usted ya tiene sus archivos de traducción estructurados de esta manera:</p>
-<pre><code>/i18n/home/en.json
-/i18n/home/de.json
-/i18n/contact/en.json
-/i18n/contact/de.json
+<pre><code>/i18n/inicio/en.json
+/i18n/inicio/de.json
+/i18n/contactos/en.json
+/i18n/contactos/de.json
 </code></pre><p>Prolijito, ¿no? Ahora que sabemos cómo están estructurados nuestros datos, podemos configurar un <code>$translateProvider</code> que use carga parcial de la siguiente manera:</p>
 <pre class="prettyprint linenums">
 $translateProvider.useLoader('$translatePartialLoader', {
@@ -97,7 +97,7 @@ angular.module('main')
 </pre>
 <p>Ahora, para decirle a <code>angular-translate</code> qué parte debe cargar, usamos el método <code>addPart()</code> de <code>$translatePartialLoaderProvider</code>:</p>
 <pre class="prettyprint linenums">
-$translatePartialLoaderProvider.addPart('home');
+$translatePartialLoaderProvider.addPart('incio');
 $translateProvider.useLoader('$translatePartialLoader', {
   urlTemplate: '/i18n/{part}/{lang}.json'
 });
@@ -109,9 +109,9 @@ $translateProvider.preferredLanguage('en');
 Así como se puede agregar una &quot;parte&quot; de traducción vía el provider, también se puede hacerlo con el servicio provisto, para manipular el estado del cargador en tiempo de ejecución. ¿Qué significa esto? Que usted simplemente debe inyectar el cargador, y usarlo para cargar partes adicionales.</p>
 <p>Supongamos que usted tiene un <code>ContactCtrl</code> dentro del módulo  <code>contact</code>, lo cual se vería así:</p>
 <pre class="prettyprint linenums">
-angular.module('contact')
+angular.module('contactos')
 .controller('ContactCtrl', function ($scope, $translatePartialLoader) {
-  $translatePartialLoader.addPart('contact');
+  $translatePartialLoader.addPart('contactos');
 });
 </pre>
 <p>... lo cual no es para nada difícil ¿verdad?
@@ -119,9 +119,9 @@ Lo que está pasando aquí, es que estamos manipuando el estado de nuestros carg
 <p>¡Hasta ahora, ningún dato adicional ha sido cargado todavía! <code>angular-translate</code> no sabe nada acerca del estado del cargador, así que usted tiene que indicarle a <code>angular-translate</code> que <strong>refresque</strong> las tablas actuales de traducción. Refrescar las tablas las borra (si no se ha especificado ninguna tabla) y las vuelve a cargar. Así que, básicamente, para lograr una carga parcial, todo lo que usted tiene que hacer es manipular el estado del cargador indicándole qué partes agregar, y luego refrescar las tablas. Porque, cuando se cambia el estado de los cargadores con nuevas partes, éstas se cargan la siguiente vez que el cargador es invocado.</p>
 <p>Así que lo único que tenemos que hacer es agregar lo siguiente:</p>
 <pre class="prettyprint linenums">
-angular.module('contact')
+angular.module('contactos')
 .controller('ContactCtrl', function ($scope, $translatePartialLoader, $translate) {
-  $translatePartialLoader.addPart('contact');
+  $translatePartialLoader.addPart('contactos');
   $translate.refresh();
 });
 </pre>
@@ -145,7 +145,7 @@ app.run(function ($rootScope, $translate) {
 <pre><code class="lang-js">angular.module(&#39;translation&#39;)
 .factory(&#39;MyErrorHandler&#39;, function ($q, $log) {
   return function (part, lang) {
-    $log.error(&#39;The &quot;&#39; + part + &#39;/&#39; + lang + &#39;&quot; part was not loaded.&#39;);
+    $log.error(&#39;La sección &quot;&#39; + part + &#39;/&#39; + lang + &#39;&quot; no fue cargada.&#39;);
     return $q.when({});
   };
 });
@@ -166,7 +166,7 @@ $translateProvider.useLoader('$translatePartialLoader', {
 <code>useLoader()</code> como para <code>useStaticFilesLoader(options)</code>:</p>
 <pre class="prettyprint linenums">
 $translateProvider.useLoader('customLoader', {
-  settingA: 'foobar'
+  settingA: 'cualquierCosa'
 });
 $translateProvider.useStaticFilesLoader({
   $http: {
@@ -188,9 +188,9 @@ $translateProvider.useLoaderCache(yourSpecialCacheService);
 </pre>
 <p>Angular-Translate también soporta vinculación diferida (lazy binding) para las instancias, de manera que esto también funcionaría:</p>
 <pre class="prettyprint linenums">
-$translateProvider.useLoaderCache('yourSpecialCacheService');
+$translateProvider.useLoaderCache('suServicioEspecialDeCache');
 </pre>
-<p>La instancia nombrada con el ID <code>yourspecialCacheService</code> será buscada &quot;on demand&quot;.</p>
+<p>La instancia nombrada con el ID <code>suServicioEspecialDeCache</code> se buscará &quot;a pedido&quot;.</p>
 <h3 id="carga-asincrónica_destello-del-contenido-no-traducido-">Destello del contenido no traducido  (o FOUC - &quot;Flash of untranslated content&quot;, por sus siglas en inglés)</h3>
 <p>Hay una desventaja al usar cargadores asincrónicos para cargar sus traducciones en la aplicación: hay un corto lapso cuando su aplicación arranca, durante el cual la traducción aún no está cargada. Esto no es un &quot;bug&quot; de angular-translate, sino un comportamiento bastante lógico, debido a que estamos retornando cosas que están siendo cargadas asincrónicamente.</p>
 <p>Para evitar este problema, usted podría proveer al menos un idioma <strong>con</strong> su aplicación que no tenga que ser cargado asincrónicamente. Si su aplicación lo usa como lenguaje por defecto, usando <code>$translateProvider.preferredLanguage()</code>, usted no experimentará este FOUC, porque el lenguaje a usar ya estará ahí.</p>
@@ -213,37 +213,37 @@ Vamos a usar staticFilesLoader. Primero, tenemos que extraer las tablas de tradu
 <pre class="prettyprint linenums">
 // locale-en.json
 {
-  "HEADLINE": "What an awesome module!",
-  "PARAGRAPH": "Srsly!",
-  "PASSED_AS_TEXT": "Hey there! I'm passed as text value!",
-  "PASSED_AS_ATTRIBUTE": "I'm passed as attribute value, cool ha?",
-  "PASSED_AS_INTERPOLATION": "Beginners! I'm interpolated!",
-  "VARIABLE_REPLACEMENT": "Hi {{name}}",
-  "BUTTON_LANG_DE": "German",
-  "BUTTON_LANG_EN": "English"
+	HEADLINE: 'What an awesome module!',
+	PARAGRAPH: 'Srsly!',
+	PASSED_AS_TEXT: 'Hey there! I\'m passed as text value!',
+	PASSED_AS_ATTRIBUTE: 'I\'m passed as attribute value, cool ha?',
+	PASSED_AS_INTERPOLATION: 'Beginners! I\'m interpolated!',
+	VARIABLE_REPLACEMENT: 'Hi {{nombre}}',
+	BUTTON_LANG_ES: 'Spanish',
+	BUTTON_LANG_EN: 'English'
 }
 </pre>
 <pre class="prettyprint linenums">
 // locale-de.json
 {
-  "HEADLINE": "Was für ein großartiges Modul!",
-  "PARAGRAPH": "Ernsthaft!",
-  "PASSED_AS_TEXT": "Hey! Ich wurde als text übergeben!",
-  "PASSED_AS_ATTRIBUTE": "Ich wurde als Attribut übergeben, cool oder?",
-  "PASSED_AS_INTERPOLATION": "Anfänger! Ich bin interpoliert!",
-  "VARIABLE_REPLACEMENT": "Hi {{name}}",
-  "BUTTON_LANG_DE": "deutsch",
-  "BUTTON_LANG_EN": "englisch"
+	HEADLINE: '¡Qué módulo asombroso!',
+	PARAGRAPH: '¡En serio!',
+	PASSED_AS_TEXT: 'Hola, me están pasando como un texto',
+	PASSED_AS_ATTRIBUTE: 'Me están pasando como atributo, ¡qué bueno!',
+	PASSED_AS_INTERPOLATION: '¡Aprendices! A mí me están interpolando ...',
+	VARIABLE_REPLACEMENT: 'Hola {{nombre}}',
+	BUTTON_LANG_ES: 'Español',
+	BUTTON_LANG_EN: 'Inglés'
 }
 </pre>
 <p>Luego configuramos el servicio <code>$translate</code> usando <code>$translateProvider</code>:</p>
 <pre class="prettyprint linenums">
-// configures staticFilesLoader
+// configurar staticFilesLoader
 $translateProvider.useStaticFilesLoader({
   prefix: 'data/locale-',
   suffix: '.json'
 });
-// load 'en' table on startup
+// carga la tabla 'en' al comenzar
 $translateProvider.preferredLanguage('en');
 </pre>
 <h3 id="carga-asincrónica_forzar-la-recarga-asincrónica">Forzar la recarga asincrónica</h3>
@@ -253,7 +253,7 @@ $translateProvider.preferredLanguage('en');
 de esta manera:</p>
 <pre class="prettyprint linenums">
 $translateProvider.translations('en', {
-    'HELLO_TEXT': 'Hello World!'
+    'TEXTO_HOLA': 'Hello World!'
 });
 $translateProvider.useStaticFilesLoader({
     'prefix': 'locale-',
@@ -276,14 +276,14 @@ $translateProvider.forceAsyncReload(true);
     <div ng-controller="Ctrl">
       <p>{{ 'HEADLINE' | translate }}</p>
       <p>{{ 'PARAGRAPH' | translate }}</p>
-
+      
       <p translate>PASSED_AS_TEXT</p>
       <p translate="PASSED_AS_ATTRIBUTE"></p>
       <p translate>{{ 'PASSED_AS_INTERPOLATION' }}</p>
       <p translate="{{ 'PASSED_AS_INTERPOLATION' }}"></p>
-      <p translate="VARIABLE_REPLACEMENT" translate-values="{ name: 'PascalPrecht' }"></p>
+      <p translate="VARIABLE_REPLACEMENT" translate-values="{ nombre: 'PascalPrecht'}"></p>
 
-      <button ng-click="changeLanguage('de')" translate="BUTTON_LANG_DE"></button>
+      <button ng-click="changeLanguage('es')" translate="BUTTON_LANG_ES"></button>
       <button ng-click="changeLanguage('en')" translate="BUTTON_LANG_EN"></button>
     </div>
   </script>
@@ -295,15 +295,15 @@ $translateProvider.forceAsyncReload(true);
 
       app.config(['$translateProvider', function ($translateProvider) {
         $translateProvider.translations('en', {
-          "HEADLINE": "What an awesome module!",
-          "PARAGRAPH": "Srsly!",
-          "PASSED_AS_TEXT": "Hey there! I'm passed as text value!",
-          "PASSED_AS_ATTRIBUTE": "I'm passed as attribute value, cool ha?",
-          "PASSED_AS_INTERPOLATION": "Beginners! I'm interpolated!",
-          "VARIABLE_REPLACEMENT": "Hi {{name}}",
-          "BUTTON_LANG_DE": "German",
-          "BUTTON_LANG_EN": "English"
-        });
+			HEADLINE: 'What an awesome module!',
+			PARAGRAPH: 'Srsly!',
+			PASSED_AS_TEXT: 'Hey there! I\'m passed as text value!',
+			PASSED_AS_ATTRIBUTE: 'I\'m passed as attribute value, cool ha?',
+			PASSED_AS_INTERPOLATION: 'Beginners! I\'m interpolated!',
+			VARIABLE_REPLACEMENT: 'Hi {{nombre}}',
+			BUTTON_LANG_ES: 'Spanish',
+			BUTTON_LANG_EN: 'English'
+		});
         // configures staticFilesLoader
         $translateProvider.useStaticFilesLoader({
           prefix: 'data/locale-',
@@ -314,7 +314,6 @@ $translateProvider.forceAsyncReload(true);
       }]);
 
       app.controller('Ctrl', ['$translate', '$scope', function ($translate, $scope) {
-
         $scope.changeLanguage = function (langKey) {
           $translate.use(langKey);
         };
@@ -323,9 +322,9 @@ $translateProvider.forceAsyncReload(true);
 </div>
 </div><h3 id="carga-asincrónica_demo">Demo</h3>
 <div class="well doc-example-live animate-container" ng-embed-app="myApp" ng-set-html="index.html-23" ng-eval-javascript="script.js-22"></div>
-<p>Open up your browser&#39;s devtools and take a look at the network activities when changing
-the language. Our app now loads translation data asynchronously! In the next
-chapter you&#39;ll learn how to build <strong>your own custom loaders</strong>.</p>
+<p>Abra las &quot;devtools&quot; de su navegador y échele un vistazo a la actividad de red cuando se cambia el lenguaje.
+¡Ahora nuestra aplicación ahora carga datos asincrónicamente!
+En el próximo capítulo aprenderá cómo crear <strong>sus propios cargadores</strong></p>
 <p><br></p>
 <p><hr></p>
 <center>Hecho con &hearts; de unicornio y con amor por <a href="http://github.com/PascalPrecht">PascalPrecht</a></center></div></div>

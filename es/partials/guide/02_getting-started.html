@@ -41,9 +41,9 @@ app.config(function ($locationProvider) {
 <p>O, tal vez, la configuración del servicio <code>$route</code>:</p>
 <pre class="prettyprint linenums">
 app.config(function ($routeProvider) {
-  $routeProvider.when('/something', {
-    templateUrl: 'url/to/template',
-    controller: 'SomeFancyCtrl'
+  $routeProvider.when('/algoPasa', {
+    templateUrl: 'url/al/template',
+    controller: 'UnControladorCualquiera'
   });
 });
 </pre>
@@ -69,7 +69,7 @@ app.config(['$translateProvider', function($translateProvider) {
 angular-translate espera tablas de traducción como objetos JSON. Así que todo lo hay que hacer, es representar sus datos de traducción como objetos &quot;hash&quot; de Javascript, 
 o, si se los carga remotamente, como objetos JSON. Así es como se vería una tabla de traducción:</p>
 <pre><code class="lang-json">{
-  &quot;TRANSLATION_ID&quot;: &quot;This is a concrete translation for a specific language.&quot;
+  &quot;TRANSLATION_ID&quot;: &quot;Una traducción en concreto, para un lenguaje en particular.&quot;
 }
 </code></pre>
 <p>¿No es fácil? Esta tabla de traducción contiene sólo 1 traducción. Como se puede ver, la clave representa un &quot;ID&quot; o &quot;clave de traducción&quot;, mientras que el valor representa
@@ -79,7 +79,7 @@ crear objetos JSON anidados:</p>
 <pre><code class="lang-json">{
   &quot;NAMESPACE&quot;: {
     &quot;SUB_NAMESPACE&quot;: {
-       &quot;TRANSLATION_ID1&quot;: &quot;This is a namespaced translation.&quot;
+       &quot;OTRA_TRANSLATION_ID&quot;: &quot;Esta es una traducción con namespace.&quot;
     }
   }
 }
@@ -91,7 +91,7 @@ contener tantos &quot;sub-namespaces&quot; como se desee, haciéndolo realmente 
 <pre><code class="lang-json">{
   &quot;bar&quot;: {
     &quot;foo&quot;: {
-      &quot;foo&quot;: &quot;This is my text.&quot;
+      &quot;foo&quot;: &quot;Acá está mi texto&quot;
     }
   }
 }
@@ -103,10 +103,10 @@ clave. Esto se puede hacer porque sólo hay una clave posible con el mismo valor
 <p>Otra interesante funcionalidad que provee angular-translate, es la capacidad de vincular una tabla de traducción con otra. Supongamos que tenemos la 
 siguiente tabla:</p>
 <pre><code class="lang-json">{
-  &quot;SOME_NAMESPACE&quot;: {
+  &quot;UN_NAMESPACE&quot;: {
     &quot;OK_TEXT&quot;: &quot;OK&quot;
   },
-  &quot;ANOTHER_NAMESPACE&quot;: {
+  &quot;OTRO_NAMESPACE&quot;: {
     &quot;OK_TEXT&quot;: &quot;OK&quot;
   }
 }
@@ -116,11 +116,11 @@ funcionalidades siilares en su aplicación. Sin embargo, aquí hay redundancia �
 <p>Si hay una traducción que siempre va a tener el mismo texto que otra, se puede simplemente vincularse con aquella. Para vincularse con otra clave de traducción, hay que prefijarla con 
 una arroba y dos puntos <code>@:</code>, seguidos por la clave de traducción con la que se quiere vincular, namespace incluido. Así que el ejemplo anterior pordría verse así:</p>
 <pre><code class="lang-json">{
-  &quot;SOME_NAMESPACE&quot;: {
+  &quot;UN_NAMESPACE&quot;: {
     &quot;OK_TEXT&quot;: &quot;OK&quot;
   },
-  &quot;ANOTHER_NAMESPACE&quot;: {
-    &quot;OK_TEXT&quot;: &quot;@:SOME_NAMESPACE.OK_TEXT&quot;
+  &quot;OTRO_NAMESPACE&quot;: {
+    &quot;OK_TEXT&quot;: &quot;@:UN_NAMESPACE.OK_TEXT&quot;
   }
 }
 </code></pre>
@@ -129,20 +129,20 @@ una arroba y dos puntos <code>@:</code>, seguidos por la clave de traducción co
 Supongamos que tenemos una tabla de traducción como esta:</p>
 <pre class="prettyprint linenums">
 var translations = {
-  HEADLINE: 'What an awesome module!',
-  PARAGRAPH: 'Srsly!',
+  HEADLINE: '¡Qué módulo asombroso!',
+  PARAGRAPH: '¡En serio!',
   NAMESPACE: {
-    PARAGRAPH: 'And it comes with awesome features!'
+    PARAGRAPH: '¡Y viene con funcionalidades extraordinarias!'
   }
 };
 </pre>
 <p>Podemos agregarla con  <code>$translateProvider.translations()</code>:</p>
 <pre class="prettyprint linenums">
 app.config(['$translateProvider', function ($translateProvider) {
-  // add translation table
+  // agregar la tabla de traducción
   $translateProvider
-    .translations('en', translations)
-    .preferredLanguage('en');
+    .translations('es', translations)
+    .preferredLanguage('es');
 }]);
 </pre>
 <p>Y esto es básicamente todo lo que hay que hacer. Simplemente especificar un lenguaje y agregar una tabla de traducción para él. Luego de eso, decirle a angular-translate 
@@ -155,8 +155,8 @@ ha sido instanciado y usado. Este es el código en funcionamiento:</p>
 <script type="text/ng-template" id="index.html-7">
     
     <div>
-      <h2 id="nothing-to-see-here-yet">Nothing to see here yet!</h2>
-      <p>But we'll change it now</p>
+      <h2 id="todavía-no-se-ve-nada">Todavía no se ve nada</h2>
+      <p>Pero enseguida lo vamos a arreglar ...</p>
     </div>
   </script>
 </div>
@@ -164,24 +164,24 @@ ha sido instanciado y usado. Este es el código en funcionamiento:</p>
 <pre class="prettyprint linenums" ng-set-text="script.js-6"></pre>
 <script type="text/ng-template" id="script.js-6">
       var translations = {
-        HEADLINE: 'What an awesome module!',
-        PARAGRAPH: 'Srsly!',
+        HEADLINE: '¡Qué módulo asombroso!',
+        PARAGRAPH: '¡En serio!',
         NAMESPACE: {
-          PARAGRAPH: 'And it comes with awesome features!'
+          PARAGRAPH: '¡Y viene con funcionalidades extraordinarias!'
         }
       };
 
       var app = angular.module('myApp', ['pascalprecht.translate']);
 
       app.config(['$translateProvider', function ($translateProvider) {
-        // add translation table
-        $translateProvider
-          .translations('en', translations)
-          .preferredLanguage('en');
+      // agregar la tabla de traducción
+      $translateProvider
+        .translations('es', translations)
+        .preferredLanguage('es');
       }]);
     </script>
 </div>
-</div><h3 id="nothing-to-see-here-yet_demo">Demo</h3>
+</div><h3 id="todavía-no-se-ve-nada_demo">Demo</h3>
 <div class="well doc-example-live animate-container" ng-embed-app="myApp" ng-set-html="index.html-7" ng-eval-javascript="script.js-6"></div>
 <p>¡Ahora su aplicación está lista para ser &quot;localizada&quot;! En el próximo capítulo, aprenderá cómo usar la directiva y el filtro provistos por angular-translate, para interpolar sus traducciones.</p>
 <p><br></p>

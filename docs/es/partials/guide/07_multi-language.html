@@ -7,9 +7,9 @@
  los distintos componentes. para hacer uso de ellos en sus traducciones. Dado que hemos cubierto
  toda la funcionalidad básica que proveen dichos servicios (usando en servicio de interpolación por defecto),
  ahora estamos listos para el siguiente nivel: <strong>Soporte Multilenguaje</strong></p>
-<p>Por supuesto, está muy bueno saber cómo usar los componentes que provee angular-translate, pero
+<p>Por supuesto, está muy bien saber cómo usar los componentes que provee angular-translate, pero
 las cosas se ponen realmente interesantes cuando se trata de enseñarle a su aplicación más de un
-lenguaje (lo cual es la razón para usar este módulo, en realidad).
+lenguaje (lo cual es la razón de ser de este módulo, en realidad).
 ¡Así que empecemos aprendiendo cómo agregar varias tablas de traducción a la vez!</p>
 <h3 id="multilenguaje_enseñarle-varios-lenguajes-a-su-aplicación">Enseñarle varios lenguajes a su aplicación</h3>
 <p>En <a href="#/guide/02_getting-started">Comienzo</a> usted aprendió cómo agregarle una tabla de traducción a su
@@ -20,17 +20,17 @@ puede ser usado para agregar varias tablas de traducción a la vez. Las tablas d
 argumento a <code>$translations()</code>, le podemos pasar la clave de lenguaje como primer argumento, y la tabla como segundo.
 Así que agregar una tabla con clave se haría así:</p>
 <pre class="prettyprint linenums">
-// registers translation table with language key 'en'
+// registra una clave de traducción para 'en' (inglés)
 $translateProvider.translations('en', {
-  GREETING: 'Hello world!'
+  SALUDO: 'Hello world!'
 });
 </pre>
-<p>Ahora, para agregar una segunda tabla para otro lenguaje, digamos, alemán, simplemente haga lo mismo
+<p>Ahora, para agregar una segunda tabla para otro lenguaje, digamos, castellano, simplemente haga lo mismo
 con una clave de lenguaje diferente:</p>
 <pre class="prettyprint linenums">
-// registers translation table with language key 'de'
-$translateProvider.translations('de', {
-  GREETING: 'Hallo Welt!'
+// registra una clave de traducción para 'es' (español)
+$translateProvider.translations('es', {
+  SALUDO: '¡Hola, mundo!'
 });
 </pre>
 <p>¿No es realmente simple? Su aplicación ahora sabe dos idiomas diferentes. Se pueden agregar tantos idiomas como
@@ -43,8 +43,8 @@ cuál de los lenguajes registrados debería ser usado por defecto. Espera un arg
 lenguaje, la cual apunta a una tabla de traducción determinada. Así que, para decirle a su aplicación que
 use alemán en lugar de inglés, extienda el código de esta manera:</p>
 <pre class="prettyprint linenums">
-// tells angular-translate to use the German language
-$translateProvider.preferredLanguage('de');
+// le dice a angular-translate que use español
+$translateProvider.preferredLanguage('es');
 </pre>
 <p><strong>Nota:</strong> También se puede usar <code>$translateProvider.use()</code> para esto,
 dado que también configura el lenguaje. Sin embargo, parece ser que esta es una mala práctica,
@@ -66,7 +66,7 @@ Con <code>$translateProvider()</code>, se debería utilizar siempre <code>prefer
 <p>Entonces, en lugar de invocar <code>$translateProvider.preferredLanguage(langKey)</code>, usted tendría que hacer algo
  como esto:</p>
 <pre class="prettyprint linenums">
-// try to find out preferred language by yourself
+// que intente encontrar el lenguaje preferido por sí mismo
 $translateProvider.determinePreferredLanguage();
 </pre>
 <p>¡Usted se hace responsable por usar este método! Tenga en cuenta que cada navegador puede devolver valores
@@ -75,7 +75,7 @@ diferentes para estas propiedades.</p>
 Con esto se puede decidir en qué &quot;tags&quot; (etiquetas) de lenguaje se deberían transformar, aquéllas que hayan sido resueltas.</p>
 <pre class="prettyprint linenums">
 $translateProvider
-  .uniformLanguageTag('bcp47') // enable BCP-47, must be before determinePreferredLanguage!
+  .uniformLanguageTag('bcp47') // habilitar BCP-47, lo cual debe hacerse antes que determinePreferredLanguage!
   .determinePreferredLanguage();
 </pre>
 <p>Si esto no se ajusta a sus necesidades, también se puede pasar una función personalizada que determine la
@@ -83,7 +83,7 @@ clave de lenguaje:</p>
 <pre class="prettyprint linenums">
 $translateProvider.determinePreferredLanguage(function () {
   var preferredLangKey = '';
-  // some custom logic's going on in here
+  // acá iría código personalizado 
   return preferredLangKey;
 });
 </pre>
@@ -116,33 +116,33 @@ var translationsEN = {
   PASSED_AS_ATTRIBUTE: 'I\'m passed as attribute value, cool ha?',
   PASSED_AS_INTERPOLATION: 'Beginners! I\'m interpolated!',
   VARIABLE_REPLACEMENT: 'Hi {{name}}',
-  BUTTON_LANG_DE: 'German',
+  BUTTON_LANG_ES: 'Spanish',
   BUTTON_LANG_EN: 'English'
 };
 
-var translationsDE= {
-  HEADLINE: 'Was für ein großartiges Modul!',
-  PARAGRAPH: 'Ernsthaft!',
-  PASSED_AS_TEXT: 'Hey! Ich wurde als text übergeben!',
-  PASSED_AS_ATTRIBUTE: 'Ich wurde als Attribut übergeben, cool oder?',
-  PASSED_AS_INTERPOLATION: 'Anfänger! Ich bin interpoliert!',
-  VARIABLE_REPLACEMENT: 'Hi {{name}}',
-  BUTTON_LANG_DE: 'Deutsch',
-  BUTTON_LANG_EN: 'Englisch'
+var translationsES= {
+  HEADLINE: '¡Qué módulo asombroso!',
+  PARAGRAPH: '¡En serio!',
+  PASSED_AS_TEXT: 'Hola, me están pasando como un texto',
+  PASSED_AS_ATTRIBUTE: 'Me están pasando como atributo, ¡qué bueno!',
+  PASSED_AS_INTERPOLATION: '¡Aprendices! A mí me están interpolando ...'
+  VARIABLE_REPLACEMENT: 'Hola {{nombre}}',
+  BUTTON_LANG_ES: 'Español',
+  BUTTON_LANG_EN: 'Inglés'
 };
 </pre>
 <p>Luego, actualizamos el registro de la tabla de traducción inglesa, que tiene la clave de traducción correspondiente,
 y le decimos a angular-translate que use inglés como lenguaje por defecto.</p>
 <pre class="prettyprint linenums">
 $translateProvider.translations('en', translationsEN);
-$translateProvider.translations('de', translationsDE);
+$translateProvider.translations('es', translationsES);
 $translateProvider.preferredLanguage('en');
 </pre>
 <p>¡Qué bueno! Ahora necesitamos controles que cambien el lenguaje en tiempo de ejecución. Actualizamos nuestro HTML y
 agregamos un botón para cada lenguaje. También configuramos una directiva <code>ng-click</code> en cada botón para que llame una
 función que cambie el lenguaje:</p>
 <pre class="prettyprint linenums">
-&lt;button ng-click="changeLanguage('de')" translate="BUTTON_LANG_DE"&gt;&lt;/button&gt;
+&lt;button ng-click="changeLanguage('es')" translate="BUTTON_LANG_ES"&gt;&lt;/button&gt;
 &lt;button ng-click="changeLanguage('en')" translate="BUTTON_LANG_EN"&gt;&lt;/button&gt;
 </pre>
 <p>Y finalmente (aunque no en último lugar), tenemos que implementar dicha función en el scope de nuestro controlador:</p>
@@ -164,15 +164,17 @@ app.controller('Ctrl', ['$translate', '$scope', function ($translate, $scope) {
     <div ng-controller="Ctrl">
       <p>{{ 'HEADLINE' | translate }}</p>
       <p>{{ 'PARAGRAPH' | translate }}</p>
-
+      
       <p translate>PASSED_AS_TEXT</p>
       <p translate="PASSED_AS_ATTRIBUTE"></p>
       <p translate>{{ 'PASSED_AS_INTERPOLATION' }}</p>
       <p translate="{{ 'PASSED_AS_INTERPOLATION' }}"></p>
-      <p translate="VARIABLE_REPLACEMENT" translate-values="{ name: 'PascalPrecht' }"></p>
-      <p translate>MISSING_TRANSLATION</p>
+      <p translate="VARIABLE_REPLACEMENT" translate-values="{ nombre: 'PascalPrecht'}"></p>
+      <p translate="VARIABLE_REPLACEMENT" translate-value-nombre="PascalPrecht"></p>
 
-      <button ng-click="changeLanguage('de')" translate="BUTTON_LANG_DE"></button>
+      <p translate>TRADUCCION_NO_DISPONIBLE</p>
+
+      <button ng-click="changeLanguage('es')" translate="BUTTON_LANG_ES"></button>
       <button ng-click="changeLanguage('en')" translate="BUTTON_LANG_EN"></button>
     </div>
   </script>
@@ -180,39 +182,37 @@ app.controller('Ctrl', ['$translate', '$scope', function ($translate, $scope) {
 <div class="tab-pane" title="script.js">
 <pre class="prettyprint linenums" ng-set-text="script.js-16"></pre>
 <script type="text/ng-template" id="script.js-16">
-      var translationsEN = {
-        HEADLINE: 'What an awesome module!',
-        PARAGRAPH: 'Srsly!',
-        PASSED_AS_TEXT: 'Hey there! I\'m passed as text value!',
-        PASSED_AS_ATTRIBUTE: 'I\'m passed as attribute value, cool ha?',
-        PASSED_AS_INTERPOLATION: 'Beginners! I\'m interpolated!',
-        VARIABLE_REPLACEMENT: 'Hi {{name}}',
-        MISSING_TRANSLATION: 'Oops! I have not been translated into German...',
-        BUTTON_LANG_DE: 'German',
-        BUTTON_LANG_EN: 'English'
-      };
+        var translationsEN = {
+          HEADLINE: 'What an awesome module!',
+          PARAGRAPH: 'Srsly!',
+          PASSED_AS_TEXT: 'Hey there! I\'m passed as text value!',
+          PASSED_AS_ATTRIBUTE: 'I\'m passed as attribute value, cool ha?',
+          PASSED_AS_INTERPOLATION: 'Beginners! I\'m interpolated!',
+          VARIABLE_REPLACEMENT: 'Hi {{nombre}}',
+          BUTTON_LANG_ES: 'Spanish',
+          BUTTON_LANG_EN: 'English'
+        };
+        
+        var translationsES= {
+          HEADLINE: '¡Qué módulo asombroso!',
+          PARAGRAPH: '¡En serio!',
+          PASSED_AS_TEXT: 'Hola, me están pasando como un texto',
+          PASSED_AS_ATTRIBUTE: 'Me están pasando como atributo, ¡qué bueno!',
+          PASSED_AS_INTERPOLATION: '¡Aprendices! A mí me están interpolando ...',
+          VARIABLE_REPLACEMENT: 'Hola {{nombre}}',
+          BUTTON_LANG_ES: 'Español',
+          BUTTON_LANG_EN: 'Inglés'
+        };
 
-      var translationsDE= {
-        HEADLINE: 'Was für ein großartiges Modul!',
-        PARAGRAPH: 'Ernsthaft!',
-        PASSED_AS_TEXT: 'Hey! Ich wurde als text übergeben!',
-        PASSED_AS_ATTRIBUTE: 'Ich wurde als Attribut übergeben, cool oder?',
-        PASSED_AS_INTERPOLATION: 'Anfänger! Ich bin interpoliert!',
-        VARIABLE_REPLACEMENT: 'Hi {{name}}',
-        // MISSING_TRANSLATION is ... missing :)
-        BUTTON_LANG_DE: 'Deutsch',
-        BUTTON_LANG_EN: 'Englisch'
-      };
+		var app = angular.module('myApp', ['pascalprecht.translate']);
 
-      var app = angular.module('myApp', ['pascalprecht.translate']);
-
-      app.config(['$translateProvider', function ($translateProvider) {
-        // add translation tables
-        $translateProvider.translations('en', translationsEN);
-        $translateProvider.translations('de', translationsDE);
-        $translateProvider.preferredLanguage('en');
-        $translateProvider.fallbackLanguage('en');
-      }]);
+		app.config(['$translateProvider', function ($translateProvider) {
+		// agregar las tablas de traducción
+		$translateProvider.translations('en', translationsEN);
+		$translateProvider.translations('es', translationsES);
+		$translateProvider.preferredLanguage('es');
+		$translateProvider.fallbackLanguage('en');
+		}]);
 
       app.controller('Ctrl', ['$translate', '$scope', function ($translate, $scope) {
 

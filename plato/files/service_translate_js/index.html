@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">101.70</p>
+      <p class="stat">101.80</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">11.35</p>
+      <p class="stat">11.36</p>
     </div>
   </div>
 </div>
@@ -1849,8 +1849,8 @@ function $translate($STORAGE_KEY, $windowProvider, $translateSanitizationProvide
 
         // if there isn&#039;t a translation table for the language we&#039;ve requested,
         // we load it asynchronously
+        $nextLang = key;
         if (($forceAsyncReloadEnabled || !$translationTable[key]) &amp;&amp; $loaderFactory &amp;&amp; !langPromises[key]) {
-          $nextLang = key;
           langPromises[key] = loadAsync(key).then(function (translation) {
             translations(translation.key, translation.table);
             deferred.resolve(translation.key);
@@ -1871,7 +1871,7 @@ function $translate($STORAGE_KEY, $windowProvider, $translateSanitizationProvide
           // we are already loading this asynchronously
           // resolve our new deferred when the old langPromise is resolved
           langPromises[key].then(function (translation) {
-            if (!$uses) {
+            if ($nextLang === translation.key) {
               useLanguage(translation.key);
             }
             deferred.resolve(translation.key);

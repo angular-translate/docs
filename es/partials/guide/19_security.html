@@ -28,7 +28,7 @@ Hasta el momento, las estrategias de escape son las siguientes:</p>
 <p>Recomendamos encarecidamente una estrategia segura. Por lo tanto, mostraremos un aviso (warning)
  en la consola hasta tanto una estrategia específica no haya sido elegida.</p>
 <h3 id="códigos-de-escape-al-usar-contenido-variable_demonstraciones">Demonstraciones</h3>
-<h4 id="códigos-de-escape-al-usar-contenido-variable_demonstraciones_neither-escaped-nor-sanitized">Neither escaped nor sanitized</h4>
+<h4 id="códigos-de-escape-al-usar-contenido-variable_demonstraciones_ni-codificado">Ni codificado (escaped) ni saneado (sanitized)</h4>
 <h3 id="códigos-de-escape-al-usar-contenido-variable_source">Source</h3>
 <div source-edit="myApp_not_escaped" source-edit-deps="angular.js script.js" source-edit-html="index.html-33" source-edit-css="" source-edit-js="script.js-32" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
 <div class="tabbable"><div class="tab-pane" title="index.html">
@@ -64,7 +64,7 @@ Hasta el momento, las estrategias de escape son las siguientes:</p>
 </div>
 </div><h3 id="códigos-de-escape-al-usar-contenido-variable_demo">Demo</h3>
 <div class="well doc-example-live animate-container" ng-embed-app="myApp_not_escaped" ng-set-html="index.html-33" ng-eval-javascript="script.js-32"></div>
-<h4 id="códigos-de-escape-al-usar-contenido-variable_demo_escaped">Escaped</h4>
+<h4 id="códigos-de-escape-al-usar-contenido-variable_demo_codificado">Codificado (escaped)</h4>
 <h3 id="códigos-de-escape-al-usar-contenido-variable_source">Source</h3>
 <div source-edit="myApp_escaped" source-edit-deps="angular.js script.js" source-edit-html="index.html-35" source-edit-css="" source-edit-js="script.js-34" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
 <div class="tabbable"><div class="tab-pane" title="index.html">
@@ -101,7 +101,7 @@ Hasta el momento, las estrategias de escape son las siguientes:</p>
 </div>
 </div><h3 id="códigos-de-escape-al-usar-contenido-variable_demo">Demo</h3>
 <div class="well doc-example-live animate-container" ng-embed-app="myApp_escaped" ng-set-html="index.html-35" ng-eval-javascript="script.js-34"></div>
-<h4 id="códigos-de-escape-al-usar-contenido-variable_demo_escaped">Escaped (parameters only)</h4>
+<h4 id="códigos-de-escape-al-usar-contenido-variable_demo_sólo-los-parámetros-codificados">Sólo los parámetros codificados (escaped)</h4>
 <h3 id="códigos-de-escape-al-usar-contenido-variable_source">Source</h3>
 <div source-edit="myApp_escape_params" source-edit-deps="angular.js script.js" source-edit-html="index.html-37" source-edit-css="" source-edit-js="script.js-36" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
 <div class="tabbable"><div class="tab-pane" title="index.html">
@@ -127,7 +127,7 @@ Hasta el momento, las estrategias de escape son las siguientes:</p>
       app.config(['$translateProvider', function ($translateProvider) {
         $translateProvider.translations('en', translations);
         $translateProvider.preferredLanguage('en');
-        // Enable escaping of HTML
+        // Permitir la codificación  del HTML
         $translateProvider.useSanitizeValueStrategy('escapeParameters');
       }]);
 
@@ -138,7 +138,7 @@ Hasta el momento, las estrategias de escape son las siguientes:</p>
 </div>
 </div><h3 id="códigos-de-escape-al-usar-contenido-variable_demo">Demo</h3>
 <div class="well doc-example-live animate-container" ng-embed-app="myApp_escape_params" ng-set-html="index.html-37" ng-eval-javascript="script.js-36"></div>
-<h4 id="códigos-de-escape-al-usar-contenido-variable_demo_sanitized">Sanitized</h4>
+<h4 id="códigos-de-escape-al-usar-contenido-variable_demo_contenido-saneado">Contenido saneado (sanitized)</h4>
 <h3 id="códigos-de-escape-al-usar-contenido-variable_source">Source</h3>
 <div source-edit="myApp_sanitize" source-edit-deps="angular.js script.js" source-edit-html="index.html-39" source-edit-css="" source-edit-js="script.js-38" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
 <div class="tabbable"><div class="tab-pane" title="index.html">
@@ -164,7 +164,7 @@ Hasta el momento, las estrategias de escape son las siguientes:</p>
       app.config(['$translateProvider', function ($translateProvider) {
         $translateProvider.translations('en', translations);
         $translateProvider.preferredLanguage('en');
-        // Enable escaping of HTML
+        // Permitir la codificación del HTML
         $translateProvider.useSanitizeValueStrategy('sanitize');
       }]);
 

@@ -3,7 +3,7 @@
 </div>
 </h1>
 <div><div class="tests-unitarios-page"><h2 id="tests-unitarios-con-angular-translate">Tests unitarios con angular-translate</h2>
-<p>AngularJS ha sido creado con la capacidad de ser testeado en mente.
+<p>AngularJS ha sido concebido desde el vamos, teniendo en mente la capacidad de ser testeado.
 Y eso nos encanta. Es por eso que le hemos practicado tests unitarios a angular-translate desde su mismo comienzo. Sin embargo, cuando cree sus aplicaciones AngularJS con soporte i18n usando angular-translate, testear puede volverse un tanto complicado. Esta guía le muestra cómo evitar problemas comunes cuando escriba tests unitarios que usen angular-translate.</p>
 <h3 id="tests-unitarios-con-angular-translate_¿cuál-es-el-problema">¿Cuál es el problema?</h3>
 <p>Basándonos en nuestra experiencia desarrollando angular-translate, hay un solo problema cuando se trata de testear. Imagínese el siguiente escenario: usted creó una aplicación que no sólo usa angular-translate, suno también cargadores asincrónicos (lo cual es muy común). Así que, supongamos que su aplicación se ve así:</p>
@@ -62,7 +62,7 @@ describe('myApp', function () {
     });
   }));
 
-  it('should do something', function () {
+  it('debería hacer algo', function () {
 
   });
 });
@@ -91,7 +91,7 @@ describe('myApp', function () {
   it('should do something', function () {
     $httpBackend.expectGET('locale-en.json');
 
-    // test code goes here
+    // el código para tests iría aquí
   });
 });
 </pre>
@@ -105,7 +105,7 @@ Cuando se instancia un módulo angular, siempre se puede aplicar una función &q
 beforeEach(module('myApp', function ($provide, $translateProvider) {
 
   $provide.factory('customLoader', function () {
-    // loader logic goes here
+    // la lógica del cargador iría acá
   });
 
   $translateProvider.useLoader('customLoader');

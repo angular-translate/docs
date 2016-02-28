@@ -3,18 +3,18 @@
 </div>
 </h1>
 <div><div class="negociaci-n-de-lenguajes-page"><h2 id="negociación-de-lenguajes">Negociación de lenguajes</h2>
-<p>angular-translate soporta una funcionalidad llamada &quot;Negociación de lenguajes&quot; (Language Negotiation), con la cual se puede declarar relaciones entre claves de lenguaje similares (por ejemplo, &#39;en_US&#39; en lugar de &#39;en&#39;).</p>
-<p>¿Qué significa esto? Supongamos que usted tiene tablas de traducción con las claves de lenguaaje <code>en</code> y <code>de</code>.</p>
+<p>angular-translate soporta una funcionalidad llamada &quot;Negociación de lenguajes&quot; (Language Negotiation), con la cual se puede declarar relaciones entre claves de lenguaje similares (por ejemplo, &#39;en_US&#39;, inglés de Estados Unidos, en lugar de &#39;en&#39;).</p>
+<p>¿Qué significa esto? Supongamos que usted tiene tablas de traducción con las claves de lenguaaje <code>en</code> y <code>es</code>.</p>
 <pre class="prettyprint linenums">
 $translateProvider
   .translations('en', { /* ... */ })
-  .translations('de', { /* ... */ });
+  .translations('es', { /* ... */ });
 </pre>
 <p>.. y que también le dice a angular-translate que debería tratar de determinar el lenguaje preferido de su aplicación por sí solo, usando el método <code>.determinePreferredLanguage()</code>.</p>
 <pre class="prettyprint linenums">
 $translateProvider
   .translations('en', { /* ... */ })
-  .translations('de', { /* ... */ })
+  .translations('es', { /* ... */ })
   .determinePreferredLanguage();
 </pre>
 <p>En <a href="#/guide/07_multi-language#multilenguaje_determinar-el-lenguaje-preferido-automáticamente">Determinar el lenguaje preferido automáticamente</a>
@@ -28,11 +28,11 @@ Lo que desearíamos es que angular-translate fuese capaz de reconocer la relaci�
 $translateProvider
   .translations('en', { /* ... */ })
   .translations('de', { /* ... */ })
-  .registerAvailableLanguageKeys(['en', 'de'], {
+  .registerAvailableLanguageKeys(['en', 'es'], {
     'en_US': 'en',
     'en_UK': 'en',
-    'de_DE': 'de',
-    'de_CH': 'de'
+    'es_ES': 'es',
+    'es_AR': 'es'
   })
   .determinePreferredLanguage();
 </pre>
