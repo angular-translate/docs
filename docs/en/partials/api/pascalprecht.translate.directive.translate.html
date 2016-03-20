@@ -1,4 +1,4 @@
-<a href="https://github.com/angular-translate/angular-translate/edit/master/src/directive/translate.js" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><a href="https://github.com/angular-translate/angular-translate/blob/5dfa8ca/src/directive/translate.js#L88" class="view-source"><i class="icon-eye-open"> </i>View source</a><h1><code ng:non-bindable="">translate</code>
+<a href="https://github.com/angular-translate/angular-translate/edit/master/src/directive/translate.js" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><a href="https://github.com/angular-translate/angular-translate/blob/adeaa3e/src/directive/translate.js#L89" class="view-source"><i class="icon-eye-open"> </i>View source</a><h1><code ng:non-bindable="">translate</code>
 <div><span class="hint">directive in module <code ng:non-bindable="">pascalprecht.translate</code>
 </span>
 </div>
@@ -22,13 +22,15 @@ pass an optional <code>translate-values</code> object literal as string into tra
        [translate-values="{string}"]
        [translate-attr--a-t-t-r="{string}"]
        [translate-default="{string}"]
-       [translate-compile="{boolean}"]&gt;
+       [translate-compile="{boolean}"]
+       [translate-keep-content="{boolean}"]&gt;
 &lt;/translate&gt;</pre>
 as attribute<pre class="prettyprint linenums">&lt;ANY translate="{string}"
      [translate-values="{string}"]
      [translate-attr--a-t-t-r="{string}"]
      [translate-default="{string}"]
-     [translate-compile="{boolean}"]&gt;
+     [translate-compile="{boolean}"]
+     [translate-keep-content="{boolean}"]&gt;
    ...
 &lt;/ANY&gt;</pre>
 <h4 id="usage_parameters">Parameters</h4><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>translate <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-directive-page pascalprecht-translate-directive-translate-page"><p>Translation id which could be either string or interpolated string.</p>
@@ -36,6 +38,7 @@ as attribute<pre class="prettyprint linenums">&lt;ANY translate="{string}"
 </div></td></tr><tr><td>translate-attr-ATTR <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-directive-page pascalprecht-translate-directive-translate-page"><p>translate Translation id and put it into ATTR attribute.</p>
 </div></td></tr><tr><td>translate-default <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-directive-page pascalprecht-translate-directive-translate-page"><p>will be used unless translation was successful</p>
 </div></td></tr><tr><td>translate-compile <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="pascalprecht-translate-directive-page pascalprecht-translate-directive-translate-page"><p>(default true if present) defines locally activation of <a href="#/api/pascalprecht.translate.$translateProvider#methods_usepostcompiling">pascalprecht.translate.$translateProvider#methods_usePostCompiling</a></p>
+</div></td></tr><tr><td>translate-keep-content <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="pascalprecht-translate-directive-page pascalprecht-translate-directive-translate-page"><p>(default true if present) defines that in case a KEY could not be translated, that the existing content is left in the innerHTML}</p>
 </div></td></tr></tbody></table></div>
 <h2 id="example">Example</h2>
 <div class="example"><div class="pascalprecht-translate-directive-page pascalprecht-translate-directive-translate-page"><h4 id="example_source">Source</h4>

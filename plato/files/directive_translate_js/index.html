@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">66.65</p>
+      <p class="stat">67.06</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">346</p>
+      <p class="stat">352</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">36.24</p>
+      <p class="stat">35.78</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">2.27</p>
+      <p class="stat">2.29</p>
     </div>
   </div>
 </div>
@@ -108,6 +108,7 @@
  * @param {string=} translate-attr-ATTR translate Translation id and put it into ATTR attribute.
  * @param {string=} translate-default will be used unless translation was successful
  * @param {boolean=} translate-compile (default true if present) defines locally activation of {@link pascalprecht.translate.$translateProvider#methods_usePostCompiling}
+ * @param {boolean=} translate-keep-content (default true if present) defines that in case a KEY could not be translated, that the existing content is left in the innerHTML}
  *
  * @example
    &lt;example module=&quot;ngView&quot;&gt;
@@ -336,7 +337,6 @@ function translateDirective($translate, $q, $interpolate, $compile, $parse, $roo
         // Master update function
         var updateTranslations = function () {
           for (var key in translationIds) {
-
             if (translationIds.hasOwnProperty(key) &amp;&amp; translationIds[key] !== undefined) {
               updateTranslation(key, translationIds[key], scope, scope.interpolateParams, scope.defaultText, scope.translateNamespace);
             }
@@ -364,12 +364,16 @@ function translateDirective($translate, $q, $interpolate, $compile, $parse, $roo
         };
 
         var applyTranslation = function (value, scope, successful, translateAttr) {
-          if (translateAttr === &#039;translate&#039;) {
-            // default translate into innerHTML
-            if (!successful &amp;&amp; typeof scope.defaultText !== &#039;undefined&#039;) {
+          if (!successful) {
+            if (typeof scope.defaultText !== &#039;undefined&#039;) {
               value = scope.defaultText;
             }
-            iElement.empty().append(scope.preText + value + scope.postText);
+          }
+          if (translateAttr === &#039;translate&#039;) {
+            // default translate into innerHTML
+            if (successful || (!successful &amp;&amp; typeof iAttr.translateKeepContent === &#039;undefined&#039;)) {
+              iElement.empty().append(scope.preText + value + scope.postText);
+            }
             var globallyEnabled = $translate.isPostCompilingEnabled();
             var locallyDefined = typeof tAttr.translateCompile !== &#039;undefined&#039;;
             var locallyEnabled = locallyDefined &amp;&amp; tAttr.translateCompile !== &#039;false&#039;;
@@ -378,9 +382,6 @@ function translateDirective($translate, $q, $interpolate, $compile, $parse, $roo
             }
           } else {
             // translate attribute
-            if (!successful &amp;&amp; typeof scope.defaultText !== &#039;undefined&#039;) {
-              value = scope.defaultText;
-            }
             var attributeName = iAttr.$attr[translateAttr];
             if (attributeName.substr(0, 5) === &#039;data-&#039;) {
               // ensure html5 data prefix is stripped
@@ -394,7 +395,9 @@ function translateDirective($translate, $q, $interpolate, $compile, $parse, $roo
         if (translateValuesExist || translateValueExist || iAttr.translateDefault) {
           scope.$watch(&#039;interpolateParams&#039;, updateTranslations, true);
         }
-        scope.$watch(&#039;translateLanguage&#039;, updateTranslations);
+
+        // Replaced watcher on translateLanguage with event listener
+        var unbindTranslateLanguage = scope.$on(&#039;translateLanguageChanged&#039;, updateTranslations);
 
         // Ensures the text will be refreshed after the current language was changed
         // w/ $translate.use(...)
@@ -412,7 +415,10 @@ function translateDirective($translate, $q, $interpolate, $compile, $parse, $roo
           observeElementTranslation(iAttr.translate);
         }
         updateTranslations();
-        scope.$on(&#039;$destroy&#039;, unbind);
+        scope.$on(&#039;$destroy&#039;, function(){
+          unbindTranslateLanguage();
+          unbind();
+        });
       };
     }
   };
