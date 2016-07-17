@@ -36,6 +36,14 @@ itself will now work as expected.</p>
 <pre><code>$translateProvider.usePostCompiling(true);
 </code></pre><p>... and even then you can disable the feature again per directive:</p>
 <pre><code>&lt;ANY translate=&quot;TRANSLATION_ID&quot; translate-compile=&quot;false&quot;&gt;&lt;/ANY&gt;
+</code></pre><h3 id="using-translate-directive_translate-html-attributes">Translate HTML Attributes</h3>
+<p>You can already translate any HTML element&#39;s attribute using the <code>translate</code> filter, 
+but as mentioned above this can create a ton of unnecessary watches on your pages. 
+Here&#39;s a better way to translate those attributes using the <code>translate</code> directive!</p>
+<pre><code>&lt;ANY translate translate-attr-ATTRIBUTE_NAME=&quot;TRANSLATION_ID&gt;&lt;/ANY&gt;
+</code></pre><p>Substitute the HTML element attribute&#39;s name for <code>ATTRIBUTE_NAME</code> and you will get
+all the benefits of the <code>translate</code> directive used for that attribute!</p>
+<pre><code>&lt;img src=&quot;mylogo.png&quot; translate translate-attr-alt=&quot;LOGO&quot;&gt;&lt;/img&gt;
 </code></pre><h3 id="using-translate-directive_example">Example</h3>
 <p>Let&#39;s update our example app and add some new translations. How about texts which
 represents each possible way of using <code>translate</code> directive? Our translation table
@@ -44,6 +52,7 @@ could look like this:</p>
 var translations = {
   HEADLINE: 'What an awesome module!',
   PARAGRAPH: 'Srsly!',
+  LOGO: 'My cool logo',
   PASSED_AS_TEXT: 'Hey there! I\'m passed as text value!',
   PASSED_AS_ATTRIBUTE: 'I\'m passed as attribute value, cool ha?',
   PASSED_AS_INTERPOLATION: 'Beginners! I\'m interpolated!'
@@ -52,6 +61,7 @@ var translations = {
 <p>After that we update our view with our new translation IDs:</p>
 <pre class="prettyprint linenums">
 &lt;p&gt;{{ 'HEADLINE' | translate }}&lt;/p&gt;
+&lt;img src="mylogo.png" translate translate-attr-alt="LOGO"&gt;&lt;/img&gt;
 &lt;p&gt;{{ 'PARAGRAPH' | translate }}&lt;/p&gt;
 
 &lt;p translate&gt;PASSED_AS_TEXT&lt;/p&gt;
@@ -68,6 +78,7 @@ var translations = {
     
     <div ng-controller="Ctrl">
       <p>{{ 'HEADLINE' | translate }}</p>
+      <img src="mylogo.png" translate translate-attr-alt="LOGO"></img>
       <p>{{ 'PARAGRAPH' | translate }}</p>
 
       <p translate>PASSED_AS_TEXT</p>
@@ -83,6 +94,7 @@ var translations = {
       var translations = {
         HEADLINE: 'What an awesome module!',
         PARAGRAPH: 'Srsly!',
+        LOGO: 'My cool logo',
         PASSED_AS_TEXT: 'Hey there! I\'m passed as text value!',
         PASSED_AS_ATTRIBUTE: 'I\'m passed as attribute value, cool ha?',
         PASSED_AS_INTERPOLATION: 'Beginners! I\'m interpolated!'

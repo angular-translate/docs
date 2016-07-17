@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">67.06</p>
+      <p class="stat">67.04</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">352</p>
+      <p class="stat">358</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">35.78</p>
+      <p class="stat">35.66</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">2.29</p>
+      <p class="stat">2.31</p>
     </div>
   </div>
 </div>
@@ -125,6 +125,7 @@
         &lt;pre translate=&quot;WITH_VALUES&quot; translate-values=&quot;{{values}}&quot;&gt;&lt;/pre&gt;
         &lt;pre translate translate-values=&quot;{{values}}&quot;&gt;WITH_VALUES&lt;/pre&gt;
         &lt;pre translate translate-attr-title=&quot;WITH_VALUES&quot; translate-values=&quot;{{values}}&quot;&gt;&lt;/pre&gt;
+        &lt;pre translate=&quot;WITH_CAMEL_CASE_KEY&quot; translate-value-camel-case-key=&quot;Hi&quot;&gt;&lt;/pre&gt;
 
       &lt;/div&gt;
     &lt;/file&gt;
@@ -135,7 +136,8 @@
 
         $translateProvider.translations(&#039;en&#039;,{
           &#039;TRANSLATION_ID&#039;: &#039;Hello there!&#039;,
-          &#039;WITH_VALUES&#039;: &#039;The following value is dynamic: {{value}}&#039;
+          &#039;WITH_VALUES&#039;: &#039;The following value is dynamic: {{value}}&#039;,
+          &#039;WITH_CAMEL_CASE_KEY&#039;: &#039;The interpolation key is camel cased: {{camelCaseKey}}&#039;
         }).preferredLanguage(&#039;en&#039;);
 
       });
@@ -172,6 +174,10 @@
           element = $compile(&#039;&lt;p translate translate-attr-title=&quot;TRANSLATION_ID&quot;&gt;&lt;/p&gt;&#039;)($rootScope);
           $rootScope.$digest();
           expect(element.attr(&#039;title&#039;)).toBe(&#039;Hello there!&#039;);
+
+          element = $compile(&#039;&lt;p translate=&quot;WITH_CAMEL_CASE_KEY&quot; translate-value-camel-case-key=&quot;Hello&quot;&gt;&lt;/p&gt;&#039;)($rootScope);
+          $rootScope.$digest();
+          expect(element.text()).toBe(&#039;The interpolation key is camel cased: Hello&#039;);
         });
       });
     &lt;/file&gt;
@@ -371,7 +377,7 @@ function translateDirective($translate, $q, $interpolate, $compile, $parse, $roo
           }
           if (translateAttr === &#039;translate&#039;) {
             // default translate into innerHTML
-            if (successful || (!successful &amp;&amp; typeof iAttr.translateKeepContent === &#039;undefined&#039;)) {
+            if (successful || (!successful &amp;&amp; !$translate.isKeepContent() &amp;&amp; typeof iAttr.translateKeepContent === &#039;undefined&#039;)) {
               iElement.empty().append(scope.preText + value + scope.postText);
             }
             var globallyEnabled = $translate.isPostCompilingEnabled();

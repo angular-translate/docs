@@ -22,15 +22,21 @@ app.controller('Ctrl', ['$translate', function ($translate) {
 要麼獲取給定翻譯標識的翻譯來解決這個承諾，或拒絕這個翻譯的ID。所以 <code>$translate</code> 服務的基本用法是在控制器（或服務）的水準，看上去是這樣的：</p>
 <pre class="prettyprint linenums">
 app.controller('Ctrl', ['$scope', '$translate', function ($scope, $translate) {
-$translate('HEADLINE').then(function (headline) {
-$scope.headline = headline;
-});
-$translate('PARAGRAPH').then(function (paragraph) {
-$scope.paragraph = paragraph;
-});
-$translate('NAMESPACE.PARAGRAPH').then(function (anotherOne) {
-$scope.namespaced_paragraph = anotherOne;
-});
+  $translate('HEADLINE').then(function (headline) {
+   $scope.headline = headline;
+  }, function (error) {
+    $scope.headline = error;
+  });
+  $translate('PARAGRAPH').then(function (paragraph) {
+    $scope.paragraph = paragraph;
+  }, function (error) {
+    $scope.paragraph = error;
+  });
+  $translate('NAMESPACE.PARAGRAPH').then(function (anotherOne) {
+    $scope.namespaced_paragraph = anotherOne;
+  }, function (error) {
+    $scope.namespaced_paragraph = error;
+  });
 }]);
 </pre>
 <p><strong>注意:</strong> 命名空間的翻譯是作為JSON屬性被訪問的，請參閱 &#39;NAMESPACE.PARAGRAPH&#39;`.</p>
@@ -43,6 +49,10 @@ app.controller('Ctrl', ['$scope', '$translate', function ($scope, $translate) {
     $scope.headline = translations.HEADLINE;
     $scope.paragraph = translations.PARAGRAPH;
     $scope.namespaced_paragraph = translations['NAMESPACE.PARAGRAPH'];
+  }, function (error) {
+    $scope.headline = error;
+    $scope.paragraph = error;
+    $scope.namespaced_paragraph = error;
   });
 }]);
 </pre>
@@ -64,11 +74,13 @@ app.controller('Ctrl', ['$scope', '$translate', function ($scope, $translate) {
 <p>下面是它的代碼:</p>
 <pre class="prettyprint linenums">
 app.controller('Ctrl', ['$scope', '$translate', '$rootScope', function ($scope, $translate, $rootScope) {
-$rooScope.$on('$translateChangeSuccess', function () {
-$translate('HEADLINE').then(function (translation) {
-$scope.headline = translation;
-});
-});
+  $rootScope.$on('$translateChangeSuccess', function () {
+    $translate('HEADLINE').then(function (translation) {
+      $scope.headline = translation;
+    }, function (error) {
+      $scope.headline = error;
+    });
+  });
 }]);
 </pre>
 <p>為什麼要在 <code>$rootScope</code> 而不是 <code>$scope</code> 呢? 因為性能的原因 angular-translate 只在 <code>$rootScope</code> 層面上可以有<code>$emit</code>。</p>
@@ -79,47 +91,53 @@ $scope.headline = translation;
 <div class="tabbable"><div class="tab-pane" title="index.html">
 <pre class="prettyprint linenums" ng-set-text="index.html-9" ng-html-wrap-loaded="myApp angular.js script.js"></pre>
 <script type="text/ng-template" id="index.html-9">
-
-<div ng-controller="Ctrl">
-<h2 id="{{headline}}">{{headline}}</h2>
-<p>{{paragraph}}</p>
-<p>{{namespaced_paragraph}}</p>
-</div>
-</script>
+    
+    <div ng-controller="Ctrl">
+      <h2 id="{{headline}}">{{headline}}</h2>
+      <p>{{paragraph}}</p>
+      <p>{{namespaced_paragraph}}</p>
+    </div>
+  </script>
 </div>
 <div class="tab-pane" title="script.js">
 <pre class="prettyprint linenums" ng-set-text="script.js-8"></pre>
 <script type="text/ng-template" id="script.js-8">
-var translations = {
-HEADLINE: 'What an awesome module!',
-PARAGRAPH: 'Srsly!',
-NAMESPACE: {
-PARAGRAPH: 'And it comes with awesome features!'
-}
-};
+      var translations = {
+        HEADLINE: 'What an awesome module!',
+        PARAGRAPH: 'Srsly!',
+        NAMESPACE: {
+          PARAGRAPH: 'And it comes with awesome features!'
+        }
+      };
 
-var app = angular.module('myApp', ['pascalprecht.translate']);
+      var app = angular.module('myApp', ['pascalprecht.translate']);
 
-app.config(['$translateProvider', function ($translateProvider) {
-// add translation table
-$translateProvider
-.translations('en', translations)
-.preferredLanguage('en');
-}]);
+      app.config(['$translateProvider', function ($translateProvider) {
+        // add translation table
+        $translateProvider
+          .translations('en', translations)
+          .preferredLanguage('en');
+      }]);
 
-app.controller('Ctrl', ['$scope', '$translate', function ($scope, $translate) {
-// expose translation via `$translate` service
-$translate('HEADLINE').then(function (headline) {
-$scope.headline = headline;
-});
-$translate('PARAGRAPH').then(function (paragraph) {
-$scope.paragraph = paragraph;
-});
-$translate('NAMESPACE.PARAGRAPH').then(function (anotherOne) {
-$scope.namespaced_paragraph = anotherOne;
-});
-}]);
-</script>
+      app.controller('Ctrl', ['$scope', '$translate', function ($scope, $translate) {
+        // expose translation via `$translate` service
+        $translate('HEADLINE').then(function (headline) {
+          $scope.headline = headline;
+        }, function (error) {
+          $scope.headline = error;
+        });
+        $translate('PARAGRAPH').then(function (paragraph) {
+          $scope.paragraph = paragraph;
+        }, function (error) {
+          $scope.paragraph = error;
+        });
+        $translate('NAMESPACE.PARAGRAPH').then(function (anotherOne) {
+          $scope.namespaced_paragraph = anotherOne;
+        }, function (error) {
+          $scope.namespaced_paragraph = error;
+        });
+      }]);
+    </script>
 </div>
 </div><h3 id="{{headline}}_demo">Demo</h3>
 <div class="well doc-example-live animate-container" ng-embed-app="myApp" ng-set-html="index.html-9" ng-eval-javascript="script.js-8"></div>

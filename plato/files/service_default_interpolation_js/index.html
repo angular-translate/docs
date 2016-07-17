@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">75.92</p>
+      <p class="stat">71.29</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">72</p>
+      <p class="stat">84</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">8.28</p>
+      <p class="stat">12.77</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">0.18</p>
+      <p class="stat">0.23</p>
     </div>
   </div>
 </div>
@@ -157,17 +157,29 @@ function $translateDefaultInterpolation ($interpolate, $translateSanitization) {
    * @methodOf pascalprecht.translate.$translateDefaultInterpolation
    *
    * @description
-   * Interpolates given string agains given interpolate params using angulars
+   * Interpolates given value agains given interpolate params using angulars
    * `$interpolate` service.
+   *
+   * Since AngularJS 1.5, `value` must not be a string but can be anything input.
    *
    * @returns {string} interpolated string.
    */
-  $translateInterpolator.interpolate = function (string, interpolationParams) {
+  $translateInterpolator.interpolate = function (value, interpolationParams) {
     interpolationParams = interpolationParams || {};
     interpolationParams = $translateSanitization.sanitize(interpolationParams, &#039;params&#039;);
 
-    var interpolatedText = $interpolate(string)(interpolationParams);
-    interpolatedText = $translateSanitization.sanitize(interpolatedText, &#039;text&#039;);
+    var interpolatedText;
+    if (angular.isNumber(value)) {
+      // numbers are safe
+      interpolatedText = &#039;&#039; + value;
+    } else if (angular.isString(value)) {
+      // strings must be interpolated (that&#039;s the job here)
+      interpolatedText = $interpolate(value)(interpolationParams);
+      interpolatedText = $translateSanitization.sanitize(interpolatedText, &#039;text&#039;);
+    } else {
+      // neither a number or a string, cant interpolate =&gt; empty string
+      interpolatedText = &#039;&#039;;
+    }
 
     return interpolatedText;
   };

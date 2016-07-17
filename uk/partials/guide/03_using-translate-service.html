@@ -4,9 +4,9 @@
 </h1>
 <div><div class="-translate-page"><h2 id="сервіс-$translate">Сервіс $translate</h2>
 <p><code>angular-translate</code> надає кілька варіантів перекладу контента вашого застосунку. Одним із них є
-безпосереднє використання сервісу <code>$translate</code>, що надається. Скоріше за все, ви не будете 
+безпосереднє використання сервісу <code>$translate</code>, що надається. Скоріше за все, ви не будете
 користуватися цим підходом, бо він сильно прив&#39;язує контролери і сервіси вашого застосунку до
-контенту, що перекладається. Проте виявилося, що є випадки, коли може знадобитися можливість 
+контенту, що перекладається. Проте виявилося, що є випадки, коли може знадобитися можливість
 перекладу контенту з допомогою сервісу <code>$translate</code>.</p>
 <p>Просто уявіть випадок, що вам необхідно перекласти вміст тегу <code>&lt;title&gt;</code> у вашому HTML документі.
 <code>&lt;title&gt;</code> ніколи не буде знаходитися всередині директиви <code>ng-app</code>, а це значить, що він знаходиться
@@ -23,7 +23,7 @@ app.controller('Ctrl', ['$translate', function ($translate) {
 
 }]);
 </pre>
-<p>Тепер, щоб перекласти контент з допомогою сервісу <code>$translate</code>, вам необхідно передати раніше 
+<p>Тепер, щоб перекласти контент з допомогою сервісу <code>$translate</code>, вам необхідно передати раніше
 зареєстрований з допомогою <code>$translateProvider</code> ідентифікатор перекладу. Оскільки можливо, що в
 момент виклику сервісу відбувається асинхронне завантаження даних (ми поговоримо про це пізніше),
 сервіс <code>$translate</code> теж поводиться асинхронно і повертає обіцянку (promise), що або вирішується
@@ -33,13 +33,19 @@ app.controller('Ctrl', ['$translate', function ($translate) {
 <pre class="prettyprint linenums">
 app.controller('Ctrl', ['$scope', '$translate', function ($scope, $translate) {
   $translate('HEADLINE').then(function (headline) {
-   $scope.headline = headline;
+    $scope.headline = headline;
+  }, function (translationId) {
+    $scope.headline = translationId;
   });
   $translate('PARAGRAPH').then(function (paragraph) {
     $scope.paragraph = paragraph;
+  }, function (translationId) {
+    $scope.paragraph = translationId;
   });
   $translate('NAMESPACE.PARAGRAPH').then(function (anotherOne) {
     $scope.namespaced_paragraph = anotherOne;
+  }, function (translationId) {
+    $scope.namespaced_paragraph = translationId;
   });
 }]);
 </pre>
@@ -53,6 +59,10 @@ app.controller('Ctrl', ['$scope', '$translate', function ($scope, $translate) {
     $scope.headline = translations.HEADLINE;
     $scope.paragraph = translations.PARAGRAPH;
     $scope.namespaced_paragraph = translations['NAMESPACE.PARAGRAPH'];
+  }, function (translationIds) {
+    $scope.headline = translationIds.headline;
+    $scope.paragraph = translationIds.paragraph;
+    $scope.namespaced_paragraph = translationIds.namespaced_paragraph;
   });
 }]);
 </pre>
@@ -83,6 +93,8 @@ app.controller('Ctrl', ['$scope', '$translate', '$rootScope', function ($scope, 
   $rootScope.$on('$translateChangeSuccess', function () {
     $translate('HEADLINE').then(function (translation) {
       $scope.headline = translation;
+    }, function (translationId) {
+      $scope.headline = translationId;
     });
   });
 }]);
@@ -128,12 +140,18 @@ app.controller('Ctrl', ['$scope', '$translate', '$rootScope', function ($scope, 
         // expose translation via `$translate` service
         $translate('HEADLINE').then(function (headline) {
           $scope.headline = headline;
+        }, function (translationId) {
+          $scope.headline = translationId;
         });
         $translate('PARAGRAPH').then(function (paragraph) {
           $scope.paragraph = paragraph;
+        }, function (translationId) {
+          $scope.paragraph = translationId;
         });
         $translate('NAMESPACE.PARAGRAPH').then(function (anotherOne) {
           $scope.namespaced_paragraph = anotherOne;
+        }, function (translationId) {
+          $scope.namespaced_paragraph = translationId;
         });
       }]);
     </script>

@@ -70,6 +70,26 @@ $translateProvider.useMissingTranslationHandlerLog();
 </div><h3 id="error-handling_demo">Demo</h3>
 <div class="well doc-example-live animate-container" ng-embed-app="myApp" ng-set-html="index.html-31" ng-eval-javascript="script.js-30"></div>
 <p>Schau in der Konsole des Browsers nach!</p>
+<h3 id="error-handling_nutzung-der-&quot;post-processing&quot;-funktion">Nutzung der &quot;Post processing&quot; Funktion</h3>
+<p>Seit Version 2.11 ist es möglich, auch eine &quot;post processing&quot; (wird nach Übersetzung aufgerufen) Funktion zu nutzen.
+Dieses gibt dir die Möglichkeit, zusätzliche Debug-Informationen für Übersetzer zu erhalten oder einfach nur
+eine einfache Identifikation von Schlüssel -&gt; Inhalten zu ermöglichen, damit auch falsche Übersetzungen schnell
+gefunden werden.</p>
+<p>Um diese Funktionalität zu nutzen, muss sie über die Modulkonfiguration aktiviert werden:</p>
+<pre class="prettyprint linenums">
+ $translateProvider.postProcess(function (translationId, translation, interpolatedTranslation, params, lang) {
+    return '&lt;span style="color: #cccccc"&gt;' + translationId + '(' + lang + '):&lt;/span&gt; ' +
+      (interpolatedTranslation ? interpolatedTranslation : translation);
+  });
+</pre>
+<p>Die Funktion stellt fünf Parameter bereit:</p>
+<ul>
+<li>translationId (Übersetzungsschlüssel)</li>
+<li>translation (Übersetzungswert)</li>
+<li>interpolatedTranslation (interpolierte Übersetzung)</li>
+<li>params (Parameter-Werte)</li>
+<li>lang (Sprachschlüssel, der zum Erfolg geführt hat)</li>
+</ul>
 <p><br></p>
 <p><hr></p>
-<center>Made with unicorn &hearts; love by <a href="http://github.com/PascalPrecht">PascalPrecht</a></center></div></div>
+<center>Made with unicorn &hearts; love by the angular-translate team (<a href="http://github.com/angular-translate">http://github.com/angular-translate</a>)</center></div></div>

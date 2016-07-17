@@ -52,7 +52,7 @@ that has a siginificant impact. When an asynchronous loader is registered and
 there&#39;s no translation table cached yet, angular-translate calls the registered
 loader <strong>implicitly</strong>. Why can this cause issues when unit testing your
 application?</p>
-<p>Well, to understand that, we have to take a look how we would right unit tests with
+<p>Well, to understand that, we have to take a look how we would write unit tests with,
 for example, Jasmine. We start with a <code>describe()</code> block and load our angular app
 for each spec:</p>
 <pre class="prettyprint linenums">
@@ -62,9 +62,8 @@ describe('myApp', function () {
 
 });
 </pre>
-<p>Okay, so what this does, it makes sure that on every following spec our app module
-is instantiated. Next, we set up our <code>LanguageController</code> with a mocked scope like
-this:</p>
+<p>This makes sure that on every following spec our app module is instantiated. Next,
+we set up our <code>LanguageController</code> with a mocked scope like this:</p>
 <pre class="prettyprint linenums">
 describe('myApp', function () {
 
@@ -87,11 +86,11 @@ describe('myApp', function () {
 </pre>
 <p>When we run this test, we&#39;ll get the following error:</p>
 <pre><code>Error: Unexpected request: GET locale-en.json
-</code></pre><p>So why do we get this error? So problem here is, that angular-translate calls the
-asynchronous loader implicitly. Which means, when <code>$translate</code> service is instantiated
+</code></pre><p>So why do we get this error? The problem here is that angular-translate calls the
+asynchronous loader implicitly. This means that when the <code>$translate</code> service is instantiated
 through DI, there&#39;s a XHR happening without us doing anything about it.</p>
 <p>When writing tests and there are XHRs, one has to explicitly say that one expects
-a XHR in a certain spec. This is part of proper testing. In other words,
+an XHR in a certain spec. This is part of proper testing. In other words,
 when we explicitly say that there&#39;s a XHR happening, this error shouldn&#39;t occur,
 right?</p>
 <p>So let&#39;s try to get around this error by injecting the <code>$httpBackend</code> service to
@@ -119,17 +118,17 @@ describe('myApp', function () {
   });
 });
 </pre>
-<p>It turns out, that this doesn&#39;t work either, because at the time when <code>expectGET()</code>
+<p>It turns out that this doesn&#39;t work either, because at the time when <code>expectGET()</code>
 is called, the asynchronous loader has already been executed. Hell, is there no
 way to get around this issue?</p>
 <h3 id="unit-testing-with-angular-translate_the-solution">The solution</h3>
 <p>Unfortunately, this issue is caused by the design of angular-translate. To get
 around these errors, all we can do is to overwrite our module configuration in
-our test suite, that it <strong>doesn&#39;t</strong> use asynchronous loader at all. When there&#39;s
+our test suite so that it <strong>doesn&#39;t</strong> use asynchronous loader at all. When there&#39;s
 no asynchronous loader, there&#39;s no XHR and therefore no error.</p>
 <p>So how do we overwrite our module configuration at runtime for our test suite?
-When instantiating an angular module, we can always apply a inline function which
-is executed as configuration function. This configuration function can be used
+When instantiating an angular module, we can always apply an inline function which
+is executed as a configuration function. This configuration function can be used
 to overwrite the modules configuration since we have access to all providers.</p>
 <p>Using the <code>$provide</code> provider, we can build a custom loader factory, which should
 then be used instead of the static files loader.</p>

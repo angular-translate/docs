@@ -28,20 +28,26 @@ app.controller('Ctrl', ['$translate', function ($translate) {
 <p>Now to translate your contents with <code>$translate</code> service, all you have to do is
 to pass a translation ID which was registered with <code>$translateProvider</code> before.
 Since it could be that there&#39;s some asynchronous loading going on (we&#39;ll get into
-this later), <code>$translate</code> service behaves asynchronous too and returns a promise,
-that either gets resolved with the translatoin of the given translation ID, or
-rejected with the translation ID. So the basic usage of <code>$translate</code> service
-on a controller (or service) level, would look like this:</p>
+this later), <code>$translate</code> service behaves asynchronously too and returns a promise,
+that either gets resolved with the translation of the given translation ID, or
+rejected with the translation ID as the error info. So the basic usage of <code>$translate</code>
+service on a controller (or service) level, would look like this:</p>
 <pre class="prettyprint linenums">
 app.controller('Ctrl', ['$scope', '$translate', function ($scope, $translate) {
   $translate('HEADLINE').then(function (headline) {
     $scope.headline = headline;
+  }, function (translationId) {
+    $scope.headline = translationId;
   });
   $translate('PARAGRAPH').then(function (paragraph) {
     $scope.paragraph = paragraph;
+  }, function (translationId) {
+    $scope.paragraph = translationId;
   });
   $translate('NAMESPACE.PARAGRAPH').then(function (anotherOne) {
     $scope.namespaced_paragraph = anotherOne;
+  }, function (translationId) {
+    $scope.namespaced_paragraph = translationId;
   });
 }]);
 </pre>
@@ -56,6 +62,10 @@ app.controller('Ctrl', ['$scope', '$translate', function ($scope, $translate) {
     $scope.headline = translations.HEADLINE;
     $scope.paragraph = translations.PARAGRAPH;
     $scope.namespaced_paragraph = translations['NAMESPACE.PARAGRAPH'];
+  }, function (translationIds) {
+    $scope.headline = translationIds.headline;
+    $scope.paragraph = translationIds.paragraph;
+    $scope.namespaced_paragraph = translationIds.namespaced_paragraph;
   });
 }]);
 </pre>
@@ -74,7 +84,7 @@ function to display or use the installed library version information.</p>
 <p>Please keep in mind that the usage of the <code>$translate</code> service doesn&#39;t provide a two-way
 data binding default! <code>$translate</code> service works asynchronously, which means
 it returns the translation for the given translation id, as soon as it could determine
-it. If it doesn&#39;t exist it&#39;ll probably just return the translation id.</p>
+it. If it doesn&#39;t exist the promise will fail with the translation id.</p>
 <p>However, this doesn&#39;t mean that it knows when a languages has been changed. And because
 of that, translations translated through a directive <code>$translate</code> call, don&#39;t get
 updated when changing the language at runtime.</p>
@@ -87,6 +97,8 @@ app.controller('Ctrl', ['$scope', '$translate', '$rootScope', function ($scope, 
   $rootScope.$on('$translateChangeSuccess', function () {
     $translate('HEADLINE').then(function (translation) {
       $scope.headline = translation;
+    }, function (translationId) {
+      $scope.headline = translationId;
     });
   });
 }]);
@@ -132,12 +144,18 @@ See this <a href="http://stackoverflow.com/a/19498009/288703">StackOverflow</a> 
         // expose translation via `$translate` service
         $translate('HEADLINE').then(function (headline) {
           $scope.headline = headline;
+        }, function (translationId) {
+          $scope.headline = translationId;
         });
         $translate('PARAGRAPH').then(function (paragraph) {
           $scope.paragraph = paragraph;
+        }, function (translationId) {
+          $scope.paragraph = translationId;
         });
         $translate('NAMESPACE.PARAGRAPH').then(function (anotherOne) {
           $scope.namespaced_paragraph = anotherOne;
+        }, function (translationId) {
+          $scope.namespaced_paragraph = translationId;
         });
       }]);
     </script>
