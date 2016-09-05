@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">70.28</p>
+      <p class="stat">69.50</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">265</p>
+      <p class="stat">308</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">41.67</p>
+      <p class="stat">46.87</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">1.14</p>
+      <p class="stat">1.38</p>
     </div>
   </div>
 </div>
@@ -104,6 +104,7 @@ function $translateSanitizationProvider () {
   &#039;use strict&#039;;
 
   var $sanitize,
+      $sce,
       currentStrategy = null, // TODO change to either &#039;sanitize&#039;, &#039;escape&#039; or [&#039;sanitize&#039;, &#039;escapeParameters&#039;] in 3.0.
       hasConfiguredStrategy = false,
       hasShownNoStrategyConfiguredWarning = false,
@@ -140,27 +141,44 @@ function $translateSanitizationProvider () {
    */
 
   strategies = {
-    sanitize: function (value, mode) {
+    sanitize: function (value, mode/*, context*/) {
       if (mode === &#039;text&#039;) {
         value = htmlSanitizeValue(value);
       }
       return value;
     },
-    escape: function (value, mode) {
+    escape: function (value, mode/*, context*/) {
       if (mode === &#039;text&#039;) {
         value = htmlEscapeValue(value);
       }
       return value;
     },
-    sanitizeParameters: function (value, mode) {
+    sanitizeParameters: function (value, mode/*, context*/) {
       if (mode === &#039;params&#039;) {
         value = mapInterpolationParameters(value, htmlSanitizeValue);
       }
       return value;
     },
-    escapeParameters: function (value, mode) {
+    escapeParameters: function (value, mode/*, context*/) {
       if (mode === &#039;params&#039;) {
         value = mapInterpolationParameters(value, htmlEscapeValue);
+      }
+      return value;
+    },
+    sce: function (value, mode, context) {
+      if (mode === &#039;text&#039;) {
+        value = htmlTrustValue(value);
+      } else if (mode === &#039;params&#039;) {
+        if (context !== &#039;filter&#039;) {
+          // do html escape in filter context #1101
+          value = mapInterpolationParameters(value, htmlEscapeValue);
+        }
+      }
+      return value;
+    },
+    sceParameters: function (value, mode/*, context*/) {
+      if (mode === &#039;params&#039;) {
+        value = mapInterpolationParameters(value, htmlTrustValue);
       }
       return value;
     }
@@ -233,12 +251,12 @@ function $translateSanitizationProvider () {
 
     var cachedStrategyMap = {};
 
-    var applyStrategies = function (value, mode, selectedStrategies) {
+    var applyStrategies = function (value, mode, context, selectedStrategies) {
       angular.forEach(selectedStrategies, function (selectedStrategy) {
         if (angular.isFunction(selectedStrategy)) {
-          value = selectedStrategy(value, mode);
+          value = selectedStrategy(value, mode, context);
         } else if (angular.isFunction(strategies[selectedStrategy])) {
-          value = strategies[selectedStrategy](value, mode);
+          value = strategies[selectedStrategy](value, mode, context);
         } else if (angular.isString(strategies[selectedStrategy])) {
           if (!cachedStrategyMap[strategies[selectedStrategy]]) {
             try {
@@ -248,7 +266,7 @@ function $translateSanitizationProvider () {
               throw new Error(&#039;pascalprecht.translate.$translateSanitization: Unknown sanitization strategy: \&#039;&#039; + selectedStrategy + &#039;\&#039;&#039;);
             }
           }
-          value = cachedStrategyMap[strategies[selectedStrategy]](value, mode);
+          value = cachedStrategyMap[strategies[selectedStrategy]](value, mode, context);
         } else {
           throw new Error(&#039;pascalprecht.translate.$translateSanitization: Unknown sanitization strategy: \&#039;&#039; + selectedStrategy + &#039;\&#039;&#039;);
         }
@@ -266,6 +284,9 @@ function $translateSanitizationProvider () {
 
     if ($injector.has(&#039;$sanitize&#039;)) {
       $sanitize = $injector.get(&#039;$sanitize&#039;);
+    }
+    if ($injector.has(&#039;$sce&#039;)) {
+      $sce = $injector.get(&#039;$sce&#039;);
     }
 
     return {
@@ -296,14 +317,15 @@ function $translateSanitizationProvider () {
        * @param {string|object} value The value which should be sanitized.
        * @param {string} mode The current sanitization mode, either &#039;params&#039; or &#039;text&#039;.
        * @param {string|StrategyFunction|array} [strategy] Optional custom strategy which should be used instead of the currently selected strategy.
+       * @param {string} [context] The context of this call: filter, service. Default is service
        * @returns {string|object} sanitized value
        */
-      sanitize: function (value, mode, strategy) {
+      sanitize: function (value, mode, strategy, context) {
         if (!currentStrategy) {
           showNoStrategyConfiguredWarning();
         }
 
-        if (arguments.length &lt; 3) {
+        if (!strategy &amp;&amp; strategy !== null) {
           strategy = currentStrategy;
         }
 
@@ -311,8 +333,12 @@ function $translateSanitizationProvider () {
           return value;
         }
 
+        if (!context) {
+          context = &#039;service&#039;;
+        }
+
         var selectedStrategies = angular.isArray(strategy) ? strategy : [strategy];
-        return applyStrategies(value, mode, selectedStrategies);
+        return applyStrategies(value, mode, context, selectedStrategies);
       }
     };
   };
@@ -330,8 +356,17 @@ function $translateSanitizationProvider () {
     return $sanitize(value);
   };
 
+  var htmlTrustValue = function (value) {
+    if (!$sce) {
+      throw new Error(&#039;pascalprecht.translate.$translateSanitization: Error cannot find $sce service.&#039;);
+    }
+    return $sce.trustAsHtml(value);
+  };
+
   var mapInterpolationParameters = function (value, iteratee, stack) {
-    if (angular.isObject(value)) {
+    if (angular.isDate(value)) {
+      return value;
+    } else if (angular.isObject(value)) {
       var result = angular.isArray(value) ? [] : {};
 
       if (!stack) {
@@ -373,10 +408,10 @@ function $translateSanitizationProvider () {
 
 <script type="text/html" id="complexity-popover-template">
   <div class="complexity-notice">
-    Complexity : {{ complexity.cyclomatic }} <br>
-    Length : {{ complexity.halstead.length }} <br>
-    Difficulty : {{ complexity.halstead.difficulty.toFixed(2) }} <br>
-    Est # bugs : {{ complexity.halstead.bugs.toFixed(2) }}<br>
+    Complexity : {{ cyclomatic }} <br>
+    Length : {{ halstead.length }} <br>
+    Difficulty : {{ halstead.difficulty.toFixed(2) }} <br>
+    Est # bugs : {{ halstead.bugs.toFixed(2) }}<br>
   </div>
 </script>
 

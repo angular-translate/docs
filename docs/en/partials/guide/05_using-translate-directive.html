@@ -39,11 +39,18 @@ itself will now work as expected.</p>
 </code></pre><h3 id="using-translate-directive_translate-html-attributes">Translate HTML Attributes</h3>
 <p>You can already translate any HTML element&#39;s attribute using the <code>translate</code> filter, 
 but as mentioned above this can create a ton of unnecessary watches on your pages. 
-Here&#39;s a better way to translate those attributes using the <code>translate</code> directive!</p>
-<pre><code>&lt;ANY translate translate-attr-ATTRIBUTE_NAME=&quot;TRANSLATION_ID&gt;&lt;/ANY&gt;
+Here&#39;s a better way to translate those attributes using the <code>translate-attr</code> directive (starting version 2.12)!</p>
+<pre><code>&lt;ANY translate-attr=&quot;{ ATTRIBUTE_NAME: &#39;TRANSLATION_ID&#39; }&quot;&gt;&lt;/ANY&gt;
 </code></pre><p>Substitute the HTML element attribute&#39;s name for <code>ATTRIBUTE_NAME</code> and you will get
 all the benefits of the <code>translate</code> directive used for that attribute!</p>
-<pre><code>&lt;img src=&quot;mylogo.png&quot; translate translate-attr-alt=&quot;LOGO&quot;&gt;&lt;/img&gt;
+<pre><code>&lt;img src=&quot;mylogo.png&quot; translate-attr=&quot;{ alt: &#39;LOGO&#39; }&quot;&gt;&lt;/img&gt;
+</code></pre><p>This attribute is parsed and watched, so you can also supply a controller-provided object,
+and you can use one-time binding by prefixing your statement with <code>::</code>. Here&#39;s an example of both:</p>
+<pre><code>// given a scope variable attrTranslations = { alt: &#39;LOGO&#39;, title: &#39;TITLE&#39; }
+&lt;img src=&quot;mylogo.png&quot; translate-attr=&quot;::attrTranslations&quot;&gt;
+</code></pre><p>If your angular-translate did not reach version 2.12, you can use the deprecated way to translate attributes
+using the <code>translate</code> directive:</p>
+<pre><code>&lt;ANY translate translate-attr-ATTRIBUTE_NAME=&quot;TRANSLATION_ID&quot;&gt;&lt;/ANY&gt;
 </code></pre><h3 id="using-translate-directive_example">Example</h3>
 <p>Let&#39;s update our example app and add some new translations. How about texts which
 represents each possible way of using <code>translate</code> directive? Our translation table
@@ -61,7 +68,7 @@ var translations = {
 <p>After that we update our view with our new translation IDs:</p>
 <pre class="prettyprint linenums">
 &lt;p&gt;{{ 'HEADLINE' | translate }}&lt;/p&gt;
-&lt;img src="mylogo.png" translate translate-attr-alt="LOGO"&gt;&lt;/img&gt;
+&lt;img src="mylogo.png" translate-attr="{ alt: 'LOGO' }"&gt;&lt;/img&gt;
 &lt;p&gt;{{ 'PARAGRAPH' | translate }}&lt;/p&gt;
 
 &lt;p translate&gt;PASSED_AS_TEXT&lt;/p&gt;
@@ -71,14 +78,14 @@ var translations = {
 </pre>
 <p>Our updated app then looks like this:</p>
 <h3 id="using-translate-directive_source">Source</h3>
-<div source-edit="myApp" source-edit-deps="angular.js script.js" source-edit-html="index.html-13" source-edit-css="" source-edit-js="script.js-12" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div source-edit="myApp" source-edit-deps="angular.js script.js" source-edit-html="index.html-16" source-edit-css="" source-edit-js="script.js-15" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
 <div class="tabbable"><div class="tab-pane" title="index.html">
-<pre class="prettyprint linenums" ng-set-text="index.html-13" ng-html-wrap-loaded="myApp angular.js script.js"></pre>
-<script type="text/ng-template" id="index.html-13">
+<pre class="prettyprint linenums" ng-set-text="index.html-16" ng-html-wrap-loaded="myApp angular.js script.js"></pre>
+<script type="text/ng-template" id="index.html-16">
     
     <div ng-controller="Ctrl">
       <p>{{ 'HEADLINE' | translate }}</p>
-      <img src="mylogo.png" translate translate-attr-alt="LOGO"></img>
+      <img src="mylogo.png" translate-attr="{ alt: 'LOGO' }"></img>
       <p>{{ 'PARAGRAPH' | translate }}</p>
 
       <p translate>PASSED_AS_TEXT</p>
@@ -89,8 +96,8 @@ var translations = {
   </script>
 </div>
 <div class="tab-pane" title="script.js">
-<pre class="prettyprint linenums" ng-set-text="script.js-12"></pre>
-<script type="text/ng-template" id="script.js-12">
+<pre class="prettyprint linenums" ng-set-text="script.js-15"></pre>
+<script type="text/ng-template" id="script.js-15">
       var translations = {
         HEADLINE: 'What an awesome module!',
         PARAGRAPH: 'Srsly!',
@@ -115,7 +122,7 @@ var translations = {
     </script>
 </div>
 </div><h3 id="using-translate-directive_demo">Demo</h3>
-<div class="well doc-example-live animate-container" ng-embed-app="myApp" ng-set-html="index.html-13" ng-eval-javascript="script.js-12"></div>
+<div class="well doc-example-live animate-container" ng-embed-app="myApp" ng-set-html="index.html-16" ng-eval-javascript="script.js-15"></div>
 <p><br></p>
 <p><hr></p>
 <center>Made with unicorn &hearts; love by <a href="http://github.com/PascalPrecht">PascalPrecht</a></center></div></div>

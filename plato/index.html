@@ -13,7 +13,7 @@
   <![endif]-->
 
   <script>
-    var __options = {"flags":{"complexity":{"logicalor":true,"switchcase":true,"forin":false,"trycatch":false,"newmi":true},"jshint":{"globals":{"angular":false,"MessageFormat":false},"options":{"node":true,"jasmine":true,"esnext":false,"bitwise":true,"camelcase":false,"curly":true,"eqeqeq":true,"immed":true,"indent":2,"latedef":false,"newcap":true,"noarg":true,"quotmark":"single","regexp":true,"undef":true,"unused":true,"strict":true,"trailing":true,"smarttabs":true}}}}
+    var __options = {"flags":{"complexity":{"commonjs":true,"logicalor":true,"switchcase":true,"forin":false,"trycatch":false,"newmi":true},"jshint":{"globals":{"angular":false,"MessageFormat":false},"options":{"node":true,"jasmine":true,"esnext":false,"bitwise":true,"camelcase":false,"curly":true,"eqeqeq":true,"immed":true,"indent":2,"latedef":false,"newcap":true,"noarg":true,"quotmark":"single","regexp":true,"undef":true,"unused":true,"strict":true,"trailing":true,"smarttabs":true}}}}
   </script>
 
   <link href="assets/css/vendor/bootstrap.css" rel="stylesheet">
@@ -49,7 +49,7 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Total/Average Lines <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code" data-original-title="SLOC" data-container="body"></i></h2>
-      <p class="stat">4343 / 241</p>
+      <p class="stat">4556 / 239</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Average Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index" data-container="body"></i></a></h2>
@@ -121,9 +121,22 @@
           <span class="col-md-4 file"><a class="file-link" href="./files/translate_js/index.html">translate.js</a></span>
         <span class="col-md-8 file-chart js-file-chart"
               data-lint="0"
-              data-sloc="35"
+              data-sloc="42"
               data-bugs="0.19"
               data-complexity="5"
+          ></span>
+        </div>
+      </li>
+      
+      <li class="col-md-12">
+        <div class="row">
+          <span class="fade-left fadeout visible-large"></span>
+          <span class="col-md-4 file"><a class="file-link" href="./files/directive_translate_attr_js/index.html">directive/translate-attr.js</a></span>
+        <span class="col-md-8 file-chart js-file-chart"
+              data-lint="7"
+              data-sloc="141"
+              data-bugs="0.53"
+              data-complexity="8"
           ></span>
         </div>
       </li>
@@ -136,7 +149,7 @@
               data-lint="0"
               data-sloc="58"
               data-bugs="0.20"
-              data-complexity="2"
+              data-complexity="3"
           ></span>
         </div>
       </li>
@@ -162,7 +175,7 @@
               data-lint="0"
               data-sloc="92"
               data-bugs="0.17"
-              data-complexity="4"
+              data-complexity="5"
           ></span>
         </div>
       </li>
@@ -173,9 +186,9 @@
           <span class="col-md-4 file"><a class="file-link" href="./files/directive_translate_js/index.html">directive/translate.js</a></span>
         <span class="col-md-8 file-chart js-file-chart"
               data-lint="0"
-              data-sloc="358"
-              data-bugs="2.31"
-              data-complexity="39"
+              data-sloc="356"
+              data-bugs="2.28"
+              data-complexity="53"
           ></span>
         </div>
       </li>
@@ -199,7 +212,7 @@
           <span class="col-md-4 file"><a class="file-link" href="./files/service_default_interpolation_js/index.html">service/default-interpolation.js</a></span>
         <span class="col-md-8 file-chart js-file-chart"
               data-lint="0"
-              data-sloc="84"
+              data-sloc="99"
               data-bugs="0.23"
               data-complexity="4"
           ></span>
@@ -226,8 +239,8 @@
         <span class="col-md-8 file-chart js-file-chart"
               data-lint="0"
               data-sloc="495"
-              data-bugs="2.20"
-              data-complexity="34"
+              data-bugs="2.18"
+              data-complexity="40"
           ></span>
         </div>
       </li>
@@ -239,8 +252,8 @@
         <span class="col-md-8 file-chart js-file-chart"
               data-lint="0"
               data-sloc="82"
-              data-bugs="0.53"
-              data-complexity="10"
+              data-bugs="0.52"
+              data-complexity="11"
           ></span>
         </div>
       </li>
@@ -266,7 +279,7 @@
               data-lint="0"
               data-sloc="131"
               data-bugs="0.42"
-              data-complexity="7"
+              data-complexity="8"
           ></span>
         </div>
       </li>
@@ -277,9 +290,9 @@
           <span class="col-md-4 file"><a class="file-link" href="./files/service_sanitization_js/index.html">service/sanitization.js</a></span>
         <span class="col-md-8 file-chart js-file-chart"
               data-lint="0"
-              data-sloc="265"
-              data-bugs="1.14"
-              data-complexity="22"
+              data-sloc="308"
+              data-bugs="1.38"
+              data-complexity="32"
           ></span>
         </div>
       </li>
@@ -329,9 +342,9 @@
           <span class="col-md-4 file"><a class="file-link" href="./files/service_translate_js/index.html">service/translate.js</a></span>
         <span class="col-md-8 file-chart js-file-chart"
               data-lint="0"
-              data-sloc="2331"
-              data-bugs="12.29"
-              data-complexity="187"
+              data-sloc="2340"
+              data-bugs="12.18"
+              data-complexity="234"
           ></span>
         </div>
       </li>

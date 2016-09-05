@@ -110,7 +110,7 @@ NG_DOCS={
       "type": "object",
       "moduleName": "pascalprecht.translate",
       "shortDescription": "Sanitizes interpolation parameters and translated texts.",
-      "keywords": "$injector $log $translatesanitization api array consisting current currently custom executed existing function functions interpolation mode multiple names object optional order parameters params pascalprecht provided sanitization sanitize sanitized sanitizes selected selects strategies strategy text texts translate translated usestrategy"
+      "keywords": "$injector $log $translatesanitization api array call consisting context current currently custom default executed existing filter function functions interpolation mode multiple names object optional order parameters params pascalprecht provided sanitization sanitize sanitized sanitizes selected selects service strategies strategy text texts translate translated usestrategy"
     },
     {
       "section": "api",
@@ -155,7 +155,16 @@ NG_DOCS={
       "type": "directive",
       "moduleName": "pascalprecht.translate",
       "shortDescription": "Translates given translation id either through attribute or DOM content.",
-      "keywords": "$compile $digest $filter $interpolate $rootscope $scope $translateprovider activation ae angular api attr attribute camel case cased config content controller defines directive dom dynamic element en existing expect filter function hello html inject innerhtml internally interpolated interpolation js key left literal locally methods_usepostcompiling module ng-controller ngview object optional pascalprecht pass passed preferredlanguage scenario script string successful text title tobe translate translate-attr-attr translate-attr-title translate-compile translate-default translate-keep-content translate-value-camel-case-key translate-values translatectrl translated translates translation translation_id translationid translations true values with_camel_case_key with_values"
+      "keywords": "$compile $digest $interpolate $parse $rootscope $scope $translate $translateprovider activation ae angular api attr attribute camel case cased config content controller defines directive dom dynamic element en existing expect function hello html inject innerhtml internally interpolated interpolation js key left literal locally methods_usepostcompiling module ng-controller ngview object optional pascalprecht pass passed preferredlanguage scenario script service string successful text title tobe translate translate-attr-attr translate-attr-title translate-compile translate-default translate-keep-content translate-value-camel-case-key translate-values translatectrl translated translates translation translation_id translationid translations true values with_camel_case_key with_values"
+    },
+    {
+      "section": "api",
+      "id": "pascalprecht.translate.directive:translate-attr",
+      "shortName": "translate-attr",
+      "type": "directive",
+      "moduleName": "pascalprecht.translate",
+      "shortDescription": "Translates attributes like translate-attr-ATTR, but with an object like ng-class.",
+      "keywords": "$compile $digest $rootscope $scope $translateprovider angular api attr attributes config controller directive dynamic element en expect function hello html ids inject internally js literal mapping module ng-class ng-controller ngview object optional pascalprecht pass passed placeholder preferredlanguage scenario script service string title tobe translate translate-attr translate-attr-attr translate-values translatectrl translates translation translation_id translationid translations values with_values"
     },
     {
       "section": "api",

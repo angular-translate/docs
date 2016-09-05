@@ -1,19 +1,21 @@
-<a href="https://github.com/angular-translate/angular-translate/edit/master/src/directive/translate.js" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><a href="https://github.com/angular-translate/angular-translate/blob/43a4ed4/src/directive/translate.js#L95" class="view-source"><i class="icon-eye-open"> </i>View source</a><h1><code ng:non-bindable="">translate</code>
+<a href="https://github.com/angular-translate/angular-translate/edit/master/src/directive/translate.js" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><a href="https://github.com/angular-translate/angular-translate/blob/7db9e45/src/directive/translate.js#L96" class="view-source"><i class="icon-eye-open"> </i>View source</a><h1><code ng:non-bindable="">translate</code>
 <div><span class="hint">directive in module <code ng:non-bindable="">pascalprecht.translate</code>
 </span>
 </div>
 </h1>
 <div><h2 id="description">Description</h2>
 <div class="description"><div class="pascalprecht-translate-directive-page pascalprecht-translate-directive-translate-page"><p>Translates given translation id either through attribute or DOM content.
-Internally it uses <code>translate</code> filter to translate translation id. It possible to
+Internally it uses $translate service to translate the translation id. It possible to
 pass an optional <code>translate-values</code> object literal as string into translation id.</p>
 </div></div>
 <h2 id="dependencies">Dependencies</h2>
-<ul class="dependencies"><li><code ng:non-bindable=""><a href="#/api/ng.$compile">$compile</a></code>
+<ul class="dependencies"><li><code ng:non-bindable=""><a href="#/api/ng.$interpolate,">$interpolate,</a></code>
 </li>
-<li><code ng:non-bindable=""><a href="#/api/ng.$filter">$filter</a></code>
+<li><code ng:non-bindable=""><a href="#/api/ng.$compile,">$compile,</a></code>
 </li>
-<li><code ng:non-bindable=""><a href="#/api/ng.$interpolate">$interpolate</a></code>
+<li><code ng:non-bindable=""><a href="#/api/ng.$parse,">$parse,</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="#/api/ng.$rootScope">$rootScope</a></code>
 </li>
 </ul>
 <h2 id="usage">Usage</h2>
@@ -42,10 +44,10 @@ as attribute<pre class="prettyprint linenums">&lt;ANY translate="{string}"
 </div></td></tr></tbody></table></div>
 <h2 id="example">Example</h2>
 <div class="example"><div class="pascalprecht-translate-directive-page pascalprecht-translate-directive-translate-page"><h4 id="example_source">Source</h4>
-<div source-edit="ngView" source-edit-deps="angular.js script.js" source-edit-html="index.html-2" source-edit-css="" source-edit-js="script.js-3" source-edit-json="" source-edit-unit="" source-edit-scenario="scenario.js"></div>
+<div source-edit="ngView" source-edit-deps="angular.js script.js" source-edit-html="index.html-4" source-edit-css="" source-edit-js="script.js-5" source-edit-json="" source-edit-unit="" source-edit-scenario="scenario.js-6"></div>
 <div class="tabbable"><div class="tab-pane" title="index.html">
-<pre class="prettyprint linenums" ng-set-text="index.html-2" ng-html-wrap-loaded="ngView angular.js script.js"></pre>
-<script type="text/ng-template" id="index.html-2">
+<pre class="prettyprint linenums" ng-set-text="index.html-4" ng-html-wrap-loaded="ngView angular.js script.js"></pre>
+<script type="text/ng-template" id="index.html-4">
   <div ng-controller="TranslateCtrl">
 
     <pre translate="TRANSLATION_ID"></pre>
@@ -64,8 +66,8 @@ as attribute<pre class="prettyprint linenums">&lt;ANY translate="{string}"
 </script>
 </div>
 <div class="tab-pane" title="script.js">
-<pre class="prettyprint linenums" ng-set-text="script.js-3"></pre>
-<script type="text/ng-template" id="script.js-3">
+<pre class="prettyprint linenums" ng-set-text="script.js-5"></pre>
+<script type="text/ng-template" id="script.js-5">
   angular.module('ngView', ['pascalprecht.translate'])
 
   .config(function ($translateProvider) {
@@ -88,8 +90,8 @@ as attribute<pre class="prettyprint linenums">&lt;ANY translate="{string}"
 </script>
 </div>
 <div class="tab-pane" title="End to end test">
-<pre class="prettyprint linenums" ng-set-text="scenario.js"></pre>
-<script type="text/ng-template" id="scenario.js">
+<pre class="prettyprint linenums" ng-set-text="scenario.js-6"></pre>
+<script type="text/ng-template" id="scenario.js-6">
   it('should translate', function () {
     inject(function ($rootScope, $compile) {
       $rootScope.translationId = 'TRANSLATION_ID';
@@ -122,6 +124,6 @@ as attribute<pre class="prettyprint linenums">&lt;ANY translate="{string}"
 </script>
 </div>
 </div><h4 id="example_demo">Demo</h4>
-<div class="well doc-example-live animate-container" ng-embed-app="ngView" ng-set-html="index.html-2" ng-eval-javascript="script.js-3"></div>
+<div class="well doc-example-live animate-container" ng-embed-app="ngView" ng-set-html="index.html-4" ng-eval-javascript="script.js-5"></div>
 </div></div>
 </div>

@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">65.90</p>
+      <p class="stat">65.92</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">2331</p>
+      <p class="stat">2340</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">105.81</p>
+      <p class="stat">103.57</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">12.29</p>
+      <p class="stat">12.18</p>
     </div>
   </div>
 </div>
@@ -1456,7 +1456,7 @@ function $translate($STORAGE_KEY, $windowProvider, $translateSanitizationProvide
               getFallbackTranslation(langKey, translation.substr(2), interpolateParams, Interpolator)
                 .then(deferred.resolve, deferred.reject);
             } else {
-              var interpolatedValue = Interpolator.interpolate(translationTable[translationId], interpolateParams);
+              var interpolatedValue = Interpolator.interpolate(translationTable[translationId], interpolateParams, &#039;service&#039;);
               interpolatedValue = applyPostProcessing(translationId, translationTable[translationId], interpolatedValue, interpolateParams, langKey);
 
               deferred.resolve(interpolatedValue);
@@ -1493,7 +1493,7 @@ function $translate($STORAGE_KEY, $windowProvider, $translateSanitizationProvide
 
         if (translationTable &amp;&amp; Object.prototype.hasOwnProperty.call(translationTable, translationId)) {
           Interpolator.setLocale(langKey);
-          result = Interpolator.interpolate(translationTable[translationId], interpolateParams);
+          result = Interpolator.interpolate(translationTable[translationId], interpolateParams, &#039;filter&#039;);
           result = applyPostProcessing(translationId, translationTable[translationId], result, interpolateParams, langKey);
           if (result.substr(0, 2) === &#039;@:&#039;) {
             return getFallbackTranslationInstant(langKey, result.substr(2), interpolateParams, Interpolator);
@@ -1649,7 +1649,7 @@ function $translate($STORAGE_KEY, $windowProvider, $translateSanitizationProvide
               .then(deferred.resolve, deferred.reject);
           } else {
             //
-            var resolvedTranslation = Interpolator.interpolate(translation, interpolateParams);
+            var resolvedTranslation = Interpolator.interpolate(translation, interpolateParams, &#039;service&#039;);
             resolvedTranslation = applyPostProcessing(translationId, translation, resolvedTranslation, interpolateParams, uses);
             deferred.resolve(resolvedTranslation);
           }
@@ -1708,7 +1708,7 @@ function $translate($STORAGE_KEY, $windowProvider, $translateSanitizationProvide
           if (translation.substr(0, 2) === &#039;@:&#039;) {
             result = determineTranslationInstant(translation.substr(2), interpolateParams, interpolationId, uses);
           } else {
-            result = Interpolator.interpolate(translation, interpolateParams);
+            result = Interpolator.interpolate(translation, interpolateParams, &#039;filter&#039;);
             result = applyPostProcessing(translationId, translation, result, interpolateParams, uses);
           }
         } else {
@@ -2001,7 +2001,7 @@ function $translate($STORAGE_KEY, $windowProvider, $translateSanitizationProvide
             return translation;
           }, function (key) {
             // find first available fallback language if that request has failed
-            if (!$uses &amp;&amp; $fallbackLanguage &amp;&amp; $fallbackLanguage.length &gt; 0) {
+            if (!$uses &amp;&amp; $fallbackLanguage &amp;&amp; $fallbackLanguage.length &gt; 0 &amp;&amp; $fallbackLanguage[0] !== key) {
               return $translate.use($fallbackLanguage[0]).then(deferred.resolve, deferred.reject);
             } else {
               return deferred.reject(key);
@@ -2268,7 +2268,7 @@ function $translate($STORAGE_KEY, $windowProvider, $translateSanitizationProvide
             result = applyNotFoundIndicators(translationId);
           } else {
             // Return translation of default interpolator if not found anything.
-            result = defaultInterpolator.interpolate(translationId, interpolateParams);
+            result = defaultInterpolator.interpolate(translationId, interpolateParams, &#039;filter&#039;);
             if ($missingTranslationHandlerFactory &amp;&amp; !pendingLoader) {
               result = translateByHandler(translationId, interpolateParams);
             }
@@ -2440,10 +2440,10 @@ $translate.displayName = &#039;displayName&#039;;</textarea>
 
 <script type="text/html" id="complexity-popover-template">
   <div class="complexity-notice">
-    Complexity : {{ complexity.cyclomatic }} <br>
-    Length : {{ complexity.halstead.length }} <br>
-    Difficulty : {{ complexity.halstead.difficulty.toFixed(2) }} <br>
-    Est # bugs : {{ complexity.halstead.bugs.toFixed(2) }}<br>
+    Complexity : {{ cyclomatic }} <br>
+    Length : {{ halstead.length }} <br>
+    Difficulty : {{ halstead.difficulty.toFixed(2) }} <br>
+    Est # bugs : {{ halstead.bugs.toFixed(2) }}<br>
   </div>
 </script>
 
