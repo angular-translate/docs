@@ -1,4 +1,4 @@
-<a href="https://github.com/angular-translate/angular-translate/edit/master/docs/content/guide/zh-tw/15_custom-interpolators.ngdoc" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><h1><code ng:non-bindable=""></code>
+<a href="https://github.com/{{repo}}/edit/master/{{file}}" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><h1><code ng:non-bindable=""></code>
 <div><span class="hint"></span>
 </div>
 </h1>
@@ -12,7 +12,7 @@
 <ul>
 <li><code>setLocale(langKey)</code> - 設置當前使用的語言</li>
 <li><code>getInterpolationIdentifier()</code> - 返回一個標識符插值</li>
-<li><code>interpolate(string, interpolateParams)</code> - 對字符串的params參數進行插值處理</li>
+<li><code>interpolate(string, interpolateParams, sanitizeStrategy)</code> - 對字符串的params參數進行插值處理</li>
 </ul>
 <p>讓我們來看看怎麼實現自定義的插值服務。首先，我們實現的接口：</p>
 <pre class="prettyprint linenums">
@@ -28,7 +28,7 @@ app.factory('customInterpolation', function () {
 
     },
 
-    interpolate: function (string, interpolateParams) {
+    interpolate: function (string, interpolateParams, sanitizeStrategy) {
 
     }
   };
@@ -50,8 +50,8 @@ app.factory('customInterpolation', function ($interpolate) {
       return 'custom';
     },
 
-    interpolate: function (string, interpolateParams) {
-      return $locale + '_' + $interpolate(string)(interpolateParams) + '_' + $locale;
+    interpolate: function (string, interpolateParams, sanitizeStrategy) {
+      return $locale + '_' + $interpolate(string)(interpolateParams, sanitizeStrategy) + '_' + $locale;
     }
   };
 });
@@ -134,8 +134,8 @@ $translateProvider.addInterpolation('customInterpolation');
             return 'custom';
           },
 
-          interpolate: function (string, interpolateParams) {
-            return $locale + '_' + $interpolate(string)(interpolateParams) + '_' + $locale;
+          interpolate: function (string, interpolateParams, sanitizeStrategy) {
+            return $locale + '_' + $interpolate(string)(interpolateParams, sanitizeStrategy) + '_' + $locale;
           }
         };
       });

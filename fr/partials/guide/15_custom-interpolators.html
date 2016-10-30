@@ -1,4 +1,4 @@
-<a href="https://github.com/angular-translate/angular-translate/edit/master/docs/content/guide/fr/15_custom-interpolators.ngdoc" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><h1><code ng:non-bindable=""></code>
+<a href="https://github.com/{{repo}}/edit/master/{{file}}" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><h1><code ng:non-bindable=""></code>
 <div><span class="hint"></span>
 </div>
 </h1>
@@ -17,7 +17,7 @@ doivent être fournies par un service d&#39;interpolation personnalisé :</p>
 <ul>
 <li><code>setLocale(langKey)</code> - définit la langue utilisée</li>
 <li><code>getInterpolationIdentifier()</code> - retourne un identifiant pour l&#39;interpolation</li>
-<li><code>interpolate(string, interpolateParams)</code> - interpole le string en interpolateParams</li>
+<li><code>interpolate(string, interpolateParams, sanitizeStrategy)</code> - interpole le string en interpolateParams</li>
 </ul>
 <p>Regardons à quoi ressemble l&#39;implémentation d&#39;un service d&#39;interpolation personnalisé. Tout d&#39;abord,
 nous implémentons l&#39;interface :</p>
@@ -34,7 +34,7 @@ app.factory('customInterpolation', function () {
 
     },
 
-    interpolate: function (string, interpolateParams) {
+    interpolate: function (string, interpolateParams, sanitizeStrategy) {
 
     }
   };
@@ -58,8 +58,8 @@ app.factory('customInterpolation', function ($interpolate) {
       return 'custom';
     },
 
-    interpolate: function (string, interpolateParams) {
-      return $locale + '_' + $interpolate(string)(interpolateParams) + '_' + $locale;
+    interpolate: function (string, interpolateParams, sanitizeStrategy) {
+      return $locale + '_' + $interpolate(string)(interpolateParams, sanitizeStrategy) + '_' + $locale;
     }
   };
 });
@@ -149,8 +149,8 @@ $translateProvider.addInterpolation('customInterpolation');
             return 'custom';
           },
 
-          interpolate: function (string, interpolateParams) {
-            return $locale + '_' + $interpolate(string)(interpolateParams) + '_' + $locale;
+          interpolate: function (string, interpolateParams, sanitizeStrategy) {
+            return $locale + '_' + $interpolate(string)(interpolateParamsi, sanitizeStrategy) + '_' + $locale;
           }
         };
       });

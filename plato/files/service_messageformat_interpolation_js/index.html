@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">66.37</p>
+      <p class="stat">69.11</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">131</p>
+      <p class="stat">173</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">18.83</p>
+      <p class="stat">20.86</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">0.42</p>
+      <p class="stat">0.54</p>
     </div>
   </div>
 </div>
@@ -103,23 +103,58 @@
 
 /**
  * @ngdoc object
- * @name pascalprecht.translate.$translateMessageFormatInterpolation
- * @requires pascalprecht.translate.TRANSLATE_MF_INTERPOLATION_CACHE
+ * @name pascalprecht.translate.$translateMessageFormatInterpolationProvider
  *
  * @description
- * Uses MessageFormat.js to interpolate strings against some values.
- *
- * Be aware to configure a proper sanitization strategy.
- *
- * See also:
- * * {@link pascalprecht.translate.$translateSanitization}
- * * {@link https://github.com/SlexAxton/messageformat.js}
- *
- * @return {object} $translateMessageFormatInterpolation Interpolator service
+ * Configurations for $translateMessageFormatInterpolation
  */
-.factory(&#039;$translateMessageFormatInterpolation&#039;, $translateMessageFormatInterpolation);
+.provider(&#039;$translateMessageFormatInterpolation&#039;, $translateMessageFormatInterpolationProvider);
 
-function $translateMessageFormatInterpolation($translateSanitization, $cacheFactory, TRANSLATE_MF_INTERPOLATION_CACHE) {
+function $translateMessageFormatInterpolationProvider() {
+
+  &#039;use strict&#039;;
+
+  var configurer;
+
+  /**
+   * @ngdoc function
+   * @name pascalprecht.translate.$translateMessageFormatInterpolationProvider#messageFormatConfigurer
+   * @methodOf pascalprecht.translate.$translateMessageFormatInterpolationProvider
+   *
+   * @description
+   * Defines an optional configurer for the MessageFormat instance.
+   *
+   * Note: This hook will be called whenever a new instance of MessageFormat will be created.
+   *
+   * @param {function} fn callback with the instance as argument
+   */
+  this.messageFormatConfigurer = function (fn) {
+    configurer = fn;
+  };
+
+  /**
+   * @ngdoc object
+   * @name pascalprecht.translate.$translateMessageFormatInterpolation
+   * @requires pascalprecht.translate.TRANSLATE_MF_INTERPOLATION_CACHE
+   *
+   * @description
+   * Uses MessageFormat.js to interpolate strings against some values.
+   *
+   * Be aware to configure a proper sanitization strategy.
+   *
+   * See also:
+   * * {@link pascalprecht.translate.$translateSanitization}
+   * * {@link https://github.com/SlexAxton/messageformat.js}
+   *
+   * @return {object} $translateMessageFormatInterpolation Interpolator service
+   */
+  this.$get = function ($translateSanitization, $cacheFactory, TRANSLATE_MF_INTERPOLATION_CACHE) {
+    return $translateMessageFormatInterpolation($translateSanitization, $cacheFactory, TRANSLATE_MF_INTERPOLATION_CACHE, configurer);
+  };
+
+}
+
+function $translateMessageFormatInterpolation($translateSanitization, $cacheFactory, TRANSLATE_MF_INTERPOLATION_CACHE, messageFormatConfigurer) {
 
   &#039;use strict&#039;;
 
@@ -128,6 +163,10 @@ function $translateMessageFormatInterpolation($translateSanitization, $cacheFact
       // instantiate with default locale (which is &#039;en&#039;)
       $mf = new MessageFormat(&#039;en&#039;),
       $identifier = &#039;messageformat&#039;;
+
+  if (angular.isFunction(messageFormatConfigurer)) {
+    messageFormatConfigurer($mf);
+  }
 
   if (!$cache) {
     // create cache if it doesn&#039;t exist already
@@ -150,6 +189,9 @@ function $translateMessageFormatInterpolation($translateSanitization, $cacheFact
     $mf = $cache.get(locale);
     if (!$mf) {
       $mf = new MessageFormat(locale);
+      if (angular.isFunction(messageFormatConfigurer)) {
+        messageFormatConfigurer($mf);
+      }
       $cache.put(locale, $mf);
     }
   };
@@ -187,9 +229,9 @@ function $translateMessageFormatInterpolation($translateSanitization, $cacheFact
    *
    * @returns {string} interpolated string.
    */
-  $translateInterpolator.interpolate = function (string, interpolationParams/*, context*/) {
+  $translateInterpolator.interpolate = function (string, interpolationParams, context, sanitizeStrategy) {
     interpolationParams = interpolationParams || {};
-    interpolationParams = $translateSanitization.sanitize(interpolationParams, &#039;params&#039;);
+    interpolationParams = $translateSanitization.sanitize(interpolationParams, &#039;params&#039;, sanitizeStrategy);
 
     var compiledFunction = $cache.get(&#039;mf:&#039; + string);
 
@@ -213,7 +255,7 @@ function $translateMessageFormatInterpolation($translateSanitization, $cacheFact
     }
 
     var interpolatedText = compiledFunction(interpolationParams);
-    return $translateSanitization.sanitize(interpolatedText, &#039;text&#039;);
+    return $translateSanitization.sanitize(interpolatedText, &#039;text&#039;, sanitizeStrategy);
   };
 
   return $translateInterpolator;
