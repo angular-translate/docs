@@ -1,0 +1,80 @@
+<a href="https://github.com/{{repo}}/edit/master/{{file}}" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="guide-page"><h2 id="i18n-for-your-angular-apps,-made-easy">i18n for your Angular apps, made easy</h2>
+<h5 id="i18n-for-your-angular-apps,-made-easy_the-easiest-way-to-bring-i18n-and-l10n-to-your-angular-apps">The easiest way to bring i18n and l10n to your Angular apps!</h5>
+<p><br>
+You want to bring <strong>i18n</strong> and <strong>l10n</strong> to your Angular apps and couldn&#39;t find an easy way
+how to do it? angular-translate got you covered. It comes with plenty useful features
+and extensions and gives you ultra high flexibility when it comes to customization.
+These are just a few of the great features:</p>
+<h3 id="i18n-for-your-angular-apps,-made-easy_features">Features</h3>
+<ul>
+<li>Components (filters/directives) to translate your contents</li>
+<li>Asynchronous loading of i18n data</li>
+<li>Pluralization support using <a href="https://github.com/SlexAxton/messageformat.js"><strong>MessageFormat.js</strong></a></li>
+<li>Expandability through easy to use interfaces</li>
+</ul>
+<p>If you like the module and use it in your projects, make it public on
+<a href="http://ngmodules.org/modules/angular-translate">ngmodules</a> and click that
+&quot;<em>I use it</em>&quot; button! angular-translate is easy to install and even easier to use!
+When you read this doc, you&#39;ll learn how to use angular-translate and its cool features!
+Let&#39;s have a quick start:</p>
+<h3 id="i18n-for-your-angular-apps,-made-easy_quick-start">Quick Start</h3>
+<p>Install module via Bower:</p>
+<pre><code>$ bower install angular-translate
+</code></pre><p>Make sure to embed it in your HTML document.</p>
+<pre class="prettyprint linenums">
+&lt;script src="path/to/angular-translate.js"&gt;&lt;/script&gt;
+</pre>
+<p>Inject <code>angular-translate</code> module as a dependency into your app:</p>
+<pre class="prettyprint linenums">
+var app = angular.module('myApp', ['pascalprecht.translate']);
+</pre>
+<p>Teach you app translations:</p>
+<pre class="prettyprint linenums">
+app.config(['$translateProvider', function ($translateProvider) {
+  $translateProvider.translations('en', {
+    'TITLE': 'Hello',
+    'FOO': 'This is a paragraph'
+  });
+
+  $translateProvider.translations('de', {
+    'TITLE': 'Hallo',
+    'FOO': 'Dies ist ein Absatz'
+  });
+
+  $translateProvider.preferredLanguage('en');
+}]);
+</pre>
+<p>Translate your app:</p>
+<pre class="prettyprint linenums">
+&lt;h1&gt;{{ 'TITLE' | translate }}&lt;/h1&gt;
+&lt;p&gt;{{ 'FOO' | translate }}&lt;/p&gt;
+</pre>
+<p>This is just a quick example of how angular-translate actually works. Basically
+the whole thing works like &quot;<em>Provide some i18n data, let angular-translate know of it
+and use its components to interpolate your translations (against some values).</em>&quot;.
+Easy, huh?</p>
+<h3 id="i18n-for-your-angular-apps,-made-easy_useful-resources">Useful resources</h3>
+<p>There are some very useful things on the web that might be interesting for you,
+so make sure to check this list.</p>
+<ul>
+<li><a href="http://www.ng-newsletter.com/posts/angular-translate.html">Tutorial on ng-newsletter.com</a></li>
+<li><a href="http://technpol.wordpress.com/2013/11/02/adding-translation-using-angular-translate-to-an-angularjs-app/">angular-translate and partial loading</a></li>
+<li><a href="https://github.com/angular-translate/angular-translate/wiki/Demos">Examples and demos</a> - Currently on plnkr.co</li>
+<li><a href="http://angularjs.de/artikel/angularjs-i18n-ng-translate">Tutorial on angularjs.de</a> - German article</li>
+<li><a href="http://github.com/PascalPrecht/angular-translate">angular-translate on GitHub</a> - The GitHub repository</li>
+<li><a href="http://ngmodules.org/modules/angular-translate">angular-translate on ngmodules.org</a></li>
+<li><a href="https://groups.google.com/forum/#!forum/angular-translate">angular-translate mailinglist</a> - Discuss, ask et al!</li>
+</ul>
+<h3 id="i18n-for-your-angular-apps,-made-easy_thank-you,-community">Thank you, community!</h3>
+<p>We got a lot of great feedback from the community so far! More and more people
+use this module and they are always thankful for it and the awesome support they
+get. I just want to make sure that you guys know: All this wouldn&#39;t have been
+possible without these <a href="http://github.com/PascalPrecht/angular-translate/contributors">great contributors</a>
+and everybody who comes with new ideas and feature requests! So <strong>THANK YOU</strong>!</p>
+<p><br></p>
+<p><hr></p>
+<center>Made with unicorn &hearts; love by <a href="http://github.com/PascalPrecht">PascalPrecht</a></center></div></div>

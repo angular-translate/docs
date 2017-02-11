@@ -1,0 +1,127 @@
+<a href="https://github.com/{{repo}}/edit/master/{{file}}" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="--page"><h2 id="користувацькі-сховища">Користувацькі сховища</h2>
+<p>Якщо ви читали розділ <a href="#/guide/10_storages">Сховища</a>, то знаєте як використовувати cookiesStorage
+і localStorage для того, щоб дати можливість вашому застосунку запам&#39;ятовувати останню обрану мову
+між http запитами. Якщо обидва localStorage і cookieStorage вам не підходять, запросто можна
+створити свій власний сервіс сховища і використовувати його замість них.</p>
+<h3 id="користувацькі-сховища_створення-користувацького-сховища">Створення користувацького сховища</h3>
+<p>Якщо ви хочете використовувати своє власне сховище у вашому застосунку, вам необхідно створити
+сервіс, що реалізує певні методи, щоб angular-translate зміг його використовувати. Інтерфейс для
+сервісу сховища дуже простий - він повинен надати методи <code>put()</code> і <code>get()</code>.</p>
+<p>Давайте припустимо, що ми хочемо використовувати користувацький сервіс сховища в нашому застосунку.
+Ми легко можемо розширити його новим сервісом. Нам необхідно впевнитися, що ми повертаємо об&#39;єкт з
+методами <code>get()</code> і <code>put()</code>. Користувацький сервіс може виглядати якось так:</p>
+<pre class="prettyprint linenums">
+app.factory('customStorage', function () {
+  return {
+    put: function (name, value) {
+      // store `value` under `name` somehow
+    },
+    get: function (name) {
+      // request value of `name` somehow
+    }
+  };
+});
+</pre>
+<p>Правда легко? Як бачите, <code>put()</code> приймає два аргументи. Ім&#39;я та значення. Таким чином, робота
+відбувається з простими парами ключ-значення. З іншого боку, <code>get()</code> потребує лише імені для запиту
+значення. Надання користувацького сховища у якості окремого сервісу надає вам велику гнучкість коли
+мова йде про використання цього сервісу в іншому місці. В додаток до цього, такий сервіс легко
+тестувати, бо він ізольований.</p>
+<h3 id="користувацькі-сховища_використання-користувацького-сховища">Використання користувацького сховища</h3>
+<p>Коли ви створили користувацьке сховище, скажіть angular-translate, що він повинен використовувати
+його. Методи <code>useCookieStorage()</code> і <code>useLocalStorage()</code> насправді є скороченнями. Всередині обидва
+вони використовують метод <code>useStorage()</code>. Ви також можете використовувати цей метод, щоб повідомити
+angular-translate про ваш користувацький сервіс просто написавши:</p>
+<pre class="prettyprint linenums">
+$translateProvider.useStorage('customStorage');
+</pre>
+<p>angular-translate використовує <code>$injector</code> для отримання екземпляру фабрики, назву якої було надано
+(в нашому випадку це <code>customStorage</code>), і, надалі, може використовувати її методи під час виконання
+для збереження останньої обраної мови.</p>
+<h3 id="користувацькі-сховища_source">Source</h3>
+<div source-edit="myApp" source-edit-deps="angular.js script.js" source-edit-html="index.html-24" source-edit-css="" source-edit-js="script.js-23" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div class="tabbable"><div class="tab-pane" title="index.html">
+<pre class="prettyprint linenums" ng-set-text="index.html-24" ng-html-wrap-loaded="myApp angular.js script.js"></pre>
+<script type="text/ng-template" id="index.html-24">
+    
+    <div ng-controller="Ctrl">
+      <p>{{ 'HEADLINE' | translate }}</p>
+      <p>{{ 'PARAGRAPH' | translate }}</p>
+
+      <p translate>PASSED_AS_TEXT</p>
+      <p translate="PASSED_AS_ATTRIBUTE"></p>
+      <p translate>{{ 'PASSED_AS_INTERPOLATION' }}</p>
+      <p translate="{{ 'PASSED_AS_INTERPOLATION' }}"></p>
+      <p translate="VARIABLE_REPLACEMENT" translate-values="{ name: 'PascalPrecht' }"></p>
+
+      <button ng-click="changeLanguage('de')" translate="BUTTON_LANG_DE"></button>
+      <button ng-click="changeLanguage('en')" translate="BUTTON_LANG_EN"></button>
+    </div>
+  </script>
+</div>
+<div class="tab-pane" title="script.js">
+<pre class="prettyprint linenums" ng-set-text="script.js-23"></pre>
+<script type="text/ng-template" id="script.js-23">
+      var translationsEN = {
+        HEADLINE: 'What an awesome module!',
+        PARAGRAPH: 'Srsly!',
+        PASSED_AS_TEXT: 'Hey there! I\'m passed as text value!',
+        PASSED_AS_ATTRIBUTE: 'I\'m passed as attribute value, cool ha?',
+        PASSED_AS_INTERPOLATION: 'Beginners! I\'m interpolated!',
+        VARIABLE_REPLACEMENT: 'Hi {{name}}',
+        BUTTON_LANG_DE: 'German',
+        BUTTON_LANG_EN: 'English'
+      };
+
+      var translationsDE= {
+        HEADLINE: 'Was für ein großartiges Modul!',
+        PARAGRAPH: 'Ernsthaft!',
+        PASSED_AS_TEXT: 'Hey! Ich wurde als text übergeben!',
+        PASSED_AS_ATTRIBUTE: 'Ich wurde als Attribut übergeben, cool oder?',
+        PASSED_AS_INTERPOLATION: 'Anfänger! Ich bin interpoliert!',
+        VARIABLE_REPLACEMENT: 'Hi {{name}}',
+        BUTTON_LANG_DE: 'Deutsch',
+        BUTTON_LANG_EN: 'Englisch'
+      };
+
+      var app = angular.module('myApp', ['ngCookies', 'pascalprecht.translate']);
+
+      app.config(['$translateProvider', function ($translateProvider) {
+        // add translation tables
+        $translateProvider.translations('en', translationsEN);
+        $translateProvider.translations('de', translationsDE);
+        $translateProvider.preferredLanguage('en');
+        // remember language
+        $translateProvider.useStorage('customStorage');
+      }]);
+
+      app.factory('customStorage', function () {
+        return {
+          put: function (name, value) {
+            // store `value` under `name` somehow
+          },
+          get: function (name) {
+            // request value of `name` somehow
+          }
+        };
+      });
+
+      app.controller('Ctrl', ['$translate', '$scope', function ($translate, $scope) {
+
+        $scope.changeLanguage = function (langKey) {
+          $translate.use(langKey);
+        };
+      }]);
+    </script>
+</div>
+</div><h3 id="користувацькі-сховища_demo">Demo</h3>
+<div class="well doc-example-live animate-container" ng-embed-app="myApp" ng-set-html="index.html-24" ng-eval-javascript="script.js-23"></div>
+<p>Звісно, наш користувацький сервіс нічого не робить, через що ви можете перевантажувати браузер так
+часто, як побажаєте, але застосунок не запам&#39;ятає мову.</p>
+<p><br></p>
+<p><hr></p>
+<center>Made with unicorn &hearts; love by <a href="http://github.com/PascalPrecht">PascalPrecht</a></center></div></div>

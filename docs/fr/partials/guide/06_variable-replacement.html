@@ -1,0 +1,190 @@
+<a href="https://github.com/{{repo}}/edit/master/{{file}}" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="valeurs-dynamiques-page"><h2 id="valeurs-dynamiques">Valeurs dynamiques</h2>
+<p>Ce guide va vous montrer comment gérer les valeurs dynamiques dans les traductions.
+Si vous n&#39;avez pas lu les guides sur
+<a href="#/guide/03_using-translate-service">le service $translate</a>,
+<a href="#/guide/04_using-translate-filter">le filtre translate</a> et
+<a href="#/guide/05_using-translate-directive">la directive translate</a>, vous devriez le faire maintenant !</p>
+<p>L&#39;utilisation du service <code>$translate</code>, du filtre <code>$translate</code> et de la directive <code>$translate</code> est très
+soigné ! Mais que faire si vos traductions ont besoin de valeurs dynamiques ? Imaginons que vous voulez
+afficher un message de notification avec un texte comme &#39;<em>Vous avez reçu n mails</em>&#39;, où <em>n</em> est un
+placeholder pour une valeur dynamique qui pourrait être n&#39;importe quel nombre ?</p>
+<p>Et bien, <code>angular-translate</code> fournit cela. L&#39;ajout des valeurs dynamiques aux traductions
+est assez simple grâce au service d&#39;interpolation par défaut de angular-translate.
+Oui, vous avez bien lu. Ils dépendent de l&#39;utilisation du service d&#39;interpolation, où les valeurs
+dynamiques sont gérées dans les traductions.</p>
+<h3 id="valeurs-dynamiques_utilisation-des-valeurs-dynamiques-dans-les-traductions">Utilisation des valeurs dynamiques dans les traductions</h3>
+<p>Lors de l&#39;utilisation du service d&#39;interpolation par défaut de angular-translate, vous pouvez simplement
+utiliser la syntaxe du service d&#39;interpolation d&#39;Angular. Donc, pour définir une valeur dynamique dans
+une traduction, tout ce que vous avez à faire, c&#39;est d&#39;utiliser la directive interpolate d&#39;Angular.</p>
+<pre><code>{
+  &quot;TRANSLATION_ID&quot;: &quot;{{username}} est connecté.&quot;
+}
+</code></pre><p>En considérant que <code>username</code> est l&#39;identifiant que vous pouvez passer à une valeur dynamique.
+Alors, comment est-il possible de récupérer ces valeurs dynamiques passées à travers les composants
+fournis d&#39;angular-translate ?</p>
+<h3 id="valeurs-dynamiques_valeurs-dynamiques-dans-le-service-$translate">Valeurs dynamiques dans le service $translate</h3>
+<p>Vous pouvez passer les valeurs dynamiques par le service <code>$translate</code> en utilisant son
+deuxième argument. Le service <code>$translate</code> attend un objet hash JavaScript comme second argument
+qui est utilisé pour interpoler les traductions. Donc, si nous avons un Id de traduction comme
+décrit ci-dessus, en passant une valeur, <code>username</code> fonctionnerait de la manière suivante :</p>
+<pre class="prettyprint linenums">
+$translate('TRANSLATION_ID', { username: 'PascalPrecht' });
+</pre>
+<p>S&#39;il y a un ID de traduction contenant plusieurs valeurs dynamiques, étendez
+simplement le hash de l&#39;objet passé avec des paires clé-valeur correspondantes.</p>
+<pre class="prettyprint linenums">
+$translate('TRANSLATION_ID', {
+  username: 'PascalPrecht',
+  lastLogin: '2013-07-21 6:50PM'
+});
+</pre>
+<h3 id="valeurs-dynamiques_valeurs-dynamiques-dans-le-filtre-translate">Valeurs dynamiques dans le filtre translate</h3>
+<p>Comme le filtre <code>translate</code> utilise le service <code>$translate</code> en interne, nous avons juste
+besoin d&#39;un moyen pour transmettre des valeurs dynamiques à travers le filtre pour les rendre
+disponibles comme un objet hash pour le service. Pour cela, il y a une syntaxe spécifique requise,
+car les filtres dans Angular ne sont pas actuellement en mesure d&#39;avoir des paramètres nommés. Donc,
+il y a plusieurs manières de passer des valeurs à travers le filtre <code>translate</code>.</p>
+<p>La première façon est de passer un objet littéral sous forme de string. Ensuite, il est
+interpolé par le service <code>$translate</code>.</p>
+<pre class="prettyprint linenums">
+{{ 'TRANSLATION_ID' | translate:'{ username: "PascalPrecht" }' }}
+</pre>
+<p>Simple n&#39;est-ce pas ? Mais que faire si <code>username</code> n&#39;est pas une valeur fixe et doit
+être interpolée avant d&#39;être passé ? Le seul moyen pour y parvenir est de passer un objet
+du scope comme une expression Angular à travers le filtre. Ce qui signifie aussi, que vous
+devez lier vos valeurs dynamiques pour les traductions dans le contrôleur qui expose
+les valeurs du scope.</p>
+<pre class="prettyprint linenums">
+angular.module('monApp').controller('Ctrl', ['$scope', function ($scope) {
+
+  $scope.translationData = {
+    username: 'PascalPrecht'
+  };
+}]);
+</pre>
+<p>Et puis passer cela comme une expression à travers le filtre :</p>
+<pre class="prettyprint linenums">
+{{ 'TRANSLATION_ID' | translate:translationData }}
+</pre>
+<h3 id="valeurs-dynamiques_valeurs-dynamiques-dans-la-directive-translate">Valeurs dynamiques dans la directive translate</h3>
+<p>Bien sûr, vous pouvez faire la même chose avec la directive <code>translate</code>. La directive
+<code>translate</code> prévoit un attribut optionnel <code>translate-values</code> que vous pouvez utiliser pour
+lui passer des valeurs. Tout ce que vous avez à faire, c&#39;est de combiner la directive avec
+l&#39;attribut <code>translate-values</code>.</p>
+<p>Vous pouvez passer un objet littéral sous forme de string, une expression ou si la valeur est
+dynamique, une directive d&#39;interpolation. Quoi que vous passez, cela permet de l&#39;évaluer et l&#39;analyser
+en interne par le filtre <code>translate</code>, donc c&#39;est une sorte d&#39;objet JavaScript simple qui est
+transmis au service <code>$translate</code>.</p>
+<pre class="prettyprint linenums">
+&lt;ANY translate="TRANSLATION_ID"
+     translate-values='{ username: "PascalPrect"}'&gt;&lt;/ANY&gt;
+</pre>
+<p>ou</p>
+<pre class="prettyprint linenums">
+&lt;ANY translate="TRANSLATION_ID"
+     translate-values="{ username: someScopeObject.username }"&gt;&lt;/ANY&gt;
+</pre>
+<p>ou</p>
+<pre class="prettyprint linenums">
+&lt;ANY translate="TRANSLATION_ID"
+     translate-values="{{translationData}}"&gt;&lt;/ANY&gt;
+</pre>
+<h3 id="valeurs-dynamiques_attributs-de-traduction-personnalisés">Attributs de traduction personnalisés</h3>
+<p>Depuis la version <code>2.0</code>, la directive <code>translate</code> a une autre caractéristique propre pour transmettre
+des valeurs dans vos traductions. Nous venons d&#39;apprendre comment utiliser l&#39;attribut
+<code>translate-values</code>, ce qui est agréable, mais si nous pouvions, dans certains cas, être un peu
+plus déclaratifs dans notre code. Que faire si nous voulons seulement passer une ou deux valeurs,
+mais les déclarer explicitement dans notre HTML ?</p>
+<p>Eh bien, dans angular-translate <code>&gt;=2.0</code>, vous pouvez faire exactement cela. Vous êtes
+capable de définir vos propres attributs <code>translate-value-*</code>.</p>
+<p>Alors, comment ça marche ? C&#39;est facile comme bonjour !</p>
+<p>Imaginons que nous avons l&#39;id de la traduction suivante :</p>
+<pre class="prettyprint linenums">
+{
+  "GREETING": "Salut, mon nom est {{name}}"
+}
+</pre>
+<p>Et nous voulons le traduire avec la directive <code>translate</code>. Nous pouvons le faire,
+mais cette fois, nous utilisons un attribut personnalisé <code>translate-value-*</code> pour
+obtenir la valeur dans notre traduction. Alors, voici comment cela fonctionne :</p>
+<pre class="prettyprint linenums">
+&lt;p translate="GREETING" translate-value-name="Pascal"&gt;&lt;/p&gt;
+</pre>
+<p>Tout ce que vous avez à faire, c&#39;est d&#39;utiliser le préfixe <code>translate-value-</code> et d&#39;ajouter le
+nom de l&#39;identificateur de la directive qui l&#39;interpole dans votre traduction (dans ce cas <code>name</code>).</p>
+<p>Et, bien sûr, vous pouvez aussi les utiliser avec des valeurs interpolées :</p>
+<pre class="prettyprint linenums">
+&lt;p translate="GREETING" translate-value-name="{{name}}"&gt;&lt;/p&gt;
+</pre>
+<p>Si ce n&#39;est pas une fonctionnalité intéressante, que je sois pendu.</p>
+<p>Impressionnant ! Nous pouvons maintenant remplacer les valeurs dynamiques dans nos traductions !
+Mettons à jour notre exemple d&#39;application. Nous étendons la table de traduction comme ceci :</p>
+<pre class="prettyprint linenums">
+var translations = {
+  HEADLINE: 'C\'est un module génial !',
+  PARAGRAPH: 'Srsly !',
+  PASSED_AS_TEXT: 'Et là ! Je suis passé comme valeur de texte !',
+  PASSED_AS_ATTRIBUTE: 'Je suis passé comme une valeur de l\'attribut, cool non ?',
+  PASSED_AS_INTERPOLATION: 'Débutants ! Je suis interpolé !',
+  VARIABLE_REPLACEMENT: 'Salut, {{name}}'
+};
+</pre>
+<p>Ensuite, nous passons un nom à travers une directive <code>translate</code> :</p>
+<pre class="prettyprint linenums">
+&lt;p translate="VARIABLE_REPLACEMENT" translate-values="{ name: 'PascalPrecht' }"&gt;&lt;/p&gt;
+</pre>
+<p>Notre code ressemble maintenant à ceci :</p>
+<h3 id="valeurs-dynamiques_source">Source</h3>
+<div source-edit="monApp" source-edit-deps="angular.js script.js" source-edit-html="index.html-18" source-edit-css="" source-edit-js="script.js-17" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div class="tabbable"><div class="tab-pane" title="index.html">
+<pre class="prettyprint linenums" ng-set-text="index.html-18" ng-html-wrap-loaded="monApp angular.js script.js"></pre>
+<script type="text/ng-template" id="index.html-18">
+    
+    <div ng-controller="Ctrl">
+      <p>{{ 'HEADLINE' | translate }}</p>
+      <p>{{ 'PARAGRAPH' | translate }}</p>
+
+      <p translate>PASSED_AS_TEXT</p>
+      <p translate="PASSED_AS_ATTRIBUTE"></p>
+      <p translate>{{ 'PASSED_AS_INTERPOLATION' }}</p>
+      <p translate="{{ 'PASSED_AS_INTERPOLATION' }}"></p>
+      <p translate="VARIABLE_REPLACEMENT" translate-values="{ name: 'PascalPrecht'}"></p>
+      <p translate="VARIABLE_REPLACEMENT" translate-value-name="PascalPrecht"></p>
+    </div>
+  </script>
+</div>
+<div class="tab-pane" title="script.js">
+<pre class="prettyprint linenums" ng-set-text="script.js-17"></pre>
+<script type="text/ng-template" id="script.js-17">
+      var translations = {
+        HEADLINE: 'C\'est un module génial !',
+        PARAGRAPH: 'Srsly !',
+        PASSED_AS_TEXT: 'Et là ! Je suis passé comme valeur de texte !',
+        PASSED_AS_ATTRIBUTE: 'Je suis passé comme une valeur de l\'attribut, cool non ?',
+        PASSED_AS_INTERPOLATION: 'Débutants ! Je suis interpolé !',
+        VARIABLE_REPLACEMENT: 'Salut, {{name}}'
+      };
+
+      var app = angular.module('monApp', ['pascalprecht.translate']);
+
+      app.config(['$translateProvider', function ($translateProvider) {
+        // ajoute la table de traduction
+        $translateProvider
+          .translations('fr', translations)
+          .preferredLanguage('fr');
+      }]);
+
+      app.controller('Ctrl', ['$scope', function ($scope) {
+
+      }]);
+    </script>
+</div>
+</div><h3 id="valeurs-dynamiques_demo">Demo</h3>
+<div class="well doc-example-live animate-container" ng-embed-app="monApp" ng-set-html="index.html-18" ng-eval-javascript="script.js-17"></div>
+<p><br></p>
+<p><hr></p>
+<center>Made with unicorn &hearts; love by <a href="http://github.com/PascalPrecht">PascalPrecht</a></center></div></div>

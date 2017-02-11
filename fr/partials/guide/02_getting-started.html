@@ -1,0 +1,224 @@
+<a href="https://github.com/{{repo}}/edit/master/{{file}}" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="mise-en-route-page"><h2 id="mise-en-route">Mise en route</h2>
+<h3 id="mise-en-route_configuration-du-html">Configuration du HTML</h3>
+<p>Pour commencer, incorporez angular-translate dans votre document HTML. Bien sûr, cela doit être
+fait <strong>après</strong> l&#39;intégration d&#39;Angular. Votre HTML devrait ressembler à ceci :</p>
+<pre class="prettyprint linenums">
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;i18n app&lt;/title&gt;
+
+    &lt;script src="chemin/de/angular.js"&gt;&lt;/script&gt;
+    &lt;script src="cheminangular-tra/de/angular-translate.js"&gt;&lt;/script&gt;
+    &lt;script src="app.js"&gt;&lt;/script&gt;
+  &lt;/head&gt;
+
+  &lt;body ng-app="monApp"&gt;
+
+  &lt;/body&gt;
+&lt;/html&gt;
+</pre>
+<h3 id="mise-en-route_déclaration-des-dépendances">Déclaration des dépendances</h3>
+<p>Après, vous pouvez déclarer angular-translate comme une dépendance de votre application.
+Angular fournit l&#39;injection de dépendance, ce qui est génial. Donc, pour dire à votre application
+qu&#39;il a besoin de angular-translate pour fonctionner correctement, il faut tout simplement injecter
+angular-translate comme une dépendance dans votre module, comme indiqué dans le code suivant.
+Cela vous donne accès à tous les composants fournis de angular-translate.</p>
+<pre class="prettyprint linenums">
+var app = angular.module('monApp', ['pascalprecht.translate']);
+</pre>
+<h3 id="mise-en-route_présentation-de">Présentation de <code>$translateProvider</code></h3>
+<p>angular-translate est maintenant déclaré comme une dépendance, ce qui signifie que nous avons
+maintenant accès à l&#39;ensemble de ses composants. Angular suit une architecture assez simple pour
+configurer différents services que vous pourrez utiliser plus tard dans votre application.
+Il suffit de jeter un coup d&#39;oeil au code suivant.</p>
+<p>Vous avez déjà vu quelque chose comme ça :</p>
+<pre class="prettyprint linenums">
+app.config(function ($locationProvider) {
+  $locationProvider.html5Mode(true);
+});
+</pre>
+<p>Ou peut-être la configuration d&#39;un service <code>$route</code> :</p>
+<pre class="prettyprint linenums">
+app.config(function ($routeProvider) {
+  $routeProvider.when('/quelquechose', {
+    templateUrl: 'url/du/template',
+    controller: 'SomeFancyCtrl'
+  });
+});
+</pre>
+<p>Qu&#39;est-ce qui se passe réellement ici, ce n&#39;est pas l&#39;<em>utilisation d&#39;un certain service</em> pour
+configurer certaines choses. C&#39;est plus la <em>configuration d&#39;un certain service</em> à l&#39;aide d&#39;un
+<em>provider</em>, qui sera utilisé plus tard dans votre application. Cela signifie que
+<code>$locationProvider.html5Mode(true)</code> configure le <strong>service</strong> <code>$location</code> pour qu&#39;il
+fonctionne avec le mode html5. Donc, si un service doit être configurable de l&#39;extérieur,
+il a besoin d&#39;un provider qui fournit l&#39;interface dont vous avez besoin.</p>
+<p>angular-translate est livré avec <code>$translateProvider</code> que vous pouvez utiliser pour
+configurer le service <code>$translate</code> qui gère les trucs i18n dans votre application.
+Le service <code>$translate</code> est utilisé par les directives et les filtres que vous pouvez utiliser
+dans l&#39;ensemble de votre application. Pour que le service <code>$translate</code> traduise vos
+contenus, il doit savoir quelles traductions sont effectivement disponibles.</p>
+<p>C&#39;est là que <code>$translateProvider</code> intervient. <code>$translateProvider</code> fournit
+des méthodes pour enseigner à votre application les différentes langues et
+laisser le service <code>$translate</code> les utiliser.</p>
+<h3 id="mise-en-route_enseigner-une-langue-à-votre-application">Enseigner une langue à votre application</h3>
+<p>Enseigner une langue à votre application avec <code>$translateProvider</code> est très facile. Vous devez
+d&#39;abord injecter le provider dans votre fonction de configuration du module (qui est le seul
+endroit où vous pouvez y accéder).</p>
+<pre class="prettyprint linenums">
+app.config(['$translateProvider', function($translateProvider) {
+
+}]);
+</pre>
+<p>Maintenant, pour ajouter une langue, vous devez faire connaitre une <strong>table de traduction</strong>
+à <code>$translateProvider</code>. Qu&#39;est-ce que cela signifie exactement ? C&#39;est vraiment très simple.
+angular-translate attend des tables de traduction comme des objets JSON. Donc, tout ce que vous
+avez à faire, est de représenter vos données de traduction comme un objet hash Javascript, ou,
+dans le cas d&#39;un chargement à distance, comme un objet JSON. Une table de traduction pourrait
+ressembler à ceci :</p>
+<pre><code class="lang-json">{
+  &quot;TRANSLATION_ID&quot;: &quot;Ceci est une traduction concrète pour une langue spécifique.&quot;
+}
+</code></pre>
+<p>Est-ce facile ? La table de traduction ci-dessus contient une seule traduction. Comme vous
+pouvez le voir, la clé représente un ID de traduction, alors que la valeur représente la
+traduction concrète d&#39;une certaine langue. Vous n&#39;avez même pas besoin de fournir des
+informations dans votre table de traduction, comme la langue correspondante. Mais
+nous verrons cela plus tard.</p>
+<p>Vous pouvez également organiser vos traductions en les enfermant à l&#39;intérieur d&#39;espaces de nommage.
+Ceci est particulièrement intéressant pour des gros sites avec de nombreuses et/ou longues pages.
+Tout ce que vous avez à faire est de créer des objets JSON imbriqués :</p>
+<pre><code class="lang-json">{
+  &quot;NAMESPACE&quot;: {
+    &quot;SUB_NAMESPACE&quot;: {
+       &quot;TRANSLATION_ID1&quot;: &quot;Ceci est une traduction d&#39;un espace de nommage.&quot;
+    }
+  }
+}
+</code></pre>
+<p>Cette table de traduction ne contient qu&#39;une seule traduction, mais vous pouvez l&#39;étendre très
+facilement. Vous pouvez avoir plusieurs niveaux d&#39;imbrication dans votre table de traduction, et
+chaque espace de nommage peut contenir autant de sous-espace comme vous le souhaitez, ce qui
+le rend très souple à utiliser !</p>
+<h3 id="mise-en-route_raccourcis-et-liens">Raccourcis et liens</h3>
+<p>Une fonctionnalité très intéressante, qui est disponible depuis la <code>1.1.1</code>, est l&#39;utilisation
+des raccourcis et des liens. Imaginons que vous avez une table de traduction qui ressemble à ceci :</p>
+<pre><code class="lang-json">{
+  &quot;bar&quot;: {
+    &quot;foo&quot;: {
+      &quot;foo&quot;: &quot;Ceci est mon texte.&quot;
+    }
+  }
+}
+</code></pre>
+<p>Vous souhaitez accéder ultérieurement à l&#39;id de traduction existant via <code>bar.foo.foo</code>.
+C&#39;est à peu près correct, mais nous pouvons faire mieux. angular-translate est assez
+intelligent pour reconnaître s&#39;il y a un id de traduction qui a le même identifiant que
+son espace de nommage. Si c&#39;est le cas, vous pouvez accéder à l&#39;id de traduction
+avec un simple raccourci simplement en pointant vers l&#39;espace de nommage le concernant plutôt
+que l&#39;id de traduction. Cela est possible, car il ne peut pas y avoir un id de traduction
+avec le même identifiant sous le même espace de nommage.</p>
+<p>Donc, cela signifie essentiellement que vous pouvez accéder à l&#39;id de traduction ci-dessus
+avec le raccourci <code>bar.foo</code>. Cool, non ?</p>
+<p>Une autre fonctionnalité intéressante que angular-translate fournit, c&#39;est la possibilité de lier
+dans votre table de traduction, un id de traduction à un autre. Imaginons que nous avons la
+table de traduction qui suit :</p>
+<pre><code class="lang-json">{
+  &quot;SOME_NAMESPACE&quot;: {
+    &quot;OK_TEXT&quot;: &quot;OK&quot;
+  },
+  &quot;ANOTHER_NAMESPACE&quot;: {
+    &quot;OK_TEXT&quot;: &quot;OK&quot;
+  }
+}
+</code></pre>
+<p>Donc, comme vous pouvez le voir, nous avons introduit ici des espaces de nommage, mais les deux ont
+besoin d&#39;un texte qui dit juste &quot;OK&quot;. Ce cas n&#39;est pas rare, dans le cas d&#39;un bouton de confirmation
+ou similaire dans votre application. Cependant, il n&#39;est pas difficile de reconnaître que nous avons
+ici une redondance, et en tant que développeurs, nous n&#39;aimons pas la redondance.</p>
+<p>S&#39;il y a un id de traduction qui a toujours le même texte concret avec un autre, vous
+pouvez le lier. Pour créer un lien vers un autre id de traduction, tout ce que vous avez à faire
+est de faire précéder son contenu avec un signe <code>@:</code> suivi par le nom complet de l&#39;id de
+traduction en incluant l&#39;espace de nommage que vous voulez lier. Donc, l&#39;exemple ci-dessus
+pourrait ressembler à ceci :</p>
+<pre><code class="lang-json">{
+  &quot;SOME_NAMESPACE&quot;: {
+    &quot;OK_TEXT&quot;: &quot;OK&quot;
+  },
+  &quot;ANOTHER_NAMESPACE&quot;: {
+    &quot;OK_TEXT&quot;: &quot;@:SOME_NAMESPACE.OK_TEXT&quot;
+  }
+}
+</code></pre>
+<h3 id="mise-en-route_eeeeeeeeet-action">Eeeeeeeeet action !</h3>
+<p>Ajoutons une table de traduction à notre application. <code>$translateProvider</code> fournit une
+méthode appelée <code>translations()</code>, qui s&#39;occupe de cela. Imaginons que nous avons une table
+de traduction comme ceci :</p>
+<pre class="prettyprint linenums">
+var translations = {
+  HEADLINE: 'C\'est un module génial !',
+  PARAGRAPH: 'Srsly !',
+  NAMESPACE: {
+    PARAGRAPH: 'Et il est livré avec des fonctionnalités impressionnantes !'
+  }
+};
+</pre>
+<p>Nous pouvons ajouter cette table en utilisant <code>$translateProvider.translations()</code>:</p>
+<pre class="prettyprint linenums">
+app.config(['$translateProvider', function ($translateProvider) {
+  // ajoute la table de traduction
+  $translateProvider
+    .translations('fr', translations)
+    .preferredLanguage('fr');
+}]);
+</pre>
+<p>Il s&#39;agit essentiellement de tout ce que vous avez à faire. Il suffit simplement de spécifier une clé
+de langue et lui ajouter une table de traduction. Après, il faut dire à angular-translate quelle est la
+langue préférée. Puisque nous ajoutons les tables de traduction lors de la configuration, le service
+<code>$translate</code> est en mesure d&#39;y accéder, une fois qu&#39;il est instancié et utilisé.
+Voici le code qui fonctionne :</p>
+<h3 id="mise-en-route_source">Source</h3>
+<div source-edit="monApp" source-edit-deps="angular.js script.js" source-edit-html="index.html-10" source-edit-css="" source-edit-js="script.js-9" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div class="tabbable"><div class="tab-pane" title="index.html">
+<pre class="prettyprint linenums" ng-set-text="index.html-10" ng-html-wrap-loaded="monApp angular.js script.js"></pre>
+<script type="text/ng-template" id="index.html-10">
+    
+    <div>
+      <h2 id="rien-à-voir-pour-linstant">Rien à voir pour l'instant</h2>
+      <p>Mais nous allons le changer maintenant</p>
+    </div>
+  </script>
+</div>
+<div class="tab-pane" title="script.js">
+<pre class="prettyprint linenums" ng-set-text="script.js-9"></pre>
+<script type="text/ng-template" id="script.js-9">
+      var translations = {
+        HEADLINE: 'C\'est un module génial !',
+        PARAGRAPH: 'Srsly !',
+        NAMESPACE: {
+          PARAGRAPH: 'Et il est livré avec des fonctionnalités impressionnantes !'
+        }
+      };
+
+      var app = angular.module('monApp', ['pascalprecht.translate']);
+
+      app.config(['$translateProvider', function ($translateProvider) {
+        // ajoute la table de traduction
+        $translateProvider
+          .translations('fr', translations)
+          .preferredLanguage('fr');
+      }]);
+    </script>
+</div>
+</div><h3 id="rien-à-voir-pour-linstant_demo">Demo</h3>
+<div class="well doc-example-live animate-container" ng-embed-app="monApp" ng-set-html="index.html-10" ng-eval-javascript="script.js-9"></div>
+<p>Votre application est maintenant prête pour être localisée ! Dans le chapitre suivant, vous
+allez apprendre à utiliser la directive et le filtre fournis par angular-translate, pour
+interpoler vos traductions.</p>
+<p><br></p>
+<p><hr></p>
+<center>Made with unicorn &hearts; love by <a href="http://github.com/PascalPrecht">PascalPrecht</a></center></div></div>

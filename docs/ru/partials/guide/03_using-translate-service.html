@@ -1,0 +1,163 @@
+<a href="https://github.com/{{repo}}/edit/master/{{file}}" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="-translate-page"><h2 id="сервис-$translate">Сервис $translate</h2>
+<p><code>angular-translate</code> предоставляет несколько вариантов перевода контента вашего приложения. Одним из
+них является непосредственное использование предоставляемого сервиса <code>$translate</code>. Скорее всего, вы
+не будете использовать этот подход, так как он сильно привязывает контроллеры и сервисы вашего
+приложения к переводимому контенту. Однако оказалось, что есть случаи, когда может понадобиться
+возможность перевода содержимого с помощью сервиса <code>$translate</code>.</p>
+<p>Просто представьте случай, что вам нужно перевести содержимое тега <code>&lt;title&gt;</code> в вашем HTML документе.
+<code>&lt;title&gt;</code> никогда не будет находиться внутри директивы <code>ng-app</code>, а это значит, что он находится за
+пределами мира Angular. Тогда, для решения этой задачи вам необходимо изменить заголовок приложения
+в коде контроллера или сервиса.</p>
+<h4 id="сервис-$translate_использование">Использование</h4>
+<p>Тут вам поможет сервис <code>$translate</code>. Использовать этот сервис очень просто. Прежде всего,
+нужно внедрить его при помощи внедрения зависимостей (как и любой другой сервис, который вы хотите
+использовать в вашем Angular коде). Предположим, что мы хотим расширить приложение, созданное в
+главе <a href="#/guide/02_getting-started">Начало работы</a>.</p>
+<p>Наш код будет выглядеть примерно так:</p>
+<pre class="prettyprint linenums">
+app.controller('Ctrl', ['$translate', function ($translate) {
+
+}]);
+</pre>
+<p>Теперь, чтобы перевести свой контент с помощью сервиса <code>$translate</code>, вам необходимо передать ранее
+зарегистрированный при помощи <code>$translateProvider</code> идентификатор перевода. Поскольку возможно, что
+в момент вызова сервиса происходит асинхронная загрузка данных (мы поговорим об этом позже), сервис
+<code>$translate</code> тоже ведет себя асинхронно и возвращает обещание (promise), которое либо разрешается
+(resolve) с переводом данного идентификатора перевода, либо отбрасывается (reject) с идентификатором
+перевода. Таким образом базовое использование сервиса <code>$translate</code> на уровне контроллера
+(или сервиса) выглядит так:</p>
+<pre class="prettyprint linenums">
+app.controller('Ctrl', ['$scope', '$translate', function ($scope, $translate) {
+  $translate('HEADLINE').then(function (headline) {
+    $scope.headline = headline;
+  }, function (translationId) {
+    $scope.headline = translationId;
+  });
+  $translate('PARAGRAPH').then(function (paragraph) {
+    $scope.paragraph = paragraph;
+  }, function (translationId) {
+    $scope.paragraph = translationId;
+  });
+  $translate('NAMESPACE.PARAGRAPH').then(function (anotherOne) {
+    $scope.namespaced_paragraph = anotherOne;
+  }, function (translationId) {
+    $scope.namespaced_paragraph = translationId;
+  });
+}]);
+</pre>
+<p><strong>Заметьте:</strong> Переводы в пространствах имен доступны как JSON свойства (см. &#39;NAMESPACE.PARAGRAPH&#39;).</p>
+<p>Это все. Теперь, для перевода содержимого <code>&lt;title&gt;</code> вы можете воспользоваться этим контроллером.</p>
+<h3 id="сервис-$translate_несколько-идентификаторов-перевода">Несколько идентификаторов перевода</h3>
+<p>Сервис перевода позволяет переводить несколько идентификаторов перевода сразу.</p>
+<pre class="prettyprint linenums">
+app.controller('Ctrl', ['$scope', '$translate', function ($scope, $translate) {
+  $translate(['HEADLINE', 'PARAGRAPH', 'NAMESPACE.PARAGRAPH']).then(function (translations) {
+    $scope.headline = translations.HEADLINE;
+    $scope.paragraph = translations.PARAGRAPH;
+    $scope.namespaced_paragraph = translations['NAMESPACE.PARAGRAPH'];
+  }, function (translationIds) {
+    $scope.headline = translationIds.headline;
+    $scope.paragraph = translationIds.paragraph;
+    $scope.namespaced_paragraph = translationIds.namespaced_paragraph;
+  });
+}]);
+</pre>
+<p>Однако, сервис всегда будет возвращать объект с переводами -- даже если перевести идентификатор
+(или идентификаторы) не получилось. Запросив несколько переводов за один раз, вы должны сами
+обработать полученный результат.</p>
+<h3 id="сервис-$translate_информация-о-версии-библиотеки-angular-translate">Информация о версии библиотеки angular-translate</h3>
+<p>Мы предоставляем удобную функцию для получения информации о версии установленной библиотеки, так как
+это может быть полезным для какого-нибудь раздела о вашем приложении.</p>
+<p>Просто вызовите её вот так:
+<pre class="prettyprint linenums">
+  $translate.versionInfo();
+  // returns e.g. "2.1.0"
+</pre>
+<h3 id="сервис-$translate_имейте-ввиду">Имейте ввиду</h3>
+<p>Пожалуйста, имейте ввиду, что сервис <code>$translate</code> по умолчанию не предоставляет двухстороннего
+связывания данных! Сервис <code>$translate</code> работает асинхронно. Это значит, что он возвращает перевод
+для данного идентификатора перевода как только он будет в состоянии его определить. Если перевода
+не существует, он вероятно просто вернет идентификатор перевода.</p>
+<p>Тем не менее, это не означает, что он знает о смене языка. Поэтому, переводы сделанные при помощи
+прямого вызова <code>$translate</code> не обновляются при смене языка во время выполнения.</p>
+<p>Вы можете это исправить просто обернув ваш вызов <code>$translate</code> в <code>$translateChangeSuccess</code> колбек
+<code>$rootScope</code>а, который вызывается  каждый раз при успешной смене языка. Как только он изменится, вы
+легко можете повторно выполнить код, ответственный за необходимые вам переводы.</p>
+<p>Вот как это выглядит:</p>
+<pre class="prettyprint linenums">
+app.controller('Ctrl', ['$scope', '$translate', '$rootScope', function ($scope, $translate, $rootScope) {
+  $rootScope.$on('$translateChangeSuccess', function () {
+    $translate('HEADLINE').then(function (translation) {
+      $scope.headline = translation;
+    }, function (translationId) {
+      $scope.headline = translationId;
+    });
+  });
+}]);
+</pre>
+<p>Вы удивлены почему <code>$rootScope</code>, а не просто <code>$scope</code>? angular-translate порождает события только на
+уровне <code>$rootScope</code> исходя из соображений производительности.
+Более подробно смотрите в этом посте на <a href="http://stackoverflow.com/a/19498009/288703">StackOverflow</a>.</p>
+<p>Вот работающий пример:</p>
+<h3 id="сервис-$translate_source">Source</h3>
+<div source-edit="myApp" source-edit-deps="angular.js script.js" source-edit-html="index.html-12" source-edit-css="" source-edit-js="script.js-11" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div class="tabbable"><div class="tab-pane" title="index.html">
+<pre class="prettyprint linenums" ng-set-text="index.html-12" ng-html-wrap-loaded="myApp angular.js script.js"></pre>
+<script type="text/ng-template" id="index.html-12">
+    
+    <div ng-controller="Ctrl">
+      <h2 id="{{headline}}">{{headline}}</h2>
+      <p>{{paragraph}}</p>
+      <p>{{namespaced_paragraph}}</p>
+    </div>
+  </script>
+</div>
+<div class="tab-pane" title="script.js">
+<pre class="prettyprint linenums" ng-set-text="script.js-11"></pre>
+<script type="text/ng-template" id="script.js-11">
+      var translations = {
+        HEADLINE: 'What an awesome module!',
+        PARAGRAPH: 'Srsly!',
+        NAMESPACE: {
+          PARAGRAPH: 'And it comes with awesome features!'
+        }
+      };
+
+      var app = angular.module('myApp', ['pascalprecht.translate']);
+
+      app.config(['$translateProvider', function ($translateProvider) {
+        // add translation table
+        $translateProvider
+          .translations('en', translations)
+          .preferredLanguage('en');
+      }]);
+
+      app.controller('Ctrl', ['$scope', '$translate', function ($scope, $translate) {
+        // expose translation via `$translate` service
+        $translate('HEADLINE').then(function (headline) {
+          $scope.headline = headline;
+        }, function (translationId) {
+          $scope.headline = translationId;
+        });
+        $translate('PARAGRAPH').then(function (paragraph) {
+          $scope.paragraph = paragraph;
+        }, function (translationId) {
+          $scope.paragraph = translationId;
+        });
+        $translate('NAMESPACE.PARAGRAPH').then(function (anotherOne) {
+          $scope.namespaced_paragraph = anotherOne;
+        }, function (translationId) {
+          $scope.namespaced_paragraph = translationId;
+        });
+      }]);
+    </script>
+</div>
+</div><h3 id="{{headline}}_demo">Demo</h3>
+<div class="well doc-example-live animate-container" ng-embed-app="myApp" ng-set-html="index.html-12" ng-eval-javascript="script.js-11"></div>
+<p><br></p>
+<p><hr></p>
+<center>Made with unicorn &hearts; love by <a href="http://github.com/PascalPrecht">PascalPrecht</a></center></div></div>

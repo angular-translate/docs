@@ -1,0 +1,55 @@
+<a href="https://github.com/{{repo}}/edit/master/{{file}}" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><a href="https://github.com/{{repo}}/blob/{{sha}}/{{file}}#L{{codeline}}" class="view-source"><i class="icon-eye-open"> </i>View source</a><h1><code ng:non-bindable="">$translateSanitizationProvider</code>
+<div><span class="hint">service in module <code ng:non-bindable="">pascalprecht.translate</code>
+</span>
+</div>
+</h1>
+<div><h2 id="description">Description</h2>
+<div class="description"><div class="pascalprecht-translate-translatesanitizationprovider-page"><p>Configurations for $translateSanitization</p>
+</div></div>
+<div class="member method"><h2 id="methods">Methods</h2>
+<ul class="methods"><li><a href="https://github.com/{{repo}}/blob/{{sha}}/{{file}}#L{{codeline}}" class="view-source icon-eye-open"> </a><h3 id="methods_addstrategy">addStrategy(strategyName, strategyFunction)</h3>
+<div class="addstrategy"><div class="pascalprecht-translate-translatesanitizationprovider-addstrategy-page"><p>Adds a sanitization strategy to the list of known strategies.</p>
+</div><h5 id="methods_addstrategy_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>strategyName</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-translatesanitizationprovider-addstrategy-page"><ul>
+<li>unique key for a strategy</li>
+</ul>
+</div></td></tr><tr><td>strategyFunction</td><td><a href="" class="label type-hint type-hint-strategyfunction">StrategyFunction</a></td><td><div class="pascalprecht-translate-translatesanitizationprovider-addstrategy-page"><ul>
+<li>strategy function</li>
+</ul>
+</div></td></tr></tbody></table><h5 id="methods_addstrategy_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="pascalprecht-translate-translatesanitizationprovider-addstrategy-page"><p>this</p>
+</div></td></tr></table></div>
+</li>
+<li><a href="https://github.com/{{repo}}/blob/{{sha}}/{{file}}#L{{codeline}}" class="view-source icon-eye-open"> </a><h3 id="methods_removestrategy">removeStrategy(strategyName)</h3>
+<div class="removestrategy"><div class="pascalprecht-translate-translatesanitizationprovider-removestrategy-page"><p>Removes a sanitization strategy from the list of known strategies.</p>
+</div><h5 id="methods_removestrategy_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>strategyName</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-translatesanitizationprovider-removestrategy-page"><ul>
+<li>unique key for a strategy</li>
+</ul>
+</div></td></tr></tbody></table><h5 id="methods_removestrategy_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="pascalprecht-translate-translatesanitizationprovider-removestrategy-page"><p>this</p>
+</div></td></tr></table></div>
+</li>
+<li><a href="https://github.com/{{repo}}/blob/{{sha}}/{{file}}#L{{codeline}}" class="view-source icon-eye-open"> </a><h3 id="methods_usestrategy">useStrategy(strategy)</h3>
+<div class="usestrategy"><div class="pascalprecht-translate-translatesanitizationprovider-usestrategy-page"><p>Selects a sanitization strategy. When an array is provided the strategies will be executed in order.</p>
+</div><h5 id="methods_usestrategy_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>strategy</td><td><a href="" class="label type-hint type-hint-string">string</a><a href="" class="label type-hint type-hint-strategyfunction">StrategyFunction</a><a href="" class="label type-hint type-hint-array">array</a></td><td><div class="pascalprecht-translate-translatesanitizationprovider-usestrategy-page"><p>The sanitization strategy / strategies which should be used. Either a name of an existing strategy, a custom strategy function, or an array consisting of multiple names and / or custom functions.</p>
+</div></td></tr></tbody></table><h5 id="methods_usestrategy_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="pascalprecht-translate-translatesanitizationprovider-usestrategy-page"><p>this</p>
+</div></td></tr></table></div>
+</li>
+</ul>
+</div>
+<div class="member property"><h2 id="properties">Properties</h2>
+<ul class="properties"><li><h3 id="properties_strategies">strategies</h3>
+<div class="strategies"><div class="strategies-page"><p>Following strategies are built-in:</p>
+<dl>
+  <dt>sanitize</dt>
+  <dd>Sanitizes HTML in the translation text using $sanitize</dd>
+  <dt>escape</dt>
+  <dd>Escapes HTML in the translation</dd>
+  <dt>sanitizeParameters</dt>
+  <dd>Sanitizes HTML in the values of the interpolation parameters using $sanitize</dd>
+  <dt>escapeParameters</dt>
+  <dd>Escapes HTML in the values of the interpolation parameters</dd>
+  <dt>escaped</dt>
+  <dd>Support legacy strategy name &#39;escaped&#39; for backwards compatibility (will be removed in 3.0)</dd>
+</dl></div></div>
+</li>
+</ul>
+</div>
+</div>

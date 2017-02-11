@@ -1,0 +1,223 @@
+<a href="https://github.com/{{repo}}/edit/master/{{file}}" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="--page"><h2 id="багатомовність">Багатомовність</h2>
+<p>В розділі <a href="#/guide/06_variable-replacement">Підстановка змінних</a> ви навчилися як передавати
+динамічні значення через різноманітні компоненти для використання їх у перекладах. Оскільки ми
+покрили всю базову функціональність, що надається цими компонентами (використовуючи стандартний
+сервіс інтерполяції), тепер ми готові перейти на наступний рівень: <strong>підтримка багатомовності</strong>.</p>
+<p>Звісно, дуже добре знати як користуватися компонентами angular-translate, але все стає куди
+цікавіше, коли необхідно навчити застосунок кільком мовам (для чого, власне, цей модуль і
+призначений!). То ж, давайте почнемо вивчати як додавати одразу кілька таблиць перекладів!</p>
+<h3 id="багатомовність_навчання-застосунку-новим-мовам">Навчання застосунку новим мовам</h3>
+<p>В розділі <a href="#/guide/02_getting-started">Початок роботи</a> ви дізналися як додати у застосунок таблицю
+перекладу, використовуючи метод <code>translations()</code> <code>$translateProvider</code>&#39;а. Той же метод можна
+використовувати для одночасного додавання великої кількості таблиць перекладів. Таблиці перекладу,
+що передаються, повинні при цьому супроводжуватися ключем мови (language key) з допомогою якого
+angular-translate розрізняє, яка таблиця перекладів відноситься до якої мови.</p>
+<p>Додати таблицю перекладів із відповідним ключем дуже просто. Замість того, щоб просто віддати
+таблицю в метод <code>translations()</code>, можна першим аргументом передати ключ мови, а таблицю перекладів -
+другим. Таким чином, додавання таблиці перекладів з ключем мови виглядає так:</p>
+<pre class="prettyprint linenums">
+// registers translation table with language key 'en'
+$translateProvider.translations('en', {
+  GREETING: 'Hello world!'
+});
+</pre>
+<p>Тепер, для додавання другої таблиці перекладів для іншої мови (скажімо, німецької), зробіть те ж
+саме з іншим ключем мови:</p>
+<pre class="prettyprint linenums">
+// registers translation table with language key 'de'
+$translateProvider.translations('de', {
+  GREETING: 'Hallo Welt!'
+});
+</pre>
+<p>Легко? Ваш застосунок тепер знає дві різні мови. Ви можете додавати стільки мов, скільки потрібно -
+ліміту немає. Однак, оскільки тепер доступно дві мови, яку з них повинен використовувати застосунок?
+angular-translate не віддасть переваги якій-небудь мові поки ви не скажете йому це зробити.</p>
+<h3 id="багатомовність_вибір-мови-для-використання">Вибір мови для використання</h3>
+<p>Оскільки ми зареєстрували більше однієї таблиці перекладів, <code>angular-translate</code> повинен знати яку з
+них потрібно використовувати. Тут вступає в силу новий метод провайдера <code>$translateProvider</code>.
+<code>preferredLanguage()</code> каже angular-translate яка з зареєстрованих мов повинна бути використана за
+замовчуванням. Він очікує ключ мови, який вказує на певну таблицю перекладів. Таким чином, щоб
+сказати застосунку, що він повинен використовувати німецьку, а не англійську у якості першої мови,
+розширте код наступним чином:</p>
+<pre class="prettyprint linenums">
+// tells angular-translate to use the German language
+$translateProvider.preferredLanguage('de');
+</pre>
+<p><strong>Замітка:</strong> Також для цього можна використовувати метод <code>$translateProvider.use()</code>, оскільки він
+також встановлює мову. Однак виявилося, що це погана практика при використанні асинхронних
+завантажувачів в комбінації зі сховищем. В деяких випадках може вийти так, що angular-translate
+зробить два асинхронних запити. Пізніше ви ознайомитеся з цим більш детально. Щоб обійти цю проблему
+ми ввели <code>preferredLanguage()</code>. Вам слід завжди використовувати <code>preferredLanguage()</code> замість
+<code>use()</code> при роботі з <code>$translateProvider</code>.</p>
+<h3 id="багатомовність_автоматичне-визначення-бажаної-мови">Автоматичне визначення бажаної мови</h3>
+<p>Починаючи з версії <code>2.0</code> <code>$translateProvider</code> має метод <code>determinePreferredLanguage()</code>. Цей метод
+намагається самостійно визначити бажану мову для застосунку. Він шукає значення у наступних
+властивостях об&#39;єкту <code>window.navigator</code> (у відповідному порядку):</p>
+<ul>
+<li><code>navigator.languages[0]</code></li>
+<li><code>navigator.language</code></li>
+<li><code>navigator.browserLanguage</code></li>
+<li><code>navigator.systemLanguage</code></li>
+<li><code>navigator.userLanguage</code></li>
+</ul>
+<p>Таким чином, замість виклику <code>$translateProvider.preferredLanguage(langKey)</code>, ви можете зробити так:</p>
+<pre class="prettyprint linenums">
+// try to find out preferred language by yourself
+$translateProvider.determinePreferredLanguage();
+</pre>
+<p>Будь ласка, використовуйте цей метод на свій власний ризик! Знайте, що кожен браузер може повернути
+різне значення цих властивостей.</p>
+<p>Якщо це не задовольняє ваших потреб, ви можете додатково передати функцію, що визначає ключ бажаної
+мови.</p>
+<pre class="prettyprint linenums">
+$translateProvider.determinePreferredLanguage(function () {
+  var preferredLangKey = '';
+  // some custom logic's going on in here
+  return preferredLangKey;
+});
+</pre>
+<h3 id="багатомовність_зміна-мови-під-час-використання">Зміна мови під час використання</h3>
+<p>Для зміни мови під час використання сервіс <code>$translate</code> має метод <code>use()</code> який або повертає ключ
+мови, що використовується в даний момент, або, у випадку передачі у якості аргументу ключа мови,
+каже angular-translate використовувати відповідну мову. <code>$translate.use()</code> всередині також викликає
+асинхронні завантажувачі при спробі використання мови, для якої ще не завантажена таблиця
+перекладів. Але більш докладно про це в розділі
+<a href="#/guide/10_asynchronous_loading">Асинхронне завантаження</a>.</p>
+<p>Гарним використання <code>$translate.use()</code> було б в контролері, який керує зміною мови. Вам просто
+необхідно в області видимості реалізовувати функцію, що приймає ключ мови, і використати її для
+того, щоб змінити мову.</p>
+<pre class="prettyprint linenums">
+angular.module('myApp').controller('Ctrl', ['$translate', '$scope', function ($translate, $scope) {
+
+  $scope.changeLanguage = function (langKey) {
+    $translate.use(langKey);
+  };
+
+}]);
+</pre>
+<p>Щоб відчути як це буде працювати в застосунку ми оновимо наш приклад відповідним чином. По-перше, ми
+додамо таблицю перекладів для німецької мови і два нових ідентифікатора перекладів для кнопок, що
+будуть додані пізніше:</p>
+<pre class="prettyprint linenums">
+var translationsEN = {
+  HEADLINE: 'What an awesome module!',
+  PARAGRAPH: 'Srsly!',
+  PASSED_AS_TEXT: 'Hey there! I\'m passed as text value!',
+  PASSED_AS_ATTRIBUTE: 'I\'m passed as attribute value, cool ha?',
+  PASSED_AS_INTERPOLATION: 'Beginners! I\'m interpolated!',
+  VARIABLE_REPLACEMENT: 'Hi {{name}}',
+  BUTTON_LANG_DE: 'German',
+  BUTTON_LANG_EN: 'English'
+};
+
+var translationsDE= {
+  HEADLINE: 'Was für ein großartiges Modul!',
+  PARAGRAPH: 'Ernsthaft!',
+  PASSED_AS_TEXT: 'Hey! Ich wurde als text übergeben!',
+  PASSED_AS_ATTRIBUTE: 'Ich wurde als Attribut übergeben, cool oder?',
+  PASSED_AS_INTERPOLATION: 'Anfänger! Ich bin interpoliert!',
+  VARIABLE_REPLACEMENT: 'Hi {{name}}',
+  BUTTON_LANG_DE: 'Deutsch',
+  BUTTON_LANG_EN: 'Englisch'
+};
+</pre>
+<p>Після цього ми оновимо додавання англійської таблиці перекладів вказавши відповідний ключ мови і
+скажемо angular-translate використовувати англійську за замовчуванням:</p>
+<pre class="prettyprint linenums">
+$translateProvider.translations('en', translationsEN);
+$translateProvider.translations('de', translationsDE);
+$translateProvider.preferredLanguage('en');
+</pre>
+<p>Круто! Тепер на потрібні елементи управління для зміни мови під час виконання. Ми оновимо наш HTML
+і додамо кнопку для кожної мови. Також, для кожної кнопки ми використаємо директиву <code>ng-click</code>, яка
+викликає функцію зміни мови:</p>
+<pre class="prettyprint linenums">
+&lt;button ng-click="changeLanguage('de')" translate="BUTTON_LANG_DE"&gt;&lt;/button&gt;
+&lt;button ng-click="changeLanguage('en')" translate="BUTTON_LANG_EN"&gt;&lt;/button&gt;
+</pre>
+<p>Нарешті, ми повинні реалізувати відповідну функцію в області видимості нашого контролера:</p>
+<pre class="prettyprint linenums">
+app.controller('Ctrl', ['$translate', '$scope', function ($translate, $scope) {
+
+  $scope.changeLanguage = function (langKey) {
+    $translate.use(langKey);
+  };
+}]);
+</pre>
+<p>Вуаля! Тепер у нас є застосунок, що підтримує багато мов:</p>
+<h3 id="багатомовність_source">Source</h3>
+<div source-edit="myApp" source-edit-deps="angular.js script.js" source-edit-html="index.html-20" source-edit-css="" source-edit-js="script.js-19" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div class="tabbable"><div class="tab-pane" title="index.html">
+<pre class="prettyprint linenums" ng-set-text="index.html-20" ng-html-wrap-loaded="myApp angular.js script.js"></pre>
+<script type="text/ng-template" id="index.html-20">
+    
+    <div ng-controller="Ctrl">
+      <p>{{ 'HEADLINE' | translate }}</p>
+      <p>{{ 'PARAGRAPH' | translate }}</p>
+
+      <p translate>PASSED_AS_TEXT</p>
+      <p translate="PASSED_AS_ATTRIBUTE"></p>
+      <p translate>{{ 'PASSED_AS_INTERPOLATION' }}</p>
+      <p translate="{{ 'PASSED_AS_INTERPOLATION' }}"></p>
+      <p translate="VARIABLE_REPLACEMENT" translate-values="{ name: 'PascalPrecht' }"></p>
+      <p translate>MISSING_TRANSLATION</p>
+
+      <button ng-click="changeLanguage('de')" translate="BUTTON_LANG_DE"></button>
+      <button ng-click="changeLanguage('en')" translate="BUTTON_LANG_EN"></button>
+    </div>
+  </script>
+</div>
+<div class="tab-pane" title="script.js">
+<pre class="prettyprint linenums" ng-set-text="script.js-19"></pre>
+<script type="text/ng-template" id="script.js-19">
+      var translationsEN = {
+        HEADLINE: 'What an awesome module!',
+        PARAGRAPH: 'Srsly!',
+        PASSED_AS_TEXT: 'Hey there! I\'m passed as text value!',
+        PASSED_AS_ATTRIBUTE: 'I\'m passed as attribute value, cool ha?',
+        PASSED_AS_INTERPOLATION: 'Beginners! I\'m interpolated!',
+        VARIABLE_REPLACEMENT: 'Hi {{name}}',
+        MISSING_TRANSLATION: 'Oops! I have not been translated into German...',
+        BUTTON_LANG_DE: 'German',
+        BUTTON_LANG_EN: 'English'
+      };
+
+      var translationsDE= {
+        HEADLINE: 'Was für ein großartiges Modul!',
+        PARAGRAPH: 'Ernsthaft!',
+        PASSED_AS_TEXT: 'Hey! Ich wurde als text übergeben!',
+        PASSED_AS_ATTRIBUTE: 'Ich wurde als Attribut übergeben, cool oder?',
+        PASSED_AS_INTERPOLATION: 'Anfänger! Ich bin interpoliert!',
+        VARIABLE_REPLACEMENT: 'Hi {{name}}',
+        // MISSING_TRANSLATION is ... missing :)
+        BUTTON_LANG_DE: 'Deutsch',
+        BUTTON_LANG_EN: 'Englisch'
+      };
+
+      var app = angular.module('myApp', ['pascalprecht.translate']);
+
+      app.config(['$translateProvider', function ($translateProvider) {
+        // add translation tables
+        $translateProvider.translations('en', translationsEN);
+        $translateProvider.translations('de', translationsDE);
+        $translateProvider.preferredLanguage('en');
+        $translateProvider.fallbackLanguage('en');
+      }]);
+
+      app.controller('Ctrl', ['$translate', '$scope', function ($translate, $scope) {
+
+        $scope.changeLanguage = function (langKey) {
+          $translate.use(langKey);
+        };
+      }]);
+    </script>
+</div>
+</div><h3 id="багатомовність_demo">Demo</h3>
+<div class="well doc-example-live animate-container" ng-embed-app="myApp" ng-set-html="index.html-20" ng-eval-javascript="script.js-19"></div>
+<p><br></p>
+<p><hr></p>
+<center>Made with unicorn &hearts; love by <a href="http://github.com/PascalPrecht">PascalPrecht</a></center></div></div>

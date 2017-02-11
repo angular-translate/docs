@@ -1,0 +1,146 @@
+<a href="https://github.com/{{repo}}/edit/master/{{file}}" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="-translate--page"><h2 id="使用-$translate-服務">使用 $translate 服務</h2>
+<p><code>angular-translate</code> 提供了多種方法來翻譯你的應用程式中的內容。
+一種方式是直接使用所提供的 <code>$translate</code> 服務。實際上，你不會使用這種方法，因為你不想將您的翻譯內容太過緊密的綁定在您的應用程式控制器和服務上。
+然而事實證明，確實有你需要用 <code>$translate</code> 服務來翻譯的內容的情況。</p>
+<p>想像一個情況下，如果要翻譯HTML檔的 <code>&lt;title&gt;</code> 標籤. <code>&lt;title&gt;</code> 永遠也不會再你的 <code>ng-app</code> 指令裡, 這意味著它始終是在 Angular 的世界之外的。
+所以，要能夠實現這一點，一旦你的應用程式開始運行你就必須通過控制器或業務邏輯來操縱您的應用程式的標題。</p>
+<h3 id="使用-$translate-服務_一般用法">一般用法</h3>
+<p>這就是 <code>$translate</code> 服務。 使用 <code>$translate</code> 服務非常簡單。 首先，你必須每依賴注入它（就像每一個
+你想在你的 Angular 代碼裡使用的服務一樣）的服務。比方說，我們要擴展我們前面開發的應用程式<a href="#/guide/02_getting-started">入門</a>.</p>
+<p>我們的代碼看起來像這樣：</p>
+<pre class="prettyprint linenums">
+app.controller('Ctrl', ['$translate', function ($translate) {
+
+}]);
+</pre>
+<p>現在，用<code>$translate</code> 服務來翻譯你的內容，您需要做的就是傳遞你以前註冊在 <code>$translateProvider</code> 中的翻譯ID。
+因為這有一些非同步載入事件（我們以後還會再介入這個話題），<code>$translate</code> 服務也是非同步行為並返回一個承諾，
+要麼獲取給定翻譯標識的翻譯來解決這個承諾，或拒絕這個翻譯的ID。所以 <code>$translate</code> 服務的基本用法是在控制器（或服務）的水準，看上去是這樣的：</p>
+<pre class="prettyprint linenums">
+app.controller('Ctrl', ['$scope', '$translate', function ($scope, $translate) {
+  $translate('HEADLINE').then(function (headline) {
+   $scope.headline = headline;
+  }, function (error) {
+    $scope.headline = error;
+  });
+  $translate('PARAGRAPH').then(function (paragraph) {
+    $scope.paragraph = paragraph;
+  }, function (error) {
+    $scope.paragraph = error;
+  });
+  $translate('NAMESPACE.PARAGRAPH').then(function (anotherOne) {
+    $scope.namespaced_paragraph = anotherOne;
+  }, function (error) {
+    $scope.namespaced_paragraph = error;
+  });
+}]);
+</pre>
+<p><strong>注意:</strong> 命名空間的翻譯是作為JSON屬性被訪問的，請參閱 &#39;NAMESPACE.PARAGRAPH&#39;`.</p>
+<p>這就是全部。當你想翻譯<code>&lt;TITLE&gt;</code>的內容時，現在可以在您的控制器內這樣做。</p>
+<h3 id="使用-$translate-服務_多個翻譯標識">多個翻譯標識</h3>
+<p>翻譯服務也意識到一次請求多個翻譯的情況。</p>
+<pre class="prettyprint linenums">
+app.controller('Ctrl', ['$scope', '$translate', function ($scope, $translate) {
+  $translate(['HEADLINE', 'PARAGRAPH', 'NAMESPACE.PARAGRAPH']).then(function (translations) {
+    $scope.headline = translations.HEADLINE;
+    $scope.paragraph = translations.PARAGRAPH;
+    $scope.namespaced_paragraph = translations['NAMESPACE.PARAGRAPH'];
+  }, function (error) {
+    $scope.headline = error;
+    $scope.paragraph = error;
+    $scope.namespaced_paragraph = error;
+  });
+}]);
+</pre>
+<p>但是，該服務將始​​終返回一個包含翻譯的對象- 不管翻譯（部分或者全部）是否失敗了。當在一個要求l裡請求多種翻譯時，由你來決定如何處理結果。</p>
+<h3 id="使用-$translate-服務_angular-translate-庫版本信息">angular-translate 庫版本信息</h3>
+<p>因為在您的應用程序中顯示“關於”信息是很有用，我們為​​您提供一個便利的函數來顯示，或使用已安裝的庫版本信息。</p>
+<p>Just call it this way:
+<pre class="prettyprint linenums">
+  $translate.versionInfo();
+  // returns e.g. "2.1.0"
+</pre>
+<h3 id="使用-$translate-服務_謹記于心">謹記于心</h3>
+<p>請記住 <code>$translate</code> 翻譯服務，不提供預設雙向資料繫結！ <code>$translate</code> 服務以非同步方式工作，這意味著
+只要其能確定它就返回給定的翻譯標識的翻譯。如果翻譯不存在，它很可能只是返回的翻譯標識。</p>
+<p>但是，這並不意味著當一個語言已經改變時它就會知道。在語言更新時，通過指令 <code>$translate</code> 命令執行後返回的翻譯，沒有得到更新。</p>
+<p>您可以通過簡單地包裹你的<code>$translate</code>成為一個<code>$translateChangeSuccess</code>來解決這個問題。
+在<code>$rootScope</code>回檔，每次翻譯的變化成功時這個事件都會被觸發。
+一旦它的變化成功，你可以簡單地重新執行該代碼，這會提供您需要的翻譯。</p>
+<p>下面是它的代碼:</p>
+<pre class="prettyprint linenums">
+app.controller('Ctrl', ['$scope', '$translate', '$rootScope', function ($scope, $translate, $rootScope) {
+  $rootScope.$on('$translateChangeSuccess', function () {
+    $translate('HEADLINE').then(function (translation) {
+      $scope.headline = translation;
+    }, function (error) {
+      $scope.headline = error;
+    });
+  });
+}]);
+</pre>
+<p>為什麼要在 <code>$rootScope</code> 而不是 <code>$scope</code> 呢? 因為性能的原因 angular-translate 只在 <code>$rootScope</code> 層面上可以有<code>$emit</code>。</p>
+<p>更多的資訊參見 <a href="HTTP://stackoverflow.com/a/19498009/288703">StackOverflow</a> 帖子.</p>
+<p>這是一個例子：</p>
+<h3 id="使用-$translate-服務_source">Source</h3>
+<div source-edit="myApp" source-edit-deps="angular.js script.js" source-edit-html="index.html-12" source-edit-css="" source-edit-js="script.js-11" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div class="tabbable"><div class="tab-pane" title="index.html">
+<pre class="prettyprint linenums" ng-set-text="index.html-12" ng-html-wrap-loaded="myApp angular.js script.js"></pre>
+<script type="text/ng-template" id="index.html-12">
+    
+    <div ng-controller="Ctrl">
+      <h2 id="{{headline}}">{{headline}}</h2>
+      <p>{{paragraph}}</p>
+      <p>{{namespaced_paragraph}}</p>
+    </div>
+  </script>
+</div>
+<div class="tab-pane" title="script.js">
+<pre class="prettyprint linenums" ng-set-text="script.js-11"></pre>
+<script type="text/ng-template" id="script.js-11">
+      var translations = {
+        HEADLINE: 'What an awesome module!',
+        PARAGRAPH: 'Srsly!',
+        NAMESPACE: {
+          PARAGRAPH: 'And it comes with awesome features!'
+        }
+      };
+
+      var app = angular.module('myApp', ['pascalprecht.translate']);
+
+      app.config(['$translateProvider', function ($translateProvider) {
+        // add translation table
+        $translateProvider
+          .translations('en', translations)
+          .preferredLanguage('en');
+      }]);
+
+      app.controller('Ctrl', ['$scope', '$translate', function ($scope, $translate) {
+        // expose translation via `$translate` service
+        $translate('HEADLINE').then(function (headline) {
+          $scope.headline = headline;
+        }, function (error) {
+          $scope.headline = error;
+        });
+        $translate('PARAGRAPH').then(function (paragraph) {
+          $scope.paragraph = paragraph;
+        }, function (error) {
+          $scope.paragraph = error;
+        });
+        $translate('NAMESPACE.PARAGRAPH').then(function (anotherOne) {
+          $scope.namespaced_paragraph = anotherOne;
+        }, function (error) {
+          $scope.namespaced_paragraph = error;
+        });
+      }]);
+    </script>
+</div>
+</div><h3 id="{{headline}}_demo">Demo</h3>
+<div class="well doc-example-live animate-container" ng-embed-app="myApp" ng-set-html="index.html-12" ng-eval-javascript="script.js-11"></div>
+<p><br></p>
+<p><hr></p>
+<center>Made with unicorn &hearts; love by <a href="HTTP://github.com/PascalPrecht">PascalPrecht</a></center></div></div>

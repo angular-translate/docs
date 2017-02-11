@@ -1,0 +1,167 @@
+<a href="https://github.com/{{repo}}/edit/master/{{file}}" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="--page"><h2 id="轉義的變數內容">轉義的變數內容</h2>
+<p>說到常規輸出，AngularJS 確保輸出將被正確轉義。 然而，當使用 <code>angular-translate</code> 和可變內容時，結果將不會是正確轉義。
+這意味著你的應用程式很容易受到嚴重的攻擊(參見: <a href="https://www.owasp.org/index.php/Cross-site_Scripting_(XSS)">OWASP</a>)。</p>
+<h3 id="轉義的變數內容_一般使用">一般使用</h3>
+<p><code>useSanitizeValueStrategy(strategy)</code> 方法定義哪種轉義策略將被使用，這是全域的。</p>
+<p>目前，有兩個選項可供選擇：<code>null</code>（無）和 <code>escaped</code>（對於HTML）。</p>
+<p>我們執行是完全向後相容，這意味著在預設情況下轉義被禁用。</p>
+<pre><code class="lang-javascript">$translateProvider.useSanitizeValueStrategy(null);
+</code></pre>
+<p>然而，我們在未來缺省將啟用更安全的變數 <code>escaped</code>。</p>
+<pre><code class="lang-javascript">$translateProvider.useSanitizeValueStrategy(&#39;escaped&#39;);
+</code></pre>
+<h3 id="轉義的變數內容_演示">演示</h3>
+<h4 id="轉義的變數內容_演示_neither-escaped-nor-sanitized">Neither escaped nor sanitized</h4>
+<h3 id="轉義的變數內容_source">Source</h3>
+<div source-edit="myApp_not_escaped" source-edit-deps="angular.js script.js" source-edit-html="index.html-36" source-edit-css="" source-edit-js="script.js-35" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div class="tabbable"><div class="tab-pane" title="index.html">
+<pre class="prettyprint linenums" ng-set-text="index.html-36" ng-html-wrap-loaded="myApp_not_escaped angular.js script.js"></pre>
+<script type="text/ng-template" id="index.html-36">
+    
+    <div ng-controller="Ctrl">
+      <p>{{ 'HEADLINE' | translate }}</p>
+      <p translate="PARAGRAPH" translate-values="{username: '<span style=\'color:red;\'>HACKED</span>'}"></p>
+    </div>
+  </script>
+</div>
+<div class="tab-pane" title="script.js">
+<pre class="prettyprint linenums" ng-set-text="script.js-35"></pre>
+<script type="text/ng-template" id="script.js-35">
+      var translations = {
+        HEADLINE: 'XSS possible!',
+        PARAGRAPH: 'Hello {{username}}!',
+      };
+
+      var app = angular.module('myApp_not_escaped', ['pascalprecht.translate']);
+
+      app.config(['$translateProvider', function ($translateProvider) {
+        $translateProvider.translations('en', translations);
+        $translateProvider.preferredLanguage('en');
+        // Using standard escaping (nothing)
+      }]);
+
+      app.controller('Ctrl', ['$scope', function ($scope) {
+
+      }]);
+    </script>
+</div>
+</div><h3 id="轉義的變數內容_demo">Demo</h3>
+<div class="well doc-example-live animate-container" ng-embed-app="myApp_not_escaped" ng-set-html="index.html-36" ng-eval-javascript="script.js-35"></div>
+<h4 id="轉義的變數內容_demo_escaped">Escaped</h4>
+<h3 id="轉義的變數內容_source">Source</h3>
+<div source-edit="myApp_escaped" source-edit-deps="angular.js script.js" source-edit-html="index.html-38" source-edit-css="" source-edit-js="script.js-37" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div class="tabbable"><div class="tab-pane" title="index.html">
+<pre class="prettyprint linenums" ng-set-text="index.html-38" ng-html-wrap-loaded="myApp_escaped angular.js script.js"></pre>
+<script type="text/ng-template" id="index.html-38">
+    
+    <div ng-controller="Ctrl">
+      <p>{{ 'HEADLINE' | translate }}</p>
+      <p translate="PARAGRAPH" translate-values="{username: '<span style=\'color:red;\'>HACKED</span>'}"></p>
+    </div>
+  </script>
+</div>
+<div class="tab-pane" title="script.js">
+<pre class="prettyprint linenums" ng-set-text="script.js-37"></pre>
+<script type="text/ng-template" id="script.js-37">
+      var translations = {
+        HEADLINE: 'XSS possible!',
+        PARAGRAPH: 'Hello {{username}}!',
+      };
+
+      var app = angular.module('myApp_escaped', ['pascalprecht.translate']);
+
+      app.config(['$translateProvider', function ($translateProvider) {
+        $translateProvider.translations('en', translations);
+        $translateProvider.preferredLanguage('en');
+        // Enable escaping of HTML
+        $translateProvider.useSanitizeValueStrategy('escape');
+      }]);
+
+      app.controller('Ctrl', ['$scope', function ($scope) {
+
+      }]);
+    </script>
+</div>
+</div><h3 id="轉義的變數內容_demo">Demo</h3>
+<div class="well doc-example-live animate-container" ng-embed-app="myApp_escaped" ng-set-html="index.html-38" ng-eval-javascript="script.js-37"></div>
+<h4 id="轉義的變數內容_demo_escaped">Escaped (parameters only)</h4>
+<h3 id="轉義的變數內容_source">Source</h3>
+<div source-edit="myApp_escape_params" source-edit-deps="angular.js script.js" source-edit-html="index.html-40" source-edit-css="" source-edit-js="script.js-39" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div class="tabbable"><div class="tab-pane" title="index.html">
+<pre class="prettyprint linenums" ng-set-text="index.html-40" ng-html-wrap-loaded="myApp_escape_params angular.js script.js"></pre>
+<script type="text/ng-template" id="index.html-40">
+    
+    <div ng-controller="Ctrl">
+      <p>{{ 'HEADLINE' | translate }}</p>
+      <p translate="PARAGRAPH" translate-values="{username: '<span style=\'color:red;\'>HACKED</span>'}"></p>
+    </div>
+  </script>
+</div>
+<div class="tab-pane" title="script.js">
+<pre class="prettyprint linenums" ng-set-text="script.js-39"></pre>
+<script type="text/ng-template" id="script.js-39">
+      var translations = {
+        HEADLINE: 'XSS possible!',
+        PARAGRAPH: '<span style=\'color:green\'>Hello</span> {{username}}!',
+      };
+
+      var app = angular.module('myApp_escape_params', ['pascalprecht.translate']);
+
+      app.config(['$translateProvider', function ($translateProvider) {
+        $translateProvider.translations('en', translations);
+        $translateProvider.preferredLanguage('en');
+        // Enable escaping of HTML
+        $translateProvider.useSanitizeValueStrategy('escapeParameters');
+      }]);
+
+      app.controller('Ctrl', ['$scope', function ($scope) {
+
+      }]);
+    </script>
+</div>
+</div><h3 id="轉義的變數內容_demo">Demo</h3>
+<div class="well doc-example-live animate-container" ng-embed-app="myApp_escape_params" ng-set-html="index.html-40" ng-eval-javascript="script.js-39"></div>
+<h4 id="轉義的變數內容_demo_sanitized">Sanitized</h4>
+<h3 id="轉義的變數內容_source">Source</h3>
+<div source-edit="myApp_sanitize" source-edit-deps="angular.js script.js" source-edit-html="index.html-42" source-edit-css="" source-edit-js="script.js-41" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div class="tabbable"><div class="tab-pane" title="index.html">
+<pre class="prettyprint linenums" ng-set-text="index.html-42" ng-html-wrap-loaded="myApp_sanitize angular.js script.js"></pre>
+<script type="text/ng-template" id="index.html-42">
+    
+    <div ng-controller="Ctrl">
+      <p>{{ 'HEADLINE' | translate }}</p>
+      <p translate="PARAGRAPH" translate-values="{username: '<span style=\'color:red;\'>HACKED</span>'}"></p>
+    </div>
+  </script>
+</div>
+<div class="tab-pane" title="script.js">
+<pre class="prettyprint linenums" ng-set-text="script.js-41"></pre>
+<script type="text/ng-template" id="script.js-41">
+      var translations = {
+        HEADLINE: 'XSS possible!',
+        PARAGRAPH: 'Hello {{username}}!',
+      };
+
+      var app = angular.module('myApp_sanitize', ['pascalprecht.translate', 'ngSanitize']);
+
+      app.config(['$translateProvider', function ($translateProvider) {
+        $translateProvider.translations('en', translations);
+        $translateProvider.preferredLanguage('en');
+        // Enable escaping of HTML
+        $translateProvider.useSanitizeValueStrategy('sanitize');
+      }]);
+
+      app.controller('Ctrl', ['$scope', function ($scope) {
+
+      }]);
+    </script>
+</div>
+</div><h3 id="轉義的變數內容_demo">Demo</h3>
+<div class="well doc-example-live animate-container" ng-embed-app="myApp_sanitize" ng-set-html="index.html-42" ng-eval-javascript="script.js-41"></div>
+<p><br></p>
+<p><hr></p>
+<center>Made with unicorn &hearts; love by <a href="HTTP://github.com/PascalPrecht">PascalPrecht</a></center></div></div>

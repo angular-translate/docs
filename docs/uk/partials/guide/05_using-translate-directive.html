@@ -1,0 +1,108 @@
+<a href="https://github.com/{{repo}}/edit/master/{{file}}" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="-translate-page"><h2 id="директива-translate">Директива translate</h2>
+<p>Іншим способом перекладу контента у шарі представлення є використання директиви <code>translate</code>.
+Використання фільтру, звісно, чудово, але директива - краще. Виявилось, що наявність великої
+кількості фільтрів у представленні призводить до великої кількості спостерігаючих виразів (watch
+expressions). Тому, <code>angular-translate</code> також надає директиву для перекладу контента у шарі
+представлення.</p>
+<h3 id="директива-translate_використання">Використання</h3>
+<p>Ви можете використовувати директиву <code>translate</code> різними способами. Ось як виглядає звичайне
+використання:</p>
+<pre><code>&lt;ANY translate&gt;TRANSLATION_ID&lt;/ANY&gt;
+</code></pre><p>Також ви можете передати ідентифікатор перекладу у якості значення атрибута директиви <code>translate</code>:</p>
+<pre><code>&lt;ANY translate=&quot;TRANSLATION_ID&quot;&gt;&lt;/ANY&gt;
+</code></pre><p>Навіть якщо це вже дуже гнучкий спосіб використання директиви, angular-translate пропонує <strong>інший</strong>
+спосіб її використання. Давайте припустимо, що ідентифікатор перекладу не доступний у якості
+конкретного ідентифікатору тому, що, наприклад, він знаходиться всередині циклу по набору даних, що
+містить ідентифікатор перекладу у кожному ітераторі. В такому випадку ідентифікатор перекладу
+доступний лише у вигляді динамічних даних. Фактично, спочатку треба інтерполювати безпосередньо сам
+ідентифікатор. angular-translate допоможе вам із цим. Так теж можна:</p>
+<pre><code>&lt;ANY translate=&quot;{{toBeInterpolated}}&quot;&gt;&lt;/ANY&gt;
+</code></pre><p>Ну хіба ж це не круто? І так, angular-translate не був би angular-translate, якщо не міг би зробити
+те ж саме з нашим першим прикладом використання. Це теж працює:</p>
+<pre><code>&lt;ANY translate&gt;{{toBeInterpolated}}&lt;/ANY&gt;
+</code></pre><p>Оберіть, що краще для вас!</p>
+<h3 id="директива-translate_пост-компіляція">Пост компіляція</h3>
+<p>Починаючи з версії 2, до перекладів може бути застосована пост обробка в контексті поточної області
+видимості (з використанням <code>$compile</code>). Це означає, що будь-яка директива, що використовується в
+тексті перекладу, тепер працювати як очікується.</p>
+<p>Цю поведінку можна включити для директиви:</p>
+<pre><code>&lt;ANY translate=&quot;TRANSLATION_ID&quot; translate-compile&gt;&lt;/ANY&gt;
+</code></pre><p>Також, ви можете включити цю функцію глобально за допомогою...</p>
+<pre><code>$translateProvider.usePostCompiling(true);
+</code></pre><p>... і потім вимкнути її знову для директиви:</p>
+<pre><code>&lt;ANY translate=&quot;TRANSLATION_ID&quot; translate-compile=&quot;false&quot;&gt;&lt;/ANY&gt;
+</code></pre><h3 id="директива-translate_приклад">Приклад</h3>
+<p>Давайте оновимо наш навчальний застосунок і додамо деякі нові переклади. Як щодо текстів, що
+представляють усі можливі варіанти використання директиви <code>translate</code>? наша таблиця перекладів може
+виглядати приблизно так:</p>
+<pre class="prettyprint linenums">
+var translations = {
+  HEADLINE: 'What an awesome module!',
+  PARAGRAPH: 'Srsly!',
+  PASSED_AS_TEXT: 'Hey there! I\'m passed as text value!',
+  PASSED_AS_ATTRIBUTE: 'I\'m passed as attribute value, cool ha?',
+  PASSED_AS_INTERPOLATION: 'Beginners! I\'m interpolated!'
+};
+</pre>
+<p>Після цього ми оновимо наше представлення додавши у нього нові ідентифікатори перекладів:</p>
+<pre class="prettyprint linenums">
+&lt;h2&gt;{{ 'HEADLINE' | translate }}&lt;/h2&gt;
+&lt;p&gt;{{ 'PARAGRAPH' | translate }}&lt;/p&gt;
+
+&lt;p translate&gt;PASSED_AS_TEXT&lt;/p&gt;
+&lt;p translate="PASSED_AS_ATTRIBUTE"&gt;&lt;/p&gt;
+&lt;p translate&gt;{{ 'PASSED_AS_INTERPOLATION' }}&lt;/p&gt;
+&lt;p translate="{{ 'PASSED_AS_INTERPOLATION' }}"&gt;&lt;/p&gt;
+</pre>
+<p>Тепер нова версія нашого застосунка виглядає так:</p>
+<h3 id="директива-translate_source">Source</h3>
+<div source-edit="myApp" source-edit-deps="angular.js script.js" source-edit-html="index.html-16" source-edit-css="" source-edit-js="script.js-15" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div class="tabbable"><div class="tab-pane" title="index.html">
+<pre class="prettyprint linenums" ng-set-text="index.html-16" ng-html-wrap-loaded="myApp angular.js script.js"></pre>
+<script type="text/ng-template" id="index.html-16">
+    
+    <div ng-controller="Ctrl">
+      <p>{{ 'HEADLINE' | translate }}</p>
+      <p>{{ 'PARAGRAPH' | translate }}</p>
+
+      <p translate>PASSED_AS_TEXT</p>
+      <p translate="PASSED_AS_ATTRIBUTE"></p>
+      <p translate>{{ 'PASSED_AS_INTERPOLATION' }}</p>
+      <p translate="{{ 'PASSED_AS_INTERPOLATION' }}"></p>
+    </div>
+  </script>
+</div>
+<div class="tab-pane" title="script.js">
+<pre class="prettyprint linenums" ng-set-text="script.js-15"></pre>
+<script type="text/ng-template" id="script.js-15">
+      var translations = {
+        HEADLINE: 'What an awesome module!',
+        PARAGRAPH: 'Srsly!',
+        PASSED_AS_TEXT: 'Hey there! I\'m passed as text value!',
+        PASSED_AS_ATTRIBUTE: 'I\'m passed as attribute value, cool ha?',
+        PASSED_AS_INTERPOLATION: 'Beginners! I\'m interpolated!'
+      };
+
+      var app = angular.module('myApp', ['pascalprecht.translate']);
+
+      app.config(['$translateProvider', function ($translateProvider) {
+        // add translation table
+        $translateProvider
+          .translations('en', translations)
+          .preferredLanguage('en');
+      }]);
+
+      app.controller('Ctrl', ['$scope', function ($scope) {
+
+      }]);
+    </script>
+</div>
+</div><h3 id="директива-translate_demo">Demo</h3>
+<div class="well doc-example-live animate-container" ng-embed-app="myApp" ng-set-html="index.html-16" ng-eval-javascript="script.js-15"></div>
+<p><br></p>
+<p><hr></p>
+<center>Made with unicorn &hearts; love by <a href="http://github.com/PascalPrecht">PascalPrecht</a></center></div></div>

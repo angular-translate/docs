@@ -1,0 +1,95 @@
+<a href="https://github.com/{{repo}}/edit/master/{{file}}" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="error-handling-page"><h2 id="error-handling">Error Handling</h2>
+<p>Es kann vorkommen, dass eine App so komplex wird, dass man gar nicht mehr genau
+weiß, was für Translation ID&#39;s man hat. Man ist sich möglicherweise nich tmal sicher,
+ob es überhaupt eine Übersetzung für bestimmte Translation ID&#39;s gibt. Da kommt
+der missingTranslationHandler ins Spiel.</p>
+<h3 id="error-handling_die-log-handler-extension-für-fehlende-übersetzungen-nutzen">Die Log-Handler-Extension für fehlende Übersetzungen nutzen</h3>
+<p>Es gibt eine Extension für angular-translate, die Warnings in der Konsole loggt,
+wenn versucht wird eine Translation ID zu übersetzen, für die es keine Übersetzung
+gibt. Wie alle Extensions lässt sich auch diese mit Bower installieren:</p>
+<pre><code>$ bower install angular-translate-handler-log
+</code></pre><p>Um den Handler zu verwenden muss man nichts weiter machen als die
+<code>useMissingTranslationHandler()</code>- Methode auf dem <code>$translateProvider</code> aufzurufen.
+angular-translate kümmert sich um den Rest.</p>
+<pre class="prettyprint linenums">
+$translateProvider.useMissingTranslationHandlerLog();
+</pre>
+<p>Hier ein Beispiel:</p>
+<h3 id="error-handling_source">Source</h3>
+<div source-edit="myApp" source-edit-deps="angular.js script.js" source-edit-html="index.html-34" source-edit-css="" source-edit-js="script.js-33" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div class="tabbable"><div class="tab-pane" title="index.html">
+<pre class="prettyprint linenums" ng-set-text="index.html-34" ng-html-wrap-loaded="myApp angular.js script.js"></pre>
+<script type="text/ng-template" id="index.html-34">
+    
+    <div ng-controller="Ctrl">
+      <p translate="NOT_EXISTING"></p>
+      <p translate="ALSO_NOT_EXISTING"></p>
+
+      <button ng-click="changeLanguage('de')" translate="BUTTON_LANG_DE"></button>
+      <button ng-click="changeLanguage('en')" translate="BUTTON_LANG_EN"></button>
+    </div>
+  </script>
+</div>
+<div class="tab-pane" title="script.js">
+<pre class="prettyprint linenums" ng-set-text="script.js-33"></pre>
+<script type="text/ng-template" id="script.js-33">
+      var app = angular.module('myApp', ['pascalprecht.translate']);
+
+      app.config(['$translateProvider', function ($translateProvider) {
+        $translateProvider.preferredLanguage('en');
+        $translateProvider.useMissingTranslationHandlerLog();
+        $translateProvider.translations('en', {
+          HEADLINE: 'I\'m a headline',
+          TEXT: 'I\'m using default interpolation {{ val + val }}',
+          PLURAL: '{GENDER, select, male{He} female{She} other{They}} liked this.',
+          BUTTON_LANG_EN: 'English',
+          BUTTON_LANG_DE: 'German'
+        });
+
+        $translateProvider.translations('de', {
+          HEADLINE: 'Ich bin eine Überschrift',
+          TEXT: 'Ich benutze default interpolation {{ val + val }}',
+          PLURAL: '{GENDER, select, male{Er fand} female{Sie fand} other{Sie fanden}} es gut.',
+          BUTTON_LANG_EN: 'Englisch',
+          BUTTON_LANG_DE: 'Deutsch'
+        });
+      }]);
+
+      app.controller('Ctrl', ['$translate', '$scope', function ($translate, $scope) {
+
+        $scope.changeLanguage = function (langKey) {
+          $translate.use(langKey);
+        };
+      }]);
+    </script>
+</div>
+</div><h3 id="error-handling_demo">Demo</h3>
+<div class="well doc-example-live animate-container" ng-embed-app="myApp" ng-set-html="index.html-34" ng-eval-javascript="script.js-33"></div>
+<p>Schau in der Konsole des Browsers nach!</p>
+<h3 id="error-handling_nutzung-der-&quot;post-processing&quot;-funktion">Nutzung der &quot;Post processing&quot; Funktion</h3>
+<p>Seit Version 2.11 ist es möglich, auch eine &quot;post processing&quot; (wird nach Übersetzung aufgerufen) Funktion zu nutzen.
+Dieses gibt dir die Möglichkeit, zusätzliche Debug-Informationen für Übersetzer zu erhalten oder einfach nur
+eine einfache Identifikation von Schlüssel -&gt; Inhalten zu ermöglichen, damit auch falsche Übersetzungen schnell
+gefunden werden.</p>
+<p>Um diese Funktionalität zu nutzen, muss sie über die Modulkonfiguration aktiviert werden:</p>
+<pre class="prettyprint linenums">
+ $translateProvider.postProcess(function (translationId, translation, interpolatedTranslation, params, lang) {
+    return '&lt;span style="color: #cccccc"&gt;' + translationId + '(' + lang + '):&lt;/span&gt; ' +
+      (interpolatedTranslation ? interpolatedTranslation : translation);
+  });
+</pre>
+<p>Die Funktion stellt fünf Parameter bereit:</p>
+<ul>
+<li>translationId (Übersetzungsschlüssel)</li>
+<li>translation (Übersetzungswert)</li>
+<li>interpolatedTranslation (interpolierte Übersetzung)</li>
+<li>params (Parameter-Werte)</li>
+<li>lang (Sprachschlüssel, der zum Erfolg geführt hat)</li>
+</ul>
+<p><br></p>
+<p><hr></p>
+<center>Made with unicorn &hearts; love by the angular-translate team (<a href="http://github.com/angular-translate">http://github.com/angular-translate</a>)</center></div></div>

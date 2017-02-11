@@ -1,0 +1,49 @@
+<a href="https://github.com/{{repo}}/edit/master/{{file}}" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="--page"><h2 id="安裝">安裝</h2>
+<h3 id="安裝_安裝依賴關係">安裝依賴關係</h3>
+<p>以下這些工具是在 angular-translate 開發過程中需要使用的，所以你應該考慮將它們安裝在你的機器上，以確保一切工作正常。
+請安裝以下工具：</p>
+<ul>
+<li><a href="HTTP://gruntjs.com">Grunt</a></li>
+<li><a href="https://karma-runner.github.io/">Karma Testrunner</a></li>
+<li><a href="http://bower.io/">Bower</a></li>
+</ul>
+<h3 id="安裝_通過-bower-安裝">通過 Bower 安裝</h3>
+<p>您可以使用 Bower 很簡單的安裝 <code>angular-translate</code>包。在你的機器上安裝 bower 後，只需運行：</p>
+<pre><code>$ bower install angular-translate
+</code></pre><p>這將在您的配置元件資料夾中安裝套裝程式。你可以在<a href="https://github.com/angular-translate/bower-angular-translate">這裡</a>查看 bower 安裝的庫。
+正如你所看到的，這幾乎是分解到原料來源。不僅對於開發， 生產使用也是如此。</p>
+<p>你可能會注意到還有另外一個包。 <code>angular-translate-interpolation-default</code> 這個包中包含預設的插值引擎 angular-translate
+用來插值您的翻譯。我們以後還會討論這個引擎，目前你只要知道，這個包必須嵌入到你的HTML文檔中。</p>
+<h3 id="安裝_使用git安裝">使用Git安裝</h3>
+<p>另一種方式來獲得的 angular-translate 的原始程式碼，是從 GitHub 上克隆整個版本庫</p>
+<pre><code>$ git clone https://github.com/angular-translate/angular-translate.git
+</code></pre><p>現在你有了一個 angular-translate 版本庫的完整克隆，包括所有的歷史記錄和一切其他開發中的事件。你可以取你所需。</p>
+<p>由於開發時， angular-translates 是有一定的依賴關係，你可以一次性的安裝所有的依賴關係。
+如果你這樣做， <code>angular-translate-interpolation-default</code> 包已經包括在內。
+要安裝所有需要的依賴，只需在 angular-translate 庫中運行以下命令。</p>
+<pre><code>$ npm install
+$ bower install
+</code></pre><h3 id="安裝_運行提供的單元測試">運行提供的單元測試</h3>
+<p>當然， <code>angular-translate</code> 自帶有一個全功能的測試套件等待您來運行它。
+這就是 <strong>Karma testrunner</strong>。導航到你克隆此專案的資料夾，然後運行以下命令：</p>
+<pre><code>$ karma start karma.unit.conf
+</code></pre><p>這將啟動一個的 estRunner ，它使用<strong>Jasmine 運行框架</strong>執行所有提供的單元測試。
+如果一切呈現順利的綠色，那你什麼也不需要做，表明所有測試範例通過。否則，請解決這個問題，併發送一個pull
+請求。謝謝。</p>
+<p>也有<strong>中途測試</strong>可以運行。要做到這一點，用中途測試組態文動Karma：</p>
+<pre><code>$ karma start karma.midway.conf
+</code></pre><h3 id="安裝_從原始程式碼編譯">從原始程式碼編譯</h3>
+<p>當所有測試都順利通過了，你可以再建一個開發環境了，你還可以在再建立一個產品版本，就像你前面用的 bower 包一樣。
+angular-translate 提供配置了<code>Gruntfile.js</code>檔，其中包含可以用 grunt 來運行的配置好的任務。</p>
+<p>要獲得 <code>angular-translate</code> 只需運行以下命令：</p>
+<pre><code>$ grunt build
+</code></pre><p>這將生成 <code>dist</code> 資料夾，內有一系列檔，為開發和生產使用做好準備。
+檔看起來應該是類似 <code>dist/angular-translate.js</code> 和 <code>dist/angular-translate.min.js</code>。</p>
+<p>這兩個檔生成之後，只要將它們嵌入在你的HTML文檔中，你是準備搖滾吧！</p>
+<p><br></p>
+<p><hr></p>
+<center>Made with unicorn &hearts; love by <a href="HTTP://github.com/PascalPrecht">PascalPrecht</a></center></div></div>

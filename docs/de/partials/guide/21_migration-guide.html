@@ -1,0 +1,55 @@
+<a href="https://github.com/{{repo}}/edit/master/{{file}}" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="migration-guide-page"><h2 id="111--&gt;-200">1.1.1 -&gt; 2.0.0</h2>
+<h3 id="111--&gt;-200_anonyme-übersetzungstabellen-werden-nicht-mehr-unterstützt">Anonyme Übersetzungstabellen werden nicht mehr unterstützt</h3>
+<p>Ab Version 2.0.0 werden anonyme
+Since version 2.0.0 Übersetzungstabellen nicht mehr von angular-translate unterstützt. Dies ist
+eine Folge von internen Strukturverbesserungen.</p>
+<p>Folgende Code-Zeilen müssen umgestellt werden:</p>
+<pre><code class="lang-js">$translateProvider.translations({
+  &#39;greetings&#39; : &#39;Hello&#39;,
+  // some other keys
+});
+</code></pre>
+<p>Die Lösung ist, als ersten Paratemer die eigentliche Sprache festzulegen.</p>
+<pre><code class="lang-js">$translateProvider.translations(&#39;en&#39;, {
+  &#39;greetings&#39; : &#39;Hello&#39;,
+  // some other keys
+});
+$translateProvider.use(&#39;en&#39;);
+</code></pre>
+<h3 id="111--&gt;-200_uses--&gt;-use">uses -&gt; use</h3>
+<p>Aus Konsistenztgründen wurde beschlossen, dass die Methode <code>.uses()</code> fortan <code>.use()</code> heißen wird.
+Dies gilt sowohl für den Service $translate als auch den Provider $translateProvider. Es sollte
+überprüft werden, ob dies überall umgestellt ist.</p>
+<h3 id="111--&gt;-200_$translate-ist-asynchron">$translate() ist asynchron</h3>
+<p>Der Service $translate() ist ab sofort asynchron und gibt eine Promise zurück. Eine synchroner Aufruf
+ist nicht mehr möglich. Falls dies doch erforderlich ist, dann kann man $translate.instant() verwenden.</p>
+<p>Folgende Code-Zeilen müssen umgestellt werden:</p>
+<pre><code class="lang-js">var stringFromService = $translate(&#39;translationId&#39;);
+</code></pre>
+<p>Die Lösung ist die Verwendung von Promise-Callbacks.</p>
+<pre><code class="lang-js">var stringFromService;
+$translate(&#39;translationId&#39;).then(function(translation) {
+  stringFromService = translation;
+}, function(translationId){
+  // Unable to translate given translationId
+  stringFromService = translationId;
+});
+</code></pre>
+<p>Falls man dennoch die Übersetzungen synchron laden will, dann kann man
+<code>$translate.instant(translationId, interpolateParams, interpolationId)</code> verwenden.
+Allerdings muss man hier die Konsequenz von nicht aktuellen Übersetzungen selber tragen. Dieser
+Service wartet nicht auf das erfolgreiche Laden von Übersetzungen.</p>
+<h3 id="111--&gt;-200_events-werden-nur-noch-auf-den-$rootscope-gesendet">Events werden nur noch auf den $rootScope gesendet</h3>
+<p>Alle Events von angular-translate werden jetzt nur auf dem $rootScope gesendet, das bedeutet ein
+einfaches Lauschen <code>$scope.$on()</code> funktioniert nicht mehr. Stattdessen muss dann auch
+<code>$rootScope.$on()</code> verwendet werden. Der Grund hierfür sind Performance-Gründe.</p>
+<h3 id="111--&gt;-200_wtfpl--&gt;-mit">WTFPL -&gt; MIT</h3>
+<p>angular-translate wird nicht mehr unter der WTFPL veröffentlicht. Ab sofort gilt die MIT.</p>
+<h3 id="111--&gt;-200_structural-changes">Structural changes</h3>
+<p>Das gesamte angular-translate Projekt wird fortnun an als Organization bei GitHub geführt.
+Das bedeutet, alle Repositories sind verschoben worden (<a href="https://github.com/angular-translate">https://github.com/angular-translate</a>).</p>
+</div></div>

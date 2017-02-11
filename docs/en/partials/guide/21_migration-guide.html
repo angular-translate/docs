@@ -1,0 +1,53 @@
+<a href="https://github.com/{{repo}}/edit/master/{{file}}" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="migration-guide-page"><h2 id="111--&gt;-200">1.1.1 -&gt; 2.0.0</h2>
+<h3 id="111--&gt;-200_anonymous-translation-tables-are-no-longer-supported">Anonymous translation tables are no longer supported</h3>
+<p>Since version 2.0.0 anonymous translation tables are not supported by angular-translate. This is
+done to increase consistency of the code.</p>
+<p>Please, ensure, that your application doesn&#39;t contain a code like this:</p>
+<pre><code class="lang-js">$translateProvider.translations({
+  &#39;greetings&#39; : &#39;Hello&#39;,
+  // some other keys
+});
+</code></pre>
+<p>To fix it you just have to add a language key as a first argument:</p>
+<pre><code class="lang-js">$translateProvider.translations(&#39;en&#39;, {
+  &#39;greetings&#39; : &#39;Hello&#39;,
+  // some other keys
+});
+$translateProvider.use(&#39;en&#39;);
+</code></pre>
+<h3 id="111--&gt;-200_uses--&gt;-use">uses -&gt; use</h3>
+<p>In terms of consistency we decided to rename the <code>.uses()</code> method to <code>.use()</code>. It is done for both
+$translate and $translateProvider. So, please, ensure that you have updated all occurrences of
+these methods to the new style.</p>
+<h3 id="111--&gt;-200_$translate-is-now-async">$translate() is now async</h3>
+<p>$translate service is promise based now. So you can&#39;t use it in synchronous manner anymore. Please,
+update this code:</p>
+<pre><code class="lang-js">var stringFromService = $translate(&#39;translationId&#39;);
+</code></pre>
+<p>to</p>
+<pre><code class="lang-js">var stringFromService;
+$translate(&#39;translationId&#39;).then(function(translation) {
+  stringFromService = translation;
+}, function(translationId){
+  // Unable to translate given translationId
+  stringFromService = translationId;
+});
+</code></pre>
+<p>If you still want to use the service in sync manner then use
+<code>$translate.instant(translationId, interpolateParams, interpolationId)</code> method instead of direct service
+call. But note that <code>instant</code> method doesn&#39;t wait until async loading is done. So, be careful using
+it.</p>
+<h3 id="111--&gt;-200_events-are-now-only-emitted-on-$rootscope">Events are now only emitted on $rootScope</h3>
+<p>All angular-translate events are now emitted on $rootScope level, which means you can&#39;t simply
+listen with <code>$scope.$on()</code> anymore. You have to use <code>$rootScope.$on()</code> for that now. This is done
+to gain a better performance when broadcasting events.</p>
+<h3 id="111--&gt;-200_wtfpl--&gt;-mit">WTFPL -&gt; MIT</h3>
+<p>angular-translate is no longer licensed under WTFPL license. It is now licensed under MIT.</p>
+<h3 id="111--&gt;-200_structural-changes">Structural changes</h3>
+<p>The entire angular-translate project is now an organization on github, which means all repositories
+have been moved there. (<a href="https://github.com/angular-translate">https://github.com/angular-translate</a>)</p>
+</div></div>

@@ -1,0 +1,130 @@
+<a href="https://github.com/{{repo}}/edit/master/{{file}}" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="custom-storages-page"><h2 id="custom-storages">Custom Storages</h2>
+<p>If you&#39;ve read <a href="#/guide/10_storages">Storages</a>, you know how to use either
+cookiesStorage, or localStorage, to let your app remember the last chosen
+language over cross http requests. If neither localStorage nor cookieStorage
+fits your needs, you can simply build your own storage service and use that
+instead.</p>
+<h3 id="custom-storages_building-a-custom-storage-service">Building a custom storage service</h3>
+<p>If you want to use your own custom storage in your app, you have to build a
+service which has to implement some methods, so angular-translate can make use
+of them. The interface for a storage service is pretty straight forward. All you
+need is to provide a <code>put()</code> and a <code>get()</code> method on your custom storage service.</p>
+<p>Let&#39;s say we want to use a custom storage service within our sample app. We can
+easily extend it with a new service. We just have to make sure that we return an
+object with a <code>get()</code> and a <code>put()</code> method. A custom service could look like this:</p>
+<pre class="prettyprint linenums">
+app.factory('customStorage', function () {
+  return {
+    put: function (name, value) {
+      // store `value` under `name` somehow
+    },
+    get: function (name) {
+      // request value of `name` somehow
+    }
+  };
+});
+</pre>
+<p>Easy, right? As you can see, <code>put()</code> expects two arguments. A name and a value. So
+you work with simple key-value pairs. On the other side, <code>get()</code> just needs a name
+to request a value. Providing a custom storage as a separate service gives you high
+flexibility when it comes to using this service in a different place. In addition
+to that, testing this service is pretty easy, since it&#39;s isolated.</p>
+<h3 id="custom-storages_using-the-custom-storage-service">Using the custom storage service</h3>
+<p>Once you&#39;ve build your custom storage service, you have to tell angular-translate
+to make use of it. <code>$translateProvider</code> methods <code>useCookieStorage()</code> and
+<code>useLocalStorage()</code> are actually shortcut methods. They both use a method
+<code>useStorage()</code> internally. You can also use this method to let angular-translate
+know of your custom storage service by simply doing:</p>
+<pre class="prettyprint linenums">
+$translateProvider.useStorage('customStorage');
+</pre>
+<p>angular-translate will use <code>$injector</code> to get an instance of the given factory
+name, which is in our case <code>customStorage</code>, and is then able to access its methods
+at runtime to save the last chosen language.</p>
+<h3 id="custom-storages_source">Source</h3>
+<div source-edit="myApp" source-edit-deps="angular.js script.js" source-edit-html="index.html-24" source-edit-css="" source-edit-js="script.js-23" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div class="tabbable"><div class="tab-pane" title="index.html">
+<pre class="prettyprint linenums" ng-set-text="index.html-24" ng-html-wrap-loaded="myApp angular.js script.js"></pre>
+<script type="text/ng-template" id="index.html-24">
+    
+    <div ng-controller="Ctrl">
+      <p>{{ 'HEADLINE' | translate }}</p>
+      <p>{{ 'PARAGRAPH' | translate }}</p>
+
+      <p translate>PASSED_AS_TEXT</p>
+      <p translate="PASSED_AS_ATTRIBUTE"></p>
+      <p translate>{{ 'PASSED_AS_INTERPOLATION' }}</p>
+      <p translate="{{ 'PASSED_AS_INTERPOLATION' }}"></p>
+      <p translate="VARIABLE_REPLACEMENT" translate-values="{ name: 'PascalPrecht' }"></p>
+
+      <button ng-click="changeLanguage('de')" translate="BUTTON_LANG_DE"></button>
+      <button ng-click="changeLanguage('en')" translate="BUTTON_LANG_EN"></button>
+    </div>
+  </script>
+</div>
+<div class="tab-pane" title="script.js">
+<pre class="prettyprint linenums" ng-set-text="script.js-23"></pre>
+<script type="text/ng-template" id="script.js-23">
+      var translationsEN = {
+        HEADLINE: 'What an awesome module!',
+        PARAGRAPH: 'Srsly!',
+        PASSED_AS_TEXT: 'Hey there! I\'m passed as text value!',
+        PASSED_AS_ATTRIBUTE: 'I\'m passed as attribute value, cool ha?',
+        PASSED_AS_INTERPOLATION: 'Beginners! I\'m interpolated!',
+        VARIABLE_REPLACEMENT: 'Hi {{name}}',
+        BUTTON_LANG_DE: 'German',
+        BUTTON_LANG_EN: 'English'
+      };
+
+      var translationsDE= {
+        HEADLINE: 'Was für ein großartiges Modul!',
+        PARAGRAPH: 'Ernsthaft!',
+        PASSED_AS_TEXT: 'Hey! Ich wurde als text übergeben!',
+        PASSED_AS_ATTRIBUTE: 'Ich wurde als Attribut übergeben, cool oder?',
+        PASSED_AS_INTERPOLATION: 'Anfänger! Ich bin interpoliert!',
+        VARIABLE_REPLACEMENT: 'Hi {{name}}',
+        BUTTON_LANG_DE: 'Deutsch',
+        BUTTON_LANG_EN: 'Englisch'
+      };
+
+      var app = angular.module('myApp', ['ngCookies', 'pascalprecht.translate']);
+
+      app.config(['$translateProvider', function ($translateProvider) {
+        // add translation tables
+        $translateProvider.translations('en', translationsEN);
+        $translateProvider.translations('de', translationsDE);
+        $translateProvider.preferredLanguage('en');
+        // remember language
+        $translateProvider.useStorage('customStorage');
+      }]);
+
+      app.factory('customStorage', function () {
+        return {
+          put: function (name, value) {
+            // store `value` under `name` somehow
+          },
+          get: function (name) {
+            // request value of `name` somehow
+          }
+        };
+      });
+
+      app.controller('Ctrl', ['$translate', '$scope', function ($translate, $scope) {
+
+        $scope.changeLanguage = function (langKey) {
+          $translate.use(langKey);
+        };
+      }]);
+    </script>
+</div>
+</div><h3 id="custom-storages_demo">Demo</h3>
+<div class="well doc-example-live animate-container" ng-embed-app="myApp" ng-set-html="index.html-24" ng-eval-javascript="script.js-23"></div>
+<p>Of course, our custom service doesn&#39;t do anything, which is why you can refresh
+the browser as often as you want, the app won&#39;t remember the language.</p>
+<p><br></p>
+<p><hr></p>
+<center>Made with unicorn &hearts; love by <a href="http://github.com/PascalPrecht">PascalPrecht</a></center></div></div>

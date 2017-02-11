@@ -1,0 +1,42 @@
+<a href="https://github.com/{{repo}}/edit/master/{{file}}" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="--page"><h2 id="пользовательский-обработчик-ошибок">Пользовательский обработчик ошибок</h2>
+<p>Конечно, вы хотите иметь возможность использовать пользовательский обработчик. Кроме
+<code>useMissingTranslationHandlerLog()</code> есть другой метод под названием <code>useMissingTranslationHandler()</code>,
+который принимает имя фабрики, возвращающей пользовательский обработчик. Итак, как же это выглядит?</p>
+<pre class="prettyprint linenums">
+var app = angular.module('myApp', ['pascalprecht.translate'], function ($translateProvider) {
+  // tell angular-translate to use your custom handler
+  $translateProvider.useMissingTranslationHandler('myCustomHandlerFactory');
+});
+
+// define custom handler
+app.factory('myCustomHandlerFactory', function (dep1, dep2) {
+  // has to return a function which gets a tranlation id
+  return function (translationID) {
+    // do something with dep1 and dep2
+  };
+});
+
+</pre>
+<h2 id="использование-замещающего-текста-в-случае-ошибки">Использование замещающего текста в случае ошибки</h2>
+<p>Иногда, может понадобиться указать замещающий текст (не ключ) для фронтэнда, чтобы переводчики или,
+даже, конечные пользователи (плохая идея) могли видеть над чем еще нужно работать.
+Теперь это возможно со слегка измененным пользовательским обработчиком ошибок.
+Просто верните значение из обработчика ошибок в angular-translate.</p>
+<pre class="prettyprint linenums">
+app.factory('customTranslationHandler', function () {
+  return function (translationID, uses) {
+    // return the following text as a translation 'result' - this will be
+    // displayed instead of the language key.
+    return 'NO DEFAULT KEY';
+  };
+});
+</pre>
+<p>Конечно, вы можете добавить translationID к возвращаемому значению. Тогда, ответственный за переводы
+человек увидит проблемный ключ!</p>
+<p><br></p>
+<p><hr></p>
+<center>Made with unicorn &hearts; love by <a href="http://github.com/PascalPrecht">PascalPrecht</a></center></div></div>

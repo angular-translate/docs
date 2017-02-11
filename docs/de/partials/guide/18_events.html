@@ -1,0 +1,42 @@
+<a href="https://github.com/{{repo}}/edit/master/{{file}}" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="events-page"><h2 id="events">Events</h2>
+<p>angular-translate triggert einige Events am <code>$rootScope</code> auf die du reagieren kannst,
+sobald sie gefeuert werden. Dieses Dokument beschreibt die verschiedenen Events.</p>
+<h3 id="events_allgemein">Allgemein</h3>
+<p>Einige Events werden gefeuert, unabhängig davon wie angular-translate konfiguriert
+wurde.</p>
+<h5 id="events_allgemein"><code>$translateChangeStart</code></h5>
+<p>Wird gefeuert sobald angular-translate versucht eine Sprache zu wechseln.
+Dies geschieht beim Startup, wenn die Sprache das erste mal eingerichtet wird, oder
+wenn die Sprache zur Laufzeit mit <code>$translate.use()</code> gewechselt wird. Der Event
+wird außerdem gefeuert wenn Übersetzungen asynchron geladen werden müssen.</p>
+<h5 id="events_allgemein"><code>$translateChangeSuccess</code></h5>
+<p>Wie der Name schon sagt, wird dieser Event gefeuert sobald das wechseln einer Sprache
+erfolgreich war. Wenn kein asynchroner Loader verwendet wird, geschieht dies
+in der Regel direkt nach dem <code>$translateChangeStart</code> Event. Dieser Event wird auch
+gefeuert, wenn erst Datn asynchron geladen werden mussten.</p>
+<h5 id="events_allgemein"><code>$translateChangeError</code></h5>
+<p>Wird gefeuert wenn ein Sprachwechsel fehl schlug. Das passiert in der Regel nur
+wenn ein Loader ein rejected Promise zurück gibt.</p>
+<h5 id="events_allgemein"><code>$translateChangeEnd</code></h5>
+<p>Wird jedes mal gefeuert wenn ein Translation Change endet, egal ob es erfolgreich
+war oder nicht und vor allem nachdem alle registrierten Interpolation-Services
+benachrichtigt wurden.</p>
+<h3 id="events_asynchrones-laden">Asynchrones Laden</h3>
+<p>Einige Events werden nur gefeuert, wenn man einen aynchronen Loader verwendet.</p>
+<h5 id="events_asynchrones-laden"><code>$translateLoadingStart</code></h5>
+<p>Wie der Eventname schon sagt, wird er gefeuert sobald ein Loader ausgeführt wird.</p>
+<h5 id="events_asynchrones-laden"><code>$translateLoadingSuccess</code></h5>
+<p>Wird gefeuert wenn ein Loader ein resolved Promise zurück gibt.</p>
+<h5 id="events_asynchrones-laden"><code>$translateLoadingError</code></h5>
+<p>Wird gefeuert wenn ein Loader ein rejected Promise zurück gibt.</p>
+<h5 id="events_asynchrones-laden"><code>$translateLoadingEnd</code></h5>
+<p>Wird gefeuert sobald der Loader ein Promise zurück gegeben hat, unabhänig davon
+ob es rejected oder resolved wurde. Dieser Event wird gefeuert nachdem die Übersetzungtabelle
+geupdated wurde.</p>
+<h5 id="events_asynchrones-laden"><code>$translatePartialLoaderStructureChanged</code></h5>
+<p>Wird gefeuert wenn der State von <code>$translatePartialLoader</code> verändert wird.</p>
+</div></div>

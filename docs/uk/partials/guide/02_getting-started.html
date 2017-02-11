@@ -1,0 +1,210 @@
+<a href="https://github.com/{{repo}}/edit/master/{{file}}" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="--page"><h2 id="початок-роботи">Початок роботи</h2>
+<h3 id="початок-роботи_початковий-html">Початковий HTML</h3>
+<p>Щоб розпочати роботу, підключіть angular-translate у свій HTML документ. Звісно, це потрібно зробити
+<strong>після</strong> того, як буде підключено сам Angular. Ваш HTML має виглядати так:</p>
+<pre class="prettyprint linenums">
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;i18n app&lt;/title&gt;
+
+    &lt;script src="path/to/angular.js"&gt;&lt;/script&gt;
+    &lt;script src="path/to/angular-translate.js"&gt;&lt;/script&gt;
+    &lt;script src="app.js"&gt;&lt;/script&gt;
+  &lt;/head&gt;
+
+  &lt;body ng-app="myApp"&gt;
+
+  &lt;/body&gt;
+&lt;/html&gt;
+</pre>
+<h3 id="початок-роботи_оголошення-залежностей">Оголошення залежностей</h3>
+<p>Після підключення ви можете оголосити angular-translate у якості залежності для вашого застосунку.
+Просто чудово, що Angular надає цей механізм. Так, щоб сказати вашому застосунку, що для правильної
+роботи йому потрібен angular-translate, впровадьте його у модуль як показано нижче. Це дасть вам 
+доступ до всіх компонентів angular-translate.</p>
+<pre class="prettyprint linenums">
+var app = angular.module('myApp', ['pascalprecht.translate']);
+</pre>
+<h3 id="початок-роботи_знайомство-з">Знайомство з <code>$translateProvider</code></h3>
+<p>Тепер angular-translate оголошений як залежність, а це значить, що ми маємо доступ до всіх його
+компонентів. Коли справа доходить до налаштування різноманітних сервісів, які ви хочете 
+використовувати у своєму застосунку, Angular слідує досить простій архітектурі. Просто погляньте на
+наступний код.</p>
+<p>Впевнений, ви вже бачити щось у цьому роді:</p>
+<pre class="prettyprint linenums">
+app.config(function ($locationProvider) {
+  $locationProvider.html5Mode(true);
+});
+</pre>
+<p>Або, може, налаштування сервісу <code>$route</code>:</p>
+<pre class="prettyprint linenums">
+app.config(function ($routeProvider) {
+  $routeProvider.when('/something', {
+    templateUrl: 'url/to/template',
+    controller: 'SomeFancyCtrl'
+  });
+});
+</pre>
+<p>Те, що тут відбувається, це не <em>використання певних сервісів</em> для налаштування яких-небудь речей.
+Це, скоріше, <em>налаштування певного сервісу</em>, який надалі буде використаний у вашому застосунку, за
+допомогою <em>провайдера</em>. Це означає, що <code>$locationProvider.html5Mode(true)</code> налаштовує <strong>сервіс</strong>
+<code>$location</code> на роботу в режимі html5. Таким чином, якщо сервіс може бути налаштований зовні, він
+потребує відповідного провайдера, що надає необхідний для цього інтерфейс.</p>
+<p>angular-translate поставляється з провайдером <code>$translateProvider</code>, який можна використовувати для
+налаштування сервісу <code>$translate</code>, що обробляє матеріали i18n у вашому застосунку. Сервіс 
+<code>$translate</code> у свою чергу використовується директивами і фільтрами, які ви можете використовувати у
+будь-якому місці вашого застосунку. Для того, щоб сервіс <code>$translate</code> переклав контент, йому 
+потрібно знати які переклади взагалі існують.</p>
+<p>Тут у гру вступає <code>$translateProvider</code>. Він надає методи, що надають можливість навчити ваш 
+застосунок різним мовам і змусити сервіс <code>$translate</code> використовувати їх.</p>
+<h3 id="початок-роботи_навчання-мовам">Навчання мовам</h3>
+<p>Навчити ваш застосунок мові за допомогою <code>$translateProvider</code> дуже просто. Для початку ви повинні
+впровадити провайдер у функцію налаштування вашого модуля (єдине місце, де ви можете отримати до
+нього доступ).</p>
+<pre class="prettyprint linenums">
+app.config(['$translateProvider', function ($translateProvider) {
+
+}]);
+</pre>
+<p>Тепер, для додавання мови ви повинні зробити так, щоб <code>$translateProvider</code> дізнався про <strong>таблицю
+перекладів</strong>. Що це означає? Насправді все дуже просто. angular-translate розглядає таблиці 
+перекладів як JSON об&#39;єкти. Таким чином, все, що від вас потрібно - це надати інформацію про
+переклади у вигляді хеш-об&#39;єкту JavaScript, або, у випадку віддаленого завантаження, у вигляді 
+об&#39;єкту JSON. Ось приклад того, як може виглядати таблиця перекладів:</p>
+<pre><code class="lang-json">{
+  &quot;TRANSLATION_ID&quot;: &quot;This is a concrete translation for a specific language.&quot;
+}
+</code></pre>
+<p>Наведена вище таблиця перекладів містить всього лише один переклад. Як бачите, ключ являє собою
+ідентифікатор перекладу, в той час як значення відображає конкретний переклад для деякої мови. Вам
+навіть немає необхідності вказувати у таблиці мову, до якої вона відноситься. Але про це пізніше.</p>
+<p>Ви також можете організувати ваші переклади включаючи їх у простори імен. Це особливо цікаво для 
+великих сайтів з великою кількістю сторінок. Все, що вам необхідно зробити, це створити вкладені
+JSON об&#39;єкти:</p>
+<pre><code class="lang-json">{
+  &quot;NAMESPACE&quot;: {
+    &quot;SUB_NAMESPACE&quot;: {
+       &quot;TRANSLATION_ID1&quot;: &quot;This is a namespaced translation.&quot;
+    }
+  }
+}
+</code></pre>
+<p>Ця таблиця містить всього один переклад, але її дуже просто розширити. Вам доступні різні рівні
+вкладеності у вашій таблиці перекладів, і кожний простір імен може містити скільки завгодно 
+вкладених, що робить її дуже гнучкою у використанні!</p>
+<h3 id="початок-роботи_скорочення-та-посилання">Скорочення та посилання</h3>
+<p>Скорочення та посилання - дуже корисні особливості, що стали доступні з версії <code>1.1.1</code>. Скажімо,
+в нас є така таблиця перекладів:</p>
+<pre><code class="lang-json">{
+  &quot;bar&quot;: {
+    &quot;foo&quot;: {
+      &quot;foo&quot;: &quot;This is my text.&quot;
+    }
+  }
+}
+</code></pre>
+<p>Щоб отримати доступ до цього ідентифікатора перекладу, треба написати <code>bar.foo.foo</code>. Це добре, але
+можна зробити краще. angular-translate достатньо розумний і розуміє, коли простір імен містить
+ідентифікатор перекладу з такою ж назвою. Якщо це ваш випадок, тоді для доступу до ідентифікатора
+можна скористатися скороченням - просто вказати на простір імен замість ідентифікатора перекладу. Це
+можливо завдяки тому, що простір імен може містити всього один ідентифікатор з таким самим ім&#39;я.</p>
+<p>Таким чином, ви можете отримати доступ до вказаного вище ідентифікатора перекладу за допомогою
+скорочення <code>bar.foo</code>. Правда круто?</p>
+<p>Іншою корисною особливістю angular-translate є можливість в таблиці перекладів посилатися в одному
+ідентифікаторі перекладу на інший. Уявімо, що в нас є така таблиця перекладів:</p>
+<pre><code class="lang-json">{
+  &quot;SOME_NAMESPACE&quot;: {
+    &quot;OK_TEXT&quot;: &quot;OK&quot;
+  },
+  &quot;ANOTHER_NAMESPACE&quot;: {
+    &quot;OK_TEXT&quot;: &quot;OK&quot;
+  }
+}
+</code></pre>
+<p>Як бачите, ми створили два простори імен, і обидва вони містять текст, що просто каже &quot;OK&quot;. Такий
+випадок не рідкість, якщо задуматися про кнопки підтвердження або щось схоже в застосунку. Однак,
+очевидно, що такі речі можуть призвести до надмірності. А ми, як розробники, не любимо надмірність,
+чи не так?</p>
+<p>Якщо два ідентифікатори перекладу завжди будуть містити однаковий текст, можна просто зробити
+посилання з одного ідентифікатора на інший. Щоб зробити посилання, треба написати <code>@:</code> і повну назву
+ідентифікатора перекладу, на який ви посилаєтеся, вказавши, в тому числі, і простір імен. Отже,
+приклад вище можна змінити так:</p>
+<pre><code class="lang-json">{
+  &quot;SOME_NAMESPACE&quot;: {
+    &quot;OK_TEXT&quot;: &quot;OK&quot;
+  },
+  &quot;ANOTHER_NAMESPACE&quot;: {
+    &quot;OK_TEXT&quot;: &quot;@:SOME_NAMESPACE.OK_TEXT&quot;
+  }
+}
+</code></pre>
+<h3 id="початок-роботи_іііі,-почали">Іііі, почали!</h3>
+<p>Давайте додамо таблицю перекладів у наш застосунок. <code>$translateProvider</code> надає для цього метод під
+назвою <code>translations()</code>. Припустимо, що в нас є наступна таблиця перекладів:</p>
+<pre class="prettyprint linenums">
+var translations = {
+  HEADLINE: 'What an awesome module!',
+  PARAGRAPH: 'Srsly!',
+  NAMESPACE: {
+    PARAGRAPH: 'And it comes with awesome features!'
+  }
+};
+</pre>
+<p>Ми можемо додати її за допомогою <code>$translateProvider.translations()</code>:</p>
+<pre class="prettyprint linenums">
+app.config(['$translateProvider', function ($translateProvider) {
+  // add translation table
+  $translateProvider
+    .translations('en', translations)
+    .preferredLanguage('en');
+}]);
+</pre>
+<p>У цілому, це все, що необхідно зробити. Просто вкажіть ключ мови та додайте для неї таблицю 
+перекладу. Після цього скажіть angular-translate яку мову йому слід використовувати. Оскільки ми 
+додаємо таблицю на етапі налаштування, сервіс <code>$translate</code> зможе отримати до неї доступ як тільки 
+буде ініціалізований і використаний. Ось працюючий код:</p>
+<h3 id="початок-роботи_source">Source</h3>
+<div source-edit="myApp" source-edit-deps="angular.js script.js" source-edit-html="index.html-10" source-edit-css="" source-edit-js="script.js-9" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div class="tabbable"><div class="tab-pane" title="index.html">
+<pre class="prettyprint linenums" ng-set-text="index.html-10" ng-html-wrap-loaded="myApp angular.js script.js"></pre>
+<script type="text/ng-template" id="index.html-10">
+    
+    <div>
+      <h2 id="nothing-to-see-here-yet">Nothing to see here yet!</h2>
+      <p>But we'll change it now</p>
+    </div>
+  </script>
+</div>
+<div class="tab-pane" title="script.js">
+<pre class="prettyprint linenums" ng-set-text="script.js-9"></pre>
+<script type="text/ng-template" id="script.js-9">
+      var translations = {
+        HEADLINE: 'What an awesome module!',
+        PARAGRAPH: 'Srsly!',
+        NAMESPACE: {
+          PARAGRAPH: 'And it comes with awesome features!'
+        }
+      };
+
+      var app = angular.module('myApp', ['pascalprecht.translate']);
+
+      app.config(['$translateProvider', function ($translateProvider) {
+        // add translation table
+        $translateProvider
+          .translations('en', translations)
+          .preferredLanguage('en');
+      }]);
+    </script>
+</div>
+</div><h3 id="nothing-to-see-here-yet_demo">Demo</h3>
+<div class="well doc-example-live animate-container" ng-embed-app="myApp" ng-set-html="index.html-10" ng-eval-javascript="script.js-9"></div>
+<p>Тепер ваш застосунок готовий до локалізації! У наступному розділі ви дізнаєтеся як користуватися
+директивою і фільтром, що надаються angular-translate, для інтерполяції ваших перекладів.</p>
+<p><br></p>
+<p><hr></p>
+<center>Made with unicorn &hearts; love by <a href="http://github.com/PascalPrecht">PascalPrecht</a></center></div></div>

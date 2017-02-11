@@ -1,0 +1,63 @@
+<a href="https://github.com/{{repo}}/edit/master/{{file}}" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="--page"><h2 id="使用翻譯過濾器">使用翻譯過濾器</h2>
+<p>在<a href="#/guide/03_using-translate-service">使用$translate 服務</a> 中，你已經學會如何通過註冊的翻譯標識使用<code>$translate</code>服務
+去翻譯你的內容。當然，它很酷，但實際上你不想讓你的翻譯綁定到控制器或服務。你主要是想讓你的內容翻譯在視圖層，因為這是翻譯屬於的地方。</p>
+<p>angular-translate 提供了一個過濾器組件,這樣你就可以在你的視圖層內翻譯你的翻譯標識，而不讓任何控制器或
+服務知道。這意味著，你可以將翻譯邏輯從控制器或服務解耦合出來， 從而可以更新您的視圖層而不碰業務邏輯代碼。</p>
+<h3 id="使用翻譯過濾器_一般用法">一般用法</h3>
+<p>在Angular 中使用過濾器是非常簡單的。你可以在<a href="https://docs.angularjs.org/guide/filter">這裡</a>閱讀有關的一切信息。</p>
+<p>同樣通過angular-translate 的<code>translate</code> 過濾器， 我們可以簡單的將控制器的邏輯轉化到視圖層。
+<a href="#/guide/03_using-translate-service#generalusage">使用$translate 服務</a>。
+簡單說 <code>translate</code> 過濾器是這樣的:</p>
+<pre><code>&lt;ANY&gt;{{ TRANSLATION_ID | translate }}&lt;/ANY&gt;
+</code></pre><p>因此，要更新我們的例子，我們在控制器中刪除<code>$translate</code> 服務的使用，並使用<code>translate</code> 過濾器將邏輯添加到視圖層。
+就像這樣：</p>
+<pre class="prettyprint linenums">
+&lt;h1&gt;{{'HEADLINE' | translate}}&lt;/h1&gt;
+&lt;p&gt;{{'PARAGRAPH' | translate}}&lt;/p&gt;
+</pre>
+<p>很容易哈？當然，你可以在這裡查看工作示例：</p>
+<h3 id="使用翻譯過濾器_source">Source</h3>
+<div source-edit="myApp" source-edit-deps="angular.js script.js" source-edit-html="index.html-14" source-edit-css="" source-edit-js="script.js-13" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div class="tabbable"><div class="tab-pane" title="index.html">
+<pre class="prettyprint linenums" ng-set-text="index.html-14" ng-html-wrap-loaded="myApp angular.js script.js"></pre>
+<script type="text/ng-template" id="index.html-14">
+    
+    <div ng-controller="Ctrl">
+      <p>{{ 'HEADLINE' | translate }}</p>
+      <p>{{ 'PARAGRAPH' | translate }}</p>
+    </div>
+  </script>
+</div>
+<div class="tab-pane" title="script.js">
+<pre class="prettyprint linenums" ng-set-text="script.js-13"></pre>
+<script type="text/ng-template" id="script.js-13">
+      var translations = {
+        HEADLINE: 'What an awesome module!',
+        PARAGRAPH: 'Srsly!'
+      };
+
+      var app = angular.module('myApp', ['pascalprecht.translate']);
+
+      app.config(['$translateProvider', function ($translateProvider) {
+        // add translation table
+        $translateProvider.translations('en', translations);
+        $translateProvider.preferredLanguage('en');
+      }]);
+
+      app.controller('Ctrl', ['$scope', function ($scope) {
+
+      }]);
+    </script>
+</div>
+</div><h3 id="使用翻譯過濾器_demo">Demo</h3>
+<div class="well doc-example-live animate-container" ng-embed-app="myApp" ng-set-html="index.html-14" ng-eval-javascript="script.js-13"></div>
+<p>太棒了！現在，您的內容的視圖層內的翻譯沒有你的控制器邏輯與轉換邏輯來污染了。
+當它涉及到一個視圖層更換時整個翻譯流程從你的業務邏輯分離出來，使您的應用程序更加靈活！
+接下來的章節將告訴您如何用所提供的<code>translate</code> 指令這樣做。
+<br></p>
+<p><hr></p>
+<center>Made with unicorn &hearts; love by <a href="http://github.com/PascalPrecht">PascalPrecht</a></center></div></div>

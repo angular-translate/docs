@@ -1,0 +1,45 @@
+<a href="https://github.com/{{repo}}/edit/master/{{file}}" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="--page"><h2 id="語言談判">語言談判</h2>
+<p>angular-translate 支持一個名為“語言協商”功能。用此功能，你可以定義類似的語言鍵之間的關係。</p>
+<p>所以，這是什麼意思？比方說，你的轉換錶的語言有鍵<code>en</code> 和<code>de</code>。</p>
+<pre class="prettyprint linenums">
+$translateProvider
+  .translations('en', { /* ... */ })
+  .translations('de', { /* ... */ });
+</pre>
+<p>你也可以告訴angular-translate,它應該通過調用<code>.determinePreferredLanguage()</code>方法盡量確定首選您的應用程序本身的語言。</p>
+<pre class="prettyprint linenums">
+$translateProvider
+  .translations('en', { /* ... */ })
+  .translations('de', { /* ... */ })
+  .determinePreferredLanguage();
+</pre>
+<p>我們學習過<a href="#/guide/07_multi-language#multi-language_determining-preferred-language-automatically">自動確定首選語言</a>
+使用這個方法不帶任何參數，他將嘗試通過訪問瀏覽器屬性確定一個語言鍵。</p>
+<p>現在，如果您的瀏覽器返回<code>en_US</code> 而不是<code>en</code>? 通常，這將導致一個錯誤，因為<code>en_US</code> 是，在乍看之下，只是另一種語言的鍵。
+所以angular-translate 將其視為不同的語言。這是不是你想要的。你想要angular-translate 足夠聰明的識別<code>en_US</code>的<code>en</code>之間的關係，
+在這種情況下它應該使用<code>en</code>。</p>
+<p>angular-translate 一應俱全。您可以通過所使用的語言協商制度使用<code>registerAvailableLanguageKeys()</code> 方法。此方法需要一個數組，
+你的應用程序支持的語言的鍵。第二個參數是一個對象映射相關的語言鍵與實際語言鍵。一旦這個設置確定，
+angular-translate能夠通過映射瀏覽器返回的語言<code>EN_US</code>為語言鍵<code>en</code>，這才是實際上你的應用程序要使用的。</p>
+<p>關於我們的用例，我們上面所討論的，它看起來會像這樣：</p>
+<pre class="prettyprint linenums">
+$translateProvider
+  .translations('en', { /* ... */ })
+  .translations('de', { /* ... */ })
+  .registerAvailableLanguageKeys(['en', 'de'], {
+    'en_US': 'en',
+    'en_UK': 'en',
+    'de_DE': 'de',
+    'de_CH': 'de'
+  })
+  .determinePreferredLanguage();
+</pre>
+<p>如果瀏覽器現在返回<code>en_US</code> 或者<code>en_UK</code>, angular-translate 會設定<code>en</code>為首選語言.
+我們還要提到的是這個方法只能是在<code>determinePreferredLanguage()</code>同時也被使用時才有意義。
+<br></p>
+<p><hr></p>
+<center>Made with unicorn &hearts; love by <a href="http://github.com/PascalPrecht">PascalPrecht</a></center></div></div>

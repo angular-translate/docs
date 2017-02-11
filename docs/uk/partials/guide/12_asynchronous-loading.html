@@ -1,0 +1,390 @@
+<a href="https://github.com/{{repo}}/edit/master/{{file}}" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="--page"><h2 id="асинхронне-завантаження">Асинхронне завантаження</h2>
+<p>Окей, різні переклади для різних мов - це круто. Але ще краще мати можливість завантаження
+перекладів асинхронно, правда? В <code>angular-translate</code> є кілька вельми кльових розширень для підтримки
+асинхронного завантаження даних перекладів. І це працює як годинник.</p>
+<h3 id="асинхронне-завантаження_асинхронні-завантажувачі">Асинхронні завантажувачі</h3>
+<p>angular-translate надає доволі хитрий спосіб, щоб сказати сервісу $translate завантажити дані
+асинхронно. Для завантаження даних з сервера вам необхідно скористатися асинхронним завантажувачем,
+який буде викликаний пізніше під час виконання при необхідності. angular-translate поставляється з
+підтримкою трьох різних асинхронних завантажувачів. Будь-який з них можна встановити з допомогою
+Bower. Давайте на них подивимося!</p>
+<h3 id="асинхронне-завантаження_використання-urlloader">Використання urlLoader</h3>
+<p>Це, напевно, найпростіший спосіб завантаження даних перекладів асинхронно. Все, що для цього
+потрібно - це встановити розширення <code>angular-translate-loader-url</code> з допомогою Bower:</p>
+<pre><code>$ bower install angular-translate-loader-url
+</code></pre><p>Коли воно встановиться, впевніться, що включили його в свій HTML документ. Добре, завантажувач тепер
+доступний і повинні сказати angular-translate використовувати його. <code>$translateProvider</code>  надає
+метод під назвою <code>useUrlLoader()</code>. Дуже просто, так? <code>useUrlLoader()</code> приймає аргумент, який описує
+кінцеву точку на сервері, яка поверне у відповідь дані перекладу.</p>
+<p>До того ж, при використанні асинхронних завантажувачів ми повинні використовувати
+<code>$translateProvider.preferredLanguage()</code> для того, щоб вказати angular-translate мову, для якої
+потрібно завантажити переклад.</p>
+<pre class="prettyprint linenums">
+$translateProvider.useUrlLoader('foo/bar.json');
+$translateProvider.preferredLanguage('en');
+</pre>
+<p>Тож, що тут відбувається? angular-translate використовує розширення для перетворення даного рядку
+в реальну функцію-завантажувач, яка може бути викликана пізніше під час виконання, як тільки  буде
+створено екземпляр сервісу <code>$translate</code>. В додаток до цього, вказівка angular-translate
+використовувати ключ мови &#39;en&#39; додає його в якості параметру запиту до даного рядка завантажувача.</p>
+<p>Таким чином, приклад вище насправді робить запит до <code>foo/bar.json?lang=en</code>. angular-translate також
+зверне увагу, якщо немає ніяких доступних даних перекладів при запуску і автоматично викличе
+завантажувач якнайскоріше.</p>
+<h3 id="асинхронне-завантаження_використання-staticfilesloader">Використання staticFilesLoader</h3>
+<p>У випадку, якщо у вас немає URL, що очікує параметра <code>lang</code> щоб повернути JSON, що містить ваші
+переклади, але є кілька файлів локалізації, які підпадають під який-небудь шаблон, то вам, напевно,
+потрібно використовувати розширення <code>angular-translate-loader-static-files</code>, яке описує шаблон ваших
+файлів локалізації.</p>
+<p>Як і urlLoader, ви можете встановити розширення staticFilesLoader з допомогою Bower:</p>
+<pre><code>$ bower install angular-translate-loader-static-files
+</code></pre><p>Коли пакет встановлено і підключено, ви можете викликати <code>useStaticFilesLoader()</code> метод
+<code>$translateProvider</code>&#39;а, щоб сказати angular-translate, що необхідно використовувати його.
+Завантажувач статичних файлів працює трохи інакше. Замість того, щоб мати фіксований URL, який
+потребує лише параметр <code>lang</code>, ви тепер можете мати різні файли локалізації, які підходять під
+певний шаблон.</p>
+<p>Те, як виглядає цей шаблон, залежить від ваших потреб. Для вказання шаблону необхідна наступна
+інформація:</p>
+<ul>
+<li><strong>prefix</strong> - вказує префікс назви файла</li>
+<li><strong>suffix</strong> - вказує суфікс назви файла</li>
+</ul>
+<p>Скажімо, у вас є два файла локалізації <code>locale-de.json</code> і <code>locale-en.json</code>. Ви легко можете
+скористатися завантажувачем наступним чином:</p>
+<pre class="prettyprint linenums">
+$translateProvider.useStaticFilesLoader({
+    prefix: 'locale-',
+    suffix: '.json'
+});
+$translateProvider.preferredLanguage('en');
+</pre>
+<p>Крім того, якщо у вас є декілька файлів з перекладами, що знаходяться у різних місцях, то можна
+передати завантажувачу масив файлів:</p>
+<pre class="prettyprint linenums">
+$translateProvider.useStaticFilesLoader({
+    files: [{
+        prefix: 'locale-',
+        suffix: '.json'
+    }, {
+        prefix: '/absolute/path/to/locale-',
+        suffix: '.json'
+    }, {
+        prefix: 'another/path/to/locales/',
+        suffix: ''
+    }]
+});
+$translateProvider.preferredLanguage('en');
+</pre>
+<p>angular-translate об&#39;єднає передану інформацію в <code>{{prefix}}{{langKey}}{{suffix}}</code>. Таким чином буде
+завантажено <code>locale-en.json</code>. І знову, так як ще немає ніяких доступний даних перекладів,
+angular-translate завантажить його автоматично якнайшвидше.</p>
+<h3 id="асинхронне-завантаження_використання-partialloader">Використання partialLoader</h3>
+<p>Працюючи з достатньо великим і складним застосунком, його зазвичай розділяють на кілька підмодулів.
+Наприклад, у вам може бути модуль <code>mainApp</code>, що залежить від модулів <code>home</code> і <code>contact</code>. Це всього
+2 підмодулі, а тепер уявіть, що ваш застосунок дійсно великий і складається з 10 або 20 підмодулів!</p>
+<p>В такого роду застосунках приблизно 13 з 20 підмодулів майже ніколи не виконуються просто тому, що
+користувач туди не заходить. Перекладаючи контент застосунка, коли, можливо, близько 50%  застосунка
+використовується час від часу, не дуже круто завантажувати всі дані перекладів для всього застосунка
+просто не іншій мові.</p>
+<p>Нам потрібен спосіб завантажувати дані перекладу для певного модуля, який працює в даний момент. Це
+значить, що при зверненні до підмодуля <code>home</code>, ми хочемо завантажити переклад тільки для модуля
+<code>home</code>. Якщо ми змінюємо мову, ми теж хочемо завантажувати переклад тільки для модуля <code>home</code>.</p>
+<p>В додаток до цього, якщо ми завантажили дані перекладу для, скажімо, трьох різних модулів, змінили
+мову, і потім знову повернули мову на вже завантажену, нам не хочеться завантажувати дані знову, бо
+ми їх вже завантажували раніше.</p>
+<p>Так, це те, про що необхідно потурбуватися, якщо нам потрібне завантаження по частинам. Тим не
+менше, <code>angular-translate</code> передбачив це. Тут у гру вступає <code>partialLoader</code>.</p>
+<p>Ви можете встановити його як і будь-який інший завантажувач просто використовуючи Bower:</p>
+<pre><code>$ bower install angular-translate-loader-partial
+</code></pre><p>Використовуючи <code>partialLoader</code> вам необхідно подумати про шаблон, який <code>angular-translate</code> буде
+використовувати для завантаження перекладів. Це схоже на <code>staticFilesLoader</code>, але трохи більш
+специфічно. Вам необхідно вказати властивості <code>part</code> і <code>lang</code>, де <code>part</code> означає частину вашого
+застосунка (наприклад, <code>home</code>), і <code>lang</code> - ключ потрібної мови.</p>
+<p>Давайте припустимо, що ми структурували наші файлі перекладів по модулям і вони виглядають так:</p>
+<pre><code>/i18n/home/en.json
+/i18n/home/de.json
+/i18n/contact/en.json
+/i18n/contact/de.json
+</code></pre><p>Цілком логічно, так? Тепер, коли ми знаємо як структуровані наші дані, ми можемо налаштувати
+<code>$translateProvider</code> на використання завантажувача з таким шаблоном:</p>
+<pre class="prettyprint linenums">
+$translateProvider.useLoader('$translatePartialLoader', {
+  urlTemplate: '/i18n/{part}/{lang}.json'
+});
+</pre>
+<p>Практично готово! Звісно, <code>angular-translate</code> повинен знати яку мову використовувати, тому ми додамо
+наступне:</p>
+<pre class="prettyprint linenums">
+$translateProvider.preferredLanguage('en');
+</pre>
+<p>В принципі, нічого нового. Далі, як <code>angular-translate</code> дізнається яку &quot;частину&quot; завантажувати? Якщо
+коротко - ніяк. Вам необхідно сказати <code>angular-translate</code> <strong>коли</strong> необхідно завантажувати <strong>яку
+частину</strong>.</p>
+<p>У <code>partialLoader</code> є <code>провайдер</code>, що призначений для налаштування початкового стану завантажувача.
+Для використання цього провайдера нам необхідно впровадити його в функцію налаштування:</p>
+<pre class="prettyprint linenums">
+angular.module('main')
+.config(function ($translateProvider, $translatePartialLoaderProvider) {
+
+});
+</pre>
+<p>Чудово. Тепер, щоб сказати <code>angular-translate</code>, яку частину він повинен завантажити ми
+використовуємо <code>addPart()</code> метод <code>$translaterPartialLoaderProvider</code>&#39;а. Це виглядає приблизно так:</p>
+<pre class="prettyprint linenums">
+$translatePartialLoaderProvider.addPart('home');
+$translateProvider.useLoader('$translatePartialLoader', {
+  urlTemplate: '/i18n/{part}/{lang}.json'
+});
+$translateProvider.preferredLanguage('en');
+</pre>
+<p>Як бачите, вся функціональність для завантаження перекладів по частинам знаходиться в завантажувачі,
+а не в самому <code>angular-translate</code>. Тепер шаблон завершений і <code>angular-translate</code> викличе
+завантажувач, як тільки це стане можливо.</p>
+<p>Добре, це процес ініціалізації, але як щодо часу виконання? Що як користувач зайшов в модуль
+<code>contact</code> і хоче завантажити переклад для цього модуля?</p>
+<p><code>$translatePartialLoaderProvider</code> налаштовує <code>$translatePartialLoader</code>, а, значить, ви можете
+впровадити <code>$translatePartialLoader</code> у ваші контролери і сервіси. Але навіщо  це потрібно? Так як
+ви можете додати частину перекладу в завантажувач з допомогою провайдера, ви можете зробити це і з
+допомогою сервісу для маніпулювання станом завантажувача під час виконання. Це означає, що ви можете
+просто впровадити завантажувач і використовувати його для додавання додаткових частин перекладу.</p>
+<p>Скажімо, в нашому модулі <code>contact</code> є <code>ContactCtrl</code>, тоді це може виглядати наступним чином:</p>
+<pre class="prettyprint linenums">
+angular.module('contact')
+.controller('ContactCtrl', function ($scope, $translatePartialLoader) {
+  $translatePartialLoader.addPart('contact');
+});
+</pre>
+<p>Це не важко, так? Тут ми маніпулюємо станом завантажувача під час виконання. Це гарантує, що
+angular-translate завантажить специфічні дані перекладу тоді, коли ми цього дійсно захочемо. Як
+тільки ми додали нову частину, <code>$translatePartialLoader</code> викличе подію
+<code>$translatePartialLoaderStructureChanged</code>.</p>
+<p>До цього моменту не було завантажено ніяких додаткових даних! <code>angular-translate</code> нічого не знає про
+стан завантажувача, тому вам необхідно сказати йому <strong>оновити</strong> таблиці перекладів. Оновлення
+таблиць перекладів видаляє і знову завантажу їх. По суті, все що вам потрібно для завантаження по
+частинам - це маніпулювати станом завантажувача, кажучи які частини додати, і потім оновлювати
+таблиці перекладів. При зміні стану завантажувача нові частини будуть завантажені при його
+наступному виклику.</p>
+<p>Отже, нам просто треба додати:</p>
+<pre class="prettyprint linenums">
+angular.module('contact')
+.controller('ContactCtrl', function ($scope, $translatePartialLoader, $translate) {
+  $translatePartialLoader.addPart('contact');
+  $translate.refresh();
+});
+</pre>
+<p>Для автоматизації процесу ви можете використати подію <code>$translatePartialLoaderStructureChanged</code>.
+Просто прослуховуйте його з допомогою <code>$rootScope</code> і оновлюєте таблиці перекладів кожного разу,
+коли воно викликається.</p>
+<pre class="prettyprint linenums">
+app.run(function ($rootScope, $translate) {
+  $rootScope.$on('$translatePartialLoaderStructureChanged', function () {
+    $translate.refresh();
+  });
+});
+</pre>
+<p>Так як <code>$translate.refresh()</code> повертає обіцянку, це чудово працює  як з модулем <code>ngRoute</code>, так і з
+UI Router.</p>
+<p>Цікавим є питання боротьби з помилками завантаження. За замовчуванням завантажувач відкидає весь
+процес завантаження, якщо будь-яка з частин не була завантажена з сервера. Але ви можете трохи
+змінити цю поведінку. Завантажувач дозволяє вказати обробник помилок - сервіс, який буде
+викликатися, якщо яка-небудь частина не може бути завантажена. У даному сервісі ви можете робити
+все, щоб обробляти такі ситуації.</p>
+<p>Є кілька речей, які ви повинні знати, перш ніж ви зможете створити ваш перший обробник помилок:</p>
+<p>1) Завантажувач розраховує, що обробник помилок має наступну сигнатуру
+<code>function (part:String, langKey:String):Promise</code>
+2) Ви повинні або вирішити обіцянку з таблицею перекладу для даних частини та мови або відхилити її
+3) Завантажувач буде використовувати дану таблицю перекладу так само, ніби вона була успішно
+отримана з сервера
+4) Якщо ви відкинете обіцянку, то завантажувач відкине весь процес завантаження</p>
+<p>Ось приклад простого обробника помилок:</p>
+<pre><code class="lang-js">angular.module(&#39;translation&#39;)
+.factory(&#39;MyErrorHandler&#39;, function ($q, $log) {
+  return function (part, lang) {
+    $log.error(&#39;The &quot;&#39; + part + &#39;/&#39; + lang + &#39;&quot; part was not loaded.&#39;);
+    return $q.when({});
+  };
+});
+</code></pre>
+<p>Отже, тепер все, що ми повинні зробити, це сказати завантажувачу назву сервісу, який він повинен
+використовувати в якості обробника помилок:</p>
+<pre class="prettyprint linenums">
+$translateProvider.useLoader('$translatePartialLoader', {
+  urlTemplate: '/i18n/{part}/{lang}.json',
+  loadFailureHandler: 'MyErrorHandler'
+});
+</pre>
+<h3 id="асинхронне-завантаження_відкладене-завантаження-в-час-виконання">Відкладене завантаження в час виконання</h3>
+<p>Як тільки ваш застосунок завантажиться, він асинхронно завантажить необхідні дані перекладів. Окей,
+круто. Але що, як користувач хоче змінити мову, а відповідні дані перекладів ще не завантажені?</p>
+<p>В розділі <a href="#/guide/07_multi-language">Багатомовність</a> ви дізналися як можна змінювати мову під час
+виконання з допомогою <code>$translate.use()</code>. Знаєте що? Використання асинхронних завантажувачів нічого
+не змінює. <code>$translate.use()</code> перевіряє чи присутня таблиця перекладів для даного ключа мови, і,
+якщо ні, буде викликаний зареєстрований завантажувач для її отримання. Відкладене завантаження в
+найкращому вигляді!</p>
+<p><strong>Увага</strong>: Відмітьте, що при використанні <code>partialLoader</code> вам треба спочатку оновити таблиці
+перекладів!</p>
+<h3 id="асинхронне-завантаження_налаштування-завантажувача">Налаштування завантажувача</h3>
+<p>У будь-який завантажувач можна передати налаштування. для цього використовується такий синтаксис:</p>
+<pre class="prettyprint linenums">
+$translateProvider.useLoader('customLoader', {
+  settingA: 'foobar'
+});
+$translateProvider.useStaticFilesLoader({
+  $http: {
+    method: 'POST'
+  }
+});
+</pre>
+<p>Властивість <code>$http</code> буде використана завантажувачем під час запиту, проте атрибут <code>cache</code> може бути
+перевизначений (см. следующий раздел).</p>
+<h3 id="асинхронне-завантаження_використання-кеша">Використання кеша</h3>
+<p>Для контролю над кешуванням в існуючих завантажувачах можна використовувати об&#39;єкт cache. Докладніше
+про це Ви можете прочитати в
+<a href="https://docs.angularjs.org/api/ng/type/$cacheFactory.Cache">офіційній документації AngularJS</a>.</p>
+<p>Для увімкнення стандартного кешування використовується наступний метод:</p>
+<pre class="prettyprint linenums">
+$translateProvider.useLoaderCache(true); // default is false which means disable
+</pre>
+<p>Якщо ж у Вас вже є єкземпляр кеша (спеціально налаштований), то прив&#39;яжіть його так:</p>
+<pre class="prettyprint linenums">
+$translateProvider.useLoaderCache(yourSpecialCacheService);
+</pre>
+<p>Angular-Translate також підтримує ліниве зв&#39;язування. Тому, такий варіант також буде працювати:</p>
+<pre class="prettyprint linenums">
+$translateProvider.useLoaderCache('yourSpecialCacheService');
+</pre>
+<p>Екземпляр під назвою <code>yourspecialCacheService</code> буде знайдено при необхідності.</p>
+<h3 id="асинхронне-завантаження_мнпк---миготіння-не-перекладеного-контента">МНПК - Миготіння не перекладеного контента</h3>
+<p>У використання асинхронних завантажувачів для отримання перекладів є один недолік. При запуску
+застосунку є невеликий проміжок часу, коли можливе миготіння через те, що дані перекладів ще не
+завантажені. Це не баг angular-translate, а, скоріше, цілком логічна поведінка, оскільки ми
+виконуємо дії асинхронно.</p>
+<p>Щоб обійти це, ви можете визначити хоча б одну мову <strong>в</strong> застосунку, без необхідності завантажувати
+її асинхронно. Якщо ваш застосунок використовує наперед визначену мову за замовчування, то при
+використанні <code>$translateProvider.preferredLanguage()</code> МНПК проявлятися не буде, бо мова, що
+використовується, вже присутня.</p>
+<p>Просто використовуйте комбінацію з <code>$translateProvider.translations()</code> і
+<code>$translateProvider.{{який-небудь}}Loader</code> ось так:</p>
+<pre class="prettyprint linenums">
+$translateProvider.translations('en', {
+    'HELLO_TEXT': 'Hello World!'
+});
+$translateProvider.useStaticFilesLoader({
+    'prefix': 'locale-',
+    'suffix': '.json'
+});
+$translateProvider.preferredLanguage('en');
+</pre>
+<p><strong>Примітка:</strong> Користувач Angular-Translate поділився хорошим рішенням цієї проблеми
+<a href="https://github.com/angular-translate/angular-translate/issues/921">за допомогою Grunt</a>.</p>
+<p>Давайте оновимо наш навчальний застосунок таким чином, щоб використовувати асинхронний завантажувач!
+Скористаємося staticFilesLoader. Для початку ми повинні вилучити таблиці перекладів з коду і
+помістити їх в окремі файли:</p>
+<p><strong>Примітка:</strong> Тепер дані представлені у вигляді <em>JSON</em>, тому все повинно бути заключено у подвійні
+лапки! Також, переконайтеся, що ви НЕ скопіювали коментарі і налаштували сервер на відправку JSON як
+JSON, а не як звичайний текст!</p>
+<pre class="prettyprint linenums">
+// locale-en.json
+{
+  "HEADLINE": "What an awesome module!",
+  "PARAGRAPH": "Srsly!",
+  "PASSED_AS_TEXT": "Hey there! I'm passed as text value!",
+  "PASSED_AS_ATTRIBUTE": "I'm passed as attribute value, cool ha?",
+  "PASSED_AS_INTERPOLATION": "Beginners! I'm interpolated!",
+  "VARIABLE_REPLACEMENT": "Hi {{name}}",
+  "BUTTON_LANG_DE": "German",
+  "BUTTON_LANG_EN": "English"
+}
+</pre>
+<pre class="prettyprint linenums">
+// locale-de.json
+{
+  "HEADLINE": "Was für ein großartiges Modul!",
+  "PARAGRAPH": "Ernsthaft!",
+  "PASSED_AS_TEXT": "Hey! Ich wurde als text übergeben!",
+  "PASSED_AS_ATTRIBUTE": "Ich wurde als Attribut übergeben, cool oder?",
+  "PASSED_AS_INTERPOLATION": "Anfänger! Ich bin interpoliert!",
+  "VARIABLE_REPLACEMENT": "Hi {{name}}",
+  "BUTTON_LANG_DE": "deutsch",
+  "BUTTON_LANG_EN": "englisch"
+}
+</pre>
+<p>Далі з допомогою <code>$translateProvider</code> ми налаштовуємо сервіс <code>$translate</code>:</p>
+<pre class="prettyprint linenums">
+// configures staticFilesLoader
+$translateProvider.useStaticFilesLoader({
+  prefix: 'data/locale-',
+  suffix: '.json'
+});
+// load 'en' table on startup
+$translateProvider.preferredLanguage('en');
+$translateProvider.useLocalStorage();
+</pre>
+<p>Оскільки нам не потрібно вносити зміни в контролери або HTML, все готово! Подивіться на працюючий
+застосунок:</p>
+<h3 id="асинхронне-завантаження_source">Source</h3>
+<div source-edit="myApp" source-edit-deps="angular.js script.js" source-edit-html="index.html-26" source-edit-css="" source-edit-js="script.js-25" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div class="tabbable"><div class="tab-pane" title="index.html">
+<pre class="prettyprint linenums" ng-set-text="index.html-26" ng-html-wrap-loaded="myApp angular.js script.js"></pre>
+<script type="text/ng-template" id="index.html-26">
+    
+    <div ng-controller="Ctrl">
+      <p>{{ 'HEADLINE' | translate }}</p>
+      <p>{{ 'PARAGRAPH' | translate }}</p>
+
+      <p translate>PASSED_AS_TEXT</p>
+      <p translate="PASSED_AS_ATTRIBUTE"></p>
+      <p translate>{{ 'PASSED_AS_INTERPOLATION' }}</p>
+      <p translate="{{ 'PASSED_AS_INTERPOLATION' }}"></p>
+      <p translate="VARIABLE_REPLACEMENT" translate-values="{ name: 'PascalPrecht' }"></p>
+
+      <button ng-click="changeLanguage('de')" translate="BUTTON_LANG_DE"></button>
+      <button ng-click="changeLanguage('en')" translate="BUTTON_LANG_EN"></button>
+    </div>
+  </script>
+</div>
+<div class="tab-pane" title="script.js">
+<pre class="prettyprint linenums" ng-set-text="script.js-25"></pre>
+<script type="text/ng-template" id="script.js-25">
+      var app = angular.module('myApp', ['ngCookies', 'pascalprecht.translate']);
+
+      app.config(['$translateProvider', function ($translateProvider) {
+        $translateProvider.translations('en', {
+          "HEADLINE": "What an awesome module!",
+          "PARAGRAPH": "Srsly!",
+          "PASSED_AS_TEXT": "Hey there! I'm passed as text value!",
+          "PASSED_AS_ATTRIBUTE": "I'm passed as attribute value, cool ha?",
+          "PASSED_AS_INTERPOLATION": "Beginners! I'm interpolated!",
+          "VARIABLE_REPLACEMENT": "Hi {{name}}",
+          "BUTTON_LANG_DE": "German",
+          "BUTTON_LANG_EN": "English"
+        });
+        // configures staticFilesLoader
+        $translateProvider.useStaticFilesLoader({
+          prefix: 'data/locale-',
+          suffix: '.json'
+        });
+        // load 'en' table on startup
+        $translateProvider.preferredLanguage('en');
+        $translateProvider.useLocalStorage();
+      }]);
+
+      app.controller('Ctrl', ['$translate', '$scope', function ($translate, $scope) {
+
+        $scope.changeLanguage = function (langKey) {
+          $translate.use(langKey);
+        };
+      }]);
+    </script>
+</div>
+</div><h3 id="асинхронне-завантаження_demo">Demo</h3>
+<div class="well doc-example-live animate-container" ng-embed-app="myApp" ng-set-html="index.html-26" ng-eval-javascript="script.js-25"></div>
+<p>Відкрийте інструменти розробника вашого браузера і подивіться на мережеву активність при зміні мови.
+Тепер наш застосунок завантажує дані перекладів асинхронно! В наступному розділі ви дізнаєтеся про
+те, як створювати <strong>ваші власні користувацькі завантажувачі</strong>.</p>
+<p><br></p>
+<p><hr></p>
+<center>Made with unicorn &hearts; love by <a href="http://github.com/PascalPrecht">PascalPrecht</a></center></div></div>

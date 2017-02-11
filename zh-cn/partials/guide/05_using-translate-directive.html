@@ -1,0 +1,98 @@
+<a href="https://github.com/{{repo}}/edit/master/{{file}}" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="--page"><h2 id="使用翻译指令">使用翻译指令</h2>
+<p>另一种方法的视图层内翻译内容是使用 <code>translate</code> 指令。使用 <code>translate</code> 过滤器是伟大的，但使用 <code>translate</code> 指令更
+好。原来，在一个视图中有太多的过滤器会导致设置太多的监听表达式，这是为什么 <code>angular-translate</code> 还提供了在视图层的一个指令来翻译所需内容。</p>
+<h3 id="使用翻译指令_一般用法">一般用法</h3>
+<p>你可以许多不同的方式使用<code>translate</code>指令。一般用法看起来像这样：</p>
+<pre><code>&lt;ANY translate&gt;TRANSLATION_ID&lt;/ANY&gt;
+</code></pre><p>您还可以通过翻译ID作为<code>translate</code>指令的属性值像这样：</p>
+<pre><code>&lt;ANY translate=&quot;TRANSLATION_ID&quot;&gt;&lt;/ANY&gt;
+</code></pre><p>即使这已是使用的指令非常灵活的方式，angular-translate 还提供<strong>使用它的另一个</strong>方式。比方说，一个翻译的ID作为一个具体的标识符拿不到，因为它是一个遍历的数据集，翻译的ID在每一个迭代中。在这种情况下，翻译的ID唯一可用是动态。实际上，你必须先插值ID本身。
+angular-translate 一应俱全。这也是可能的：</p>
+<pre><code>&lt;ANY translate=&quot;{{toBeInterpolated}}&quot;&gt;&lt;/ANY&gt;
+</code></pre><p>是不是很酷？ ，是的，如果它不能以同样的方式处理我们的第一个用法范例 angular-translate 不会是 angular-translate。</p>
+<p>这也适用：</p>
+<pre><code>&lt;ANY translate&gt;{{toBeInterpolated}}&lt;/ANY&gt;
+</code></pre><p>选择最适合你的！</p>
+<h3 id="使用翻译指令_编译后的">编译后的</h3>
+<p>从版本2开始，翻译本身可以在当前界内进行后处理（使用<code>$compile</code>）。
+这意味着在翻译值中使用的任何指令本身现在将如预期般运作。
+这种行为可以在每个指令被激活：</p>
+<pre><code>&lt;ANY translate=&quot;TRANSLATION_ID&quot; translate-compile&gt;&lt;/ANY&gt;
+</code></pre><p>此外，您还可以全局启用该功能..</p>
+<pre><code>$translateProvider.usePostCompiling(true);
+</code></pre><p>... 不仅如此，你还可以为每个指令再次禁用该功能：</p>
+<pre><code>&lt;ANY translate=&quot;TRANSLATION_ID&quot; translate-compile=&quot;false&quot;&gt;&lt;/ANY&gt;
+</code></pre><h3 id="使用翻译指令_例子">例子</h3>
+<p>让我们更新我们的示例应用程序，并添加了一些新的翻译。用文本表示使用 <code>translate</code> 指令的每一个可能的方法是什么这个主意怎么样？
+我们的翻译列表可能看起来像这样：</p>
+<pre class="prettyprint linenums">
+var translations = {
+  HEADLINE: 'What an awesome module!',
+  PARAGRAPH: 'Srsly!',
+  PASSED_AS_TEXT: 'Hey there! I\'m passed as text value!',
+  PASSED_AS_ATTRIBUTE: 'I\'m passed as attribute value, cool ha?',
+  PASSED_AS_INTERPOLATION: 'Beginners! I\'m interpolated!'
+};
+</pre>
+<p>之后，针对我们新ID翻译更新我们的视图：</p>
+<pre class="prettyprint linenums">
+&lt;p&gt;{{ 'HEADLINE' | translate }}&lt;/p&gt;
+&lt;p&gt;{{ 'PARAGRAPH' | translate }}&lt;/p&gt;
+
+&lt;p translate&gt;PASSED_AS_TEXT&lt;/p&gt;
+&lt;p translate="PASSED_AS_ATTRIBUTE"&gt;&lt;/p&gt;
+&lt;p translate&gt;{{ 'PASSED_AS_INTERPOLATION' }}&lt;/p&gt;
+&lt;p translate="{{ 'PASSED_AS_INTERPOLATION' }}"&gt;&lt;/p&gt;
+</pre>
+<p>我们最新的应用程序，然后看起来像这样：</p>
+<h3 id="使用翻译指令_source">Source</h3>
+<div source-edit="myApp" source-edit-deps="angular.js script.js" source-edit-html="index.html-16" source-edit-css="" source-edit-js="script.js-15" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div class="tabbable"><div class="tab-pane" title="index.html">
+<pre class="prettyprint linenums" ng-set-text="index.html-16" ng-html-wrap-loaded="myApp angular.js script.js"></pre>
+<script type="text/ng-template" id="index.html-16">
+    
+    <div ng-controller="Ctrl">
+      <p>{{ 'HEADLINE' | translate }}</p>
+      <p>{{ 'PARAGRAPH' | translate }}</p>
+
+      <p translate>PASSED_AS_TEXT</p>
+      <p translate="PASSED_AS_ATTRIBUTE"></p>
+      <p translate>{{ 'PASSED_AS_INTERPOLATION' }}</p>
+      <p translate="{{ 'PASSED_AS_INTERPOLATION' }}"></p>
+    </div>
+  </script>
+</div>
+<div class="tab-pane" title="script.js">
+<pre class="prettyprint linenums" ng-set-text="script.js-15"></pre>
+<script type="text/ng-template" id="script.js-15">
+      var translations = {
+        HEADLINE: 'What an awesome module!',
+        PARAGRAPH: 'Srsly!',
+        PASSED_AS_TEXT: 'Hey there! I\'m passed as text value!',
+        PASSED_AS_ATTRIBUTE: 'I\'m passed as attribute value, cool ha?',
+        PASSED_AS_INTERPOLATION: 'Beginners! I\'m interpolated!'
+      };
+
+      var app = angular.module('myApp', ['pascalprecht.translate']);
+
+      app.config(['$translateProvider', function ($translateProvider) {
+        // add translation table
+        $translateProvider
+          .translations('en', translations)
+          .preferredLanguage('en');
+      }]);
+
+      app.controller('Ctrl', ['$scope', function ($scope) {
+
+      }]);
+    </script>
+</div>
+</div><h3 id="使用翻译指令_demo">Demo</h3>
+<div class="well doc-example-live animate-container" ng-embed-app="myApp" ng-set-html="index.html-16" ng-eval-javascript="script.js-15"></div>
+<p><br></p>
+<p><hr></p>
+<center>Made with unicorn &hearts; love by <a href="http://github.com/PascalPrecht">PascalPrecht</a></center></div></div>

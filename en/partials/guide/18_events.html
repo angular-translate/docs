@@ -1,0 +1,48 @@
+<a href="https://github.com/{{repo}}/edit/master/{{file}}" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="events-page"><h2 id="events">Events</h2>
+<p>angular-translate triggers some custom events on <code>$rootScope</code> you can react on
+once they are fired. Please make sure to also listen on <code>$rootScope</code> for these
+events! You can&#39;t listen to them on <code>$scope</code>, since they are only emitted at a
+<code>$rootScope</code> level, to create an application-wide event bus with better performance.</p>
+<p>This document describes the different events and when they get fired.</p>
+<h3 id="events_general">General</h3>
+<p>Some events get fired independently from how you have configured angular-translate.
+These are general events you could always expect to be fired.</p>
+<p><strong><code>$translateChangeStart</code></strong></p>
+<p>Gets fired anytime angular-translate starts to try to change the language. This is
+at startup, when setting the language the first time, or when changing the language
+at runtime using <code>$translate.use()</code>. This event gets also fired when angular-translate
+has to load translation data asynchronously first.</p>
+<p><strong><code>$translateChangeSuccess</code></strong></p>
+<p>As the event name says, this gets fired once a translation change was successful.
+When not using an asynchronous loader, this event gets usually fired immediately
+after <code>$translateChangeStart</code> event. This event gets also fired after an
+asynchronous loader had to load translation data first.</p>
+<p><strong><code>$translateChangeError</code></strong></p>
+<p>Gets fired when a translation change failed. This actually only occurs when an
+asynchronous loader rejects a returned promise.</p>
+<p><strong><code>$translateChangeEnd</code></strong></p>
+<p>Gets always fired when a translation change ends, wether it was successful or
+not, and after all registered interpolation services have been notified about the
+translation change.</p>
+<h3 id="events_asynchronous-loading">Asynchronous loading</h3>
+<p>There are some events that get only fired when an asynchronous loader is used.
+These are covered here.</p>
+<p><strong><code>$translateLoadingStart</code></strong></p>
+<p>Just as the event name says, this event gets fired when a registered asynchronous
+loader gets invoked, right after <code>$translateChangeStart</code> has been fired.</p>
+<p><strong><code>$translateLoadingSuccess</code></strong></p>
+<p>Gets fired when the asynchronous loader returns with a resolved promise.</p>
+<p><strong><code>$translateLoadingError</code></strong></p>
+<p>Gets fired when the asynchronous loader returns with a rejected promise.</p>
+<p><strong><code>$translateLoadingEnd</code></strong></p>
+<p>Gets fired wether an asynchronous loader returned with a resolved or rejected
+promise. In the case a loader returned with a resolved promise, this gets fired
+after the translation table has been updated.</p>
+<p><strong><code>$translatePartialLoaderStructureChanged</code></strong></p>
+<p>Gets fired when changing the &quot;structure&quot; of <code>$translatePartialLoader</code> using
+any kind of <code>*Part()</code> method.</p>
+</div></div>

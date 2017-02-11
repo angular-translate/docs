@@ -1,0 +1,102 @@
+<a href="https://github.com/{{repo}}/edit/master/{{file}}" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="tools-page"><h2 id="tools">Tools</h2>
+<p>Angular-translate ist nicht nur eines der tollen Module, die man gerne benutzt.
+Es gibt um das Kernmodul von angular-translate herum ein kleines Ökosystem von
+weiteren Dingen bzw. Funktionalitäten. Es gibt noch weitere Hilfsprogramme vom
+Team, die für die Arbeit mit angular-translate sehr nützlich sein können.</p>
+<p>Folgende Tools existieren derzeit:</p>
+<h3 id="tools_grunt-angular-translate">grunt-angular-translate</h3>
+<p><a href="http://github.com/angular-translate/grunt-angular-translate">grunt-angular-translate on GitHub</a></p>
+<h3 id="tools_webpack-angular-translate">webpack-angular-translate</h3>
+<p>Ein Webpack-Loader zum Extrahieren aller Übersetzungsschlüssel (&quot;translationId&quot;, jeweils mit dem Default-Text) aus den JavaScript- und HTML-Dateien. Am Ende wird als Export ein JSON erstellt.
+<a href="https://github.com/DatenMetzgerX/webpack-angular-translate">webpack-angular-translate on GitHub</a></p>
+<h3 id="tools_ngtranslateeditor">ngTranslateEditor</h3>
+<p><a href="http://mrhieu.github.io/ngTranslateEditor">ngTranslateEditor</a></p>
+<p>Dieses kleine handliche Werkzeug liest und schreibt JSON-Dateien, welche die Standard-Loader von Haus aus nutzen können. Für kleine und mittelgroße Übersetzungstabellen kann es ein sinnvolles Werkzeug sein.</p>
+<h3 id="tools_grunt-po2json-angular-translate">grunt-po2json-angular-translate</h3>
+<p>Mit diesem grunt task können po-foramtierte Zeichenketten in ein angular-translate-kompatibles Format gebracht werden.
+Für weitere Informationen schau bitte auf <a href="http://github.com/angular-translate/grunt-po2json-angular-translate">GitHub repo</a>.</p>
+<p>Hier aber die Wichtigsten beiden Schritte:</p>
+<p>1) Installiere und aktiviere den Task in deinem Gruntfile</p>
+<pre><code class="lang-shell">npm install grunt-po2json-angular-translate --save-dev
+</code></pre>
+<pre><code class="lang-js">grunt.loadNpmTasks(&#39;grunt-po2json-angular-translate&#39;);
+</code></pre>
+<p>2) Füge die Konfiguration passend zu deinem Projekt hinzu - Beispiel:</p>
+<pre><code class="lang-js">grunt.initConfig({
+  po2json_angular_translate: {
+  options: {
+     pretty: false,
+     upperCaseId : false
+    },
+    your_target: {
+                 files: {
+                     // This will generate a single json file with all the specified strings
+                     &#39;tmp/dest.json&#39; : [&#39;test/fixtures/*.po&#39;],
+
+                     //this will create several json files, the names of them will be the same than in the .po files
+                     &#39;tmp/dest&#39; : [&#39;test/fixtures/*.po&#39;]
+                  }
+    },
+  },
+});
+</code></pre>
+<p>Je nach Anwendungsfall können einzelne oder mehrere JSON-Dateien bzw. ein Verzeichnis als Ziel angegeben werden.</p>
+<p>Es gibt zahlreiche Optionen zur Unterscheidung von Entwicklungs- und Produktionsumgebungen. Zusätzlich gibt es aber
+noch andere, sehr wichtige Einstellungen:</p>
+<h5 id="tools_grunt-po2json-angular-translate_optionspretty">options.pretty</h5>
+<p>Type: <code>Boolean</code>
+Default value:  <code>false</code>
+Für eine lesbarere Ausgabe.</p>
+<h5 id="tools_grunt-po2json-angular-translate_optionscleanprevstrings">options.cleanPrevStrings</h5>
+<p>Type: <code>Boolean</code>
+Default value:  <code>false</code>
+Löscht alle bestehenden Zieldateien, bevor neue Dateien erzeugt werden.</p>
+<p>Es gibt noch mehr Einstellungen, die Einfluß auf die Ausgabedateien haben. Ein Beispiel ist die Konvertierung gemäß
+der gettext-Formatierungen für <a href="https://github.com/angular-translate/grunt-po2json-angular-translate#pluralization">Mehrzahl</a>,
+<a href="https://github.com/angular-translate/grunt-po2json-angular-translate#optionsenablealtplaceholders">für individuelle Platzhalter</a>
+oder um <a href="https://github.com/angular-translate/grunt-po2json-angular-translate#optionsuppercaseid"><code>msgid</code> in Großschreibung konvertieren</a>.</p>
+<p>Hier ein komplettes Praxisbeispiel:</p>
+<pre><code class="lang-js">        &#39;po2json_angular_translate&#39;: {
+            dev: {
+                options: {
+                    pretty: false,
+                    cleanPrevStrings: false
+                },
+                files: {
+                    &#39;app/i18n/en/&#39; : [&#39;po/en/dashboard/*.po&#39;],
+                    &#39;app/i18n/en/common-strings.json&#39; : [&#39;po/en/dashboard/common/*.po&#39;],
+
+                    &#39;app/i18n/de/&#39; : [&#39;po/de/dashboard/*.po&#39;],
+                    &#39;app/i18n/de/common-strings.json&#39; : [&#39;po/de/dashboard/common/*.po&#39;]
+                }
+            },
+            devOneFile: {
+                options: {
+                    pretty: false,
+                    cleanPrevStrings: true
+                },
+                files: {
+                    &#39;app/i18n/en/strings.json&#39; : [&#39;po/en/dashboard/**/*.po&#39;],
+                    &#39;app/i18n/de/strings.json&#39; : [&#39;po/de/dashboard/**/*.po&#39;]
+                }
+            },
+            dist: {
+                options: {
+                    pretty: false,
+                    cleanPrevStrings: true
+                },
+                files: {
+                    &#39;app/dist/i18n/en/&#39; : [&#39;po/en/dashboard/*.po&#39;],
+                    &#39;app/dist/i18n/en/common-strings.json&#39; : [&#39;po/en/dashboard/common/*.po&#39;],
+
+                    &#39;app/dist/i18n/de/&#39; : [&#39;po/de/dashboard/*.po&#39;],
+                    &#39;app/dist/i18n/de/common-strings.json&#39; : [&#39;po/de/dashboard/common/*.po&#39;]
+                }
+            }
+        },
+</code></pre>
+</div></div>

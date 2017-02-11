@@ -1,0 +1,129 @@
+<a href="https://github.com/{{repo}}/edit/master/{{file}}" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><a href="https://github.com/{{repo}}/blob/{{sha}}/{{file}}#L{{codeline}}" class="view-source"><i class="icon-eye-open"> </i>View source</a><h1><code ng:non-bindable="">translate</code>
+<div><span class="hint">directive in module <code ng:non-bindable="">pascalprecht.translate</code>
+</span>
+</div>
+</h1>
+<div><h2 id="description">Description</h2>
+<div class="description"><div class="pascalprecht-translate-directive-page pascalprecht-translate-directive-translate-page"><p>Translates given translation id either through attribute or DOM content.
+Internally it uses $translate service to translate the translation id. It possible to
+pass an optional <code>translate-values</code> object literal as string into translation id.</p>
+</div></div>
+<h2 id="dependencies">Dependencies</h2>
+<ul class="dependencies"><li><code ng:non-bindable=""><a href="#/api/ng.$interpolate,">$interpolate,</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="#/api/ng.$compile,">$compile,</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="#/api/ng.$parse,">$parse,</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="#/api/ng.$rootScope">$rootScope</a></code>
+</li>
+</ul>
+<h2 id="usage">Usage</h2>
+<div class="usage">as element:<pre class="prettyprint linenums">&lt;translate
+       [translate="{string}"]
+       [translate-values="{string}"]
+       [translate-attr--a-t-t-r="{string}"]
+       [translate-default="{string}"]
+       [translate-compile="{boolean}"]
+       [translate-keep-content="{boolean}"]&gt;
+&lt;/translate&gt;</pre>
+as attribute<pre class="prettyprint linenums">&lt;ANY translate="{string}"
+     [translate-values="{string}"]
+     [translate-attr--a-t-t-r="{string}"]
+     [translate-default="{string}"]
+     [translate-compile="{boolean}"]
+     [translate-keep-content="{boolean}"]&gt;
+   ...
+&lt;/ANY&gt;</pre>
+<h4 id="usage_parameters">Parameters</h4><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>translate <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-directive-page pascalprecht-translate-directive-translate-page"><p>Translation id which could be either string or interpolated string.</p>
+</div></td></tr><tr><td>translate-values <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-directive-page pascalprecht-translate-directive-translate-page"><p>Values to pass into translation id. Can be passed as object literal string or interpolated object.</p>
+</div></td></tr><tr><td>translate-attr-ATTR <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-directive-page pascalprecht-translate-directive-translate-page"><p>translate Translation id and put it into ATTR attribute.</p>
+</div></td></tr><tr><td>translate-default <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-directive-page pascalprecht-translate-directive-translate-page"><p>will be used unless translation was successful</p>
+</div></td></tr><tr><td>translate-compile <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="pascalprecht-translate-directive-page pascalprecht-translate-directive-translate-page"><p>(default true if present) defines locally activation of <a href="#/api/pascalprecht.translate.$translateProvider#methods_usepostcompiling">pascalprecht.translate.$translateProvider#methods_usePostCompiling</a></p>
+</div></td></tr><tr><td>translate-keep-content <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="pascalprecht-translate-directive-page pascalprecht-translate-directive-translate-page"><p>(default true if present) defines that in case a KEY could not be translated, that the existing content is left in the innerHTML}</p>
+</div></td></tr></tbody></table></div>
+<h2 id="example">Example</h2>
+<div class="example"><div class="pascalprecht-translate-directive-page pascalprecht-translate-directive-translate-page"><h4 id="example_source">Source</h4>
+<div source-edit="ngView" source-edit-deps="angular.js script.js" source-edit-html="index.html-4" source-edit-css="" source-edit-js="script.js-5" source-edit-json="" source-edit-unit="" source-edit-scenario="scenario.js-6"></div>
+<div class="tabbable"><div class="tab-pane" title="index.html">
+<pre class="prettyprint linenums" ng-set-text="index.html-4" ng-html-wrap-loaded="ngView angular.js script.js"></pre>
+<script type="text/ng-template" id="index.html-4">
+  <div ng-controller="TranslateCtrl">
+
+    <pre translate="TRANSLATION_ID"></pre>
+    <pre translate>TRANSLATION_ID</pre>
+    <pre translate translate-attr-title="TRANSLATION_ID"></pre>
+    <pre translate="{{translationId}}"></pre>
+    <pre translate>{{translationId}}</pre>
+    <pre translate="WITH_VALUES" translate-values="{value: 5}"></pre>
+    <pre translate translate-values="{value: 5}">WITH_VALUES</pre>
+    <pre translate="WITH_VALUES" translate-values="{{values}}"></pre>
+    <pre translate translate-values="{{values}}">WITH_VALUES</pre>
+    <pre translate translate-attr-title="WITH_VALUES" translate-values="{{values}}"></pre>
+    <pre translate="WITH_CAMEL_CASE_KEY" translate-value-camel-case-key="Hi"></pre>
+
+  </div>
+</script>
+</div>
+<div class="tab-pane" title="script.js">
+<pre class="prettyprint linenums" ng-set-text="script.js-5"></pre>
+<script type="text/ng-template" id="script.js-5">
+  angular.module('ngView', ['pascalprecht.translate'])
+
+  .config(function ($translateProvider) {
+
+    $translateProvider.translations('en',{
+      'TRANSLATION_ID': 'Hello there!',
+      'WITH_VALUES': 'The following value is dynamic: {{value}}',
+      'WITH_CAMEL_CASE_KEY': 'The interpolation key is camel cased: {{camelCaseKey}}'
+    }).preferredLanguage('en');
+
+  });
+
+  angular.module('ngView').controller('TranslateCtrl', function ($scope) {
+    $scope.translationId = 'TRANSLATION_ID';
+
+    $scope.values = {
+      value: 78
+    };
+  });
+</script>
+</div>
+<div class="tab-pane" title="End to end test">
+<pre class="prettyprint linenums" ng-set-text="scenario.js-6"></pre>
+<script type="text/ng-template" id="scenario.js-6">
+  it('should translate', function () {
+    inject(function ($rootScope, $compile) {
+      $rootScope.translationId = 'TRANSLATION_ID';
+
+      element = $compile('<p translate="TRANSLATION_ID"></p>')($rootScope);
+      $rootScope.$digest();
+      expect(element.text()).toBe('Hello there!');
+
+      element = $compile('<p translate="{{translationId}}"></p>')($rootScope);
+      $rootScope.$digest();
+      expect(element.text()).toBe('Hello there!');
+
+      element = $compile('<p translate>TRANSLATION_ID</p>')($rootScope);
+      $rootScope.$digest();
+      expect(element.text()).toBe('Hello there!');
+
+      element = $compile('<p translate>{{translationId}}</p>')($rootScope);
+      $rootScope.$digest();
+      expect(element.text()).toBe('Hello there!');
+
+      element = $compile('<p translate translate-attr-title="TRANSLATION_ID"></p>')($rootScope);
+      $rootScope.$digest();
+      expect(element.attr('title')).toBe('Hello there!');
+
+      element = $compile('<p translate="WITH_CAMEL_CASE_KEY" translate-value-camel-case-key="Hello"></p>')($rootScope);
+      $rootScope.$digest();
+      expect(element.text()).toBe('The interpolation key is camel cased: Hello');
+    });
+  });
+</script>
+</div>
+</div><h4 id="example_demo">Demo</h4>
+<div class="well doc-example-live animate-container" ng-embed-app="ngView" ng-set-html="index.html-4" ng-eval-javascript="script.js-5"></div>
+</div></div>
+</div>

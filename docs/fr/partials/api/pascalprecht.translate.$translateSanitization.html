@@ -1,0 +1,32 @@
+<a href="https://github.com/{{repo}}/edit/master/{{file}}" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><a href="https://github.com/{{repo}}/blob/{{sha}}/{{file}}#L{{codeline}}" class="view-source"><i class="icon-eye-open"> </i>View source</a><h1><code ng:non-bindable="">$translateSanitization</code>
+<div><span class="hint">service in module <code ng:non-bindable="">pascalprecht.translate</code>
+</span>
+</div>
+</h1>
+<div><h2 id="description">Description</h2>
+<div class="description"><div class="pascalprecht-translate-translatesanitization-page"><p>Sanitizes interpolation parameters and translated texts.</p>
+</div></div>
+<h2 id="dependencies">Dependencies</h2>
+<ul class="dependencies"><li><code ng:non-bindable=""><a href="#/api/ng.$injector">$injector</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="#/api/ng.$log">$log</a></code>
+</li>
+</ul>
+<div class="member method"><h2 id="methods">Methods</h2>
+<ul class="methods"><li><a href="https://github.com/{{repo}}/blob/{{sha}}/{{file}}#L{{codeline}}" class="view-source icon-eye-open"> </a><h3 id="methods_sanitize">sanitize(value, mode, [strategy], [context])</h3>
+<div class="sanitize"><div class="pascalprecht-translate-translatesanitization-sanitize-page"><p>Sanitizes a value.</p>
+</div><h5 id="methods_sanitize_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>value</td><td><a href="" class="label type-hint type-hint-string">string</a><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="pascalprecht-translate-translatesanitization-sanitize-page"><p>The value which should be sanitized.</p>
+</div></td></tr><tr><td>mode</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-translatesanitization-sanitize-page"><p>The current sanitization mode, either &#39;params&#39; or &#39;text&#39;.</p>
+</div></td></tr><tr><td>[strategy]</td><td><a href="" class="label type-hint type-hint-string">string</a><a href="" class="label type-hint type-hint-strategyfunction">StrategyFunction</a><a href="" class="label type-hint type-hint-array">array</a></td><td><div class="pascalprecht-translate-translatesanitization-sanitize-page"><p>Optional custom strategy which should be used instead of the currently selected strategy.</p>
+</div></td></tr><tr><td>[context]</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-translatesanitization-sanitize-page"><p>The context of this call: filter, service. Default is service</p>
+</div></td></tr></tbody></table><h5 id="methods_sanitize_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-string">string|object</a></td><td><div class="pascalprecht-translate-translatesanitization-sanitize-page"><p>sanitized value</p>
+</div></td></tr></table></div>
+</li>
+<li><a href="https://github.com/{{repo}}/blob/{{sha}}/{{file}}#L{{codeline}}" class="view-source icon-eye-open"> </a><h3 id="methods_usestrategy">useStrategy(strategy)</h3>
+<div class="usestrategy"><div class="pascalprecht-translate-translatesanitization-usestrategy-page"><p>Selects a sanitization strategy. When an array is provided the strategies will be executed in order.</p>
+</div><h5 id="methods_usestrategy_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>strategy</td><td><a href="" class="label type-hint type-hint-string">string</a><a href="" class="label type-hint type-hint-strategyfunction">StrategyFunction</a><a href="" class="label type-hint type-hint-array">array</a></td><td><div class="pascalprecht-translate-translatesanitization-usestrategy-page"><p>The sanitization strategy / strategies which should be used. Either a name of an existing strategy, a custom strategy function, or an array consisting of multiple names and / or custom functions.</p>
+</div></td></tr></tbody></table></div>
+</li>
+</ul>
+</div>
+</div>

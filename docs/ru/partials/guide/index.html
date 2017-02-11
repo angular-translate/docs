@@ -1,0 +1,77 @@
+<a href="https://github.com/{{repo}}/edit/master/{{file}}" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="--page"><h2 id="i18n-для-ваших-angular-приложений---просто">i18n для ваших Angular приложений - просто</h2>
+<p>####Простейший способ добавить i18n и l10n в ваши приложения!</p>
+<p><br>
+Вы хотите добавить <strong>i18n</strong> и <strong>l10n</strong> к вашим приложениям и не можете найти простой способ, как это
+сделать? Вам поможет angular-translate. Он поставляется с очень полезными функциями и расширениями,
+а также проявляет ультра гибкость, когда дело доходит до настройки. Вот лишь некоторые из его
+замечательных возможностей:</p>
+<h3 id="i18n-для-ваших-angular-приложений---просто_возможности">Возможности</h3>
+<ul>
+<li>Компоненты для перевода контента (фильтры/директивы)</li>
+<li>Асинхронная загрузка i18n данных</li>
+<li>Поддержка плюрализации с помощью <a href="https://github.com/SlexAxton/messageformat.js"><strong>MessageFormat.js</strong></a></li>
+<li>Расширяемость через простые в использовании интерфейсы</li>
+</ul>
+<p>Если вы полюбили этот модуль и используете его в своих проектах, пожалуйста, обнародуйте его на
+<a href="http://ngmodules.org/modules/angular-translate">ngmodules</a> и кликните на кнопку &quot;<em>I use it</em>&quot;!
+angular-translate легко установить и еще проще использовать! Прочитав это руководство вы научитесь
+использовать angular-translate и его замечательные функции! Давайте же начнем!</p>
+<h3 id="i18n-для-ваших-angular-приложений---просто_быстрый-старт">Быстрый старт</h3>
+<p>Установите модуль с помощью Bower:</p>
+<pre><code>$ bower install angular-translate
+</code></pre><p>Убедитесь, что подключили его в HTML документ:</p>
+<pre class="prettyprint linenums">
+&lt;script src="path/to/angular-translate.js"&gt;&lt;/script&gt;
+</pre>
+<p>Внедрите модуль <code>angular-translate</code> как зависимость в ваше приложение:</p>
+<pre class="prettyprint linenums">
+var app = angular.module('myApp', ['pascalprecht.translate']);
+</pre>
+<p>Научите ваше приложение переводам:</p>
+<pre class="prettyprint linenums">
+app.config(['$translateProvider', function ($translateProvider) {
+  $translateProvider.translations('en', {
+    'TITLE': 'Hello',
+    'FOO': 'This is a paragraph',
+  });
+
+  $translateProvider.translations('de', {
+    'TITLE': 'Hallo',
+    'FOO': 'Dies ist ein Absatz'
+  });
+
+  $translateProvider.preferredLanguage('en');
+}]);
+</pre>
+<p>Переведите ваше приложение:</p>
+<pre class="prettyprint linenums">
+&lt;h1&gt;{{ 'TITLE' | translate }}&lt;/h1&gt;
+&lt;p&gt;{{ 'FOO' | translate }}&lt;/p&gt;
+</pre>
+<p>Это просто быстрый пример того, как работает angular-translate. В целом, все это работает так:
+&quot;<em>предоставить данные i18n, дать о них знать angular-translate и использовать его компоненты для
+интерполяции ваших переводов некоторыми значениями.</em>&quot;. Просто, да?</p>
+<h3 id="i18n-для-ваших-angular-приложений---просто_полезные-ресурсы">Полезные ресурсы</h3>
+<p>В сети есть пара очень полезных вещей, которые могут быть для вас интересны. Так что, не забудьте
+ознакомиться с этим списком:</p>
+<ul>
+<li><a href="http://www.ng-newsletter.com/posts/angular-translate.html">Учебник на ng-newsletter.com</a></li>
+<li><a href="http://technpol.wordpress.com/2013/11/02/adding-translation-using-angular-translate-to-an-angularjs-app/">angular-translate и загрузка по частям</a></li>
+<li><a href="https://github.com/angular-translate/angular-translate/wiki/Demos">Примеры и демо</a> - Сейчас на plnkr.co</li>
+<li><a href="http://angularjs.de/artikel/angularjs-i18n-ng-translate">Учебник на angularjs.de</a> - Статья на немецком</li>
+<li><a href="http://github.com/PascalPrecht/angular-translate">angular-translate на GitHub</a> - Репозиторий на GitHub</li>
+<li><a href="http://ngmodules.org/modules/angular-translate">angular-translate на ngmodules.org</a></li>
+<li><a href="https://groups.google.com/forum/#!forum/angular-translate">angular-translate mailinglist</a> - Обсуждение, вопросы и др.</li>
+</ul>
+<h3 id="i18n-для-ваших-angular-приложений---просто_спасибо,-сообщество">Спасибо, сообщество!</h3>
+<p>Мы получили множество отличных отзывов от сообщества! Все больше людей используют модуль и они всегда
+остаются благодарными за него и потрясающую поддержку, которую они получают. Я просто хочу убедиться,
+что вы, ребята, знаете: все это было бы невозможно без этих <a href="http://github.com/PascalPrecht/angular-translate/contributors">замечательных участников</a>
+и всех, кто приходит с новыми идеями и пожеланиями! Так что <strong>СПАСИБО ВАМ</strong>!</p>
+<p><br></p>
+<p><hr></p>
+<center>Made with unicorn &hearts; love by <a href="http://github.com/PascalPrecht">PascalPrecht</a></center></div></div>

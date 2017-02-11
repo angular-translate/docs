@@ -1,0 +1,94 @@
+<a href="https://github.com/{{repo}}/edit/master/{{file}}" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="outils-page"><h2 id="outils">Outils</h2>
+<p>Il n&#39;a pas qu&#39;angular-translate que vous pourriez utiliser comme module supplémentaire.
+Il y a tout un univers angular-translate ! Cet univers couvre aussi des choses supplémentaires
+autour du module lui-même. Nous maintenons actuellement quelques outils qui pourrez
+vous intéresser dans le développement d&#39;applications avec angular-translate.</p>
+<p>Jetons un coup d&#39;oeil !</p>
+<h3 id="outils_grunt-angular-translate">grunt-angular-translate</h3>
+<p><a href="http://github.com/angular-translate/grunt-angular-translate">grunt-angular-translate sur GitHub</a></p>
+<h3 id="outils_grunt-po2json-angular-translate">grunt-po2json-angular-translate</h3>
+<p>C&#39;est une tâche de grunt, créée pour vous aider à convertir vos strings formatté po dans un format compatible avec angular-translate.
+Si vous voulez plus d&#39;informations, regardez <a href="http://github.com/angular-translate/grunt-po2json-angular-translate">le dépôt GitHub</a>.</p>
+<p>Brièvement, pour l&#39;utiliser, vous avez besoin de deux étapes :</p>
+<p>1) Installez-le et activez-le sur votre gruntfile</p>
+<pre><code class="lang-shell">npm install grunt-po2json-angular-translate --save-dev
+</code></pre>
+<pre><code class="lang-js">grunt.loadNpmTasks(&#39;grunt-po2json-angular-translate&#39;);
+</code></pre>
+<p>2) Ajoutez la configuration selon vos besoins, par exemple :</p>
+<pre><code class="lang-js">grunt.initConfig({
+  po2json_angular_translate: {
+  options: {
+     pretty: false,
+     upperCaseId : false
+    },
+    your_target: {
+                 files: {
+                     // Cela générera un seul fichier JSON avec toutes les strings spécifiés
+                     &#39;tmp/dest.json&#39; : [&#39;test/fixtures/*.po&#39;],
+
+                     // cela créera plusieurs fichiers JSON, leurs noms seront les mêmes que dans les fichiers .po
+                     &#39;tmp/dest&#39; : [&#39;test/fixtures/*.po&#39;]
+                  }
+    },
+  },
+});
+</code></pre>
+<p>Que vous ayez besoin d&#39;un seul ou plusieurs fichiers. JSON, ceci dépend de votre cas.</p>
+<p>Il y a plusieurs options qui pourraient vous aider sur l&#39;environnement de développement/production, mais les plus
+importants sont les suivants :</p>
+<h5 id="outils_grunt-po2json-angular-translate_optionspretty">options.pretty</h5>
+<p>Type: <code>Boolean</code>
+Valeur par défaut :  <code>false</code>
+Si vous souhaitez un résultat bien présenté</p>
+<h5 id="outils_grunt-po2json-angular-translate_optionscleanprevstrings">options.cleanPrevStrings</h5>
+<p>Type: <code>Boolean</code>
+Valeur par défaut :  <code>false</code>
+Il supprimera tous les fichiers générés antérieurement sur la destination spécifiée avant de créer les nouveaux.</p>
+<p>Il y a d&#39;autres options pour vous aider pour la génération du fichier .json en sortie, par exemple, la conversion de vos
+gettext formatés en <a href="https://github.com/angular-translate/grunt-po2json-angular-translate#pluralization">strings pluralisés</a>, la configuration <a href="https://github.com/angular-translate/grunt-po2json-angular-translate#optionsenablealtplaceholders">des placeholders personnalisés</a> ou la <a href="https://github.com/angular-translate/grunt-po2json-angular-translate#optionsuppercaseid">conversion du <code>msgid</code> en majuscules</a>.</p>
+<p>Ceci est un exemple de configuration utilisé dans un projet réel :</p>
+<pre><code class="lang-js">        &#39;po2json_angular_translate&#39;: {
+            dev: {
+                options: {
+                    pretty: false,
+                    cleanPrevStrings: false
+                },
+                files: {
+                    &#39;app/i18n/fr/&#39; : [&#39;po/fr/dashboard/*.po&#39;],
+                    &#39;app/i18n/fr/common-strings.json&#39; : [&#39;po/fr/dashboard/common/*.po&#39;],
+
+                    &#39;app/i18n/en/&#39; : [&#39;po/en/dashboard/*.po&#39;],
+                    &#39;app/i18n/en/common-strings.json&#39; : [&#39;po/en/dashboard/common/*.po&#39;]
+                }
+            },
+            devOneFile: {
+                options: {
+                    pretty: false,
+                    cleanPrevStrings: true
+                },
+                files: {
+                    &#39;app/i18n/fr/strings.json&#39; : [&#39;po/fr/dashboard/**/*.po&#39;],
+                    &#39;app/i18n/en/strings.json&#39; : [&#39;po/en/dashboard/**/*.po&#39;]
+                }
+            },
+            dist: {
+                options: {
+                    pretty: false,
+                    cleanPrevStrings: true
+                },
+                files: {
+                    &#39;app/dist/i18n/fr/&#39; : [&#39;po/fr/dashboard/*.po&#39;],
+                    &#39;app/dist/i18n/fr/common-strings.json&#39; : [&#39;po/fr/dashboard/common/*.po&#39;],
+
+                    &#39;app/dist/i18n/en/&#39; : [&#39;po/en/dashboard/*.po&#39;],
+                    &#39;app/dist/i18n/en/common-strings.json&#39; : [&#39;po/en/dashboard/common/*.po&#39;]
+                }
+            }
+        },
+</code></pre>
+</div></div>
