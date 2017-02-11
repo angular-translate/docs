@@ -48,7 +48,7 @@
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">99</p>
+      <p class="stat">105</p>
     </div>
   </div>
   <div class="row historical">
@@ -162,9 +162,15 @@ function $translateDefaultInterpolation ($interpolate, $translateSanitization) {
    *
    * Since AngularJS 1.5, `value` must not be a string but can be anything input.
    *
-   * @returns {string} interpolated string.
+   * @param value translation
+   * @param interpolationParams interpolation params
+   * @param context current context (filter, directive, service)
+   * @param sanitizeStrategy sanitize strategy
+   * @param translationId current translationId
+   *
+   * @returns {string} interpolated string
    */
-  $translateInterpolator.interpolate = function (value, interpolationParams, context, sanitizeStrategy) {
+  $translateInterpolator.interpolate = function (value, interpolationParams, context, sanitizeStrategy/*, translationId*/) {
     interpolationParams = interpolationParams || {};
     interpolationParams = $translateSanitization.sanitize(interpolationParams, &#039;params&#039;, sanitizeStrategy, context);
 

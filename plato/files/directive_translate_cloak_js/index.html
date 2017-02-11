@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">83.99</p>
+      <p class="stat">79.52</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">58</p>
+      <p class="stat">55</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,7 +62,7 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">10.00</p>
+      <p class="stat">10.50</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
@@ -93,7 +93,6 @@
 /**
  * @ngdoc directive
  * @name pascalprecht.translate.directive:translateCloak
- * @requires $rootScope
  * @requires $translate
  * @restrict A
  *
@@ -113,33 +112,31 @@
  */
 .directive(&#039;translateCloak&#039;, translateCloakDirective);
 
-function translateCloakDirective($translate, $rootScope) {
+function translateCloakDirective($translate) {
 
   &#039;use strict&#039;;
 
   return {
-    compile: function (tElement) {
-      var applyCloak = function () {
-        tElement.addClass($translate.cloakClassName());
-      },
-      removeCloak = function () {
-        tElement.removeClass($translate.cloakClassName());
-      };
-      $translate.onReady(function () {
-        removeCloak();
-      });
-      applyCloak();
+    compile : function (tElement) {
+      var applyCloak = function (element) {
+          element.addClass($translate.cloakClassName());
+        },
+        removeCloak = function (element) {
+          element.removeClass($translate.cloakClassName());
+        };
+      applyCloak(tElement);
 
       return function linkFn(scope, iElement, iAttr) {
+        //Create bound functions that incorporate the active DOM element.
+        var iRemoveCloak = removeCloak.bind(this, iElement), iApplyCloak = applyCloak.bind(this, iElement);
         if (iAttr.translateCloak &amp;&amp; iAttr.translateCloak.length) {
           // Register a watcher for the defined translation allowing a fine tuned cloak
           iAttr.$observe(&#039;translateCloak&#039;, function (translationId) {
-            $translate(translationId).then(removeCloak, applyCloak);
+            $translate(translationId).then(iRemoveCloak, iApplyCloak);
           });
-          // Register for change events as this is being another indicicator revalidating the cloak)
-          $rootScope.$on(&#039;$translateChangeSuccess&#039;, function () {
-            $translate(iAttr.translateCloak).then(removeCloak, applyCloak);
-          });
+        }
+        else {
+          $translate.onReady(iRemoveCloak);
         }
       };
     }
