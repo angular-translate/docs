@@ -55,19 +55,19 @@
       
         addTag('script', {src: 'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.5/angular-sanitize.js'}, sync);
       
-        addTag('script', {src: 'https://cdn.rawgit.com/angular-translate/bower-angular-translate/2.14.0/angular-translate.js'}, sync);
+        addTag('script', {src: 'https://cdn.rawgit.com/angular-translate/bower-angular-translate/2.15.0/angular-translate.js'}, sync);
       
-        addTag('script', {src: 'https://cdn.rawgit.com/angular-translate/bower-angular-translate-interpolation-messageformat/2.14.0/angular-translate-interpolation-messageformat.js'}, sync);
+        addTag('script', {src: 'https://cdn.rawgit.com/angular-translate/bower-angular-translate-interpolation-messageformat/2.15.0/angular-translate-interpolation-messageformat.js'}, sync);
       
-        addTag('script', {src: 'https://cdn.rawgit.com/angular-translate/bower-angular-translate-storage-cookie/2.14.0/angular-translate-storage-cookie.js'}, sync);
+        addTag('script', {src: 'https://cdn.rawgit.com/angular-translate/bower-angular-translate-storage-cookie/2.15.0/angular-translate-storage-cookie.js'}, sync);
       
-        addTag('script', {src: 'https://cdn.rawgit.com/angular-translate/bower-angular-translate-storage-local/2.14.0/angular-translate-storage-local.js'}, sync);
+        addTag('script', {src: 'https://cdn.rawgit.com/angular-translate/bower-angular-translate-storage-local/2.15.0/angular-translate-storage-local.js'}, sync);
       
-        addTag('script', {src: 'https://cdn.rawgit.com/angular-translate/bower-angular-translate-loader-url/2.14.0/angular-translate-loader-url.js'}, sync);
+        addTag('script', {src: 'https://cdn.rawgit.com/angular-translate/bower-angular-translate-loader-url/2.15.0/angular-translate-loader-url.js'}, sync);
       
-        addTag('script', {src: 'https://cdn.rawgit.com/angular-translate/bower-angular-translate-loader-static-files/2.14.0/angular-translate-loader-static-files.js'}, sync);
+        addTag('script', {src: 'https://cdn.rawgit.com/angular-translate/bower-angular-translate-loader-static-files/2.15.0/angular-translate-loader-static-files.js'}, sync);
       
-        addTag('script', {src: 'https://cdn.rawgit.com/angular-translate/bower-angular-translate-handler-log/2.14.0/angular-translate-handler-log.js'}, sync);
+        addTag('script', {src: 'https://cdn.rawgit.com/angular-translate/bower-angular-translate-handler-log/2.15.0/angular-translate-handler-log.js'}, sync);
       
       
       addTag('script', {src: 'js/angular-bootstrap.js'}, sync);
@@ -122,14 +122,7 @@
               <a ng-href="{{url}}"><i class="icon-book icon-white"></i> {{name}}</a>
             </li>
           </ul>
-          <script>
-function langLink(locale) {
-  var origin = location.origin || 'https://angular-translate.github.io';
-  return origin + '/docs/' + locale + '/' + window.location.hash;
-}
-</script>
-
-<ul class="nav pull-right">
+          <ul class="nav pull-right">
   <li>
   <a href="https://angular-translate.github.io/docs/plato/"><i class="icon-signal"></i> Plato Report</a>
   </li>
@@ -137,19 +130,6 @@ function langLink(locale) {
     <a href="https://github.com/angular-translate/angular-translate">
       <i class="icon-github-sign"></i> View on GitHub
     </a>
-  </li>
-  <li class="dropdown">
-  <a href="#" class="dropdown-toggle"><i class="icon-align-justify"></i> Language</a>
-    <ul class="dropdown-menu">
-      <li><a href="" onClick="window.location = langLink('es');"><img src="img/flags/es.png"> Spanish</a></li>
-      <li><a href="" onClick="window.location = langLink('en');"><img src="img/flags/en.png"> English</a></li>
-      <li><a href="" onClick="window.location = langLink('ru');"><img src="img/flags/ru.png"> Russian</a></li>
-      <li><a href="" onClick="window.location = langLink('de');"><img src="img/flags/de.png"> German</a></li>
-      <li><a href="" onClick="window.location = langLink('uk');"><img src="img/flags/uk.png"> Ukrainian</a></li>
-      <li><a href="" onClick="window.location = langLink('zh-cn');"><img src="img/flags/zhcn.png"> Simplified Chinese</a></li>
-      <li><a href="" onClick="window.location = langLink('zh-tw');"><img src="img/flags/zhtw.png"> Traditional Chinese</a></li>
-      <li><a href="" onClick="window.location = langLink('fr');"><img src="img/flags/fr.png"> French</a></li>
-    </ul>
   </li>
 </ul>
 
