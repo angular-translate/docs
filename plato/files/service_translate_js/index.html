@@ -48,7 +48,7 @@
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">2383</p>
+      <p class="stat">2382</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,7 +62,7 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">114.37</p>
+      <p class="stat">114.71</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
@@ -1243,8 +1243,7 @@ function $translate($STORAGE_KEY, $windowProvider, $translateSanitizationProvide
         };
         promiseResolved.displayName = &#039;promiseResolved&#039;;
 
-        promiseToWaitFor[&#039;finally&#039;](promiseResolved)
-          .catch(angular.noop); // we don&#039;t care about errors here, already handled
+        promiseToWaitFor[&#039;finally&#039;](promiseResolved)[&#039;catch&#039;](angular.noop); // we don&#039;t care about errors here, already handled
       }
       return deferred.promise;
     };
@@ -1999,7 +1998,7 @@ function $translate($STORAGE_KEY, $windowProvider, $translateSanitizationProvide
         });
         langPromises[key][&#039;finally&#039;](function () {
           clearNextLangAndPromise(key);
-        }).catch(angular.noop); // we don&#039;t care about errors (clearing)
+        })[&#039;catch&#039;](angular.noop); // we don&#039;t care about errors (clearing)
       } else if (langPromises[key]) {
         // we are already loading this asynchronously
         // resolve our new deferred when the old langPromise is resolved
@@ -2169,7 +2168,7 @@ function $translate($STORAGE_KEY, $windowProvider, $translateSanitizationProvide
         },
         //handle rejection to appease the $q validation
         angular.noop
-      ).finally(
+      )[&#039;finally&#039;](
         function () {
           $rootScope.$emit(&#039;$translateRefreshEnd&#039;, {language : langKey});
         }
