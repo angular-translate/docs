@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">66.54</p>
+      <p class="stat">67.03</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">356</p>
+      <p class="stat">380</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">38.21</p>
+      <p class="stat">38.30</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">2.28</p>
+      <p class="stat">2.42</p>
     </div>
   </div>
 </div>
@@ -93,9 +93,9 @@
 /**
  * @ngdoc directive
  * @name pascalprecht.translate.directive:translate
- * @requires $interpolate, 
- * @requires $compile, 
- * @requires $parse, 
+ * @requires $interpolate,
+ * @requires $compile,
+ * @requires $parse,
  * @requires $rootScope
  * @restrict AE
  *
@@ -108,6 +108,7 @@
  * @param {string=} translate-values Values to pass into translation id. Can be passed as object literal string or interpolated object.
  * @param {string=} translate-attr-ATTR translate Translation id and put it into ATTR attribute.
  * @param {string=} translate-default will be used unless translation was successful
+ * @param {string=} translate-sanitize-strategy defines locally sanitize strategy
  * @param {boolean=} translate-compile (default true if present) defines locally activation of {@link pascalprecht.translate.$translateProvider#methods_usePostCompiling}
  * @param {boolean=} translate-keep-content (default true if present) defines that in case a KEY could not be translated, that the existing content is left in the innerHTML}
  *
@@ -202,6 +203,19 @@ function translateDirective($translate, $interpolate, $compile, $parse, $rootSco
     return this.toString().replace(/^\s+|\s+$/g, &#039;&#039;);
   };
 
+  /**
+   * @name lowercase
+   * @private
+   *
+   * @description
+   * Return the lowercase string only if the type is string
+   *
+   * @returns {string} The string all in lowercase
+   */
+  var lowercase = function (string) {
+    return angular.isString(string) ? string.toLowerCase() : string;
+  };
+
   return {
     restrict: &#039;AE&#039;,
     scope: true,
@@ -213,6 +227,9 @@ function translateDirective($translate, $interpolate, $compile, $parse, $rootSco
 
       var translateInterpolation = (tAttr.translateInterpolation) ?
         tAttr.translateInterpolation : undefined;
+
+      var translateSanitizeStrategyExist = (tAttr.translateSanitizeStrategy) ?
+        tAttr.translateSanitizeStrategy : undefined;
 
       var translateValueExist = tElement[0].outerHTML.match(/translate-value-+/i);
 
@@ -236,7 +253,7 @@ function translateDirective($translate, $interpolate, $compile, $parse, $rootSco
           if (translateValueExist) {
             for (var attr in tAttr) {
               if (Object.prototype.hasOwnProperty.call(iAttr, attr) &amp;&amp; attr.substr(0, 14) === &#039;translateValue&#039; &amp;&amp; attr !== &#039;translateValues&#039;) {
-                var attributeName = angular.lowercase(attr.substr(14, 1)) + attr.substr(15);
+                var attributeName = lowercase(attr.substr(14, 1)) + attr.substr(15);
                 interpolateParams[attributeName] = tAttr[attr];
               }
             }
@@ -317,6 +334,13 @@ function translateDirective($translate, $interpolate, $compile, $parse, $rootSco
           updateTranslations();
         });
 
+        if (translateSanitizeStrategyExist) {
+          iAttr.$observe(&#039;translateSanitizeStrategy&#039;, function (value) {
+            scope.sanitizeStrategy = $parse(value)(scope.$parent);
+            updateTranslations();
+          });
+        }
+
         if (translateValuesExist) {
           iAttr.$observe(&#039;translateValues&#039;, function (interpolateParams) {
             if (interpolateParams) {
@@ -330,7 +354,7 @@ function translateDirective($translate, $interpolate, $compile, $parse, $rootSco
         if (translateValueExist) {
           var observeValueAttribute = function (attrName) {
             iAttr.$observe(attrName, function (value) {
-              var attributeName = angular.lowercase(attrName.substr(14, 1)) + attrName.substr(15);
+              var attributeName = lowercase(attrName.substr(14, 1)) + attrName.substr(15);
               scope.interpolateParams[attributeName] = value;
             });
           };
@@ -358,7 +382,7 @@ function translateDirective($translate, $interpolate, $compile, $parse, $rootSco
               translationId = translateNamespace + translationId;
             }
 
-            $translate(translationId, interpolateParams, translateInterpolation, defaultTranslationText, scope.translateLanguage)
+            $translate(translationId, interpolateParams, translateInterpolation, defaultTranslationText, scope.translateLanguage, scope.sanitizeStrategy)
               .then(function (translation) {
                 applyTranslation(translation, scope, true, translateAttr);
               }, function (translationId) {

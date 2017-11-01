@@ -69,9 +69,23 @@ app.controller('Ctrl', ['$scope', '$translate', function ($scope, $translate) {
   });
 }]);
 </pre>
-<p>However, the service will always return an object containing translations -- regardless whether
+<p>However, the service will always return a <code>Promise</code> containing translations -- regardless whether
 a translation (or even all of them) has failed. When requesting multiple translations
 in one request, it is up to you to deal with the result.</p>
+<h3 id="using-$translate-service_$translateinstant-or-the-non-asynchronous-way-without-promises">$translate.instant() or: the non-asynchronous way without promises</h3>
+<p>Ideally the service should always be used with <code>$translate(…)</code> which returns a promise. This
+variant should be preferred always as possible, because the specific code mostly cannot be
+sure that no loader will intercept the request, no additional waits have to be awared of, and so on.</p>
+<p>However, sometimes a instant and synchronous response is required. Best example is the filter:
+The filter in AngularJS is a pure function only and have to return with the result. No promise,
+no callback or something else in the future. Because of that, there exists a synchronous variant
+calling <code>$translate.instant(…)</code>. It has a similiar request interface, but will return always the
+result directly without wrapped into a promise.</p>
+<p>But that also means that <code>$translate.instant()</code> comes with some disadvantages compared with <code>$translate</code>:</p>
+<ul>
+<li>no error/missing information: Because the result is only a string, there is no difference between &quot;found&quot; and &quot;not found&quot;.</li>
+<li>no await, non deterministic: Because the result is instant, there is no guarantee the result is correct. Maybe the loader is still loading or processing the translations. The asynchronous <code>$translate()</code> would wait instead.</li>
+</ul>
 <h3 id="using-$translate-service_angular-translate-library-version-information">angular-translate library version information</h3>
 <p>As it may be useful for some &quot;About&quot; information in your application, we provide you a convenience
 function to display or use the installed library version information.</p>

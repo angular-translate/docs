@@ -23,17 +23,18 @@ and optional interpolate parameters to translate contents.</p>
 </li>
 </ul>
 <h2 id="usage">Usage</h2>
-<div class="usage"><pre class="prettyprint linenums">$translate(translationId[, interpolateParams], interpolationId, defaultTranslationText, forceLanguage);</pre>
+<div class="usage"><pre class="prettyprint linenums">$translate(translationId[, interpolateParams][, interpolationId][, defaultTranslationText][, forceLanguage][, sanitizeStrategy]);</pre>
 <h4 id="usage_parameters">Parameters</h4><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>translationId</td><td><a href="" class="label type-hint type-hint-string">string</a><a href="" class="label type-hint type-hint-array">array</a></td><td><div class="pascalprecht-translate-translate-page"><p>A token which represents a translation id
 This can be optionally an array of translation ids which
 results that the function returns an object where each key
 is the translation id and the value the translation.</p>
 </div></td></tr><tr><td>interpolateParams <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="pascalprecht-translate-translate-page"><p>An object hash for dynamic values</p>
-</div></td></tr><tr><td>interpolationId</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-translate-page"><p>The id of the interpolation to use</p>
-</div></td></tr><tr><td>defaultTranslationText</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-translate-page"><p>the optional default translation text that is written as
+</div> <p><em>(default: {})</em></p></td></tr><tr><td>interpolationId <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-translate-page"><p>The id of the interpolation to use (use default unless set via useInterpolation())</p>
+</div> <p><em>(default: undefined)</em></p></td></tr><tr><td>defaultTranslationText <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-translate-page"><p>the optional default translation text that is written as
 as default text in case it is not found in any configured language</p>
-</div></td></tr><tr><td>forceLanguage</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-translate-page"><p>A language to be used instead of the current language</p>
-</div></td></tr></tbody></table><h4 id="usage_returns">Returns</h4><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="pascalprecht-translate-translate-page"><p>promise</p>
+</div> <p><em>(default: undefined)</em></p></td></tr><tr><td>forceLanguage <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-translate-page"><p>A language to be used instead of the current language</p>
+</div> <p><em>(default: false)</em></p></td></tr><tr><td>sanitizeStrategy <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-translate-page"><p>force sanitize strategy for this call instead of using the configured one (use default unless set)</p>
+</div> <p><em>(default: undefined)</em></p></td></tr></tbody></table><h4 id="usage_returns">Returns</h4><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="pascalprecht-translate-translate-page"><p>promise</p>
 </div></td></tr></table></div>
 <div class="member method"><h2 id="methods">Methods</h2>
 <ul class="methods"><li><a href="https://github.com/{{repo}}/blob/{{sha}}/{{file}}#L{{codeline}}" class="view-source icon-eye-open"> </a><h3 id="methods_cloakclassname">cloakClassName()</h3>
@@ -42,7 +43,8 @@ as default text in case it is not found in any configured language</p>
 </div></td></tr></table></div>
 </li>
 <li><a href="https://github.com/{{repo}}/blob/{{sha}}/{{file}}#L{{codeline}}" class="view-source icon-eye-open"> </a><h3 id="methods_fallbacklanguage">fallbackLanguage(langKey)</h3>
-<div class="fallbacklanguage"><div class="pascalprecht-translate-translate-fallbacklanguage-page"><p>Returns the language key for the fallback languages or sets a new fallback stack.</p>
+<div class="fallbacklanguage"><div class="pascalprecht-translate-translate-fallbacklanguage-page"><p>Returns the language key for the fallback languages or sets a new fallback stack.
+It is recommended to call this before <a href="#/api/pascalprecht.translate.$translateProvider#preferredlanguage">preferredLanguage()</a>.</p>
 </div><h5 id="methods_fallbacklanguage_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>langKey <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-translate-fallbacklanguage-page"><p>language String or Array of fallback languages to be used (to change stack at runtime)</p>
 </div></td></tr></tbody></table><h5 id="methods_fallbacklanguage_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-string">string||array</a></td><td><div class="pascalprecht-translate-translate-fallbacklanguage-page"><p>fallback language key</p>
 </div></td></tr></table></div>
@@ -72,11 +74,11 @@ will be invoked in the background.</p>
 This can be optionally an array of translation ids which
 results that the function&#39;s promise returns an object where
 each key is the translation id and the value the translation.</p>
-</div></td></tr><tr><td>interpolateParams</td><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="pascalprecht-translate-translate-instant-page"><p>Params</p>
-</div></td></tr><tr><td>interpolationId</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-translate-instant-page"><p>The id of the interpolation to use</p>
-</div></td></tr><tr><td>forceLanguage</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-translate-instant-page"><p>A language to be used instead of the current language</p>
-</div></td></tr><tr><td>sanitizeStrategy</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-translate-instant-page"><p>force sanitize strategy for this call instead of using the configured one</p>
-</div></td></tr></tbody></table><h5 id="methods_instant_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-string">string|object</a></td><td><div class="pascalprecht-translate-translate-instant-page"><p>translation</p>
+</div></td></tr><tr><td>interpolateParams <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="pascalprecht-translate-translate-instant-page"><p>Params</p>
+</div> <p><em>(default: {})</em></p></td></tr><tr><td>interpolationId <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-translate-instant-page"><p>The id of the interpolation to use (use default unless set via useInterpolation())</p>
+</div> <p><em>(default: undefined)</em></p></td></tr><tr><td>forceLanguage <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-translate-instant-page"><p>A language to be used instead of the current language</p>
+</div> <p><em>(default: false)</em></p></td></tr><tr><td>sanitizeStrategy <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-translate-instant-page"><p>force sanitize strategy for this call instead of using the configured one (use default unless set)</p>
+</div> <p><em>(default: undefined)</em></p></td></tr></tbody></table><h5 id="methods_instant_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-string">string|object</a></td><td><div class="pascalprecht-translate-translate-instant-page"><p>translation</p>
 </div></td></tr></table></div>
 </li>
 <li><a href="https://github.com/{{repo}}/blob/{{sha}}/{{file}}#L{{codeline}}" class="view-source icon-eye-open"> </a><h3 id="methods_isforceasyncreloadenabled">isForceAsyncReloadEnabled()</h3>
@@ -171,7 +173,7 @@ $translate.refresh(&#39;en_US&#39;);</p>
 </div><h5 id="methods_storagekey_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-translate-storagekey-page"><p>storage key</p>
 </div></td></tr></table></div>
 </li>
-<li><a href="https://github.com/{{repo}}/blob/{{sha}}/{{file}}#L{{codeline}}" class="view-source icon-eye-open"> </a><h3 id="methods_use">use([key])</h3>
+<li><a href="https://github.com/{{repo}}/blob/{{sha}}/{{file}}#L{{codeline}}" class="view-source icon-eye-open"> </a><h3 id="methods_use">use(key)</h3>
 <div class="use"><div class="pascalprecht-translate-translate-use-page"><p>Tells angular-translate which language to use by given language key. This method is
 used to change language at runtime. It also takes care of storing the language
 key in a configured store to let your app remember the choosed language.</p>
@@ -180,7 +182,7 @@ asynchronously with registered loaders.</p>
 <p>Returns promise object with loaded language file data or string of the currently used language.</p>
 <p>If no or a falsy key is given it returns the currently used language key.
 The returned string will be <code>undefined</code> if setting up $translate hasn&#39;t finished.</p>
-</div><h5 id="methods_use_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>[key]</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-translate-use-page"><p>Language key</p>
+</div><h5 id="methods_use_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>key <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="pascalprecht-translate-translate-use-page"><p>Language key</p>
 </div></td></tr></tbody></table><h5 id="methods_use_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-object">object|string</a></td><td><div class="pascalprecht-translate-translate-use-page"><p>Promise with loaded language data or the language key if a falsy param was given.</p>
 </div></td></tr></table><h4 id="methods_use_example">Example</h4>
 <div class="example"><div class="pascalprecht-translate-translate-use-page"><p>$translate.use(&quot;en_US&quot;).then(function(data){

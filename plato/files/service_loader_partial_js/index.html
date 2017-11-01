@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">70.01</p>
+      <p class="stat">69.92</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">533</p>
+      <p class="stat">534</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">45.41</p>
+      <p class="stat">46.46</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">2.33</p>
+      <p class="stat">2.38</p>
     </div>
   </div>
 </div>
@@ -113,12 +113,13 @@ function $translatePartialLoader() {
    * @description
    * Represents Part object to add and set parts at runtime.
    */
-  function Part(name, priority) {
+  function Part(name, priority, urlTemplate) {
     this.name = name;
     this.isActive = true;
     this.tables = {};
     this.priority = priority || 0;
     this.langPromises = {};
+    this.urlTemplate = urlTemplate;
   }
 
   /**
@@ -154,7 +155,7 @@ function $translatePartialLoader() {
       return $http(
         angular.extend({
             method : &#039;GET&#039;,
-            url : self.parseUrl(urlTemplate, lang)
+            url : self.parseUrl(self.urlTemplate || urlTemplate, lang)
           },
           $httpOptions)
       );
@@ -274,13 +275,13 @@ function $translatePartialLoader() {
    * of the wrong type. Please, note that the `name` param has to be a
    * non-empty **string**.
    */
-  this.addPart = function (name, priority) {
+  this.addPart = function (name, priority, urlTemplate) {
     if (!isStringValid(name)) {
       throw new TypeError(&#039;Couldn\&#039;t add part, part name has to be a string!&#039;);
     }
 
     if (!hasPart(name)) {
-      parts[name] = new Part(name, priority);
+      parts[name] = new Part(name, priority, urlTemplate);
     }
     parts[name].isActive = true;
 
@@ -431,7 +432,7 @@ function $translatePartialLoader() {
           loaders.push(
             part.getTable(options.key, $q, $http, options.$http, options.urlTemplate, errorHandler)
           );
-          part.urlTemplate = options.urlTemplate;
+          part.urlTemplate = part.urlTemplate || options.urlTemplate;
         });
 
         return $q.all(loaders)
@@ -470,13 +471,13 @@ function $translatePartialLoader() {
        * @throws {TypeError} The method could throw a **TypeError** if you pass the param of the wrong
        * type. Please, note that the `name` param has to be a non-empty **string**.
        */
-      service.addPart = function (name, priority) {
+      service.addPart = function (name, priority, urlTemplate) {
         if (!isStringValid(name)) {
           throw new TypeError(&#039;Couldn\&#039;t add part, first arg has to be a string&#039;);
         }
 
         if (!hasPart(name)) {
-          parts[name] = new Part(name, priority);
+          parts[name] = new Part(name, priority, urlTemplate);
           $rootScope.$emit(&#039;$translatePartialLoaderStructureChanged&#039;, name);
         } else if (!parts[name].isActive) {
           parts[name].isActive = true;

@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">74.44</p>
+      <p class="stat">74.56</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">149</p>
+      <p class="stat">158</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">20.59</p>
+      <p class="stat">21.70</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">0.52</p>
+      <p class="stat">0.55</p>
     </div>
   </div>
 </div>
@@ -102,6 +102,7 @@
  *
  * @param {string=} translate-attr Object literal mapping attributes to translation ids.
  * @param {string=} translate-values Values to pass into the translation ids. Can be passed as object literal string.
+ * @param {string=} translate-sanitize-strategy defines locally sanitize strategy
  *
  * @example
    &lt;example module=&quot;ngView&quot;&gt;
@@ -158,6 +159,7 @@ function translateAttrDirective($translate, $rootScope) {
 
       var translateAttr,
           translateValues,
+          translateSanitizeStrategy,
           previousAttributes = {};
 
       // Main update translations function
@@ -172,7 +174,7 @@ function translateAttrDirective($translate, $rootScope) {
           if (scope.translateNamespace &amp;&amp; translationId.charAt(0) === &#039;.&#039;) {
             translationId = scope.translateNamespace + translationId;
           }
-          $translate(translationId, translateValues, attr.translateInterpolation, undefined, scope.translateLanguage)
+          $translate(translationId, translateValues, attr.translateInterpolation, undefined, scope.translateLanguage, translateSanitizeStrategy)
             .then(function (translation) {
               element.attr(attributeName, translation);
             }, function (translationId) {
@@ -201,6 +203,13 @@ function translateAttrDirective($translate, $rootScope) {
         scope,
         attr.translateValues,
         function (newValue) { translateValues = newValue; },
+        updateTranslations
+      );
+      // Watch for sanitize strategy changes
+      watchAttribute(
+        scope,
+        attr.translateSanitizeStrategy,
+        function (newValue) { translateSanitizeStrategy = newValue; },
         updateTranslations
       );
 

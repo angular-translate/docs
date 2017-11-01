@@ -306,6 +306,17 @@ $translateProvider.preferredLanguage('en');
 </pre>
 <p><strong>Note:</strong> An Angular Translate user has been posted a nice solution <a href="https://github.com/angular-translate/angular-translate/issues/921">using Grunt</a>.
 Another user has published a solution <a href="https://www.npmjs.com/package/gulp-ng-lang2js">using Gulp</a>.</p>
+<p>If you use <a href="https://ui-router.github.io/">UI-Router</a>, there is a simpler solution 
+to avoid FOUC. Just add a new resolve to your global application state that returns
+a call to <code>$translate.onReady</code>, effectively blocking the rendering of the app until
+the first translation file is loaded:</p>
+<pre class="prettyprint linenums">
+resolve: {
+  translateReady: ['$translate', function($translate) {
+    return $translate.onReady();
+  }]
+}
+</pre>
 <p>Let&#39;s update our sample app accordingly to use an asynchronous loader! We&#39;ll use
 the staticFilesLoader. First, we have to pull the translation tables out of the
 code and put them into separate locale files:</p>

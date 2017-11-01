@@ -50,6 +50,8 @@ table, which is the first fallback language, it iterates over the rest of regist
 fallback languages and searches there. This is a one way ticket, which means the
 iteration starts in this case at <code>en</code> and goes on until <code>fr</code>. You can register as
 many fallback language as you want.</p>
+<p><strong>Note:</strong> Because the configuration is being applied as soon as possible, you
+should define the (initial) fallback languages before calling <code>.preferredLanguage()</code>.</p>
 <h3 id="fallback-languages_switching-fallback-language-at-runtime">Switching fallback language at runtime</h3>
 <p>Oh yes even <strong>that</strong> is possible! There are some cases where you might want to switch
 your fallback language at runtime too. Or even the entire fallback stack! For example

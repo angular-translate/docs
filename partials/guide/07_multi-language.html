@@ -53,6 +53,8 @@ the code like this:</p>
 // tells angular-translate to use the German language
 $translateProvider.preferredLanguage('de');
 </pre>
+<p><strong>Note:</strong> Because the configuration is being applied as soon as possible, you
+should define the preferred language after the (initial) fallback languages <code>.fallbackLanguage()</code>.</p>
 <p><strong>Note:</strong> It&#39;s actually also possible to use <code>$translateProvider.use()</code> for that,
 since it&#39;s setting the languages as well. However it turns out that this is a bad
 practice when using asynchronous loaders in combination with a storage. In some
@@ -224,8 +226,8 @@ app.controller('Ctrl', ['$translate', '$scope', function ($translate, $scope) {
         // add translation tables
         $translateProvider.translations('en', translationsEN);
         $translateProvider.translations('de', translationsDE);
-        $translateProvider.preferredLanguage('en');
         $translateProvider.fallbackLanguage('en');
+        $translateProvider.preferredLanguage('en');
       }]);
 
       app.controller('Ctrl', ['$translate', '$scope', function ($translate, $scope) {
