@@ -1,1 +1,1 @@
-__history = [{"date":"Thu, 21 Dec 2017 22:30:48 GMT","sloc":105,"lloc":28,"functions":5,"deliveredBugs":0.24,"difficulty":12.456,"maintainability":71.074,"lintErrors":[]}]
+__history = [{"date":"Sun, 15 Apr 2018 22:29:33 GMT","sloc":105,"lloc":28,"functions":5,"deliveredBugs":0.24,"difficulty":12.456,"maintainability":71.074,"lintErrors":[]}]
