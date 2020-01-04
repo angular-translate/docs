@@ -44,7 +44,7 @@ app.factory('customInterpolation', function () {
 logic, so angular-translate can make use of it once our custom interpolation service
 comes in:</p>
 <pre class="prettyprint linenums">
-app.factory('customInterpolation', function ($interpolate) {
+app.factory('customInterpolation', function ($interpolate, $translateSanitization) {
 
   var $locale;
 
@@ -59,7 +59,11 @@ app.factory('customInterpolation', function ($interpolate) {
     },
 
     interpolate: function (string, interpolateParams, context, sanitizeStrategy, translationId) {
-      return $locale + '_' + $interpolate(string)(interpolateParams, sanitizeStrategy) + '_' + $locale;
+      string = $translateSanitization.sanitize(string, 'text', sanitizeStrategy);
+      if (interpolateParams) {
+        interpolateParams = $translateSanitization.sanitize(interpolateParams, 'params', sanitizeStrategy);
+      }
+      return $locale + '_' + $interpolate(string)(interpolateParams) + '_' + $locale;
     }
   };
 });
@@ -72,6 +76,9 @@ Exactly. This is the identifier that is mapped to your service, so angular-trans
 knows which interpolation services to use, when you explicitly override interpolation
 service at runtime. <code>interpolate()</code> simply uses Angular&#39;s <code>$interpolate</code> service.
 In addition it prepends and appends the current locale to the given string.</p>
+<p>It is important to remember about <a href="#/guide/19_security">proper sanitazion</a> before calling Angular&#39;s <code>$interpolate</code> function. 
+For this purpose you can use <code>$translateSanitization</code> service, which utilizes the current sanitation 
+strategy, that is set with <code>$translateProvider.useSanitizeValueStrategy()</code> function during config.</p>
 <h3 id="custom-interpolators_using-your-custom-interpolation-service">Using your custom interpolation service</h3>
 <p>Just like there&#39;s a method for Storages (<code>useStorage()</code>) and Loaders (<code>useLoader()</code>),
 there&#39;s also a method for custom interpolations. <code>$translateProvider.useInterpolation()</code>
@@ -135,7 +142,7 @@ $translateProvider.addInterpolation('customInterpolation');
         };
       }]);
 
-      app.factory('customInterpolation', function ($interpolate) {
+      app.factory('customInterpolation', function ($interpolate, translateSanitization) {
 
         var $locale;
 
@@ -150,7 +157,11 @@ $translateProvider.addInterpolation('customInterpolation');
           },
 
           interpolate: function (string, interpolateParams, sanitizeStrategy) {
-            return $locale + '_' + $interpolate(string)(interpolateParams, sanitizeStrategy) + '_' + $locale;
+            string = $translateSanitization.sanitize(string, 'text', sanitizeStrategy);
+            if (interpolateParams) {
+              interpolateParams = $translateSanitization.sanitize(interpolateParams, 'params', sanitizeStrategy);
+            }
+            return $locale + '_' + $interpolate(string)(interpolateParams) + '_' + $locale;
           }
         };
       });

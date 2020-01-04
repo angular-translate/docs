@@ -48,7 +48,7 @@
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">558</p>
+      <p class="stat">561</p>
     </div>
   </div>
   <div class="row historical">
@@ -269,6 +269,9 @@ function $translatePartialLoader() {
    *
    * @param {string} name A name of the part to add
    * @param {int} [priority=0] Sets the load priority of this part.
+   * @param {string|function} urlTemplate Either a string containing an url pattern (with
+   *                                        &#039;{part}&#039; and &#039;{lang}&#039;) or a function(part, lang)
+   *                                        returning a string.
    *
    * @returns {object} $translatePartialLoaderProvider, so this method is chainable
    * @throws {TypeError} The method could throw a **TypeError** if you pass the param
