@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">65.45</p>
+      <p class="stat">65.52</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">2424</p>
+      <p class="stat">2463</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">126.59</p>
+      <p class="stat">126.41</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">13.03</p>
+      <p class="stat">13.15</p>
     </div>
   </div>
 </div>
@@ -127,6 +127,7 @@ function $translate($STORAGE_KEY, $windowProvider, $translateSanitizationProvide
     $notFoundIndicatorRight,
     $postCompilingEnabled = false,
     $forceAsyncReloadEnabled = false,
+    $allowNamespaces = true,
     $nestedObjectDelimeter = &#039;.&#039;,
     $isReady = false,
     $keepContent = false,
@@ -403,6 +404,27 @@ function $translate($STORAGE_KEY, $windowProvider, $translateSanitizationProvide
 
   /**
    * @ngdoc function
+   * @name pascalprecht.translate.$translateProvider#allowNamespaces
+   * @methodOf pascalprecht.translate.$translateProvider
+   *
+   * @description
+   * Let&#039;s you disable namespaces, if you don&#039;t need nested translation
+   * object files. Disabling namespaces can improve performance.
+   *
+   * Default value is `true`. Namespaces are enabled by default.
+   *
+   * @param {boolean} namespacesEnabled - namespaces are enabled or not
+   */
+  this.allowNamespaces = function (namespacesEnabled) {
+    if (namespacesEnabled === undefined) {
+      return $allowNamespaces;
+    }
+    $allowNamespaces = namespacesEnabled;
+    return this;
+  };
+
+  /**
+   * @ngdoc function
    * @name pascalprecht.translate.$translateProvider#nestedObjectDelimeter
    * @methodOf pascalprecht.translate.$translateProvider
    *
@@ -437,6 +459,9 @@ function $translate($STORAGE_KEY, $windowProvider, $translateSanitizationProvide
     }
     if (!result) {
       result = {};
+    }
+    if (!$allowNamespaces) {
+      return data;
     }
     for (key in data) {
       if (!Object.prototype.hasOwnProperty.call(data, key)) {
@@ -1850,6 +1875,20 @@ function $translate($STORAGE_KEY, $windowProvider, $translateSanitizationProvide
      */
     $translate.cloakClassName = function () {
       return $cloakClassName;
+    };
+
+    /**
+     * @ngdoc function
+     * @name pascalprecht.translate.$translate#allowNamespaces
+     * @methodOf pascalprecht.translate.$translate
+     *
+     * @description
+     * Returns if namespaces are enabled
+     *
+     * @return {boolean} allowNamespaces value
+     */
+    $translate.allowNamespaces = function () {
+      return $allowNamespaces;
     };
 
     /**
